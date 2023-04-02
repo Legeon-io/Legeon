@@ -1,19 +1,27 @@
-import bodyParser from 'body-parser';
+import express from 'express';
+import * as dotenv from 'dotenv';
 import cors from 'cors';
-import mongoose from 'mongoose';
-import express from 'express'
+
+import connectDB from './mongodb/connect.js';
+
+dotenv.config();
 
 const app = express();
-
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(express.json({ limit: "30mb" }));
 app.use(cors());
 
-const CONNECTION_URL = 'mongodb+srv://legeon:legeon3011@cluster0.qclaglu.mongodb.net/?retryWrites=true&w=majority'
-const PORT = process.env.PORT || 5000;
+app.get('/', (req, res) => {
+    res.send({ message: "Hello Legeon"});
+})
 
-mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
-    .catch((error) => console.log(error.message));
+const startServer = async () => {
+    try {
+        connectDB(process.env.MONGODB_URL);
+        
+        app.listen(8080, () => console.log('Server started on http://localhost:8080'));
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-mongoose.set('useFindAndModify', false);
+startServer();
