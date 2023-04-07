@@ -19,6 +19,7 @@ export const Navbar = () => {
           <FaIcons.FaBars onClick={showSidebar}  />
         </Link>
       </div>
+    </IconContext.Provider>
       <nav className={ sidebar ? 'nav-menu active' : 'nav-menu' }>
         <ul className='nav-menu-items' onClick={showSidebar}>
           <li className='navbar-toggle'>
@@ -26,6 +27,7 @@ export const Navbar = () => {
               <AiIcons.AiFillCloseCircle />
             </Link>
           </li>
+          <IconContext.Provider value={{color: '#fff'}}>
           {Sidebar.map((item, index) => {
             return (
               <li key={index} className={item.cName}>
@@ -36,9 +38,9 @@ export const Navbar = () => {
               </li>
             )
           })}
+          </IconContext.Provider>
         </ul>
       </nav>
-      </IconContext.Provider>
     </>
   )
 }

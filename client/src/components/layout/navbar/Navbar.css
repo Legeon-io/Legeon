@@ -6,10 +6,21 @@
     align-items: center;
 }
 
-.menu-bars {
+.menu-bar {
     margin-left: 2rem;
     font-size: 2rem;
     background: none;
+}
+
+.menu-bars {
+    color:white;
+    margin-left: -5px;
+    display: flex;
+    font-size: 30px;
+}
+
+.menu-bars:hover {
+    color:#C24641;
 }
 
 .nav-menu {
@@ -65,6 +76,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    margin-left: 2rem;
 }
 
 span {
