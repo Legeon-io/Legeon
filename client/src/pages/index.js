@@ -1,4 +1,4 @@
-import Home from "./Home.js";
+import Dashboard from "./Dashboard.js";
 import Engage from "./Engage.js";
 import Bookings from "./Bookings.js";
 import Earnings from "./Earnings.js";
@@ -9,7 +9,7 @@ import Support from "./Support.js";
 import Feedback from "./Feedback.js";
 
 export {
-    Home,
+    Dashboard,
     Engage,
     Bookings,
     Earnings,

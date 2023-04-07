@@ -1,6 +1,5 @@
 import React from 'react'
 
-import * as ImIcons from 'react-icons/im';
 import * as MdIcons from 'react-icons/md';
 import * as BsIcons from 'react-icons/bs';
 import * as RiIcons from 'react-icons/ri';
@@ -10,9 +9,9 @@ import * as FaIcons from 'react-icons/fa';
 
 export const Sidebar = [
   {
-    title: 'Home',
+    title: 'Dashboard',
     path: '/',
-    icon: <ImIcons.ImHome />,
+    icon: <RiIcons.RiDashboardFill/>,
     cName: 'nav-text'
   },
   {

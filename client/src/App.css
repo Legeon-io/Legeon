@@ -7,7 +7,7 @@
     font-family: 'Open-Sans', sans-serif;
 }
 
- .home, .engage, .bookings, .earnings, .profile, .community, .about, .support, .feedback {
+ .dashboard, .engage, .bookings, .earnings, .profile, .community, .about, .support, .feedback {
     display: flex;
     height: 90vh;
     align-items: center;
