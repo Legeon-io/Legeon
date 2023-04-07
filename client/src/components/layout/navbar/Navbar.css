@@ -10,6 +10,11 @@
     margin-left: 2rem;
     font-size: 2rem;
     background: none;
+    color: white;
+}
+
+.menu-bar:hover {
+    color: #15A6D5  ;
 }
 
 .menu-bars {
