@@ -1,10 +1,15 @@
 import React from "react";
 
+import Navbar from "./components/layout/navbar/Navbar.js";
+import { BrowserRouter as Router } from "react-router-dom";
+
 const App = () => {
     return (
-        <div>
-            <h1>Legeon</h1>
-        </div>
+        <>
+        <Router>
+            <Navbar />
+        </Router>
+        </>
     )
 }
 
