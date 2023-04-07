@@ -13,13 +13,11 @@ export const Navbar = () => {
   const showSidebar = () => setSidebar(!sidebar)
   return (
     <>
-    <IconContext.Provider value={{color: '#fff'}}>
       <div className='navbar'>
         <Link to="#" className='menu-bar'>
           <FaIcons.FaBars onClick={showSidebar}  />
         </Link>
       </div>
-    </IconContext.Provider>
       <nav className={ sidebar ? 'nav-menu active' : 'nav-menu' }>
         <ul className='nav-menu-items' onClick={showSidebar}>
           <li className='navbar-toggle'>
