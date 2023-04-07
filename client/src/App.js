@@ -1,23 +1,15 @@
 import React from "react";
 
-import {
-    Home,
-    Bookings,
-    Community,
-    Engage,
-    Profile,
-} from "./pages";
+import Navbar from "./components/layout/navbar/Navbar.js";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const App = () => {
     return (
-        <div>
-            <h1>Legeon</h1>
-            <Home />
-            <Bookings />
-            <Community />
-            <Engage />
-            <Profile />
-        </div>
+        <>
+        <Router>
+            <Navbar />
+        </Router>
+        </>
     )
 }
 
