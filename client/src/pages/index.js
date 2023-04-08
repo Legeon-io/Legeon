@@ -1,12 +1,12 @@
-import Dashboard from "./Dashboard.js";
-import Engage from "./Engage.js";
-import Bookings from "./Bookings.js";
-import Earnings from "./Earnings.js";
-import Profile from "./Profile.js";
-import Community from "./Community.js";
-import About from "./About.js";
-import Support from "./Support.js";
-import Feedback from "./Feedback.js";
+import Dashboard from "./dashboard/Dashboard.js";
+import Engage from "./engage/Engage.js";
+import Bookings from "./bookings/Bookings.js";
+import Earnings from "./earnings/Earnings.js";
+import Profile from "./profile/Profile.js";
+import Community from "./community/Community.js";
+import About from "./about/About.js";
+import Support from "./support/Support.js";
+import Feedback from "./feedback/Feedback.js";
 
 export {
     Dashboard,

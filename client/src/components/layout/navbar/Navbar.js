@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import * as AiIcons from 'react-icons/ai';
 import * as FaIcons from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -7,10 +7,8 @@ import { Sidebar } from "../sider/Sidebar.js";
 import './Navbar.css';
 import { IconContext } from 'react-icons';
 
-export const Navbar = () => {
-  const [ sidebar, setSidebar ] = useState(false)
-
-  const showSidebar = () => setSidebar(!sidebar)
+export const Navbar = ({sidebarVisible, setSidebar}) => {
+  const showSidebar = () => setSidebar(!sidebarVisible)
   return (
     <>
       <div className='navbar'>
@@ -18,8 +16,8 @@ export const Navbar = () => {
           <FaIcons.FaBars onClick={showSidebar}  />
         </Link>
       </div>
-      <nav className={ sidebar ? 'nav-menu active' : 'nav-menu' }>
-        <ul className='nav-menu-items' onClick={showSidebar}>
+      <nav className={ sidebarVisible ? 'nav-menu active' : 'nav-menu' }>
+        <ul className='nav-menu-items' onClick={showSidebar} >
           <li className='navbar-toggle'>
             <Link to="#" className='menu-bars'>
               <AiIcons.AiFillCloseCircle />
