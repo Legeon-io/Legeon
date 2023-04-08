@@ -1,26 +1,28 @@
-import React from "react";
+import React, {useState} from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
-import Navbar from "./components/layout/navbar/Navbar.js";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Navbar } from "./components/layout/index.js";
+import { Dashboard, Engage, Bookings, Earnings, Profile, Community, About, Support, Feedback } from './pages/index.js';
+
 import './App.css';
 
-import {Dashboard, Engage, Bookings, Earnings, Profile, Community, About, Support, Feedback} from './pages';
-
 const App = () => {
+    const [sidebarVisible, setSidebar] = useState(false);
     return (
         <>
         <Router>
-            <Navbar />
+            <Navbar sidebarVisible={sidebarVisible} setSidebar={setSidebar}/>
             <Routes>
-            <Route path="/" Component={ Dashboard }/>
-                <Route path="/engage" Component={ Engage }/>
-                <Route path="/bookings" Component={ Bookings }/>
-                <Route path="/earnings" Component={ Earnings }/>
-                <Route path="/profile" Component={ Profile }/>
-                <Route path="/community" Component={ Community }/>
-                <Route path="/about" Component={ About }/>
-                <Route path="/support" Component={ Support }/>
-                <Route path="/feedback" Component={ Feedback }/>
+            <Route exact path="/" element={<Navigate to='/dashboard'/>}/>
+                <Route path="/dashboard" element={<Dashboard sidebarVisible={sidebarVisible} />}/>
+                <Route path="/engage" element={<Engage sidebarVisible={sidebarVisible} />}/>
+                <Route path="/bookings" element={ <Bookings sidebarVisible={sidebarVisible} /> }/>
+                <Route path="/earnings" element={ <Earnings sidebarVisible={sidebarVisible} /> }/>
+                <Route path="/profile" element={ <Profile sidebarVisible={sidebarVisible} /> }/>
+                <Route path="/community" element={ <Community sidebarVisible={sidebarVisible} /> }/>
+                <Route path="/about" element={ <About sidebarVisible={sidebarVisible} /> }/>
+                <Route path="/support" element={ <Support sidebarVisible={sidebarVisible} /> }/>
+                <Route path="/feedback" element={ <Feedback sidebarVisible={sidebarVisible} /> }/>
             </Routes>
         </Router>
         </>
