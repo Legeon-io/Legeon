@@ -1,0 +1,12 @@
+.community {
+    margin-left: 10px;
+    height: 100px;
+    align-items: center;
+    transition: margin-left 1s ease-out;
+    display: flex;
+    font-size: 3rem;
+}
+
+.community.move-right {
+    margin-left: 275px;
+}
