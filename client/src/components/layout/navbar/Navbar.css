@@ -132,7 +132,14 @@ span {
     border-radius: 50%;
     cursor: pointer;
 }
+
+.logo:hover {
+    transform: scale(1.1);
+}
   
+.logoNameLink {
+    text-decoration: none;
+}
 
 @media screen and (max-width: 768px) {
     .topRight {

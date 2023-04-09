@@ -24,8 +24,12 @@ export const Navbar = ({sidebarVisible, setSidebar}) => {
         </Link>
 
         <div className={ sidebarVisible ? 'topLeft move-right' : 'topLeft' }>
-          <span><img src={logo} alt='Logo' className='logo' /></span>
-          <span className='logoName'>Legeon</span>
+          <Link to="/dashboard">
+            <span><img src={logo} alt='Logo' className='logo' /></span>
+          </Link>
+          <Link to="/dashboard" className='logoNameLink'>
+            <span className='logoName'>Legeon</span>
+          </Link>
         </div>
 
         <div className='topRight'>
