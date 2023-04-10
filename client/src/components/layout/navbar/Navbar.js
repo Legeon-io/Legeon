@@ -12,10 +12,12 @@ import { IconContext } from 'react-icons';
 
 // CSS
 import './Navbar.css';
+import { Login } from '../../../pages/index.js';
 
 
 export const Navbar = ({sidebarVisible, setSidebar}) => {
-  const showSidebar = () => setSidebar(!sidebarVisible)
+  const showSidebar = () => setSidebar(!sidebarVisible);
+
   return (
     <>
       <div className='navbar'>
@@ -33,8 +35,7 @@ export const Navbar = ({sidebarVisible, setSidebar}) => {
         </div>
 
         <div className='topRight'>
-          <button>Login</button>
-          <button>Sign up</button>
+          <Login />
         </div>
       </div>
 

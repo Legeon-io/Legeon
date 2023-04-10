@@ -7,8 +7,10 @@ import Community from "./community/Community.js";
 import About from "./about/About.js";
 import Support from "./support/Support.js";
 import Feedback from "./feedback/Feedback.js";
+import Login from "./login/Login.js";
 
 export {
+    Login,
     Dashboard,
     Engage,
     Bookings,
