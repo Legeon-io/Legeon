@@ -12,7 +12,7 @@ import { IconContext } from 'react-icons';
 
 // CSS
 import './Navbar.css';
-import { Login } from '../../../pages/index.js';
+// import { Login } from '../../../pages/index.js';
 
 
 export const Navbar = ({sidebarVisible, setSidebar}) => {
@@ -34,9 +34,9 @@ export const Navbar = ({sidebarVisible, setSidebar}) => {
           </Link>
         </div>
 
-        <div className='topRight'>
+        {/* <div className='topRight'>
           <Login />
-        </div>
+        </div> */}
       </div>
 
       <nav className={ sidebarVisible ? 'nav-menu active' : 'nav-menu' }>
