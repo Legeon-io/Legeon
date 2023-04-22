@@ -10,11 +10,10 @@ const App = () => {
     const [sidebarVisible, setSidebar] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const handleLogin = (googleData) => {
+    const handleLogin = () => {
         setIsLoggedIn(true);
-        console.log(googleData);
     };
-
+    console.log("Login flag in App.js ", isLoggedIn);
     return (
         <>
             {isLoggedIn ? (
@@ -37,7 +36,7 @@ const App = () => {
             ) : (
                 <Router>
                     <Routes>
-                        <Route exact path="/" element={<Login onSuccess={handleLogin} />} />
+                        <Route exact path="/" element={<Login setLogin={handleLogin} />} />
                     </Routes>
                 </Router>
             )

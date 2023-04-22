@@ -8,11 +8,9 @@ import About from "./about/About.js";
 import Support from "./support/Support.js";
 import Feedback from "./feedback/Feedback.js";
 import Login from "./login/Login.js";
-import LoginForm from "./login/LoginForm.js";
 
 export {
     Login,
-    LoginForm,
     Dashboard,
     Engage,
     Bookings,

@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 
 import connectDB from './mongodb/connect.js';
+import userRouter from './routes/user.routes.js';
 
 dotenv.config();
 
@@ -13,6 +14,9 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.send({ message: "Hello Legeon"});
 })
+
+// Use the user routes
+app.use('/api/users', userRouter);
 
 const startServer = async () => {
     try {
