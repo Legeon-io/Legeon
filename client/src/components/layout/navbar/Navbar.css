@@ -203,12 +203,27 @@ span {
     transform: translateY(1px);
 }
 
+.avatar {
+    margin-top: 5px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+}
+
+.avatar:hover {
+    transform: scale(1.1);
+}
+
 @media screen and (max-width: 600px) {
     .popupContent {
         width: 80%;
     }
+    .topRight {
+        display: none;
+    }
 }
-
 
 @media screen and (max-width: 768px) {
     .topRight {

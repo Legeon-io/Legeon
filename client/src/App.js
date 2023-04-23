@@ -8,17 +8,23 @@ import './App.css';
 
 const App = () => {
     const [sidebarVisible, setSidebar] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
 
     const handleLogin = () => {
         setIsLoggedIn(true);
+        localStorage.setItem('isLoggedIn', 'true');
     };
-    console.log("Login flag in App.js ", isLoggedIn);
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        localStorage.removeItem('isLoggedIn');
+    };
+
     return (
         <>
             {isLoggedIn ? (
                 <Router>
-                    <Navbar sidebarVisible={sidebarVisible} setSidebar={setSidebar} />
+                    <Navbar sidebarVisible={sidebarVisible} setSidebar={setSidebar} handleLogout={handleLogout} />
                     <Routes>
                         <Route exact path="/" element={<Navigate to='/dashboard' />} />
 

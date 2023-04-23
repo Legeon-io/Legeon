@@ -1,15 +1,17 @@
 import React from "react";
-import { GoogleLogout } from "react-google-login";
+import "./LoginForm.css";
 
-const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+import { IoLogOut } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 
-function Logout({ onLogoutSuccess }) {
+function Logout({ handleLogout }) {
   return (
-    <GoogleLogout
-      clientId= { GOOGLE_CLIENT_ID }
-      buttonText="Logout"
-      onLogoutSuccess={onLogoutSuccess}
-    />
+    <div>
+      <button type="submit" onClick={handleLogout} className="logout">
+          <IoLogOut className="logout-icon" />
+          <Link to="/" className="logout-text">Logout</Link>
+      </button>
+    </div>
   );
 }
 
