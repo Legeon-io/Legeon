@@ -101,14 +101,6 @@ span {
     margin-left: 200px;
 }
 
-.topRight {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-grow: 1;
-    padding: 20px;
-}
-
 .logoName {
     font-family: 'Arial Black', sans-serif;
     font-size: 40px;
@@ -203,23 +195,69 @@ span {
     transform: translateY(1px);
 }
 
-.avatar {
-    margin-top: 5px;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    cursor: pointer;
+.topRight {
     display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    padding: 20px;
+    margin-right: 20px;
+}
+
+
+.username-text {
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
 }
 
 .avatar:hover {
     transform: scale(1.1);
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+    border: 2px solid #1abc9c;
+}
+
+.topRight:hover .username-text {
+    transform: translateX(10px);
+    transition: transform 0.3s ease-in-out;
+    color: #ccc;
+}
+
+/* Different color pattern */
+.avatar.blue {
+    border-color: #3498db;
+}
+
+.avatar.blue:hover {
+    box-shadow: 0px 0px 10px rgba(52, 152, 219, 0.8);
+    border-color: #3498db;
+}
+
+/* Another color pattern */
+.avatar.purple {
+    border-color: #9b59b6;
+}
+
+.avatar.purple:hover {
+    box-shadow: 0px 0px 10px rgba(155, 89, 182, 0.8);
+    border-color: #9b59b6;
 }
 
 @media screen and (max-width: 600px) {
     .popupContent {
         width: 80%;
     }
+
     .topRight {
         display: none;
     }
