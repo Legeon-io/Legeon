@@ -44,8 +44,12 @@ const Login = ({ setLogin }) => {
         setLogin();
         displayLogs(data.message);
 
-      } else if (response.status === 401 || response.status === 402) {
+      } else if (response.status === 401 || response.status === 409) {
         // sign up failed, display error message
+        displayLogs(data.errorMessage);
+        setErrorMessage(data.errorMessage);
+      }
+      else {
         displayLogs(data.error);
         setErrorMessage(data.error);
       }

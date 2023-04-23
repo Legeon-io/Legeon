@@ -5,13 +5,18 @@ export const signup = async (req, res) => {
     try {
         const { username, email, password, confirmPassword } = req.body;
 
-        const userExists = await User.findOne({ email });
+        const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+        if (existingUser) {
+            const errorMessage = existingUser.username === username
+                ? 'Username already taken'
+                : 'Email already registered';
+            return res.status(409).json({ errorMessage });
+        }
+        
         if(password !== confirmPassword) {
-            return res.status(401).json({ error: 'Passwords does not match'});
+            return res.status(401).json({ errorMessage: 'Passwords do not match'});
         }
-        if (userExists) {
-            return res.status(402).json({ error: 'User already exists. Please Sign In' });
-        }
+
         const user = await User.create({
             username,
             email,
