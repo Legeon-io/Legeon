@@ -20,6 +20,8 @@ const App = () => {
         localStorage.removeItem('isLoggedIn');
     };
 
+    console.log("Login flag = ", isLoggedIn);
+
     return (
         <>
             {isLoggedIn ? (

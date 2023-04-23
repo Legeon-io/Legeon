@@ -7,10 +7,12 @@ import { Link } from 'react-router-dom';
 function Logout({ handleLogout }) {
   return (
     <div>
-      <button type="submit" onClick={handleLogout} className="logout">
+      <Link to="/" className="logout-text">
+        <button type="submit" onClick={handleLogout} className="logout">
           <IoLogOut className="logout-icon" />
-          <Link to="/" className="logout-text">Logout</Link>
-      </button>
+          Logout
+        </button>
+      </Link>
     </div>
   );
 }
