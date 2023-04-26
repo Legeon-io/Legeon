@@ -10,7 +10,7 @@ import * as FaIcons from 'react-icons/fa';
 export const Sidebar = [
   {
     title: 'Dashboard',
-    path: '/',
+    path: '/dashboard',
     icon: <RiIcons.RiDashboardFill/>,
     cName: 'nav-text'
   },

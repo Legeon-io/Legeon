@@ -12,10 +12,12 @@ import { IconContext } from 'react-icons';
 
 // CSS
 import './Navbar.css';
+import { Logout } from '../../../pages';
 
 
-export const Navbar = ({sidebarVisible, setSidebar}) => {
-  const showSidebar = () => setSidebar(!sidebarVisible)
+export const Navbar = ( props ) => {
+  const showSidebar = () => props.setSidebar(!props.sidebarVisible);
+
   return (
     <>
       <div className='navbar'>
@@ -23,7 +25,7 @@ export const Navbar = ({sidebarVisible, setSidebar}) => {
           <FaIcons.FaBars onClick={showSidebar}  />
         </Link>
 
-        <div className={ sidebarVisible ? 'topLeft move-right' : 'topLeft' }>
+        <div className={ props.sidebarVisible ? 'topLeft move-right' : 'topLeft' }>
           <Link to="/dashboard">
             <span><img src={logo} alt='Logo' className='logo' /></span>
           </Link>
@@ -33,12 +35,14 @@ export const Navbar = ({sidebarVisible, setSidebar}) => {
         </div>
 
         <div className='topRight'>
-          <button>Login</button>
-          <button>Sign up</button>
+        <Link to="/profile">
+        <span><img src={logo} alt='Logo' className='avatar' /></span>
+        </Link>
+        <span className='username-text' > { props.username } </span>
         </div>
       </div>
 
-      <nav className={ sidebarVisible ? 'nav-menu active' : 'nav-menu' }>
+      <nav className={ props.sidebarVisible ? 'nav-menu active' : 'nav-menu' }>
         <ul className='nav-menu-items' onClick={showSidebar} >
           <li className='navbar-toggle'>
             <Link to="#" className='menu-bars'>
@@ -57,6 +61,7 @@ export const Navbar = ({sidebarVisible, setSidebar}) => {
             )
           })}
           </IconContext.Provider>
+          <Logout handleLogout={ props.handleLogout }/>
         </ul>
       </nav>
     </>
