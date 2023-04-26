@@ -38,7 +38,7 @@ export const Navbar = ( props ) => {
         <Link to="/profile">
         <span><img src={logo} alt='Logo' className='avatar' /></span>
         </Link>
-        <span className='username-text' >Janakrish_30</span>
+        <span className='username-text' > { props.username } </span>
         </div>
       </div>
 

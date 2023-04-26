@@ -1,32 +1,37 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Navbar } from "./components/layout/index.js";
 import { Login, Dashboard, Engage, Bookings, Earnings, Profile, Community, About, Support, Feedback } from './pages/index.js';
 
 import './App.css';
+import { loginAction, logoutAction } from "./redux/actions/Actions.js";
+import { persistor } from "./redux/stores/Store.js";
 
 const App = () => {
     const [sidebarVisible, setSidebar] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
 
-    const handleLogin = () => {
-        setIsLoggedIn(true);
-        localStorage.setItem('isLoggedIn', 'true');
+    const username = useSelector((state) => state.session.username);
+    const dispatch = useDispatch();
+
+    const handleLogin = (username) => {
+        dispatch(loginAction({ username }));
     };
 
     const handleLogout = () => {
-        setIsLoggedIn(false);
-        localStorage.removeItem('isLoggedIn');
+        dispatch(logoutAction());
+        persistor.purge();
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
     };
-
-    console.log("Login flag = ", isLoggedIn);
 
     return (
         <>
-            {isLoggedIn ? (
+            {(username !== undefined) ? (
                 <Router>
-                    <Navbar sidebarVisible={sidebarVisible} setSidebar={setSidebar} handleLogout={handleLogout} />
+                    <Navbar sidebarVisible={sidebarVisible} setSidebar={setSidebar} handleLogout={handleLogout} username={username} />
                     <Routes>
                         <Route exact path="/" element={<Navigate to='/dashboard' />} />
 
@@ -44,7 +49,7 @@ const App = () => {
             ) : (
                 <Router>
                     <Routes>
-                        <Route exact path="/" element={<Login setLogin={handleLogin} />} />
+                        <Route exact path="/" element={<Login handleLogin={handleLogin} />} />
                     </Routes>
                 </Router>
             )

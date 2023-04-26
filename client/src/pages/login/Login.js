@@ -3,7 +3,7 @@ import "./LoginForm.css";
 import logo from '../../assets/logo.png'
 import { login, signup } from "../../apis/users/users.api";
 
-const Login = ({ setLogin }) => {
+const Login = ({ handleLogin }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +37,7 @@ const Login = ({ setLogin }) => {
       const { response, data } = await signup( username, email, password, confirmPassword );
       if (response.status === 200) {
         // user signed up successfully
-        setLogin();
+        handleLogin(data.user.username);
         displayLogs(data.message);
 
       } else if (response.status === 401 || response.status === 409) {
@@ -54,7 +54,7 @@ const Login = ({ setLogin }) => {
 
       if (response.status === 200) {
         // user signed in successfully
-        setLogin();
+        handleLogin(data.user.username);
       } else if (response.status === 401 || response.status === 402) {
         // sign in failed, display error message
         displayLogs(data.error);
