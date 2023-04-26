@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./LoginForm.css";
 import logo from '../../assets/logo.png'
+import { login, signup } from "../../apis/users/users.api";
 
 const Login = ({ setLogin }) => {
   const [username, setUsername] = useState("");
@@ -33,12 +34,7 @@ const Login = ({ setLogin }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (isSignUp) {
-      const response = await fetch("http://localhost:8080/api/users/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password, confirmPassword }),
-      });
-      const data = await response.json();
+      const { response, data } = await signup( username, email, password, confirmPassword );
       if (response.status === 200) {
         // user signed up successfully
         setLogin();
@@ -54,12 +50,8 @@ const Login = ({ setLogin }) => {
         setErrorMessage(data.error);
       }
     } else {
-      const response = await fetch("http://localhost:8080/api/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
+      const  {response , data } = await login(email, password);
+
       if (response.status === 200) {
         // user signed in successfully
         setLogin();

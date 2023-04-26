@@ -22,7 +22,7 @@ export const signup = async (req, res) => {
             email,
             password,
         });
-        res.status(200).json({ message: 'Registered successfully. Welcome to Legeon', user });
+        res.status(200).json({ message: 'Registered successfully. Welcome to Legeon', user: user });
     }
     catch (error) {
         res.status(500).json({ error: 'Internal server error', error });
@@ -42,7 +42,7 @@ export const login = async (req, res) => {
         if (password !== user.password) {
             return res.status(402).json({ error: 'Invalid credentials' });
         }
-        res.status(200).json({ message: 'Login successful', user });
+        res.status(200).json({ message: 'Login successful', user: user });
     } catch (error) {
         res.status(500).json({ error: 'Internal server error', error });
     }
