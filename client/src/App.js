@@ -39,7 +39,7 @@ const App = () => {
                         <Route path="/engage" element={<Engage sidebarVisible={sidebarVisible} />} />
                         <Route path="/bookings" element={<Bookings sidebarVisible={sidebarVisible} />} />
                         <Route path="/earnings" element={<Earnings sidebarVisible={sidebarVisible} />} />
-                        <Route path="/profile" element={<Profile sidebarVisible={sidebarVisible} />} />
+                        <Route path="/profile" element={<Profile sidebarVisible={sidebarVisible} username={username} />} />
                         <Route path="/community" element={<Community sidebarVisible={sidebarVisible} />} />
                         <Route path="/about" element={<About sidebarVisible={sidebarVisible} />} />
                         <Route path="/support" element={<Support sidebarVisible={sidebarVisible} />} />

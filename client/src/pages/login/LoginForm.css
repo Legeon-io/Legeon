@@ -180,7 +180,7 @@ button.logout {
   align-items: center;
   justify-content: center; 
   position: absolute;
-  margin-top: 70px;
+  margin-top: 110px;
 }
 
 button.logout:hover {
