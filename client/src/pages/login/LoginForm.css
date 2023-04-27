@@ -196,3 +196,41 @@ button.logout:hover {
   text-decoration: none;
   color: black;
 }
+
+
+.passwordVisibilityIcon {
+  position: absolute;
+  display: flex;
+  top: 50%;
+  margin-top: 37px;
+  margin-left: 330px;
+  cursor: pointer;
+}
+
+.passwordVisibilityIcon-moveDown {
+  position: absolute;
+  display: flex;
+  top: 50%;
+  margin-top: 67px;
+  margin-left: 330px;
+  cursor: pointer;
+}
+
+
+.confirmPasswordVisibilityIcon {
+  position: absolute;
+  display: flex;
+  top: 50%;
+  margin-top: 90px;
+  margin-left: 330px;
+  cursor: pointer;
+}
+
+.confirmPasswordVisibilityIcon-moveDown {
+  position: absolute;
+  display: flex;
+  top: 50%;
+  margin-top: 120px;
+  margin-left: 330px;
+  cursor: pointer;
+}

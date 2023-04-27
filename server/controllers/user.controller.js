@@ -36,7 +36,7 @@ export const login = async (req, res) => {
         // Check if user exists
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(401).json({ error: 'User not registered. Sign up to Engage with Legeon' });
+            return res.status(401).json({ error: 'User not registered' });
         }
         // Check if password is correct
         if (password !== user.password) {

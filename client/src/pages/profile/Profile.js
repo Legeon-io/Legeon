@@ -39,9 +39,7 @@ export const Profile = (props) => {
 
       </div>
 
-      <div className='division'>
-
-      </div>
+      <div className='division'></div>
 
       <div className={props.sidebarVisible ? 'profile move-right' : 'profile'} >
         <div className='page-container'>
