@@ -10,3 +10,63 @@
 .profile.move-right {
     margin-left: 275px;
 }
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.button-container button {
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.button-container button:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.button-container button.active {
+    background-color: #1ccae1;
+    color: #fff;
+}
+
+.save-span {
+    margin-top: -20px;
+    margin-left: 700px;
+}
+
+.save-button {
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    margin-left: auto;
+}
+
+.save-button:hover {
+    background-color: #9922ee;
+}
+
+.page-container {
+    display: flex;
+}
+
+.division {
+    border-bottom: 1px solid #ccc;
+    box-shadow: inset 0 -1px rgba(255, 255, 255, 0.5), inset 0 1px rgba(0, 0, 0, 0.1);
+  }
