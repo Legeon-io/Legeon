@@ -1,4 +1,5 @@
 import User from '../mongodb/models/user.js';
+import UserProfile from '../mongodb/models/userProfile.js';
 
 // SignUp function
 export const signup = async (req, res) => {
@@ -45,6 +46,23 @@ export const login = async (req, res) => {
             return res.status(402).json({ error: 'Invalid credentials' });
         }
         res.status(200).json({ message: 'Login successful', user: user });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error', error });
+    }
+};
+
+
+// Get User function
+export const getUser = async (req, res) => {
+    try {
+        const { username } = req.params;
+        // Check if user exists
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(401).json({ error: 'User not registered' });
+        }
+        
+        res.status(200).json({ message: 'User information received', user: user });
     } catch (error) {
         res.status(500).json({ error: 'Internal server error', error });
     }

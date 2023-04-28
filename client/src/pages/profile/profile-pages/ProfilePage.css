@@ -24,6 +24,7 @@
   
   .card-header {
     display: flex;
+    flex:content;
     align-items: center;
   }
   
@@ -45,6 +46,7 @@
     font-size: 1.8rem;
     font-weight: 700;
     color: #333;
+    display: flex;
   }
   
   .card-name {
@@ -53,6 +55,7 @@
     font-weight: 500;
     color: #666;
     margin-top: 40px;
+    display: flex;
   }
   
   .card-bio {
@@ -75,4 +78,17 @@
   
 textarea {
     padding: 10px;
+}
+
+.bio {
+  width: 120%;
+  max-width: 800px;
+  /* max-height: 400px; */
+}
+
+
+@media screen and (max-width: 768px) {
+  .card-username {
+      font-size: 1.3rem;
+  }
 }

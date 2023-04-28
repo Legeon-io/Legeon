@@ -1,17 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Profile.css';
 import { AccountPage, ProfilePage } from './profile-pages';
+import { getUser } from '../../apis/users/users.api';
 
 export const Profile = (props) => {
   const [activeTab, setActiveTab] = useState("profilepage");
+  const [userData, setUserData] = useState(null);
 
   const handleTabToChange = (tab) => {
     setActiveTab(tab);
   }
 
-  const handleSubmit = (firstname, lastname, bio, profession) => {
-    console.log(`Username: ${props.username}, First Name: ${firstname}, Last Name: ${lastname}, Bio: ${bio}, Profession: ${profession}`);
-    // You can add code here to send the form data to a server or perform other actions
+  useEffect(() => {
+    async function fetchData() {
+      const { response, data } = await getUser(props.username);
+      console.log("Here");
+      console.log(data.user.username);
+      if (response.status === 200) {
+        setUserData(data.user);
+      }
+      else {
+        console.log("Internal Server Error, data not received", response.error);
+      }
+    }
+    fetchData();
+  }, [props.username]);
+
+  const handleSubmit = () => {
+    console.log(userData);
   }
 
   return (
@@ -43,8 +59,8 @@ export const Profile = (props) => {
 
       <div className={props.sidebarVisible ? 'page-container move-right' : 'page-container'} >
         {/* <div className='page-container'> */}
-          {activeTab === "profilepage" && <ProfilePage username={props.username} handleSubmit= {handleSubmit} />}
-          {activeTab === "accountpage" && <AccountPage />}
+        {activeTab === "profilepage" && <ProfilePage username={props.username} />}
+        {activeTab === "accountpage" && <AccountPage />}
         {/* </div> */}
       </div>
     </>

@@ -21,3 +21,14 @@ export async function login(email, password) {
 
     return { response, data };
 }
+
+export async function getUser(username) {
+    const response = await fetch(`${BASE_URL}/${username}/getUser`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    console.log(data);
+
+    return { response, data };
+}

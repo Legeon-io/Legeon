@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
 
 // Use the user routes
 app.use('/api/users', userRouter);
+// app.use('/api/getUser', userRouter);
 
 const startServer = async () => {
     try {
