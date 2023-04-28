@@ -3,7 +3,7 @@ import User from '../mongodb/models/user.js';
 // SignUp function
 export const signup = async (req, res) => {
     try {
-        const { username, email, password, confirmPassword } = req.body;
+        const { username, firstname, lastname, email, password, confirmPassword } = req.body;
 
         const existingUser = await User.findOne({ $or: [{ username }, { email }] });
         if (existingUser) {
@@ -19,6 +19,8 @@ export const signup = async (req, res) => {
 
         const user = await User.create({
             username,
+            firstname,
+            lastname,
             email,
             password,
         });

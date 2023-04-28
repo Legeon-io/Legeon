@@ -10,6 +10,8 @@ const Login = ({ handleLogin }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [username, setUsername] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -26,6 +28,14 @@ const Login = ({ handleLogin }) => {
 
   const handleUserNameChange = (event) => {
     setUsername(event.target.value);
+  };
+
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value);
+  };
+
+  const handleLastNameChange = (event) => {
+    setLastName(event.target.value);
   };
 
   const handleEmailChange = (event) => {
@@ -46,8 +56,9 @@ const Login = ({ handleLogin }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(username, firstname, lastname, email, password, confirmPassword);
     if (isSignUp) {
-      const { response, data } = await signup(username, email, password, confirmPassword);
+      const { response, data } = await signup(username, firstname, lastname, email, password, confirmPassword);
       if (response.status === 200) {
         // user signed up successfully
         handleLogin(data.user.username);
@@ -91,6 +102,7 @@ const Login = ({ handleLogin }) => {
     <>
       <div className="popupWrapper">
         <div className="popupContent">
+          {isSignUp && <> <h5 className="headline">Just takes 20 seconds to join Legeon. Engage with us!</h5> <br /> </>}
           <span><img src={logo} alt='Logo' className='loginLogo' /></span>
           <h2>{isSignUp ? "Sign Up" : "Sign In"}</h2>
           {errorMessage && ( // Show alert message if error message is not empty
@@ -109,6 +121,27 @@ const Login = ({ handleLogin }) => {
                 required
               />
               )}
+
+              {
+                isSignUp && <input
+                  type="text"
+                  placeholder="First Name"
+                  name="firstname"
+                  value={firstname}
+                  onChange={handleFirstNameChange}
+                  required
+                />
+              }
+
+              {
+                isSignUp && <input
+                  type="text"
+                  placeholder="Last Name"
+                  name="lastname"
+                  value={lastname}
+                  onChange={handleLastNameChange}
+                />
+              }
               <input
                 type="email"
                 placeholder="Email"
@@ -126,12 +159,22 @@ const Login = ({ handleLogin }) => {
                 value={password}
                 onChange={handlePasswordChange}
                 required
-                />
+              />
             </div>
-            {
+            { !isSignUp &&
               <div className="inputWrapper">
                 <span
                   className={errorMessage !== "" ? "passwordVisibilityIcon-moveDown" : `passwordVisibilityIcon ${passwordVisible ? "visible" : "hidden"}`}
+                  onClick={togglePasswordVisibility}>
+                  {passwordVisible ? <FaEye /> : <FaEyeSlash />}
+                </span>
+              </div>
+            }
+
+            { isSignUp &&
+              <div className="inputWrapper">
+                <span
+                  className={errorMessage !== "" ? "signupPasswordVisibilityIcon-moveDown" : `signupPasswordVisibilityIcon ${passwordVisible ? "visible" : "hidden"}`}
                   onClick={togglePasswordVisibility}>
                   {passwordVisible ? <FaEye /> : <FaEyeSlash />}
                 </span>
@@ -148,7 +191,7 @@ const Login = ({ handleLogin }) => {
                   value={confirmPassword}
                   onChange={handleConfirmPasswordChange}
                   required
-                  />
+                />
               </div>
             )}
 

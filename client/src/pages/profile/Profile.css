@@ -66,9 +66,17 @@
     background-color: #9922ee;
 }
 
-
 .page-container {
-    display: flex;
+    margin-left: 10px;
+    height: 100px;
+    align-items: center;
+    transition: margin-left 1s ease-out;
+    /* display: flex; */
+    font-size: 3rem;
+}
+
+.page-container.move-right {
+    margin-left: 275px;
 }
 
 .division {
