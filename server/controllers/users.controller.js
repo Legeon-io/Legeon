@@ -1,5 +1,4 @@
-import User from '../mongodb/models/user.js';
-import UserProfile from '../mongodb/models/userProfile.js';
+import User from '../mongodb/models/users.js';
 
 // SignUp function
 export const signup = async (req, res) => {
