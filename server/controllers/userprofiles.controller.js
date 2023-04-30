@@ -38,33 +38,27 @@ export const getUserProfile = async (req, res) => {
     }
 };
 
-// Store userprofile function
+// Update User Profile function
 export const updateUserProfile = async (req, res) => {
     try {
-        const { username, firstname, lastname, email, password, confirmPassword } = req.body;
+        const { username } = req.params;
+        const { bio, profession } = req.body;
 
-        const existingUser = await UserProfile.findOne({ $or: [{ username }, { email }] });
-        if (existingUser) {
-            const errorMessage = existingUser.username === username
-                ? 'Username already taken'
-                : 'Email already registered';
-            return res.status(409).json({ errorMessage });
-        }
-        
-        if(password !== confirmPassword) {
-            return res.status(401).json({ errorMessage: 'Passwords do not match'});
+        const currentUser = await UserProfile.findOne({ username });
+
+        // Update user data if changes are made
+        if (bio !== undefined && bio !== null && bio !== "" && bio !== currentUser.bio) {
+            currentUser.bio = bio;
         }
 
-        const user = await User.create({
-            username,
-            firstname,
-            lastname,
-            email,
-            password,
-        });
-        res.status(200).json({ message: 'Registered successfully. Welcome to Legeon', user: user });
-    }
-    catch (error) {
+        if (profession !== undefined && profession !== null && profession !== "" && profession !== currentUser.profession) {
+            currentUser.profession = profession;
+        }
+
+        const updatedUser = await currentUser.save();
+
+        res.status(200).json({ message: 'Changes updated in the userprofiles table', user: updatedUser });
+    } catch (error) {
         res.status(500).json({ error: 'Internal server error', error });
     }
 };

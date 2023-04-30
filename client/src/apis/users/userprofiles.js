@@ -20,3 +20,14 @@ export async function getUserProfile(username) {
 
     return { response, data };
 }
+
+export async function updateUserProfile(username, bio, profession) {
+    const response = await fetch(`${BASE_URL}/${username}/updateUserProfile`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bio, profession }),
+    });
+    const data = await response.json();
+
+    return { response, data };
+}

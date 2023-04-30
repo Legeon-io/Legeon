@@ -4,6 +4,7 @@ import '../index.css'
 import { AccountPage, ProfilePage } from './profile-pages';
 import { getUser, updateUser } from '../../apis/users/users.api';
 import Popup from '../../components/common/Popup';
+import { updateUserProfile } from '../../apis/users/userprofiles';
 
 export const Profile = (props) => {
   const [activeTab, setActiveTab] = useState('profilepage');
@@ -53,20 +54,22 @@ export const Profile = (props) => {
 
   const handleSubmit = () => {
     // If there are any changes done by the user in the form then pop up is set to true
-    if(isProfileChanges) setIsPopupOpen(true);
+    if (isProfileChanges) setIsPopupOpen(true);
     else setNoChanges(true);
   }
 
 
   const handleConfirm = async () => {
-    const { response, data } = await updateUser(props.username, formData[0].value, formData[1].value);
-    if(response.status === 200) {
-      // console.log(data.message);
-    }
-    else {
-      console.log(data.error);
+    const userUpdateResponse = await updateUser(props.username, formData[0].value, formData[1].value);
+    const userProfileUpdateResponse = await updateUserProfile(props.username, formData[2].value, formData[3].value);
+    if (userUpdateResponse.response.status !== 200) {
+      console.log(userUpdateResponse.data.error);
+      console.log(userProfileUpdateResponse.data.error);
     }
     setIsPopupOpen(false);
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
 
   const handleCancel = () => {

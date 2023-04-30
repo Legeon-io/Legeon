@@ -11,6 +11,6 @@ router.post('/createUserProfile', createUserProfile);
 router.get('/:username/getUserProfile', getUserProfile);
 
 // Update user profile route
-router.post('/updateUserProfile', updateUserProfile);
+router.put('/:username/updateUserProfile', updateUserProfile);
 
 export default router;
