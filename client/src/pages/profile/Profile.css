@@ -79,11 +79,6 @@
     margin-left: 275px;
 }
 
-.division {
-    border-bottom: 2px solid #ccc;
-    box-shadow: inset 0 -1px rgba(255, 255, 255, 0.5), inset 0 1px rgba(0, 0, 0, 0.1);
-}
-
 @media screen and (max-width: 768px) {
     .save-span {
         justify-content: center;

@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import './Profile.css';
+import '../index.css'
 import { AccountPage, ProfilePage } from './profile-pages';
 import { getUser } from '../../apis/users/users.api';
+import Popup from '../../components/common/Popup';
 
 export const Profile = (props) => {
   const [activeTab, setActiveTab] = useState('profilepage');
   const [userData, setUserData] = useState(null);
-  const [userFormData, setUserFormData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isProfileChanges, setIsProfileChanges] = useState(false);
+  const [noChanges, setNoChanges] = useState(false);
+
+  const [formData, setFormData] = useState([
+    { name: 'firstname', value: '' },
+    { name: 'lastname', value: '' },
+    { name: 'bio', value: '' },
+    { name: 'profession', value: '' },
+  ]);
 
   const handleTabToChange = (tab) => {
     setActiveTab(tab);
-  };
-
-  const handleFormChange = (formData) => {
-    // setUserFormData((prevUser) => ({ ...prevUser, ...Object.fromEntries(formData.map((field) => [field.name, field.value])) }));
-    console.log(formData);
   };
 
   useEffect(() => {
@@ -23,18 +29,47 @@ export const Profile = (props) => {
       const { response, data } = await getUser(props.username);
       if (response.status === 200) {
         setUserData(data.user);
+        console.log("user data = ", data.user);
         setIsLoading(false);
       } else {
         console.log('Internal Server Error, data not received', response.error);
       }
     }
-    fetchData();
+    const delay = setTimeout(() => {
+      fetchData();
+    }, 200);
+
+    return () => clearTimeout(delay);
   }, [props.username]);
 
-  const handleSubmit = () => {
-    console.log("Getting called")
-    console.log("formdata", userFormData);
+  const handleInputChange = (event) => {
+    setIsProfileChanges(true);
+    const { id, value } = event.target;
+    setFormData((prevFormData) =>
+      prevFormData.map((field) =>
+        field.name === id ? { ...field, value: value } : field
+      )
+    );
   }
+
+  const handleSubmit = () => {
+    // If there are any changes done by the user in the form then pop up is set to true
+    if(isProfileChanges) setIsPopupOpen(true);
+    else setNoChanges(true);
+  }
+
+
+  const handleConfirm = () => {
+    // Code to save changes
+    console.log("Form data = ", formData);
+    setIsPopupOpen(false);
+  };
+
+  const handleCancel = () => {
+    setNoChanges(false);
+    setIsPopupOpen(false);
+  };
+
 
   return (
     <>
@@ -57,26 +92,46 @@ export const Profile = (props) => {
           <button className="save-button" onClick={handleSubmit}>
             Save Changes
           </button>
+          {isPopupOpen && (
+            <Popup
+              message="Are you sure you want to save changes?"
+              onConfirm={handleConfirm}
+              onCancel={handleCancel}
+            />
+          )}
+          {noChanges && (
+            <Popup
+              message="No changes made yet!"
+              onConfirm={handleConfirm}
+              onCancel={handleCancel}
+              showConfirm={false}
+            />
+          )}
+
+
         </span>
 
       </div>
 
       <div className='division'></div>
 
-      <div className={props.sidebarVisible ? 'page-container move-right' : 'page-container'} >
-        {/* <div className='page-container'> */}
-        {
-          isLoading ? (
-            <p style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>Engaging...</p>
-          ) : (
-            activeTab === "profilepage" && <ProfilePage username={props.username} userData={userData} 
-            onFormChange={handleFormChange} setUserFormData={setUserFormData}/>
-          )
+      {isLoading ? (
+        <p className='loading'>Engaging...</p>
+      ) : (
+        <>
+          <div className={props.sidebarVisible ? 'page-container move-right' : 'page-container'} >
+            {
+              activeTab === "profilepage" && <ProfilePage username={props.username} userData={userData}
+                onInputChange={handleInputChange} />
+            }
+            {
+              activeTab === "accountpage" && <AccountPage />
+            }
 
-        }
-        {activeTab === "accountpage" && <AccountPage />}
-        {/* </div> */}
-      </div>
+          </div>
+        </>
+      )
+      }
     </>
   )
 }
