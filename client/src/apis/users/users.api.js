@@ -31,3 +31,14 @@ export async function getUser(username) {
 
     return { response, data };
 }
+
+export async function updateUser(username, firstname, lastname) {
+    const response = await fetch(`${BASE_URL}/${username}/updateUser`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstname, lastname }),
+    });
+    const data = await response.json();
+
+    return { response, data };
+}

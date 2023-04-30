@@ -18,7 +18,7 @@ const ProfilePage = ({ username, userData, onInputChange }) => {
       const { response, data } = await createUserProfile(userProfileData[0].value, userProfileData[1].value, userProfileData[2].value);
 
       if (response.status === 200 || response.status === 201) {
-        console.log(data.message);
+        // console.log(data.message);
       }
       else {
         console.log(data.error);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Profile.css';
 import '../index.css'
 import { AccountPage, ProfilePage } from './profile-pages';
-import { getUser } from '../../apis/users/users.api';
+import { getUser, updateUser } from '../../apis/users/users.api';
 import Popup from '../../components/common/Popup';
 
 export const Profile = (props) => {
@@ -29,7 +29,6 @@ export const Profile = (props) => {
       const { response, data } = await getUser(props.username);
       if (response.status === 200) {
         setUserData(data.user);
-        console.log("user data = ", data.user);
         setIsLoading(false);
       } else {
         console.log('Internal Server Error, data not received', response.error);
@@ -59,9 +58,14 @@ export const Profile = (props) => {
   }
 
 
-  const handleConfirm = () => {
-    // Code to save changes
-    console.log("Form data = ", formData);
+  const handleConfirm = async () => {
+    const { response, data } = await updateUser(props.username, formData[0].value, formData[1].value);
+    if(response.status === 200) {
+      // console.log(data.message);
+    }
+    else {
+      console.log(data.error);
+    }
     setIsPopupOpen(false);
   };
 

@@ -12,9 +12,9 @@ export const signup = async (req, res) => {
                 : 'Email already registered';
             return res.status(409).json({ errorMessage });
         }
-        
-        if(password !== confirmPassword) {
-            return res.status(401).json({ errorMessage: 'Passwords do not match'});
+
+        if (password !== confirmPassword) {
+            return res.status(401).json({ errorMessage: 'Passwords do not match' });
         }
 
         const user = await User.create({
@@ -60,8 +60,34 @@ export const getUser = async (req, res) => {
         if (!user) {
             return res.status(401).json({ error: 'User not registered' });
         }
-        
+
         res.status(200).json({ message: 'User information received', user: user });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error', error });
+    }
+};
+
+
+// Update User function
+export const updateUser = async (req, res) => {
+    try {
+        const { username } = req.params;
+        const { firstname, lastname } = req.body;
+
+        const currentUser = await User.findOne({ username });
+
+        // Update user data if changes are made
+        if (firstname !== undefined && firstname !== null && firstname !== "" && firstname !== currentUser.firstname) {
+            currentUser.firstname = firstname;
+        }
+
+        if (lastname !== undefined && lastname !== null && lastname !== "" && lastname !== currentUser.lastname) {
+            currentUser.lastname = lastname;
+        }
+
+        const updatedUser = await currentUser.save();
+
+        res.status(200).json({ message: 'Changes updated in the users table', user: updatedUser });
     } catch (error) {
         res.status(500).json({ error: 'Internal server error', error });
     }
