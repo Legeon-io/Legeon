@@ -80,52 +80,48 @@ export const Profile = (props) => {
 
   return (
     <>
-      <div className={props.sidebarVisible ? 'profile move-right' : 'profile'} >
-        <div className='button-container'>
-          <span className='profile-span'>
-            <button className={activeTab === "profilepage" ? "active" : ""} onClick={() => handleTabToChange("profilepage")}>
-              Profile
-            </button>
-          </span>
-          <span className='account-span'>
-            <button className={activeTab === "accountpage" ? "active" : ""} onClick={() => handleTabToChange("accountpage")}>
-              Account
-            </button>
-          </span>
-
-
-        </div>
-        <span className='save-span'>
-          <button className="save-button" onClick={handleSubmit}>
-            Save Changes
-          </button>
-          {isPopupOpen && (
-            <Popup
-              message="Are you sure you want to save changes?"
-              onConfirm={handleConfirm}
-              onCancel={handleCancel}
-            />
-          )}
-          {noChanges && (
-            <Popup
-              message="No changes made yet!"
-              onConfirm={handleConfirm}
-              onCancel={handleCancel}
-              showConfirm={false}
-            />
-          )}
-
-
-        </span>
-
-      </div>
-
-      <div className='division'></div>
-
       {isLoading ? (
         <p className='loading'>Engaging...</p>
       ) : (
         <>
+          <div className={props.sidebarVisible ? 'profile move-right' : 'profile'} >
+            <div className='button-container'>
+              <span className='profile-span'>
+                <button className={activeTab === "profilepage" ? "active" : ""} onClick={() => handleTabToChange("profilepage")}>
+                  Profile
+                </button>
+              </span>
+              <span className='account-span'>
+                <button className={activeTab === "accountpage" ? "active" : ""} onClick={() => handleTabToChange("accountpage")}>
+                  Account
+                </button>
+              </span>
+
+
+            </div>
+            <span className='save-span'>
+              <button className="save-button" onClick={handleSubmit}>
+                Save Changes
+              </button>
+              {isPopupOpen && (
+                <Popup
+                  message="Are you sure you want to save changes?"
+                  onConfirm={handleConfirm}
+                  onCancel={handleCancel}
+                />
+              )}
+              {noChanges && (
+                <Popup
+                  message="No changes made yet!"
+                  onConfirm={handleConfirm}
+                  onCancel={handleCancel}
+                  showConfirm={false}
+                />
+              )}
+            </span>
+          </div>
+
+          <div className='division'></div>
           <div className={props.sidebarVisible ? 'page-container move-right' : 'page-container'} >
             {
               activeTab === "profilepage" && <ProfilePage username={props.username} userData={userData}
@@ -134,8 +130,8 @@ export const Profile = (props) => {
             {
               activeTab === "accountpage" && <AccountPage />
             }
-
           </div>
+
         </>
       )
       }

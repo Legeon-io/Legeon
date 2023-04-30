@@ -38,8 +38,13 @@ const ProfilePage = ({ username, userData, onInputChange }) => {
         console.log(data.error);
       }
     }
-    createUserProfileApi();
-    getUserProfileApi();
+    const delay = 1000; // milliseconds
+    const timerId = setTimeout(async () => {
+      await createUserProfileApi();
+      await getUserProfileApi();
+    }, delay);
+
+    return () => clearTimeout(timerId);
   }, [username]);
 
   return (

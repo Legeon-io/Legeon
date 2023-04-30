@@ -56,7 +56,6 @@ const Login = ({ handleLogin }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(username, firstname, lastname, email, password, confirmPassword);
     if (isSignUp) {
       const { response, data } = await signup(username, firstname, lastname, email, password, confirmPassword);
       if (response.status === 200) {
