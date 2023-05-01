@@ -2,7 +2,7 @@
     margin-left: 10px;
     height: 100px;
     align-items: center;
-    transition: margin-left 1s ease-out;
+    transition: margin-left 0.5s ease-out;
     display: flex;
     font-size: 3rem;
 }
@@ -27,7 +27,7 @@
     border: none;
     border-radius: 30px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.5s ease-in-out;
 }
 
 .button-container button:hover {
@@ -58,7 +58,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.5s ease-in-out;
     margin-left: auto;
 }
 
@@ -70,7 +70,7 @@
     margin-left: 10px;
     height: 100px;
     align-items: center;
-    transition: margin-left 1s ease-out;
+    transition: margin-left 0.5s ease-out;
     /* display: flex; */
     font-size: 3rem;
 }
