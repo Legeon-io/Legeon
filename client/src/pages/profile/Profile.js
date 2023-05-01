@@ -128,7 +128,7 @@ export const Profile = (props) => {
                 onInputChange={handleInputChange} />
             }
             {
-              activeTab === "accountpage" && <AccountPage />
+              activeTab === "accountpage" && <AccountPage username={props.username} email={userData.email} />
             }
           </div>
 

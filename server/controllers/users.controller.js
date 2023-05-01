@@ -72,7 +72,7 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         const { username } = req.params;
-        const { firstname, lastname } = req.body;
+        const { firstname, lastname, email } = req.body;
 
         const currentUser = await User.findOne({ username });
 
@@ -83,6 +83,10 @@ export const updateUser = async (req, res) => {
 
         if (lastname !== undefined && lastname !== null && lastname !== "" && lastname !== currentUser.lastname) {
             currentUser.lastname = lastname;
+        }
+        
+        if (email !== undefined && email !== null && email !== "" && email !== currentUser.email) {
+            currentUser.email = email;
         }
 
         const updatedUser = await currentUser.save();
