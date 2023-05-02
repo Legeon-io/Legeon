@@ -1,5 +1,5 @@
 import Dashboard from "./dashboard/Dashboard.js";
-import Engage from "./engage/Engage.js";
+import Services from "./services/Services.js";
 import Bookings from "./bookings/Bookings.js";
 import Earnings from "./earnings/Earnings.js";
 import Profile from "./profile/Profile.js";
@@ -14,7 +14,7 @@ export {
     Login,
     Logout,
     Dashboard,
-    Engage,
+    Services,
     Bookings,
     Earnings,
     Profile,

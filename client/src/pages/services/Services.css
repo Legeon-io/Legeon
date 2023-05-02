@@ -1,4 +1,4 @@
-.engage {
+.services {
     margin-left: 10px;
     height: 100px;
     align-items: center;
@@ -7,6 +7,6 @@
     font-size: 3rem;
 }
 
-.engage.move-right {
+.services.move-right {
     margin-left: 275px;
 }

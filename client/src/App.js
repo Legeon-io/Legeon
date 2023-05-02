@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import { useSelector, useDispatch } from "react-redux";
 
 import { Navbar } from "./components/layout/index.js";
-import { Login, Dashboard, Engage, Bookings, Earnings, Profile, Community, About, Support, Feedback } from './pages/index.js';
+import { Login, Dashboard, Services, Bookings, Earnings, Profile, Community, About, Support, Feedback } from './pages/index.js';
 
 import './App.css';
 import { loginAction, logoutAction } from "./redux/actions/Actions.js";
@@ -36,7 +36,7 @@ const App = () => {
                         <Route exact path="/" element={<Navigate to='/dashboard' />} />
 
                         <Route path="/dashboard" element={<Dashboard sidebarVisible={sidebarVisible} />} />
-                        <Route path="/engage" element={<Engage sidebarVisible={sidebarVisible} />} />
+                        <Route path="/services" element={<Services sidebarVisible={sidebarVisible} />} />
                         <Route path="/bookings" element={<Bookings sidebarVisible={sidebarVisible} />} />
                         <Route path="/earnings" element={<Earnings sidebarVisible={sidebarVisible} />} />
                         <Route path="/profile" element={<Profile sidebarVisible={sidebarVisible} username={username}/>} />
