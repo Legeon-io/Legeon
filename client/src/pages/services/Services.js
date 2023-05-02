@@ -3,6 +3,7 @@ import './Services.css';
 import '../index.css'
 
 import { Link } from 'react-router-dom';
+import ServiceDisplayCard from '../../components/common/services_cards/ServiceDisplayCard';
 
 
 export const Services = ({ sidebarVisible }) => {
@@ -16,40 +17,26 @@ export const Services = ({ sidebarVisible }) => {
           <span className='services-text'>
             Services
           </span>
-      
-          <Link to='/services/create-service' style={{textDecoration:'none'}} >
-          <span className='add-services'>
-            <button className='services'>
-              + Add Services
-            </button>
-          </span>
+
+          <Link to='/services/create-service' style={{ textDecoration: 'none' }} >
+            <span className='add-services'>
+              <button className='services'>
+                + Add Services
+              </button>
+            </span>
           </Link>
         </div>
       </div>
 
       <div className='division'></div>
-
-
-
       <div className={sidebarVisible ? 'services-cards move-right' : 'services-cards'} >
         <div className='service-card-conatainer'>
-          Service Cards
-          <div>
-            Cards
-          </div>
-          <div>
-            Cards
-          </div>
-          <div>
-            Cards
-          </div>
-          <div>
-            Cards
-          </div>
+          <span style={{ fontSize: '30px', color: 'purple' }}>Your Services</span>
         </div>
-
+      <ServiceDisplayCard />
       </div>
-      
+
+
     </>
   )
 }
