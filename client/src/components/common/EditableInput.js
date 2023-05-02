@@ -18,9 +18,9 @@ function EditableInput({ value, onInputChange, type, username }) {
     onInputChange(inputValue);
     setEditing(false);
     if (type === 'email') {
+      
       const activeTab = 'accountpage';
       const userUpdateResponse = await updateUser(username, null, null, inputValue);
-      window.location.href = '/profile';
     }
   };
 

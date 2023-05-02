@@ -54,22 +54,28 @@ export const Profile = (props) => {
 
   const handleSubmit = () => {
     // If there are any changes done by the user in the form then pop up is set to true
-    if (isProfileChanges) setIsPopupOpen(true);
+    if (isProfileChanges || activeTab === 'accountpage') setIsPopupOpen(true);
     else setNoChanges(true);
   }
 
 
   const handleConfirm = async () => {
-    const userUpdateResponse = await updateUser(props.username, formData[0].value, formData[1].value);
-    const userProfileUpdateResponse = await updateUserProfile(props.username, formData[2].value, formData[3].value);
-    if (userUpdateResponse.response.status !== 200) {
-      console.log(userUpdateResponse.data.error);
-      console.log(userProfileUpdateResponse.data.error);
+    if (activeTab === 'accountpage') {
+      window.location.href = '/profile';
+      setIsPopupOpen(false);
     }
-    setIsPopupOpen(false);
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    else {
+      const userUpdateResponse = await updateUser(props.username, formData[0].value, formData[1].value);
+      const userProfileUpdateResponse = await updateUserProfile(props.username, formData[2].value, formData[3].value);
+      if (userUpdateResponse.response.status !== 200) {
+        console.log(userUpdateResponse.data.error);
+        console.log(userProfileUpdateResponse.data.error);
+      }
+      setIsPopupOpen(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 200);
+    }
   };
 
   const handleCancel = () => {
