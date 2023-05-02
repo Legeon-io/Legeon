@@ -2,7 +2,7 @@
     margin-left: 10px;
     height: 100px;
     align-items: center;
-    transition: margin-left 1s ease-out;
+    transition: margin-left 0.5s ease-out;
     display: flex;
     font-size: 3rem;
 }
@@ -27,7 +27,7 @@
     border: none;
     border-radius: 30px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.5s ease-in-out;
 }
 
 .button-container button:hover {
@@ -41,8 +41,12 @@
 }
 
 .save-span {
-    margin-top: -20px;
-    margin-left: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    padding: 20px;
+    margin-right: 20px;
 }
 
 .save-button {
@@ -54,7 +58,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.5s ease-in-out;
     margin-left: auto;
 }
 
@@ -63,10 +67,20 @@
 }
 
 .page-container {
-    display: flex;
+    margin-left: 10px;
+    height: 100px;
+    align-items: center;
+    transition: margin-left 0.5s ease-out;
+    /* display: flex; */
+    font-size: 3rem;
 }
 
-.division {
-    border-bottom: 1px solid #ccc;
-    box-shadow: inset 0 -1px rgba(255, 255, 255, 0.5), inset 0 1px rgba(0, 0, 0, 0.1);
-  }
+.page-container.move-right {
+    margin-left: 275px;
+}
+
+@media screen and (max-width: 768px) {
+    .save-span {
+        justify-content: center;
+    }
+}

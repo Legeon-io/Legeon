@@ -37,12 +37,12 @@
     position: fixed;
     top: 0;
     left: -100%;
-    transition: 1s;
+    transition: 0.5s;
 }
 
 .nav-menu.active {
     left: 0;
-    transition: 1s;
+    transition: 0.5s;
 }
 
 .nav-text {
@@ -75,7 +75,6 @@
 }
 
 .navbar-toggle {
-    background-color: #212121;
     width: 100%;
     height: 80px;
     display: flex;
@@ -94,7 +93,7 @@ span {
     display: flex;
     align-items: center;
     margin-left: 10px;
-    transition: margin-left 1s ease-out;
+    transition: margin-left 0.5s ease-out;
 }
 
 .topLeft.move-right {
@@ -108,7 +107,7 @@ span {
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
     letter-spacing: 1px;
     text-transform: uppercase;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.5s ease-in-out;
     cursor: pointer;
 }
 
@@ -209,19 +208,19 @@ span {
     font-size: 18px;
     color: #fff;
     font-weight: bold;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
 }
 
-.avatar {
+.profilephoto {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     border: 2px solid #fff;
     cursor: pointer;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.5s ease-in-out;
 }
 
-.avatar:hover {
+.profilephoto:hover {
     transform: scale(1.1);
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
     border: 2px solid #1abc9c;
@@ -229,26 +228,26 @@ span {
 
 .topRight:hover .username-text {
     transform: translateX(10px);
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.5s ease-in-out;
     color: #ccc;
 }
 
 /* Different color pattern */
-.avatar.blue {
+.profilephoto.blue {
     border-color: #3498db;
 }
 
-.avatar.blue:hover {
+.profilephoto.blue:hover {
     box-shadow: 0px 0px 10px rgba(52, 152, 219, 0.8);
     border-color: #3498db;
 }
 
 /* Another color pattern */
-.avatar.purple {
+.profilephoto.purple {
     border-color: #9b59b6;
 }
 
-.avatar.purple:hover {
+.profilephoto.purple:hover {
     box-shadow: 0px 0px 10px rgba(155, 89, 182, 0.8);
     border-color: #9b59b6;
 }
