@@ -8,6 +8,7 @@ import { Login, Dashboard, Services, Bookings, Earnings, Profile, Community, Abo
 import './App.css';
 import { loginAction, logoutAction } from "./redux/actions/Actions.js";
 import { persistor } from "./redux/stores/Store.js";
+import CreateService from "./pages/services/createService/CreateService.js";
 
 const App = () => {
     const [sidebarVisible, setSidebar] = useState(false);
@@ -44,6 +45,8 @@ const App = () => {
                         <Route path="/about" element={<About sidebarVisible={sidebarVisible} />} />
                         <Route path="/support" element={<Support sidebarVisible={sidebarVisible} />} />
                         <Route path="/feedback" element={<Feedback sidebarVisible={sidebarVisible} />} />
+
+                        <Route path="/services/create-service" element={<CreateService sidebarVisible={sidebarVisible} />} />
                     </Routes>
                 </Router>
             ) : (
