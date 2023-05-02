@@ -1,10 +1,11 @@
 import React from 'react'
 import './Feedback.css';
+import '../index.css'
 
 export const Feedback = ({sidebarVisible}) => {
 
   return (
-    <div className={sidebarVisible ? 'feedback move-right' : 'feedback'} >
+    <div className={sidebarVisible ? 'page move-right' : 'page'} >
       Feedback
     </div>
   )

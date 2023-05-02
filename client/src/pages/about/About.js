@@ -1,10 +1,11 @@
 import React from 'react'
 import './About.css';
+import '../index.css';
 
 export const About = ({sidebarVisible}) => {
 
   return (
-    <div className={sidebarVisible ? 'about move-right' : 'about'} >
+    <div className={sidebarVisible ? 'page move-right' : 'page'} >
       About
     </div>
   )

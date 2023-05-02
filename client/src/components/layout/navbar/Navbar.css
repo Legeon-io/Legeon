@@ -38,6 +38,7 @@
     top: 0;
     left: -100%;
     transition: 0.5s;
+    overflow-y: scroll;
 }
 
 .nav-menu.active {

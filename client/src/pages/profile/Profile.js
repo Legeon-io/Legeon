@@ -90,7 +90,7 @@ export const Profile = (props) => {
         <p className='loading'>Engaging...</p>
       ) : (
         <>
-          <div className={props.sidebarVisible ? 'profile move-right' : 'profile'} >
+          <div className={props.sidebarVisible ? 'page move-right' : 'page'} >
             <div className='button-container'>
               <span className='profile-span'>
                 <button className={activeTab === "profilepage" ? "active" : ""} onClick={() => handleTabToChange("profilepage")}>

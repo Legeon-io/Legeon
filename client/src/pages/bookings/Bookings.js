@@ -1,10 +1,11 @@
 import React from 'react'
 import './Bookings.css';
+import '../index.css';
 
 export const Bookings = ({sidebarVisible}) => {
 
   return (
-    <div className={sidebarVisible ? 'bookings move-right' : 'bookings'} >
+    <div className={sidebarVisible ? 'page move-right' : 'page'} >
       Bookings
     </div>
   )
