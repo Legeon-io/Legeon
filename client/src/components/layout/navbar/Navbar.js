@@ -36,7 +36,7 @@ export const Navbar = ( props ) => {
 
         <div className='topRight'>
         <Link to="/profile">
-        <span><img src={logo} alt='Logo' className='avatar' /></span>
+        <span><img src={logo} alt='Logo' className='profilephoto' /></span>
         </Link>
         <span className='username-text' > { props.username } </span>
         </div>

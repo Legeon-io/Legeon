@@ -1,0 +1,50 @@
+/* Editable Input CSS */
+
+.editable-input-container {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 16px;
+    resize: horizontal;
+    margin-left: 30px;
+    width: 100%;
+}
+  
+  .editable-input-container span {
+    font-weight: bold;
+    margin-right: 8px;
+  }
+  
+  .editable-input-value {
+    margin-right: 16px;
+  }
+  
+  .editable-input-field {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 16px;
+    margin-right: 16px;
+    resize: horizontal;
+  }
+  
+  .editable-input-buttons {
+    display: flex;
+    margin-top: 16px;
+  }
+  
+  .editable-input-button {
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin-right: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .editable-input-button:hover {
+    background-color: #0069d9;
+  }
+  
