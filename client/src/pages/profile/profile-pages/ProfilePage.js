@@ -75,8 +75,8 @@ const ProfilePage = ({ username, userData, onInputChange }) => {
                 <input placeholder={userData.lastname || ''} className='input-field' type="text" id="lastname" onChange={onInputChange} />
               </div>
               <div className='bio'>
-                <label className='card-name' htmlFor="bio">Bio:</label>
-                <textarea placeholder={userProfileData[1].value} className='input-field' id="bio" onChange={onInputChange}></textarea>
+                <label className='card-bio' htmlFor="bio">Bio:</label>
+                <textarea placeholder={userProfileData[1].value} className='textarea' id="bio" onChange={onInputChange}></textarea>
               </div>
               <div>
                 <label className='card-name' htmlFor="profession">Profession:</label>

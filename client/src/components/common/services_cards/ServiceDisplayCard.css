@@ -1,27 +1,28 @@
 .service_cards-container {
-    background-color: #49a1cd;
-    border-radius: 5px;
-    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    width: 50%;
-    margin-top: 20px;
-    margin-left: 20px;
-  
-  }
+  background: linear-gradient(45deg, #49cdc0, #2e86de);
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 60%;
+  margin-top: 20px;
+  margin-left: 20px;
+}
 
 .service_card {
-    width: 300px;
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    background-color: #fff;
-    transition: transform 0.5s;
-  }
+  width: 80%;
+  max-width: 600px;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(to bottom right, #fff, #e6e6e6);
+  transition: transform 0.5s;
+}
   
   .service_card:hover {
-    transform: translateZ(50px);
+    opacity: 0.8;
+    background-color: rgb(175, 110, 147);
   }
   
   .service_card-header {
@@ -65,6 +66,8 @@
   
   .edit-button:hover {
     opacity: 0.8;
+    background-color: red;
+    color: black;
   }
 
   

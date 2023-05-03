@@ -2,6 +2,15 @@ import React from 'react'
 import '../Services.css'
 
 const CreateService = ({ sidebarVisible }) => {
+
+    const handleCallChange = () => {
+        
+    }
+
+    const handletextQueryChange = () => {
+        
+    }
+
     return (
         <>
 
@@ -21,8 +30,8 @@ const CreateService = ({ sidebarVisible }) => {
                     Service Type
 
                     <div className='types'>
-                        <button className='engagecall'> 1:1 Engage</button>
-                        <button className='text-query'> Ask Query?</button>
+                        <button className='engagecall' onClick={handleCallChange}> 1:1 Engage</button>
+                        <button className='text-query' onClick={handletextQueryChange}> Ask Query?</button>
                     </div>
                 </div>
             </div>
