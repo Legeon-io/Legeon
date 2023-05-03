@@ -18,13 +18,13 @@ export const Services = ({ sidebarVisible }) => {
             Services
           </span>
 
-          <Link to='/services/create-service' style={{ textDecoration: 'none' }} >
-            <span className='add-services'>
+          <span className='add-services'>
+            <Link to='/services/create-service' style={{ textDecoration: 'none' }} >
               <button className='services'>
                 + Add Services
               </button>
-            </span>
-          </Link>
+            </Link>
+          </span>
         </div>
       </div>
 
@@ -33,7 +33,7 @@ export const Services = ({ sidebarVisible }) => {
         <div className='service-card-conatainer'>
           <span style={{ fontSize: '30px', color: 'purple' }}>Your Services</span>
         </div>
-      <ServiceDisplayCard />
+        <ServiceDisplayCard />
       </div>
 
 
