@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #212121;
+    background: linear-gradient(to right, #0B0C10, #1F2833);
     height: 80px;
     display: flex;
     justify-content: flex-start;
@@ -29,7 +29,7 @@
 }
 
 .nav-menu {
-    background-color: #212121;
+    background: linear-gradient(to left, #0B0C10, #1F2833);
     width: 250px;
     height: 100vh;
     display: flex;
