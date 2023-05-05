@@ -34,7 +34,7 @@
   .services-text {
     font-size: 24px;
     font-weight: bold;
-    color: #333;
+    color: #66FCF1;;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   }
 
@@ -50,8 +50,8 @@
   }
   
   .add-services button {
-    background-color: #007bff;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: rgba(0, 0, 0, 0);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -63,11 +63,12 @@
     height: fit-content;
     display: flex;
     align-items: center;
-    /* width: fit-content; */
+    border: 3px solid #66FCF1;
+    text-transform: uppercase;
   }
   
   .add-services button:hover {
-    background-color: #0062cc;
+    border: 2px solid #45A29E;
   }
   
   .service-card-conatainer {
