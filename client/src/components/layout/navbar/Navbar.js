@@ -49,7 +49,7 @@ export const Navbar = ( props ) => {
               <AiIcons.AiFillCloseCircle />
             </Link>
           </li>
-          <IconContext.Provider value={{color: '#fff'}}>
+          <IconContext.Provider value={{color: '#66FCF1'}}>
           {Sidebar.map((item, index) => {
             return (
               <li key={index} className={item.cName}>
