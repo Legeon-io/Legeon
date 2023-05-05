@@ -52,7 +52,7 @@
   .add-services button {
     background-color: rgba(0, 0, 0, 0);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    color: #fff;
+    color: #C5C6C7;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
@@ -83,6 +83,7 @@
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 20px;
+    color: #C5C6C7;
   }
   
   .types {
@@ -110,13 +111,38 @@
   }
   
   .engagecall {
-    background-color: #b53edd;
+    background-color: #1ccae1;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.5s ease-in-out;
+  }
+
+  .engagecall:hover {
+    background-color: #333;
+    color: #fff;
   }
   
   .text-query {
-    background-color: #32ac77;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.5s ease-in-out;
   }
-  
+
+  .text-query:hover {
+    background-color: #333;
+    color: #fff;
+  }
   
 
   @media screen and (max-width: 768px) {
