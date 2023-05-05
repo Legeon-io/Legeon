@@ -87,7 +87,7 @@ export const Profile = (props) => {
   return (
     <>
       {isLoading ? (
-        <p className='loading'>Engaging...</p>
+        <p className='loading' style={{background: 'linear-gradient(to right, #0B0C10, #1F2833)'}} >Engaging...</p>
       ) : (
         <>
           <div className={props.sidebarVisible ? 'page move-right' : 'page'} >

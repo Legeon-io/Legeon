@@ -31,7 +31,7 @@ export const Services = ({ sidebarVisible }) => {
       <div className='division'></div>
       <div className={sidebarVisible ? 'services-cards move-right' : 'services-cards'} >
         <div className='service-card-conatainer'>
-          <span style={{ fontSize: '30px', color: 'purple' }}>Your Services</span>
+          <span style={{ fontSize: '30px', color: '#fff' }}>Your Services</span>
         </div>
         <ServiceDisplayCard />
       </div>
