@@ -102,9 +102,8 @@ export const Profile = (props) => {
                   Account
                 </button>
               </span>
-
-
             </div>
+            
             <span className='save-span'>
               <button className="save-button" onClick={handleSubmit}>
                 Save Changes

@@ -1,15 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../Services.css'
+import { Link } from 'react-router-dom';
 
-const CreateService = ({ sidebarVisible }) => {
+const CreateService = ({ sidebarVisible, currentTab = 'engageCall' }) => {
 
-    const handleCallChange = () => {
-        
-    }
+    const [activeTab, setActiveTab] = useState(currentTab);
 
-    const handletextQueryChange = () => {
-        
-    }
+    const handleTabToChange = (tab) => {
+        setActiveTab(tab);
+    };
 
     return (
         <>
@@ -29,9 +28,23 @@ const CreateService = ({ sidebarVisible }) => {
                 <div className='services-type'>
                     Service Type
 
-                    <div className='types'>
-                        <button className='engagecall' onClick={handleCallChange}> 1:1 Engage</button>
-                        <button className='text-query' onClick={handletextQueryChange}> Ask Query?</button>
+                    <div className='button-container'>
+                        <span className='profile-span'>
+                            <Link to='/services/create-service/engage-call' style={{ textDecoration: 'none' }} >
+                                <button className={activeTab === "engageCall" ? "active" : ""} onClick={() => handleTabToChange("engageCall")}>
+                                    1:1 Engage
+                                </button>
+                            </Link>
+                        </span>
+                        <span className='account-span'>
+                            <Link to='/services/create-service/text-query' style={{ textDecoration: 'none' }} >
+                                <button className={activeTab === "textQuery" ? "active" : ""} onClick={() => handleTabToChange("textQuery")}>
+                                    Ask Query?
+                                </button>
+                            </Link>
+                        </span>
+
+
                     </div>
                 </div>
             </div>
