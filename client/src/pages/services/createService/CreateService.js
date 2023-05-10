@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import '../Services.css'
+import './CreateService.css'
 import { Link } from 'react-router-dom';
+import EngageCall from './EngageCall';
 
 const CreateService = ({ sidebarVisible, currentTab = 'engageCall' }) => {
 
@@ -12,8 +14,8 @@ const CreateService = ({ sidebarVisible, currentTab = 'engageCall' }) => {
 
     return (
         <>
-
-            <div className={sidebarVisible ? 'page move-right' : 'page'} >
+            <EngageCall sidebarVisible={sidebarVisible} />
+            {/* <div className={sidebarVisible ? 'page move-right' : 'page'} >
 
                 <div className='services-container'>
                     <span className='services-text'>
@@ -47,7 +49,7 @@ const CreateService = ({ sidebarVisible, currentTab = 'engageCall' }) => {
 
                     </div>
                 </div>
-            </div>
+            </div> */}
 
         </>
     )
