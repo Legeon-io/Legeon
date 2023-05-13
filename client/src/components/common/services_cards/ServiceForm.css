@@ -1,0 +1,96 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+  }
+  
+  .form-field {
+    margin: 10px 0;
+  }
+  
+  .title-field {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+  }
+  
+  #title {
+    padding: 10px;
+    margin: 5px;
+    border: 2px solid #C5C6C7;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 18px;
+    color: #C5C6C7;
+    background-color: transparent;
+  }
+  
+  #title:focus {
+    outline: none;
+    border: 2px solid #C5C6C7;
+  }
+  
+  .call-field,
+  .price-field {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  label {
+    color: #C5C6C7;
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  input[type="radio"] {
+    margin: 0 10px;
+    transform: scale(1.5);
+  }
+  
+  input[type="radio"]:hover {
+    cursor: pointer;
+  }
+  
+  input[type="radio"]:checked+label {
+    color: #C5C6C7;
+  }
+  
+  input[type="number"] {
+    padding: 5px;
+    margin: 5px;
+    border: 2px solid #C5C6C7;
+    border-radius: 5px;
+    width: 80px;
+    font-size: 16px;
+    color: #C5C6C7;
+    background-color: transparent;
+  }
+  
+  input[type="number"]:focus {
+    outline: none;
+    border: 2px solid #C5C6C7;
+  }
+  
+  .submit-button {
+    padding: 10px;
+    margin: 20px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #C5C6C7;
+    color: #2F2F2F;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #2F2F2F;
+    color: #C5C6C7;
+  }
+  

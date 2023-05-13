@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './CreateService.css'
 import '../../index.css'
 import TextQuery from './TextQuery';
+import ServiceForm from '../../../components/common/services_cards/ServiceForm';
 
 
 const EngageCall = ({ sidebarVisible }) => {
@@ -57,8 +58,9 @@ const EngageCall = ({ sidebarVisible }) => {
         </div>
 
         <div className='form-container'>
-          <h1 style={{ color: 'white' }}>Form</h1>
+          <ServiceForm />
         </div>
+        <br/>
       </div>
     </>
   )
