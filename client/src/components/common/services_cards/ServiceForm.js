@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import './ServiceForm.css';
 import Popup from '../Popup';
+import { createCallService } from '../../../apis/services/callservices';
 
-const ServiceForm = () => {
+const ServiceForm = ({ username }) => {
 
     const [title, setTitle] = useState('');
     const [duration, setDuration] = useState(0);
@@ -11,9 +12,9 @@ const ServiceForm = () => {
     const [customBool, setCustomBool] = useState(false);
     const [customPriceBool, setCustomPriceBool] = useState(false);
     const [showpopup, setShowPopup] = useState(false);
-    const [errorMessage, setMessage] = useState("");
+    const [message, setMessage] = useState("");
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         if (title === "") {
@@ -21,12 +22,19 @@ const ServiceForm = () => {
             setShowPopup(true);
         }
         else if (duration === 0) {
-            setMessage("Need some duration to engage");
+            setMessage("Schedule some time to engage");
             setShowPopup(true);
         }
         else {
-            // PUT API for services table
-            console.log(title, duration, price)
+            // POST API for services table
+            const { response, data } = await createCallService(username, "EngageCall", title , duration, price);
+
+            if (response.status === 200) {
+                window.location.href = '/services'
+            }
+            else {
+                console.log(data.error);
+            }
         }
     }
 
@@ -182,14 +190,15 @@ const ServiceForm = () => {
             </div>
 
             {
-                showpopup && (errorMessage !== "") &&
+                showpopup && (message !== "") &&
 
                 <Popup
-                    message={errorMessage}
+                    message={message}
                     onCancel={handleCancel}
                     showConfirm={false}
                 />
             }
+
         </>
     )
 }

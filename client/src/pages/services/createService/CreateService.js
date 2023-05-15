@@ -4,17 +4,11 @@ import './CreateService.css'
 import { Link } from 'react-router-dom';
 import EngageCall from './EngageCall';
 
-const CreateService = ({ sidebarVisible, currentTab = 'engageCall' }) => {
-
-    const [activeTab, setActiveTab] = useState(currentTab);
-
-    const handleTabToChange = (tab) => {
-        setActiveTab(tab);
-    };
+const CreateService = ({ sidebarVisible, username }) => {
 
     return (
         <>
-            <EngageCall sidebarVisible={sidebarVisible} />
+            <EngageCall sidebarVisible={sidebarVisible} username={username} />
             {/* <div className={sidebarVisible ? 'page move-right' : 'page'} >
 
                 <div className='services-container'>

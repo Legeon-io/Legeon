@@ -46,9 +46,9 @@ const App = () => {
                         <Route path="/support" element={<Support sidebarVisible={sidebarVisible} />} />
                         <Route path="/feedback" element={<Feedback sidebarVisible={sidebarVisible} />} />
 
-                        <Route path="/services/create-service" element={<CreateService sidebarVisible={sidebarVisible} />} />
+                        <Route path="/services/create-service" element={<CreateService sidebarVisible={sidebarVisible} username={username} />} />
 
-                        <Route path="/services/create-service/engage-call" element={<EngageCall sidebarVisible={sidebarVisible} />} />
+                        <Route path="/services/create-service/engage-call" element={<EngageCall sidebarVisible={sidebarVisible} username={username} />} />
                         <Route path="/services/create-service/text-query" element={<TextQuery sidebarVisible={sidebarVisible} />} />
                     </Routes>
                 </Router>

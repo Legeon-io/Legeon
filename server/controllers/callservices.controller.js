@@ -11,7 +11,7 @@ export const createCallService = async (req, res) => {
             duration,
             price,
         });
-        res.status(200).json({ message: 'Call Service added successfully', callService: callService });
+        res.status(200).json({ message: 'Service added successfully', callService: callService });
     }
     catch (error) {
         res.status(500).json({ error: 'Internal server error', error });
