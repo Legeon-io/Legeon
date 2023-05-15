@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './ServiceForm.css';
+import Popup from '../Popup';
 
 const ServiceForm = () => {
 
@@ -9,10 +10,24 @@ const ServiceForm = () => {
 
     const [customBool, setCustomBool] = useState(false);
     const [customPriceBool, setCustomPriceBool] = useState(false);
+    const [showpopup, setShowPopup] = useState(false);
+    const [errorMessage, setMessage] = useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(title, duration, price)
+
+        if (title === "") {
+            setMessage("Event title is required");
+            setShowPopup(true);
+        }
+        else if (duration === 0) {
+            setMessage("Need some duration to engage");
+            setShowPopup(true);
+        }
+        else {
+            // PUT API for services table
+            console.log(title, duration, price)
+        }
     }
 
     const handleDurationChange = (event) => {
@@ -57,13 +72,18 @@ const ServiceForm = () => {
             setPrice(parseInt(event.target.value));
     };
 
+    const handleCancel = () => {
+        setMessage("");
+        setShowPopup(false);
+    }
+
     return (
         <>
             <div style={{ color: '#C5C6C7' }} className='form' >
                 <form>
                     <div className='form-field'>
                         <div className='title-field'>
-                            <label htmlFor='title' style={{ color: '#C5C6C7' }} > Title </label>
+                            <label htmlFor='title' style={{ color: '#66FCF1' }} > Title </label>
                             <input
                                 type='text'
                                 id='title'
@@ -76,7 +96,7 @@ const ServiceForm = () => {
 
                     <div className='form-field'>
                         <div className='call-field'>
-                            <label>Call duration</label>
+                            <label style={{ color: '#66FCF1' }}>Call duration</label>
                             <br />
 
                             <div className='call-options'>
@@ -98,40 +118,27 @@ const ServiceForm = () => {
                             </div>
 
                             <input type="radio" id="customCall" name="duration" value="custom" onChange={handleDurationChange} />
-                            <label htmlFor="custom" style={{ marginTop: '17px' }}>Custom Call</label>
-
-
-                            {
-                                !customBool &&
-                                <>
-                                    <input type="number" id="customDuration" name="customDuration" min="1" max="1440" value='0' onChange={handleCustomDurationChange} disabled
-                                        style={{
-                                            marginLeft: '30px', fontSize: '18px', color: '#C5C6C7',
-                                            width: '50%'
-                                        }} />
-                                    <br />
-                                </>
-                            }
+                            <label htmlFor="custom" style={{ marginTop: '17px' }}>Custom Duration</label>
 
                             {
                                 customBool &&
                                 <>
                                     <input type="number" id="customDuration" name="customDuration" min="1" max="1440" onChange={handleCustomDurationChange}
-                                        placeholder='Enter time in minutes' style={{
+                                        placeholder='Time in minutes' style={{
                                             marginLeft: '30px', fontSize: '18px',
-                                            color: '#C5C6C7', width: '50%'
+                                            color: '#C5C6C7', width: '40%'
                                         }} />
                                     <br />
                                 </>
                             }
-                            <p style={{ marginTop: '20px', fontSize: '20px' }}>Selected duration: {customBool ? (duration === 0 ? 'Fix the slot' : duration + " mins") : duration === 0 ? 0 + " mins" : duration + " mins"}</p>
+                            <p style={{ marginTop: '20px', fontSize: '20px', color: '#e7717d' }}>Selected duration: {customBool ? (duration === 0 ? 'Fix the slot' : duration + " mins") : duration === 0 ? 0 + " mins" : duration + " mins"}</p>
                         </div>
                     </div>
 
 
                     <div className='form-field'>
                         <div className='price-field'>
-                            <label> Price </label>
+                            <label style={{ color: '#66FCF1' }}> Price </label>
                             <br />
 
                             <div className='call-options'>
@@ -155,30 +162,17 @@ const ServiceForm = () => {
                             <label htmlFor="custom" style={{ marginTop: '17px' }}>Custom Price</label>
 
                             {
-                                !customPriceBool &&
-                                <>
-                                    <input type="number" id="customPrice" name="customPrice" value='0' onChange={handleCustomPriceChange} disabled
-                                        style={{
-                                            marginLeft: '30px', fontSize: '18px',
-                                            color: '#C5C6C7', width: '50%'
-                                        }}
-                                    />
-                                    <br />
-                                </>
-                            }
-
-                            {
                                 customPriceBool &&
                                 <>
                                     <input type="number" id="customPrice" name="customPrice" onChange={handleCustomPriceChange}
                                         placeholder='Enter the amount' style={{
                                             marginLeft: '25px', fontSize: '18px',
-                                            color: '#C5C6C7', width: '50%'
+                                            color: '#C5C6C7', width: '40%'
                                         }} />
                                     <br />
                                 </>
                             }
-                            <p style={{ marginTop: '20px', fontSize: '20px' }}>Selected Price: {customPriceBool ? (price === 0 ? 'Free' : price + " Rs") : price === 0 ? "Free" : price + " Rs"}</p>
+                            <p style={{ marginTop: '20px', fontSize: '20px', color: '#e7717d' }}>Selected Price: {customPriceBool ? (price === 0 ? 'Free' : price + " Rs") : price === 0 ? "Free" : price + " Rs"}</p>
                         </div>
                     </div>
                     <div className='division' style={{ width: '100%', maxWidth: '600px', marginLeft: '10px', marginTop: '20px' }}></div>
@@ -186,6 +180,16 @@ const ServiceForm = () => {
                     <button className='submit-button' type='submit' onClick={handleSubmit}>Submit</button>
                 </form>
             </div>
+
+            {
+                showpopup && (errorMessage !== "") &&
+
+                <Popup
+                    message={errorMessage}
+                    onCancel={handleCancel}
+                    showConfirm={false}
+                />
+            }
         </>
     )
 }
