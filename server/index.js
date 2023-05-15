@@ -5,6 +5,7 @@ import cors from 'cors';
 import connectDB from './mongodb/connect.js';
 import userRouter from './routes/users.routes.js';
 import userProfileRouter from './routes/userprofiles.routes.js'
+import callServicesRouter from './routes/callservices.routes.js'
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 // Use the user routes
 app.use('/api/users', userRouter);
 app.use('/api/userprofiles', userProfileRouter);
+app.use('/api/callservices', callServicesRouter);
 
 const startServer = async () => {
     try {
