@@ -10,3 +10,13 @@ export async function createCallService(username, servicetype, title, duration, 
 
     return { response, data };
 }
+
+export async function getCallService(username) {
+    const response = await fetch(`${BASE_URL}/${username}/getCallService`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+
+    return { response, data };
+}

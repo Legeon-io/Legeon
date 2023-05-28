@@ -37,7 +37,7 @@ const App = () => {
                         <Route exact path="/" element={<Navigate to='/dashboard' />} />
 
                         <Route path="/dashboard" element={<Dashboard sidebarVisible={sidebarVisible} />} />
-                        <Route path="/services" element={<Services sidebarVisible={sidebarVisible} />} />
+                        <Route path="/services" element={<Services sidebarVisible={sidebarVisible} username={username} />} />
                         <Route path="/bookings" element={<Bookings sidebarVisible={sidebarVisible} />} />
                         <Route path="/earnings" element={<Earnings sidebarVisible={sidebarVisible} />} />
                         <Route path="/profile" element={<Profile sidebarVisible={sidebarVisible} username={username}/>} />

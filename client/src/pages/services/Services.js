@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './Services.css';
 import '../index.css'
 
@@ -6,8 +6,7 @@ import { Link } from 'react-router-dom';
 import ServiceDisplayCard from '../../components/common/services_cards/ServiceDisplayCard';
 
 
-export const Services = ({ sidebarVisible }) => {
-  const [virtualEngage, setVirtualEngage] = useState(false);
+export const Services = ({ sidebarVisible, username }) => {
 
   return (
     <>
@@ -33,7 +32,7 @@ export const Services = ({ sidebarVisible }) => {
         <div className='service-card-conatainer'>
           <span style={{ fontSize: '30px', color: '#C5C6C7' }}>Your Services</span>
         </div>
-        <ServiceDisplayCard />
+        <ServiceDisplayCard username={username} />
       </div>
 
 
