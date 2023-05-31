@@ -64,7 +64,7 @@ export const updateCallService = async (req, res) => {
             price: oldPrice,
         });
 
-        if(existingService === null) {
+        if (existingService === null) {
             // No such service exists
             return res.status(409).json({ error: 'No such service exists' });
         }
@@ -85,6 +85,30 @@ export const updateCallService = async (req, res) => {
         const updatedService = await existingService.save();
 
         res.status(200).json({ message: 'Service updated successfully', newService: updatedService });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error', error });
+    }
+};
+
+export const deleteCallService = async (req, res) => {
+    try {
+        const { username } = req.params;
+        const { servicetype, title, duration, price } = req.body;
+
+        // Find the service to delete
+        const serviceToDelete = await CallServices.findOneAndDelete({
+            username,
+            servicetype,
+            title,
+            duration,
+            price,
+        });
+
+        if (!serviceToDelete) {
+            return res.status(404).json({ error: 'Service not found' });
+        }
+
+        res.status(200).json({ message: 'Service deleted successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Internal server error', error });
     }

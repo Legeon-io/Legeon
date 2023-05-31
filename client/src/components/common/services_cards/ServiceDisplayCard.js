@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './ServiceDisplayCard.css';
-import { getCallService } from '../../../apis/services/callservices';
+import { deleteCallService, getCallService } from '../../../apis/services/callservices';
 import { useNavigate } from 'react-router-dom';
+import Popup from '../Popup';
 
 
 const ServiceDisplayCard = ({ username }) => {
@@ -12,6 +13,11 @@ const ServiceDisplayCard = ({ username }) => {
 
   const [editIndex, setEditIndex] = useState(null);
   const [editData, setEditData] = useState(null);
+
+  const [showpopup, setShowPopup] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const [deleteData, setDeleteData] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -37,6 +43,25 @@ const ServiceDisplayCard = ({ username }) => {
     navigate('engage-call/edit-service', { state: { formData: dataToEdit } });
   }
 
+  const handleDelete = (index) => {
+    setDeleteData(callServiceData[index]);
+    const messagetodisplay = "Delete the service " + JSON.stringify(callServiceData[index].title);
+    setMessage(messagetodisplay);
+    setShowPopup(true);
+  }
+
+  const confirmDelete = () => {
+    const { response, data } = deleteCallService(deleteData.username, deleteData.servicetype, deleteData.title, deleteData.duration, deleteData.price)
+    setMessage("");
+    setShowPopup(false);
+    window.location.href = '/services'
+  }
+
+  const handleCancel = () => {
+    setMessage("");
+    setShowPopup(false);
+  }
+
   return (
     <>
       {isLoading ? (
@@ -57,7 +82,12 @@ const ServiceDisplayCard = ({ username }) => {
                   <div className="service_card-call-duration">
                     <strong>Call duration:</strong> {service.duration} minutes
                   </div>
-                  <button className="edit-button" onClick={() => handleEdit(index)} >Edit</button>
+
+                  <div className="edit-delete-button-container">
+                    <button className="edit-button" onClick={() => handleEdit(index)} >Edit</button>
+                    <button className="edit-button" style={{ backgroundColor: "#FF6347" }} onClick={() => handleDelete(index)} >Delete</button>
+                  </div>
+
                 </div>
               </div>
 
@@ -65,9 +95,19 @@ const ServiceDisplayCard = ({ username }) => {
 
           </div>
           <br />
-
         </>
       )
+      }
+
+      {
+        showpopup && (message !== "") &&
+
+        <Popup
+          message={message}
+          onConfirm={confirmDelete}
+          onCancel={handleCancel}
+          showConfirm={true}
+        />
       }
     </>
   )
