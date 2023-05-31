@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
-import './ServiceForm.css';
+import React, { useState } from 'react'
 import Popup from '../Popup';
-import { createCallService } from '../../../apis/services/callservices';
+import { useLocation } from 'react-router-dom';
+import { updateCallService } from '../../../apis/services/callservices';
 
-const ServiceForm = ({ username }) => {
+const EditCallServiceForm = () => {
 
-    const [title, setTitle] = useState('');
-    const [duration, setDuration] = useState(0);
-    const [price, setPrice] = useState(0);
+    const location = useLocation();
+    const formData = location.state?.formData;
+
+    const [title, setTitle] = useState(formData.title);
+    const [duration, setDuration] = useState(formData.duration);
+    const [price, setPrice] = useState(formData.price);
 
     const [customBool, setCustomBool] = useState(false);
     const [customPriceBool, setCustomPriceBool] = useState(false);
@@ -17,27 +20,17 @@ const ServiceForm = ({ username }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (title === "") {
-            setMessage("Event title is required");
-            setShowPopup(true);
-        }
-        else if (duration === 0) {
-            setMessage("Schedule some time to engage");
+        if (formData.title === title && formData.duration === duration && formData.price === price) {
+            setMessage("No changes done yet");
             setShowPopup(true);
         }
         else {
-            // POST API for services table
-            const { response, data } = await createCallService(username, "EngageCall", title , duration, price);
 
-            if(response.status === 409) {
-                setMessage(data.error);
+            const { response, data } = await updateCallService(formData.username, formData.servicetype, formData.title, formData.duration, formData.price, title, duration, price);
+
+            if (response.status === 200) {
+                setMessage(data.message);
                 setShowPopup(true);
-            }
-            else if (response.status === 200) {
-                window.location.href = '/services'
-            }
-            else {
-                console.log(data.error);
             }
         }
     }
@@ -85,13 +78,18 @@ const ServiceForm = ({ username }) => {
     };
 
     const handleCancel = () => {
+        const updatedMessage = message;
         setMessage("");
         setShowPopup(false);
-    }
+        if (updatedMessage === "Service updated successfully") {
+            window.location.href = '/services'
+        }
+    };
 
     return (
         <>
             <div style={{ color: '#C5C6C7' }} className='form' >
+                <h1>Edit Service</h1>
                 <form>
                     <div className='form-field'>
                         <div className='title-field'>
@@ -99,7 +97,7 @@ const ServiceForm = ({ username }) => {
                             <input
                                 type='text'
                                 id='title'
-                                placeholder='Service Name'
+                                value={title}
                                 onChange={(event) => setTitle(event.target.value)}
                                 required
                             />
@@ -189,7 +187,7 @@ const ServiceForm = ({ username }) => {
                     </div>
                     <div className='division' style={{ width: '100%', maxWidth: '600px', marginLeft: '10px', marginTop: '20px' }}></div>
 
-                    <button className='submit-button' type='submit' onClick={handleSubmit}>Submit</button>
+                    <button className='submit-button' type='submit' onClick={handleSubmit}>Update</button>
                 </form>
             </div>
 
@@ -207,4 +205,4 @@ const ServiceForm = ({ username }) => {
     )
 }
 
-export default ServiceForm
+export default EditCallServiceForm

@@ -9,6 +9,7 @@ import './App.css';
 import { loginAction, logoutAction } from "./redux/actions/Actions.js";
 import { persistor } from "./redux/stores/Store.js";
 import { CreateService, EngageCall, TextQuery } from "../src/pages/services/createService/index.js";
+import EditCallServiceForm from "./components/common/services_cards/EditCallServiceForm.js";
 
 const App = () => {
     const [sidebarVisible, setSidebar] = useState(false);
@@ -50,6 +51,8 @@ const App = () => {
 
                         <Route path="/services/create-service/engage-call" element={<EngageCall sidebarVisible={sidebarVisible} username={username} />} />
                         <Route path="/services/create-service/text-query" element={<TextQuery sidebarVisible={sidebarVisible} />} />
+                        
+                        <Route path="/services/engage-call/edit-service" element={<EditCallServiceForm />} />
                     </Routes>
                 </Router>
             ) : (

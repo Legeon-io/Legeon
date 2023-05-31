@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import './ServiceDisplayCard.css';
 import { getCallService } from '../../../apis/services/callservices';
+import { useNavigate } from 'react-router-dom';
+
 
 const ServiceDisplayCard = ({ username }) => {
 
-  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
+  const [callServiceData, setcallServiceData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [editIndex, setEditIndex] = useState(null);
+  const [editData, setEditData] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       const { response, data } = await getCallService(username);
       if (response.status === 200) {
-        setUserData(data.user);
+        setcallServiceData(data.user);
         setIsLoading(false);
-        console.log(data);
       } else {
         console.log('Internal Server Error, data not received', response.error);
       }
@@ -25,6 +30,13 @@ const ServiceDisplayCard = ({ username }) => {
     return () => clearTimeout(delay);
   }, [username]);
 
+  const handleEdit = (index) => {
+    const dataToEdit = callServiceData[index];
+    setEditIndex(index);
+    setEditData(dataToEdit);
+    navigate('engage-call/edit-service', { state: { formData: dataToEdit } });
+  }
+
   return (
     <>
       {isLoading ? (
@@ -32,7 +44,7 @@ const ServiceDisplayCard = ({ username }) => {
       ) : (
         <>
           <div className='service_cards-container'>
-            {userData.map((service, index) => (
+            {callServiceData.map((service, index) => (
 
               <div className="service_card" key={index}>
                 <div className="service_card-header">
@@ -45,7 +57,7 @@ const ServiceDisplayCard = ({ username }) => {
                   <div className="service_card-call-duration">
                     <strong>Call duration:</strong> {service.duration} minutes
                   </div>
-                  <button className="edit-button">Edit</button>
+                  <button className="edit-button" onClick={() => handleEdit(index)} >Edit</button>
                 </div>
               </div>
 

@@ -20,3 +20,14 @@ export async function getCallService(username) {
 
     return { response, data };
 }
+
+export async function updateCallService(username, servicetype, oldTitle, oldDuration, oldPrice, newTitle, newDuration, newPrice ) {
+    const response = await fetch(`${BASE_URL}/${username}/updateCallService`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ servicetype, oldTitle, oldDuration, oldPrice, newTitle, newDuration, newPrice }),
+    });
+    const data = await response.json();
+
+    return { response, data };
+}
