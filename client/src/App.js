@@ -11,6 +11,7 @@ import { persistor } from "./redux/stores/Store.js";
 import { CreateService, EngageCall, TextQuery } from "../src/pages/services/createService/index.js";
 import EditCallServiceForm from "./components/common/services_cards/EditCallServiceForm.js";
 import UserServices from "./pages/services/user_services/UserServices.js";
+import BookingService from "./pages/services/user_services/BookingService.js";
 
 const App = () => {
     const [sidebarVisible, setSidebar] = useState(false);
@@ -56,6 +57,7 @@ const App = () => {
                         <Route path="/services/engage-call/edit-service" element={<EditCallServiceForm />} />
 
                         <Route path="/:username" element={<UserServices sidebarVisible={sidebarVisible} />} />
+                        <Route path="/:username/service" element={<BookingService sidebarVisible={sidebarVisible} />} />
                     </Routes>
                 </Router>
             ) : (

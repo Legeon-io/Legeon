@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getCallService } from '../../../apis/services/callservices';
 import { getUser } from '../../../apis/users/users.api';
 
 import './UserServices.css'
+import * as MdIcons from 'react-icons/md';
+import * as HiIcons from 'react-icons/hi';
 
 const UserServices = ({ sidebarVisible }) => {
+
+    const navigate = useNavigate();
 
     const { username } = useParams();
     const [callServiceData, setcallServiceData] = useState(null);
@@ -14,6 +18,8 @@ const UserServices = ({ sidebarVisible }) => {
 
     const [showpopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState("");
+
+    const [bookingData, setBookingData] = useState(null);
 
     useEffect(() => {
         async function fetchData() {
@@ -40,7 +46,11 @@ const UserServices = ({ sidebarVisible }) => {
         return () => clearTimeout(delay);
     }, [username]);
 
-
+    const handleBooking = (index) => {
+        const data = callServiceData[index];
+        setBookingData(data);
+        navigate('/:username/service', { state: { bookingData: data } });
+    }
 
     const handleCancel = () => {
         setMessage("");
@@ -57,7 +67,7 @@ const UserServices = ({ sidebarVisible }) => {
 
                     (
                         <>
-                            <div className='service-username'>{username}</div> <br/>
+                            <div className='service-username'>{username}</div> <br />
                             <div className={sidebarVisible ? 'userservices-page move-right' : 'userservices-page'} >
                                 <div className='user-service_cards-container'>
                                     {callServiceData.map((service, index) => (
@@ -65,18 +75,17 @@ const UserServices = ({ sidebarVisible }) => {
                                         <div className="service_card" key={index}>
                                             <div className="service_card-header">
                                                 <h2 className="service_card-title"> {service.title} </h2>
-                                                <div className="service_card-price">Rs. {service.price} /-</div>
+                                                <div className="service_card-price"><HiIcons.HiCurrencyRupee /> {service.price} </div>
                                             </div>
                                             <div className="service_card-body">
                                                 {/* <p className="service_card-description">Description of the service goes here</p> */}
-                                                <p className="service_card-description">{service.servicetype === "EngageCall" ? "1:1 Call" : ""}</p>
+                                                <p className="service_card-description"><MdIcons.MdVideoChat /> {service.servicetype === "EngageCall" ? "1:1 Call" : ""}</p>
                                                 <div className="service_card-call-duration">
                                                     <strong>Call duration:</strong> {service.duration} minutes
                                                 </div>
 
                                                 <div className="edit-delete-button-container">
-                                                    {/* <button className="edit-button" onClick={() => handleEdit(index)} >Edit</button>
-                                                    <button className="edit-button" style={{ backgroundColor: "#FF6347" }} onClick={() => handleDelete(index)} >Delete</button> */}
+                                                    <button className="booking-button" onClick={() => handleBooking(index)} >Book your slots</button>
                                                 </div>
 
                                             </div>
@@ -85,9 +94,10 @@ const UserServices = ({ sidebarVisible }) => {
                                     ))}
 
                                 </div>
-                                <br />
 
                             </div>
+                            <br />
+                            <br />
                         </>
                     )
                     :
