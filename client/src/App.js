@@ -10,6 +10,7 @@ import { loginAction, logoutAction } from "./redux/actions/Actions.js";
 import { persistor } from "./redux/stores/Store.js";
 import { CreateService, EngageCall, TextQuery } from "../src/pages/services/createService/index.js";
 import EditCallServiceForm from "./components/common/services_cards/EditCallServiceForm.js";
+import UserServices from "./pages/services/user_services/UserServices.js";
 
 const App = () => {
     const [sidebarVisible, setSidebar] = useState(false);
@@ -53,12 +54,15 @@ const App = () => {
                         <Route path="/services/create-service/text-query" element={<TextQuery sidebarVisible={sidebarVisible} />} />
                         
                         <Route path="/services/engage-call/edit-service" element={<EditCallServiceForm />} />
+
+                        <Route path="/:username" element={<UserServices sidebarVisible={sidebarVisible} />} />
                     </Routes>
                 </Router>
             ) : (
                 <Router>
                     <Routes>
                         <Route exact path="/" element={<Login handleLogin={handleLogin} />} />
+                        <Route path="/:username" element={<UserServices sidebarVisible={sidebarVisible} />} />
                     </Routes>
                 </Router>
             )

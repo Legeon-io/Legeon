@@ -32,7 +32,7 @@ const ServiceDisplayCard = ({ username }) => {
     const delay = setTimeout(() => {
       fetchData();
     }, 200);
-
+    
     return () => clearTimeout(delay);
   }, [username]);
 
