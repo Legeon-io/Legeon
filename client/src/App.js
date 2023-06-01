@@ -3,11 +3,14 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import { useSelector, useDispatch } from "react-redux";
 
 import { Navbar } from "./components/layout/index.js";
-import { Login, Dashboard, Engage, Bookings, Earnings, Profile, Community, About, Support, Feedback } from './pages/index.js';
+import { Login, Dashboard, Services, Bookings, Earnings, Profile, Community, About, Support, Feedback } from './pages/index.js';
 
 import './App.css';
 import { loginAction, logoutAction } from "./redux/actions/Actions.js";
 import { persistor } from "./redux/stores/Store.js";
+import { CreateService, EngageCall, TextQuery } from "../src/pages/services/createService/index.js";
+import EditCallServiceForm from "./components/common/services_cards/EditCallServiceForm.js";
+import UserServices from "./pages/services/user_services/UserServices.js";
 
 const App = () => {
     const [sidebarVisible, setSidebar] = useState(false);
@@ -36,7 +39,7 @@ const App = () => {
                         <Route exact path="/" element={<Navigate to='/dashboard' />} />
 
                         <Route path="/dashboard" element={<Dashboard sidebarVisible={sidebarVisible} />} />
-                        <Route path="/engage" element={<Engage sidebarVisible={sidebarVisible} />} />
+                        <Route path="/services" element={<Services sidebarVisible={sidebarVisible} username={username} />} />
                         <Route path="/bookings" element={<Bookings sidebarVisible={sidebarVisible} />} />
                         <Route path="/earnings" element={<Earnings sidebarVisible={sidebarVisible} />} />
                         <Route path="/profile" element={<Profile sidebarVisible={sidebarVisible} username={username}/>} />
@@ -44,12 +47,22 @@ const App = () => {
                         <Route path="/about" element={<About sidebarVisible={sidebarVisible} />} />
                         <Route path="/support" element={<Support sidebarVisible={sidebarVisible} />} />
                         <Route path="/feedback" element={<Feedback sidebarVisible={sidebarVisible} />} />
+
+                        <Route path="/services/create-service" element={<CreateService sidebarVisible={sidebarVisible} username={username} />} />
+
+                        <Route path="/services/create-service/engage-call" element={<EngageCall sidebarVisible={sidebarVisible} username={username} />} />
+                        <Route path="/services/create-service/text-query" element={<TextQuery sidebarVisible={sidebarVisible} />} />
+                        
+                        <Route path="/services/engage-call/edit-service" element={<EditCallServiceForm />} />
+
+                        <Route path="/:username" element={<UserServices sidebarVisible={sidebarVisible} />} />
                     </Routes>
                 </Router>
             ) : (
                 <Router>
                     <Routes>
                         <Route exact path="/" element={<Login handleLogin={handleLogin} />} />
+                        <Route path="/:username" element={<UserServices sidebarVisible={sidebarVisible} />} />
                     </Routes>
                 </Router>
             )
