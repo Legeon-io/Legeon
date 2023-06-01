@@ -1,10 +1,11 @@
 import React from 'react'
 import './Earnings.css';
+import '../index.css'
 
 export const Earnings = ({sidebarVisible}) => {
 
   return (
-    <div className={sidebarVisible ? 'earnings move-right' : 'earnings'} >
+    <div className={sidebarVisible ? 'page move-right' : 'page'} >
       Earnings
     </div>
   )

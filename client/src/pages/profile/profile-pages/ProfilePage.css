@@ -12,7 +12,7 @@
 }
 
 .card-container {
-  background-color: #fff;
+  background-image: linear-gradient(to bottom right, #4f7cac, #f8f4e3);
   border-radius: 5px;
   box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.2);
   padding: 20px;
@@ -45,7 +45,6 @@
   margin: 0;
   font-size: 1.8rem;
   font-weight: 700;
-  color: #333;
   display: flex;
 }
 
@@ -53,15 +52,18 @@
   margin: 0;
   font-size: 1.2rem;
   font-weight: 500;
-  color: #666;
+  color: black;
   margin-top: 40px;
   display: flex;
 }
 
 .card-bio {
   margin: 0;
-  font-size: 1.4rem;
-  color: #333;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: black;
+  margin-top: 40px;
+  display: flex;
 }
 
 .input-field {
@@ -70,8 +72,9 @@
   display: flex;
 }
 
-textarea {
+.textarea {
   padding: 10px;
+  border-radius: 5px;
 }
 
 .bio {

@@ -15,8 +15,8 @@ export const Sidebar = [
     cName: 'nav-text'
   },
   {
-    title: 'Engage',
-    path: '/engage',
+    title: 'Services',
+    path: '/services',
     icon: <MdIcons.MdVideoChat />,
     cName: 'nav-text'
   },

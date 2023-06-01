@@ -1,0 +1,76 @@
+.service_cards-container {
+  background: linear-gradient(45deg, #49cdc0, #2e86de);
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 60%;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.service_card {
+  width: 80%;
+  max-width: 600px;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(to bottom right, #fff, #e6e6e6);
+  transition: transform 0.5s;
+}
+
+.service_card:hover {
+  opacity: 0.9;
+  background-color: rgb(175, 110, 147);
+}
+
+.service_card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.service_card-title {
+  margin: 0;
+}
+
+.service_card-price {
+  font-size: 1.2rem;
+}
+
+.service_card-body {
+  margin-top: 20px;
+}
+
+.service_card-description {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.service_card-call-duration {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.edit-button {
+  margin-top: 20px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2ecc71;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  opacity: 0.8;
+  color: black;
+}
+
+
+.edit-delete-button-container {
+  display: flex;
+  gap: 10px;
+}

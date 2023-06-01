@@ -160,7 +160,7 @@ const Login = ({ handleLogin }) => {
                 required
               />
             </div>
-            { !isSignUp &&
+            {!isSignUp &&
               <div className="inputWrapper">
                 <span
                   className={errorMessage !== "" ? "passwordVisibilityIcon-moveDown" : `passwordVisibilityIcon ${passwordVisible ? "visible" : "hidden"}`}
@@ -170,7 +170,7 @@ const Login = ({ handleLogin }) => {
               </div>
             }
 
-            { isSignUp &&
+            {isSignUp &&
               <div className="inputWrapper">
                 <span
                   className={errorMessage !== "" ? "signupPasswordVisibilityIcon-moveDown" : `signupPasswordVisibilityIcon ${passwordVisible ? "visible" : "hidden"}`}
@@ -207,9 +207,11 @@ const Login = ({ handleLogin }) => {
 
             {isSignUp ? (
               <>
-                <button type="submit" className="button signUp">
-                  Sign Up
-                </button>
+                <div className="signup-container">
+                  <button type="submit" className="button signUp">
+                    Sign Up
+                  </button>
+                </div>
                 <div className="alreadyHaveAccountWrapper">
                   <span>Already have an account?</span>
                   <button type="submit" onClick={toggleSignUp} className="button signIn">
@@ -223,9 +225,11 @@ const Login = ({ handleLogin }) => {
                 <button type="submit" className="button signIn">
                   Sign In
                 </button>
-                <button type="submit" onClick={toggleSignUp} className="button signUp">
-                  Sign Up
-                </button>
+                <div className="signup-container">
+                  <button type="submit" onClick={toggleSignUp} className="button signUp">
+                    Sign Up
+                  </button>
+                </div>
               </>
             )}
             {/* {!isSignUp && (

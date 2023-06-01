@@ -87,10 +87,10 @@ export const Profile = (props) => {
   return (
     <>
       {isLoading ? (
-        <p className='loading'>Engaging...</p>
+        <p className='loading' style={{background: 'linear-gradient(to right, #0B0C10, #1F2833)'}} >Engaging...</p>
       ) : (
         <>
-          <div className={props.sidebarVisible ? 'profile move-right' : 'profile'} >
+          <div className={props.sidebarVisible ? 'page move-right' : 'page'} >
             <div className='button-container'>
               <span className='profile-span'>
                 <button className={activeTab === "profilepage" ? "active" : ""} onClick={() => handleTabToChange("profilepage")}>
@@ -102,9 +102,8 @@ export const Profile = (props) => {
                   Account
                 </button>
               </span>
-
-
             </div>
+            
             <span className='save-span'>
               <button className="save-button" onClick={handleSubmit}>
                 Save Changes
