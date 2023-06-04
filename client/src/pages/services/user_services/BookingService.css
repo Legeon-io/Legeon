@@ -74,12 +74,12 @@
   }
   
   .service-title {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     color: #333;
     align-items: center;
     justify-content: center;
-    margin-left: 20px;
+    margin-left: 0px;
   }
   
   .user-profile {
@@ -107,8 +107,9 @@
     grid-column: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
   }
   
   .info-row {
