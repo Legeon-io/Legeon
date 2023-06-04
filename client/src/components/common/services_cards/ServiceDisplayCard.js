@@ -43,7 +43,7 @@ const ServiceDisplayCard = ({ username }) => {
     const dataToEdit = callServiceData[index];
     setEditIndex(index);
     setEditData(dataToEdit);
-    navigate('engage-call/edit-service', { state: { formData: dataToEdit } });
+    navigate(`engage-call/edit-service/${dataToEdit._id}`, { state: { formData: dataToEdit } });
   }
 
   const handleDelete = (index) => {

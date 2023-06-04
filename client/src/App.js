@@ -43,7 +43,7 @@ const App = () => {
                         <Route path="/services" element={<Services sidebarVisible={sidebarVisible} username={username} />} />
                         <Route path="/bookings" element={<Bookings sidebarVisible={sidebarVisible} />} />
                         <Route path="/earnings" element={<Earnings sidebarVisible={sidebarVisible} />} />
-                        <Route path="/profile" element={<Profile sidebarVisible={sidebarVisible} username={username}/>} />
+                        <Route path="/profile" element={<Profile sidebarVisible={sidebarVisible} username={username} />} />
                         <Route path="/community" element={<Community sidebarVisible={sidebarVisible} />} />
                         <Route path="/about" element={<About sidebarVisible={sidebarVisible} />} />
                         <Route path="/support" element={<Support sidebarVisible={sidebarVisible} />} />
@@ -53,11 +53,11 @@ const App = () => {
 
                         <Route path="/services/create-service/engage-call" element={<EngageCall sidebarVisible={sidebarVisible} username={username} />} />
                         <Route path="/services/create-service/text-query" element={<TextQuery sidebarVisible={sidebarVisible} />} />
-                        
-                        <Route path="/services/engage-call/edit-service" element={<EditCallServiceForm />} />
+
+                        <Route path="/services/engage-call/edit-service/:id" element={<EditCallServiceForm username={username} />} />
 
                         <Route path="/:username" element={<UserServices sidebarVisible={sidebarVisible} />} />
-                        <Route path="/:username/service" element={<BookingService sidebarVisible={sidebarVisible} />} />
+                        <Route path="/:username/:title/:id/service" element={<BookingService />} />
                     </Routes>
                 </Router>
             ) : (
@@ -65,6 +65,7 @@ const App = () => {
                     <Routes>
                         <Route exact path="/" element={<Login handleLogin={handleLogin} />} />
                         <Route path="/:username" element={<UserServices sidebarVisible={sidebarVisible} />} />
+                        <Route path="/:username/service/:title" element={<BookingService sidebarVisible={sidebarVisible} />} />
                     </Routes>
                 </Router>
             )

@@ -49,7 +49,7 @@ const UserServices = ({ sidebarVisible }) => {
     const handleBooking = (index) => {
         const data = callServiceData[index];
         setBookingData(data);
-        navigate('/:username/service', { state: { bookingData: data } });
+        navigate(`/${username}/${data.title}/${data._id}/service`, { state: { bookingData: data } });
     }
 
     const handleCancel = () => {

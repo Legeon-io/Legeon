@@ -39,6 +39,7 @@
   display: flex;
   font-size: 1.2rem;
   gap: 5px;
+  margin-top: 10px;
 }
 
 .service_card-price svg {
