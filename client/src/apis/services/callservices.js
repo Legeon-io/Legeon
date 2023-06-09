@@ -42,3 +42,13 @@ export async function deleteCallService(username, servicetype, title, duration, 
 
     return { response, data };
 }
+
+export async function getCallServiceById(username, id) {
+    const response = await fetch(`${BASE_URL}/${username}/${id}/getCallServiceById`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+
+    return { response, data };
+}

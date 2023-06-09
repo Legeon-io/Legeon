@@ -4,6 +4,9 @@ import { deleteCallService, getCallService } from '../../../apis/services/callse
 import { useNavigate } from 'react-router-dom';
 import Popup from '../Popup';
 
+import * as MdIcons from 'react-icons/md';
+import * as HiIcons from 'react-icons/hi';
+
 
 const ServiceDisplayCard = ({ username }) => {
 
@@ -40,7 +43,7 @@ const ServiceDisplayCard = ({ username }) => {
     const dataToEdit = callServiceData[index];
     setEditIndex(index);
     setEditData(dataToEdit);
-    navigate('engage-call/edit-service', { state: { formData: dataToEdit } });
+    navigate(`engage-call/edit-service/${dataToEdit._id}`, { state: { formData: dataToEdit } });
   }
 
   const handleDelete = (index) => {
@@ -74,11 +77,11 @@ const ServiceDisplayCard = ({ username }) => {
               <div className="service_card" key={index}>
                 <div className="service_card-header">
                   <h2 className="service_card-title"> {service.title} </h2>
-                  <div className="service_card-price">Rs. {service.price} /-</div>
+                  <div className="service_card-price"><HiIcons.HiCurrencyRupee /> {service.price} </div>
                 </div>
                 <div className="service_card-body">
                   {/* <p className="service_card-description">Description of the service goes here</p> */}
-                  <p className="service_card-description">{service.servicetype === "EngageCall" ? "1:1 Call" : ""}</p>
+                  <p className="service_card-description"><MdIcons.MdVideoChat /> {service.servicetype === "EngageCall" ? "1:1 Call" : ""}</p>
                   <div className="service_card-call-duration">
                     <strong>Call duration:</strong> {service.duration} minutes
                   </div>

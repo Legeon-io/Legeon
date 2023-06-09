@@ -36,7 +36,14 @@
 }
 
 .service_card-price {
+  display: flex;
   font-size: 1.2rem;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.service_card-price svg {
+  margin-top: 1px;
 }
 
 .service_card-body {
@@ -46,6 +53,12 @@
 .service_card-description {
   margin: 0;
   font-size: 1.1rem;
+  display: flex;
+  gap: 5px;
+}
+
+.service_card-description svg {
+  margin-top: 3px;
 }
 
 .service_card-call-duration {
@@ -62,6 +75,7 @@
   color: #fff;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .edit-button:hover {
