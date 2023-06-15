@@ -6,6 +6,7 @@ import logo from '../../../assets/logo.png'
 
 import * as MdIcons from 'react-icons/md';
 import { getCallServiceById } from '../../../apis/services/callservices';
+import { schedule_event } from '../../../apis/bookings/calendar';
 
 const BookingService = () => {
   const { username, title, id } = useParams();
@@ -29,6 +30,28 @@ const BookingService = () => {
 
     return () => clearTimeout(delay);
   }, [username]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const authUrl = 'http://localhost:8000/google';
+
+    const windowFeatures = 'width=600,height=600,top=100,left=100';
+    const popupWindow = window.open(authUrl, 'AuthWindow', windowFeatures);
+
+    const checkPopupClosed = setInterval(() => {
+      if (popupWindow.closed) {
+        clearInterval(checkPopupClosed);
+        // Perform actions after pop-up window is closed
+        // For example, make an API request to complete the process
+        schedule_event();
+      }
+    }, 1000);
+  };
+
+
+
+
 
   return (
     <>
@@ -76,7 +99,7 @@ const BookingService = () => {
                 </div>
               </div>
 
-              <button className="book-button">Confirm Booking</button>
+              <button className="book-button" onClick={handleSubmit}>Confirm Booking</button>
             </div>
             <br />
           </div>

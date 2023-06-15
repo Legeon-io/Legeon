@@ -7,6 +7,6 @@ const router = express.Router();
 // Create call servive
 router.get('/google', googleAuthUrl);
 router.get('/google/redirect', googleRedirect);
-router.get('/google/schedule_event', scheduleEvent);
+router.post('/schedule_event', scheduleEvent);
 
 export default router;

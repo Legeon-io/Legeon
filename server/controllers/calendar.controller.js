@@ -22,7 +22,6 @@ const scopes = [
 ];
 
 export const googleAuthUrl = (req, res) => {
-    console.log("Hi I came here buddy")
     const url = oauth2Client.generateAuthUrl({
         access_type: "offline",
         scope: scopes
@@ -40,6 +39,7 @@ export const googleRedirect = async (req, res) => {
     res.send({
         message: "You have successfully logged in",
     });
+
 };
 
 export const scheduleEvent = async (req, res) => {
@@ -50,34 +50,34 @@ export const scheduleEvent = async (req, res) => {
         requestBody: {
             summary: "USA Discussion",
             start: {
-                dateTime: "2023-06-14T10:00:00+05:30"
+                dateTime: "2023-06-14T10:00:00+05:30",
             },
             end: {
-                dateTime: "2023-06-14T11:00:00+05:30"
+                dateTime: "2023-06-14T11:00:00+05:30",
             },
             organizer: {
                 email: "organizer@example.com",
-                displayName: "Organizer Name"
+                displayName: "Organizer Name",
             },
             attendees: [
-                { email: "example@gmail.com" }
+                { email: "example@gmail.com" },
             ],
             reminders: {
                 useDefault: false,
                 overrides: [
-                    { method: "email", "minutes": 30 },
-                    { method: "popup", "minutes": 10 }
-                ]
+                    { method: "email", minutes: 30 },
+                    { method: "popup", minutes: 10 },
+                ],
             },
             conferenceData: {
                 createRequest: {
                     requestId: uuid(),
                     conferenceSolutionKey: {
-                        type: "hangoutsMeet"
-                    }
-                }
-            }
-        }
+                        type: "hangoutsMeet",
+                    },
+                },
+            },
+        },
     });
 
     res.send({

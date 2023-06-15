@@ -1,19 +1,9 @@
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "http://localhost:8080/api/events";
 
-export async function googleAuthUrl() {
+export async function schedule_event() {
     console.log("Inside");
-    const response = await fetch(`${BASE_URL}/google`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-    });
-    const data = await response.json();
-
-    return { response, data };
-}
-
-export async function googleRedirectUrl() {
-    const response = await fetch(`${BASE_URL}/google/redirect`, {
-        method: "GET",
+    const response = await fetch(`${BASE_URL}/schedule_event`, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
     });
     const data = await response.json();

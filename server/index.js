@@ -7,6 +7,7 @@ import userRouter from './routes/users.routes.js';
 import userProfileRouter from './routes/userprofiles.routes.js'
 import callServicesRouter from './routes/callservices.routes.js'
 import calendarRouter from './routes/calendar.routes.js';
+import { scheduleEvent } from './controllers/calendar.controller.js';
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ app.use('/api/callservices', callServicesRouter);
 
 app.get('/google', calendarRouter);
 app.get('/google/redirect', calendarRouter);
-app.get('/google/schedule_event', calendarRouter);
+app.use('/api/events', scheduleEvent);
 
 const startServer = async () => {
     try {
