@@ -57,7 +57,7 @@ const App = () => {
                         <Route path="/services/engage-call/edit-service/:id" element={<EditCallServiceForm username={username} />} />
 
                         <Route path="/:username" element={<UserServices sidebarVisible={sidebarVisible} />} />
-                        <Route path="/:username/:title/:id/service" element={<BookingService />} />
+                        <Route path="/:username/:title/:id/service" element={<BookingService sidebarVisible={sidebarVisible} />} />
                     </Routes>
                 </Router>
             ) : (
