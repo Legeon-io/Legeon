@@ -1,6 +1,7 @@
 import Dashboard from "./dashboard/Dashboard.js";
 import Services from "./services/Services.js";
 import Bookings from "./bookings/Bookings.js";
+import Payments from "./payments/Payments.js";
 import Earnings from "./earnings/Earnings.js";
 import Profile from "./profile/Profile.js";
 import Community from "./community/Community.js";
@@ -16,6 +17,7 @@ export {
     Dashboard,
     Services,
     Bookings,
+    Payments,
     Earnings,
     Profile,
     Community,
