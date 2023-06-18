@@ -35,7 +35,7 @@ const ServiceDisplayCard = ({ username }) => {
     const delay = setTimeout(() => {
       fetchData();
     }, 200);
-    
+
     return () => clearTimeout(delay);
   }, [username]);
 
@@ -77,7 +77,10 @@ const ServiceDisplayCard = ({ username }) => {
               <div className="service_card" key={index}>
                 <div className="service_card-header">
                   <h2 className="service_card-title"> {service.title} </h2>
-                  <div className="service_card-price"><HiIcons.HiCurrencyRupee /> {service.price} </div>
+                  <div className="service_card-price" >
+                    {service.price !== 0 && <HiIcons.HiCurrencyRupee />}
+                    {service.price === 0 ? "Free" : service.price}
+                  </div>
                 </div>
                 <div className="service_card-body">
                   {/* <p className="service_card-description">Description of the service goes here</p> */}
