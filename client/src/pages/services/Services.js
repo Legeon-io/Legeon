@@ -5,6 +5,7 @@ import '../index.css'
 import { Link } from 'react-router-dom';
 import ServiceDisplayCard from '../../components/common/services_cards/ServiceDisplayCard';
 import { useSelector } from 'react-redux';
+import * as IoIcons from 'react-icons/io';
 
 
 export const Services = ({ sidebarVisible }) => {
@@ -22,7 +23,8 @@ export const Services = ({ sidebarVisible }) => {
           <span className='add-services'>
             <Link to='/services/create-service' style={{ textDecoration: 'none' }} >
               <button className='services'>
-                + Add Services
+                <IoIcons.IoMdCreate className="icon" />
+                <span className="text">Create Service</span>
               </button>
             </Link>
           </span>
