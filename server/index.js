@@ -7,6 +7,7 @@ import userRouter from './routes/users.routes.js';
 import userProfileRouter from './routes/userprofiles.routes.js'
 import callServicesRouter from './routes/callservices.routes.js'
 import calendarRouter from './routes/calendar.routes.js';
+import paymentsRouter from './routes/payments.routes.js';
 import { scheduleEvent } from './controllers/calendar.controller.js';
 
 import path from 'path';
@@ -38,6 +39,8 @@ app.use('/api/callservices', callServicesRouter);
 app.get('/google', calendarRouter);
 app.get('/google/redirect', calendarRouter);
 app.use('/api/events', scheduleEvent);
+
+app.use('/api/payments/razorpay', paymentsRouter);
 
 const startServer = async () => {
     try {

@@ -4,6 +4,7 @@ import '../index.css';
 import { useSelector } from 'react-redux';
 
 import * as BsIcons from 'react-icons/bs';
+import { verifyIFSC } from '../../apis/payments/razorpay.apis';
 
 export const Payments = ({ sidebarVisible }) => {
   const username = useSelector((state) => state.session.username);
@@ -11,8 +12,8 @@ export const Payments = ({ sidebarVisible }) => {
   const [accountHolderName, setAccountHolderName] = useState('');
   const [ifscCode, setIfscCode] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
-
   const [showForm, setShowForm] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleAccountTypeChange = (event) => {
     setAccountType(event.target.value);
@@ -30,11 +31,27 @@ export const Payments = ({ sidebarVisible }) => {
     setAccountNumber(event.target.value);
   };
 
-  const handleForm = () => {
+  const handleForm = async () => {
     console.log(accountType);
     console.log(accountHolderName);
     console.log(ifscCode);
     console.log(accountNumber);
+
+    const { response, data } = await verifyIFSC(ifscCode)
+    if(response.status != 200) {
+      setErrorMessage('IFSC Code is invalid');
+    }
+    else if(accountHolderName === "") {
+      setErrorMessage("Enter Account Holder Name");
+    }
+    else if(accountNumber === "") {
+      setErrorMessage("Enter Account Number");
+    }
+    else {
+      console.log("Success");
+      setErrorMessage("");
+      // Make api call to store the encrypted data in database
+    }
   }
 
   const toggleForm = () => {
@@ -65,6 +82,11 @@ export const Payments = ({ sidebarVisible }) => {
         {showForm && (
           <div className="popup-form">
             <h2>Enter Payout Details</h2>
+            {errorMessage && ( // Show alert message if error message is not empty
+            <div className="alert alert-danger" role="alert">
+              {errorMessage}
+            </div>
+          )}
             <form>
               <div className="payments-account-type">
                 <label htmlFor="accountType">Account Type:</label>
