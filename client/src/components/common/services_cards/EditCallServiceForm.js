@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Popup from '../Popup';
 import { useParams } from 'react-router-dom';
 import { getCallServiceById, updateCallService } from '../../../apis/services/callservices';
+import { useSelector } from 'react-redux';
 
-const EditCallServiceForm = ({ username }) => {
+const EditCallServiceForm = () => {
+    const username = useSelector((state) => state.session.username);
     const [formData, setFormData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [title, setTitle] = useState("");
@@ -13,7 +15,6 @@ const EditCallServiceForm = ({ username }) => {
 
     useEffect(() => {
         async function fetchData() {
-            console.log(id);
             const { response, data } = await getCallServiceById(username, id);
             if (response.status === 200) {
                 setFormData(data.user);
@@ -30,7 +31,7 @@ const EditCallServiceForm = ({ username }) => {
         }, 200);
 
         return () => clearTimeout(delay);
-    }, [username]);
+    }, [username, id]);
 
     
 

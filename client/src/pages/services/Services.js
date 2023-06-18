@@ -4,9 +4,11 @@ import '../index.css'
 
 import { Link } from 'react-router-dom';
 import ServiceDisplayCard from '../../components/common/services_cards/ServiceDisplayCard';
+import { useSelector } from 'react-redux';
 
 
-export const Services = ({ sidebarVisible, username }) => {
+export const Services = ({ sidebarVisible }) => {
+  const username = useSelector((state) => state.session.username);
 
   return (
     <>

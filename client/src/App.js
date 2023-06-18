@@ -40,22 +40,22 @@ const App = () => {
                         <Route exact path="/" element={<Navigate to='/dashboard' />} />
 
                         <Route path="/dashboard" element={<Dashboard sidebarVisible={sidebarVisible} />} />
-                        <Route path="/services" element={<Services sidebarVisible={sidebarVisible} username={username} />} />
+                        <Route path="/services" element={<Services sidebarVisible={sidebarVisible} />} />
                         <Route path="/bookings" element={<Bookings sidebarVisible={sidebarVisible} />} />
                         <Route path="/payments" element={<Payments sidebarVisible={sidebarVisible} />} />
                         <Route path="/earnings" element={<Earnings sidebarVisible={sidebarVisible} />} />
-                        <Route path="/profile" element={<Profile sidebarVisible={sidebarVisible} username={username} />} />
+                        <Route path="/profile" element={<Profile sidebarVisible={sidebarVisible} />} />
                         <Route path="/community" element={<Community sidebarVisible={sidebarVisible} />} />
                         <Route path="/about" element={<About sidebarVisible={sidebarVisible} />} />
                         <Route path="/support" element={<Support sidebarVisible={sidebarVisible} />} />
                         <Route path="/feedback" element={<Feedback sidebarVisible={sidebarVisible} />} />
 
-                        <Route path="/services/create-service" element={<CreateService sidebarVisible={sidebarVisible} username={username} />} />
+                        <Route path="/services/create-service" element={<CreateService sidebarVisible={sidebarVisible} />} />
 
-                        <Route path="/services/create-service/engage-call" element={<EngageCall sidebarVisible={sidebarVisible} username={username} />} />
+                        <Route path="/services/create-service/engage-call" element={<EngageCall sidebarVisible={sidebarVisible} />} />
                         <Route path="/services/create-service/text-query" element={<TextQuery sidebarVisible={sidebarVisible} />} />
 
-                        <Route path="/services/engage-call/edit-service/:id" element={<EditCallServiceForm username={username} />} />
+                        <Route path="/services/engage-call/edit-service/:id" element={<EditCallServiceForm />} />
 
                         <Route path="/:username" element={<UserServices sidebarVisible={sidebarVisible} />} />
                         <Route path="/:username/:title/:id/service" element={<BookingService sidebarVisible={sidebarVisible} />} />
