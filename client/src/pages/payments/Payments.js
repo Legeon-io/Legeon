@@ -37,8 +37,8 @@ export const Payments = ({ sidebarVisible }) => {
     console.log(ifscCode);
     console.log(accountNumber);
 
-    const { response, data } = await verifyIFSC(ifscCode)
-    if(response.status != 200) {
+    const { response } = await verifyIFSC(ifscCode)
+    if(response.status !== 200) {
       setErrorMessage('IFSC Code is invalid');
     }
     else if(accountHolderName === "") {
