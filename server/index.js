@@ -9,6 +9,7 @@ import callServicesRouter from './routes/callservices.routes.js'
 import calendarRouter from './routes/calendar.routes.js';
 import paymentsRouter from './routes/payments.routes.js';
 import { scheduleEvent } from './controllers/calendar.controller.js';
+import keysRouter from './routes/keys.routes.js';
 
 import path from 'path';
 
@@ -41,6 +42,9 @@ app.get('/google/redirect', calendarRouter);
 app.use('/api/events', scheduleEvent);
 
 app.use('/api/payments/razorpay', paymentsRouter);
+
+
+app.use('/api/masterkeys', keysRouter);
 
 const startServer = async () => {
     try {
