@@ -1,11 +1,11 @@
 import express from 'express';
 
-import { getEncryptedMasterKey, getDecryptedMasterKey } from '../controllers/masterkeys.controller.js';
+import { getDecryptedMasterKey, getEncryptedMasterKey } from '../controllers/masterkeys.controller.js';
 
 const router = express.Router();
 
 // Create call servive
-router.post('/get-master-key', getEncryptedMasterKey);
-router.post('/get-decrypted-master-key', getDecryptedMasterKey);
+router.post('/encryptMasterKey', getEncryptedMasterKey);
+router.post('/decryptMasterKey', getDecryptedMasterKey);
 
 export default router;

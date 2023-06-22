@@ -1,4 +1,5 @@
 import MasterKeys from '../mongodb/models/masterkeys.js';
+import HSM from '../mongodb/models/hsm-client.js';
 import crypto from 'crypto';
 import passwordGenerator from 'password-generator';
 
@@ -17,7 +18,7 @@ const encryptKey = (key, encryptionPassword) => {
     };
 };
 
-const generateStrongPassword = () => {
+const generateStrongPassword = (username) => {
     const length = 32; // Desired length of the password
     const options = {
         uppercase: true,
@@ -25,7 +26,8 @@ const generateStrongPassword = () => {
         symbols: true
     };
 
-    return passwordGenerator(length, options);
+    const password = passwordGenerator(length, options);
+    return password;
 };
 
 const decryptKey = (encryptedKey, encryptionPassword, iv) => {
@@ -43,18 +45,18 @@ export const getEncryptedMasterKey = async (req, res) => {
         const existingKey = await MasterKeys.findOne({ username });
 
         if (existingKey) {
-            const { encryptedKey, encryptionPassword } = existingKey;
-            res.status(200).json({ encryptedKey, encryptionPassword });
+            const { encryptedKey } = existingKey;
+            res.status(200).json({ message: "Encrypted master key exists" });
             return;
         }
 
         // Generate a new master key and encrypt it
-        const encryptionPassword = generateStrongPassword();
+        const encryptionPassword = generateStrongPassword(username);
         // console.log("enc pass = ", encryptionPassword);
         const salt = crypto.randomBytes(16).toString("hex");
         // console.log("salt = ", salt);
         const masterKey = generateMasterKey(encryptionPassword, salt);
-        console.log("master = ", masterKey);
+        // console.log("master = ", masterKey);
         const { encryptedKey, iv } = encryptKey(masterKey, encryptionPassword);
         // console.log("enc master = ", encryptedKey);
 
@@ -62,12 +64,17 @@ export const getEncryptedMasterKey = async (req, res) => {
         const masterKeyEntry = new MasterKeys({
             username: username,
             encryptedKey: encryptedKey,
-            encryptionPassword: encryptionPassword,
             iv: iv,
         });
 
+        const hsmEntry = new HSM({
+            username: username,
+            encryptionPassword: encryptionPassword,
+        })
+
         await masterKeyEntry.save();
-        res.status(201).json({ encryptedKey, encryptionPassword });
+        await hsmEntry.save();
+        res.status(201).json({ message: "Encrypted master key is created successfully" });
     } catch (error) {
         console.error("Error storing encrypted master key in MongoDB:", error);
         res.status(500).json({ error: "Internal Server Error" });
@@ -86,13 +93,21 @@ export const getDecryptedMasterKey = async (req, res) => {
             return;
         }
 
-        const { encryptedKey, encryptionPassword, iv } = existingKey;
+        const existingHSM = await HSM.findOne({ username });
+        if (!existingHSM) {
+            res.status(404).json({ error: "Encryption password not found" });
+            return;
+        }
+
+
+        const { encryptedKey, iv } = existingKey;
+        const { encryptionPassword } = existingHSM;
 
         // Decrypt the master key
         const decryptedKey = decryptKey(encryptedKey, encryptionPassword, iv);
-        console.log("dec = ", decryptedKey);
+        // console.log("dec = ", decryptedKey);
 
-        res.status(200).json({ decryptedKey });
+        res.status(200).json({ message: "Decryption is successful", decryptedKey: decryptedKey });
     } catch (error) {
         console.error("Error decrypting master key:", error);
         res.status(500).json({ error: "Internal Server Error" });
