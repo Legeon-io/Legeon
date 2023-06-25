@@ -42,6 +42,7 @@ app.get('/google/redirect', calendarRouter);
 app.use('/api/events', scheduleEvent);
 
 app.use('/api/payments/razorpay', paymentsRouter);
+app.use('/api/accounts', paymentsRouter);
 
 
 app.use('/api/masterkeys', keysRouter);
@@ -50,7 +51,7 @@ const startServer = async () => {
     try {
         connectDB(process.env.MONGODB_URL);
 
-        app.listen(8080, () => console.log('Database server started on http://localhost:8080')); // Database url
+        app.listen(8080, () => console.log('Database server started on', process.env.DATABASE_SERVER_URL)); // Database url
         app.listen(8000, () => console.log('Google services started on http://localhost:8000')); // Google url
 
     } catch (error) {

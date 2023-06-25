@@ -2,6 +2,7 @@ import MasterKeys from '../mongodb/models/masterkeys.js';
 import HSM from '../mongodb/models/hsm-client.js';
 import crypto from 'crypto';
 import passwordGenerator from 'password-generator';
+import axios from 'axios';
 
 const generateMasterKey = (encryptionPassword, salt) => {
     const key = crypto.pbkdf2Sync(encryptionPassword, salt, 100000, 32, "sha256");
@@ -74,7 +75,7 @@ export const getEncryptedMasterKey = async (req, res) => {
 
         await masterKeyEntry.save();
         await hsmEntry.save();
-        res.status(201).json({ message: "Encrypted master key is created successfully" });
+        res.status(201).json({ message: "Encrypted master key is created successfully", masterKey });
     } catch (error) {
         console.error("Error storing encrypted master key in MongoDB:", error);
         res.status(500).json({ error: "Internal Server Error" });
@@ -89,7 +90,9 @@ export const getDecryptedMasterKey = async (req, res) => {
         const existingKey = await MasterKeys.findOne({ username });
 
         if (!existingKey) {
-            res.status(404).json({ error: "Encrypted master key not found" });
+            // Trigger the getEncryptedMasterKey API to generate the encrypted master key
+            const response = await axios.post(`${process.env.DATABASE_SERVER_URL}/api/masterkeys/encryptMasterKey`, { username });
+            res.status(200).json({ message: "Encryption is successful and created", decryptedKey: response.data.masterKey });
             return;
         }
 
