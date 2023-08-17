@@ -5,8 +5,10 @@ import { AccountPage, ProfilePage } from './profile-pages';
 import { getUser, updateUser } from '../../apis/users/users.api';
 import Popup from '../../components/common/Popup';
 import { updateUserProfile } from '../../apis/users/userprofiles';
+import { useSelector } from 'react-redux';
 
 export const Profile = (props) => {
+  const username = useSelector((state) => state.session.username);
   const [activeTab, setActiveTab] = useState('profilepage');
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +29,7 @@ export const Profile = (props) => {
 
   useEffect(() => {
     async function fetchData() {
-      const { response, data } = await getUser(props.username);
+      const { response, data } = await getUser(username);
       if (response.status === 200) {
         setUserData(data.user);
         setIsLoading(false);
@@ -40,7 +42,7 @@ export const Profile = (props) => {
     }, 200);
 
     return () => clearTimeout(delay);
-  }, [props.username]);
+  }, [username]);
 
   const handleInputChange = (event) => {
     setIsProfileChanges(true);
@@ -65,8 +67,8 @@ export const Profile = (props) => {
       setIsPopupOpen(false);
     }
     else {
-      const userUpdateResponse = await updateUser(props.username, formData[0].value, formData[1].value);
-      const userProfileUpdateResponse = await updateUserProfile(props.username, formData[2].value, formData[3].value);
+      const userUpdateResponse = await updateUser(username, formData[0].value, formData[1].value);
+      const userProfileUpdateResponse = await updateUserProfile(username, formData[2].value, formData[3].value);
       if (userUpdateResponse.response.status !== 200) {
         console.log(userUpdateResponse.data.error);
         console.log(userProfileUpdateResponse.data.error);
@@ -129,11 +131,11 @@ export const Profile = (props) => {
           <div className='division'></div>
           <div className={props.sidebarVisible ? 'page-container move-right' : 'page-container'} >
             {
-              activeTab === "profilepage" && <ProfilePage username={props.username} userData={userData}
+              activeTab === "profilepage" && <ProfilePage username={username} userData={userData}
                 onInputChange={handleInputChange} />
             }
             {
-              activeTab === "accountpage" && <AccountPage username={props.username} email={userData.email} />
+              activeTab === "accountpage" && <AccountPage username={username} email={userData.email} />
             }
           </div>
 

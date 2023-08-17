@@ -3,8 +3,8 @@ import React from 'react'
 import * as MdIcons from 'react-icons/md';
 import * as BsIcons from 'react-icons/bs';
 import * as RiIcons from 'react-icons/ri';
-import * as IoIcons from 'react-icons/io';
 import * as FaIcons from 'react-icons/fa';
+import * as GiIcons from 'react-icons/gi';
 
 
 export const Sidebar = [
@@ -27,9 +27,15 @@ export const Sidebar = [
     cName: 'nav-text'
   },
   {
+    title: 'Payments',
+    path: '/payments',
+    icon: <FaIcons.FaCreditCard />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Earnings',
     path: '/earnings',
-    icon: <RiIcons.RiMoneyDollarCircleFill />,
+    icon: <GiIcons.GiMoneyStack />,
     cName: 'nav-text'
   },
   {
@@ -38,6 +44,7 @@ export const Sidebar = [
     icon: <FaIcons.FaUserCircle />,
     cName: 'nav-text'
   },
+  /*
   {
     title: 'Community',
     path: '/community',
@@ -56,6 +63,7 @@ export const Sidebar = [
     icon: <FaIcons.FaHeadphones />,
     cName: 'nav-text'
   },
+  */
   {
     title: 'Feedback',
     path: '/feedback',
