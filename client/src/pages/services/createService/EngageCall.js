@@ -4,10 +4,12 @@ import './CreateService.css'
 import '../../index.css'
 import TextQuery from './TextQuery';
 import ServiceForm from '../../../components/common/services_cards/ServiceForm';
+import { useSelector } from 'react-redux';
 
 
-const EngageCall = ({ sidebarVisible, username }) => {
+const EngageCall = ({ sidebarVisible }) => {
 
+  const username = useSelector((state) => state.session.username);
   const [activeTab, setActiveTab] = useState('engageCall');
 
   const handleTabToChange = (tab) => {
