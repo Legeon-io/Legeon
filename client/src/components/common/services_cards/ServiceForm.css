@@ -43,11 +43,6 @@
     justify-content: center;
   }
   
-  label {
-    color: #C5C6C7;
-    font-size: 18px;
-    margin: 10px 0;
-  }
   
   input[type="radio"] {
     margin: 0 20px;
