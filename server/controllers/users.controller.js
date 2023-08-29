@@ -1,12 +1,6 @@
 import User from "../mongodb/models/users.js";
 import bcrypt from "bcrypt";
 
-// Google OAuth
-import passport from "passport";
-import expressSession from "express-session";
-
-// Google SignUp
-
 // SignUp function
 export const signup = async (req, res) => {
   try {

@@ -12,6 +12,7 @@ import { scheduleEvent } from "./controllers/calendar.controller.js";
 import keysRouter from "./routes/keys.routes.js";
 
 import passport from "passport";
+import passportStrategy from "./middlewares/authentication/auth.js";
 import expressSession from "express-session";
 
 import path from "path";
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(cors());
 
 // Google OAuth
+
 app.use(expressSession({ secret: "cats" }));
 app.use(passport.initialize());
 app.use(passport.session());

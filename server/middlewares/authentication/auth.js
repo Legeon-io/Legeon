@@ -1,5 +1,5 @@
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth2").Strategy;
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 
 passport.use(
   new GoogleStrategy(
@@ -7,7 +7,7 @@ passport.use(
       clientID:
         "762015424404-hrcoph6inneq3ajv8a1komestv7i8rl8.apps.googleusercontent.com",
       clientSecret: "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",
-      callbackURL: "http://localhost:3000/auth/google/callback",
+      callbackURL: "http://localhost:8000/auth/google/callback",
       passReqToCallback: true,
     },
     (request, accessToken, refreshToken, profile, done) => {
@@ -23,3 +23,5 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
+
+export default passport;
