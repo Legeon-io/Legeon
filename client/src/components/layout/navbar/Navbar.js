@@ -1,71 +1,71 @@
-import React from 'react'
-
-// Icons
-import * as AiIcons from 'react-icons/ai';
-import * as FaIcons from 'react-icons/fa';
-
-import logo from '../../../assets/logo.png'
-
-import { Link } from 'react-router-dom';
-import { Sidebar } from "../sider/Sidebar.js";
-import { IconContext } from 'react-icons';
-
-// CSS
-import './Navbar.css';
-import { Logout } from '../../../pages';
-
-
-export const Navbar = ( props ) => {
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React from "react";
+import { useState } from "react";
+//Components
+import { Toggle } from "../../common/Toggle.js";
+export const Navbar = (props) => {
   const showSidebar = () => props.setSidebar(!props.sidebarVisible);
+
+  const [checked, setChecked] = useState(false);
+
+  function handleChanges(e) {
+    setChecked(e.target.checked);
+  }
+
+  function handleClick() {
+    setChecked(!checked);
+  }
 
   return (
     <>
-      <div className='navbar'>
-        <Link to="#" className='menu-bar'>
-          <FaIcons.FaBars onClick={showSidebar}  />
-        </Link>
-
-        <div className={ props.sidebarVisible ? 'topLeft move-right' : 'topLeft' }>
-          <Link to="/dashboard">
-            <span><img src={logo} alt='Logo' className='logo' /></span>
-          </Link>
-          <Link to="/dashboard" className='logoNameLink'>
-            <span className='logoName'>Legeon</span>
-          </Link>
+      <nav className="   flex justify-between  p-2  ">
+        <div className=" flex m-3 ">
+          {" "}
+          <h1 className="text-transparent bg-clip-text  bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500 font-semibold text-lg ">
+            {" "}
+            LEGEON
+          </h1>{" "}
         </div>
-
-        <div className='topRight'>
-        <Link to="/profile">
-        <span><img src={logo} alt='Logo' className='profilephoto' /></span>
-        </Link>
-        <span className='username-text' > { props.username } </span>
+        <div className=" flex mr-3 gap-5">
+          <Toggle
+            ischecked={checked}
+            handleChange={handleChanges}
+            onClick={handleClick}
+          />
+          <button className=" bg-gradient-to-r   m-1 p-2 text-white rounded-md   to-pink-500 from-indigo-500  via-purple-500 ">
+            Login
+          </button>
+          <button className="bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 m-1 p-2 text-white rounded-md">
+            Register
+          </button>
         </div>
-      </div>
-
-      <nav className={ props.sidebarVisible ? 'nav-menu active' : 'nav-menu' }>
-        <ul className='nav-menu-items' onClick={showSidebar} >
-          <li className='navbar-toggle'>
-            <Link to="#" className='menu-bars'>
-              <AiIcons.AiFillCloseCircle />
-            </Link>
-          </li>
-          <IconContext.Provider value={{color: '#66FCF1'}}>
-          {Sidebar.map((item, index) => {
-            return (
-              <li key={index} className={item.cName}>
-                <Link to={item.path}>
-                  {item.icon}
-                  <span>{item.title}</span>
-                </Link>
-              </li>
-            )
-          })}
-          </IconContext.Provider>
-          <Logout handleLogout={ props.handleLogout }/>
-        </ul>
+      </nav>
+      <nav className="     ">
+        <div className="flex justify-end gap-5 mr-5 p-5">
+          <a
+            className="bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold "
+            a="./"
+          >
+            Services{" "}
+          </a>
+          <a
+            className="bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold"
+            a=" ./"
+          >
+            {" "}
+            Calender{" "}
+          </a>
+          <a
+            className="bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold"
+            a="http://localhost:3000/dashboard"
+          >
+            {" "}
+            Payments
+          </a>
+        </div>
       </nav>
     </>
-  )
-}
+  );
+};
 
 export default Navbar;
