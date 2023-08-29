@@ -3,7 +3,7 @@
   @apply transition-all duration-100;
 }
 .signup_main_css {
-  @apply relative flex flex-col justify-around w-[30rem] h-[40rem] bg-white p-10 rounded-2xl;
+  @apply relative flex flex-col justify-around w-[30rem] h-[43rem] bg-white p-10 rounded-2xl;
   @apply transition-all duration-100;
 }
 .signin_dont_css {

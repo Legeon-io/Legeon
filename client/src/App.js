@@ -4,12 +4,13 @@ import {
   Route,
   Routes,
   Navigate,
+  createBrowserRouter,
+  RouterProvider,
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Navbar } from "./components/layout/index.js";
 import {
-  Login,
   Dashboard,
   Services,
   Bookings,
@@ -21,7 +22,6 @@ import {
   Feedback,
   Payments,
 } from "./pages/index.js";
-
 import "./App.css";
 import { loginAction, logoutAction } from "./redux/actions/Actions.js";
 import { persistor } from "./redux/stores/Store.js";
@@ -33,6 +33,10 @@ import {
 import EditCallServiceForm from "./components/common/services_cards/EditCallServiceForm.js";
 import UserServices from "./pages/services/user_services/UserServices.js";
 import BookingService from "./pages/services/user_services/BookingService.js";
+import ForgetPassword from "./pages/login/forgetpassword/ForgetPassword.js";
+import SignUp from "./pages/login/signup/SignUp.js";
+import SignIn from "./pages/login/signin/SignIn.js";
+import RecoverPassword from "./pages/login/forgetpassword/RecoverPassword.js";
 
 const App = () => {
   const [sidebarVisible, setSidebar] = useState(false);
@@ -52,109 +56,98 @@ const App = () => {
     }, 500);
   };
 
+  const router = createBrowserRouter([
+    {
+      path: "/dashboard",
+      element: <Dashboard />,
+    },
+    {
+      path: "/services",
+      element: <Services />,
+    },
+    {
+      path: "/bookings",
+      element: <Bookings />,
+    },
+    {
+      path: "/payments",
+      element: <Payments />,
+    },
+    {
+      path: "/earnings",
+      element: <Earnings />,
+    },
+    {
+      path: "/profile",
+      element: <Profile />,
+    },
+    {
+      path: "/community",
+      element: <Community />,
+    },
+    {
+      path: "/about",
+      element: <About />,
+    },
+    {
+      path: "/support",
+      element: <Support />,
+    },
+    {
+      path: "/feedback",
+      element: <Feedback />,
+    },
+    {
+      path: "/services/create-service",
+      element: <CreateService />,
+    },
+    {
+      path: "/services/create-service/engage-call",
+      element: <EngageCall />,
+    },
+    {
+      path: "/services/create-service/text-query",
+      element: <TextQuery />,
+    },
+    {
+      path: "/services/engage-call/edit-service/:id",
+      element: <EditCallServiceForm />,
+    },
+    {
+      path: "/:username",
+      element: <UserServices />,
+    },
+    {
+      path: "/:username/:title/:id/service",
+      element: <BookingService />,
+    },
+    {
+      path: "/signup",
+      element: <SignUp />,
+    },
+    {
+      path: "/",
+      element: <SignIn />,
+    },
+    {
+      path: "/forgetpassword",
+      element: <ForgetPassword />,
+    },
+    {
+      path: "/recover",
+      element: <RecoverPassword />,
+    },
+    {
+      path: "/:username/service/:title",
+      element: <BookingService />,
+    },
+  ]);
+
   return (
-    <>
-      {username !== undefined ? (
-        <Router>
-          <Navbar
-            sidebarVisible={sidebarVisible}
-            setSidebar={setSidebar}
-            handleLogout={handleLogout}
-            username={username}
-          />
-          <Routes>
-            <Route exact path="/" element={<Navigate to="/dashboard" />} />
-
-            <Route
-              path="/dashboard"
-              element={<Dashboard sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/services"
-              element={<Services sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/bookings"
-              element={<Bookings sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/payments"
-              element={<Payments sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/earnings"
-              element={<Earnings sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/profile"
-              element={<Profile sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/community"
-              element={<Community sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/about"
-              element={<About sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/support"
-              element={<Support sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/feedback"
-              element={<Feedback sidebarVisible={sidebarVisible} />}
-            />
-
-            <Route
-              path="/services/create-service"
-              element={<CreateService sidebarVisible={sidebarVisible} />}
-            />
-
-            <Route
-              path="/services/create-service/engage-call"
-              element={<EngageCall sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/services/create-service/text-query"
-              element={<TextQuery sidebarVisible={sidebarVisible} />}
-            />
-
-            <Route
-              path="/services/engage-call/edit-service/:id"
-              element={<EditCallServiceForm />}
-            />
-
-            <Route
-              path="/:username"
-              element={<UserServices sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/:username/:title/:id/service"
-              element={<BookingService sidebarVisible={sidebarVisible} />}
-            />
-          </Routes>
-        </Router>
-      ) : (
-        <Router>
-          <Routes>
-            <Route
-              exact
-              path="/"
-              element={<Login handleLogin={handleLogin} />}
-            />
-            <Route
-              path="/:username"
-              element={<UserServices sidebarVisible={sidebarVisible} />}
-            />
-            <Route
-              path="/:username/service/:title"
-              element={<BookingService sidebarVisible={sidebarVisible} />}
-            />
-          </Routes>
-        </Router>
-      )}
-    </>
+    <main>
+      {username && <Navbar />}
+      <RouterProvider router={router} />
+    </main>
   );
 };
 

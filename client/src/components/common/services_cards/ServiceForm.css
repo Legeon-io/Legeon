@@ -43,36 +43,7 @@
     justify-content: center;
   }
   
-  
-  input[type="radio"] {
-    margin: 0 20px;
-    transform: scale(1);
-  }
-  
-  input[type="radio"]:hover {
-    cursor: pointer;
-  }
-  
-  input[type="radio"]:checked+label {
-    color: #C5C6C7;
-  }
-  
-  input[type="number"] {
-    padding: 5px;
-    margin: 5px;
-    border: 2px solid #C5C6C7;
-    border-radius: 5px;
-    width: 80px;
-    font-size: 16px;
-    color: #C5C6C7;
-    background-color: transparent;
-  }
-  
-  input[type="number"]:focus {
-    outline: none;
-    border: 2px solid #C5C6C7;
-  }
-  
+
   .submit-button {
     background-color: #4CAF50;
     border: none;

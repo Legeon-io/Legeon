@@ -1,23 +1,36 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
 
-/** CSS styling */
 import "../LoginForm.css";
-
-/** Imgs */
+import { useFormik } from "formik";
 import logo from "../../../assets/logo.png";
+import { signupSchema } from "../../../schema";
+import { useDispatch } from "react-redux";
+import { userSignUpAction } from "../../../redux/actions/UserAction";
 
+const SignUp = ({ setToggleToRegister }) => {
+  const dispatch = useDispatch();
+  const initialValues = {
+    email: "shailendra@gmail.com",
+    password: "123456",
+    confirmPassword: "123456",
+  };
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: signupSchema,
+    onSubmit: (values) => {
+      dispatch(userSignUpAction(values));
+    },
+  });
 
-/** SignIn Component------------------------------------------------------------------------------ */
-const SignUp = ({ setIsSignUp }) => {
   return (
     <>
-      <div className=" relative z-50">
+      <div className="relative z-50">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-80 transition-opacity">
-          <div className="signin_header_css">
+          <div className="signin_header_css ">
             <div className="signup_main_css">
               <X
-                onClick={() => setIsSignUp(false)}
+                onClick={() => setToggleToRegister(false)}
                 className="absolute right-2 top-2 active:text-3xl"
                 size={30}
               />
@@ -34,88 +47,80 @@ const SignUp = ({ setIsSignUp }) => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-5">
-                <div className="relative">
-                  <input
-                    id="firstname"
-                    type="text"
-                    className="inputfield_css peer"
-                    required="required"
-                    autoComplete="off"
-                  />
-                  <label
-                    htmlFor="firstname"
-                    className="labelfeild_css  peer-focus:text-xs peer-focus:border-l-2 peer-focus:border-r-2 peer-focus:bg-white peer-focus:text-purple-800 peer-focus:border-purple-800 peer-focus:px-2 peer-focus:-top-2"
-                  >
-                    First Name
-                  </label>
+              <form action="" onSubmit={formik.handleSubmit}>
+                <div className="flex flex-col gap-5">
+                  <div className="relative">
+                    <input
+                      id="email"
+                      type="text"
+                      className="inputfield_css peer"
+                      required="required"
+                      autoComplete="off"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <label htmlFor="email" className="labelfeild_css">
+                      Email
+                    </label>
+                    {formik.errors.email && formik.touched.email && (
+                      <span className="text-[12px] text-red-700">
+                        {formik.errors.email}
+                      </span>
+                    )}
+                  </div>
+                  <div className="relative">
+                    <input
+                      id="password"
+                      type="password"
+                      className="inputfield_css peer"
+                      required="required"
+                      autoComplete="off"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <label htmlFor="password" className="labelfeild_css">
+                      Password
+                    </label>
+                    {formik.errors.password && formik.touched.password && (
+                      <span className="text-[12px] text-red-700">
+                        {formik.errors.password}
+                      </span>
+                    )}
+                  </div>
+                  <div className="relative">
+                    <input
+                      id="confirmPassword"
+                      type="password"
+                      className="inputfield_css peer"
+                      required="required"
+                      autoComplete="off"
+                      value={formik.values.confirmPassword}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <label htmlFor="confirmPassword" className="labelfeild_css">
+                      Confirm Password
+                    </label>
+                    {formik.errors.confirmPassword &&
+                      formik.touched.confirmPassword && (
+                        <span className="text-[12px] text-red-700">
+                          {formik.errors.confirmPassword}
+                        </span>
+                      )}
+                  </div>
+                  <div className="flex justify-center">
+                    <button
+                      type="submit"
+                      onClick={formik.handleSignUp}
+                      className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl"
+                    >
+                      Register
+                    </button>
+                  </div>
                 </div>
-                <div className="relative">
-                  <input
-                    id="lastname"
-                    type="text"
-                    className="inputfield_css peer"
-                    required="required"
-                    autoComplete="off"
-                  />
-                  <label
-                    htmlFor="lastname"
-                    className="labelfeild_css  peer-focus:text-xs peer-focus:border-l-2 peer-focus:border-r-2 peer-focus:bg-white peer-focus:text-purple-800 peer-focus:border-purple-800 peer-focus:px-2 peer-focus:-top-2"
-                  >
-                    Last Name
-                  </label>
-                </div>
-                <div className="relative">
-                  <input
-                    id="email"
-                    type="text"
-                    className="inputfield_css peer"
-                    required="required"
-                    autoComplete="off"
-                  />
-                  <label
-                    htmlFor="email"
-                    className="labelfeild_css  peer-focus:text-xs peer-focus:border-l-2 peer-focus:border-r-2 peer-focus:bg-white peer-focus:text-purple-800 peer-focus:border-purple-800 peer-focus:px-2 peer-focus:-top-2"
-                  >
-                    Email
-                  </label>
-                </div>
-                <div className="relative">
-                  <input
-                    id="password"
-                    type="text"
-                    className="inputfield_css peer"
-                    required="required"
-                    autoComplete="off"
-                  />
-                  <label
-                    htmlFor="password"
-                    className="labelfeild_css  peer-focus:text-xs peer-focus:border-l-2 peer-focus:border-r-2 peer-focus:bg-white peer-focus:text-purple-800 peer-focus:border-purple-800 peer-focus:px-2 peer-focus:-top-2"
-                  >
-                    Password
-                  </label>
-                </div>
-                <div className="relative">
-                  <input
-                    id="confirmpassword"
-                    type="text"
-                    className="inputfield_css peer"
-                    required="required"
-                    autoComplete="off"
-                  />
-                  <label
-                    htmlFor="confirmpassword"
-                    className="labelfeild_css  peer-focus:text-xs peer-focus:border-l-2 peer-focus:border-r-2 peer-focus:bg-white peer-focus:text-purple-800 peer-focus:border-purple-800 peer-focus:px-2 peer-focus:-top-2"
-                  >
-                    Confirm Password
-                  </label>
-                </div>
-                <div className="flex justify-center">
-                  <button className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl">
-                    Register
-                  </button>
-                </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
