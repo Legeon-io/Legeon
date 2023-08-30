@@ -4,19 +4,21 @@ import bcrypt from "bcrypt";
 // SignUp function
 export const signup = async (req, res) => {
   try {
-    const { username, firstname, lastname, email, password } = req.body;
+    const { firstname, lastname, email, password } = req.body;
+    let username = email.split("@")[0];
 
-    if (!username || !firstname || !email || !password) {
+    if (!firstname || !email || !password) {
       return res.status(404).json({ error: "Missing Credentials" });
     }
 
-    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      const errorMessage =
-        existingUser.username === username
-          ? "Username already taken"
-          : "Email already registered";
+      const errorMessage = "Email already registered";
       return res.status(409).json({ errorMessage });
+    }
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      username = `${username}#${Math.floor(1000 + Math.random() * 9000)}`;
     }
 
     const user = new User({
@@ -43,16 +45,16 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(404).json({ error: "Invalid credentials" });
+      return res.status(400).json({ error: "Invalid credentials" });
     }
     // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ error: "Invalid credentials" });
+      return res.status(400).json({ error: "Invalid credentials" });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(404).json({ error: "Invalid credentials" });
+      return res.status(400).json({ error: "Invalid credentials" });
     }
     res.status(200).json({ message: "Login successful", user: user });
   } catch (error) {

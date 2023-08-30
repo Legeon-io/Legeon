@@ -11,18 +11,18 @@ import {
 const router = express.Router();
 
 // Google Routes
-router.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
-);
+// router.get(
+//   "/auth/google",
+//   passport.authenticate("google", { scope: ["email", "profile"] })
+// );
 
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    successRedirect: "/protected",
-    failureRedirect: "/auth/failure",
-  })
-);
+// router.get(
+//   "/auth/google/callback",
+//   passport.authenticate("google", {
+//     successRedirect: "/protected",
+//     failureRedirect: "/auth/failure",
+//   })
+// );
 
 // Signup route
 router.post("/signup", signup);
