@@ -1,0 +1,6 @@
+#maindiv {
+  background: url("../../assets/rectangle.png");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: contain;
+}
