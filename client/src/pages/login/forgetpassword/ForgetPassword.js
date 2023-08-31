@@ -4,16 +4,24 @@ import { Check, X } from "lucide-react";
 import logo from "../../../assets/logo.png";
 import "../LoginForm.css";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { forgetSchema } from "../../../schema";
+import { useDispatch } from "react-redux";
+import { userValidEmail } from "../../../redux/actions/UserAction";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
 
-  const handleSendEmail = () => {
-    if (email != "") {
-      navigate("/recover")
-    }
-  };
+  const formik = useFormik({
+    initialValues: {
+      email: "shailendra@gmail.com",
+    },
+    validationSchema: forgetSchema,
+    onSubmit: (values) => {
+      dispatch(userValidEmail(values, navigate));
+    },
+  });
 
   return (
     <>
@@ -32,26 +40,38 @@ const ForgetPassword = () => {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col gap-5">
-                <div className="flex gap-2 relative">
+              <form
+                onSubmit={formik.handleSubmit}
+                className="flex flex-col gap-5"
+              >
+                <div className="flex flex-col gap-2 relative">
                   <input
                     id="email"
                     type="text"
                     className="inputfield_css peer"
                     required="required"
                     autoComplete="off"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                   <label htmlFor="email" className="labelfeild_css">
                     Email
                   </label>
+                  {formik.errors.email && formik.touched.email && (
+                    <span className="text-[12px] text-red-700">
+                      *{formik.errors.email}
+                    </span>
+                  )}
                 </div>
                 <button
-                  onClick={handleSendEmail}
-                  className="bg-green-600 w-full h-full p-2 rounded px-4 text-white"
+                  type="submit"
+                  onClick={formik.handleForgetPassword}
+                  className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2  text-white rounded"
                 >
                   Recover Now
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>

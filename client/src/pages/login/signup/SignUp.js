@@ -7,9 +7,11 @@ import logo from "../../../assets/logo.png";
 import { signupSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { userSignUpAction } from "../../../redux/actions/UserAction";
+import { Link, useNavigate } from "react-router-dom";
 
-const SignUp = ({ setToggleToRegister }) => {
+const SignUp = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const initialValues = {
     email: "shailendra@gmail.com",
     password: "123456",
@@ -19,7 +21,7 @@ const SignUp = ({ setToggleToRegister }) => {
     initialValues: initialValues,
     validationSchema: signupSchema,
     onSubmit: (values) => {
-      dispatch(userSignUpAction(values));
+      dispatch(userSignUpAction(values, navigate));
     },
   });
 
@@ -29,11 +31,12 @@ const SignUp = ({ setToggleToRegister }) => {
         <div className="fixed inset-0 bg-gray-500 bg-opacity-80 transition-opacity">
           <div className="signin_header_css ">
             <div className="signup_main_css">
-              <X
-                onClick={() => setToggleToRegister(false)}
-                className="absolute right-2 top-2 active:text-3xl"
-                size={30}
-              />
+              <Link to="/">
+                <X
+                  className="absolute right-2 top-2 active:text-3xl"
+                  size={30}
+                />
+              </Link>
               <div className="flex flex-col justify-around items-center w-full">
                 <img src={logo} alt="" className="h-20 w-20 rounded-full" />
                 <div className="flex flex-col">

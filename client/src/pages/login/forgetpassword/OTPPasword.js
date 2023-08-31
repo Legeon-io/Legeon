@@ -5,23 +5,21 @@ import logo from "../../../assets/logo.png";
 import "../LoginForm.css";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { recoverSchema } from "../../../schema";
+import { otpSchema, recoverSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
-import { userUpdatePassword } from "../../../redux/actions/UserAction";
+import { userValidOTP } from "../../../redux/actions/UserAction";
 
-const ForgetPassword = () => {
+const OTPPassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
-      password: "asdfgh",
-      confirmPassword: "asdfgh",
+      otp: "",
     },
-    validationSchema: recoverSchema,
+    validationSchema: otpSchema,
     onSubmit: (values) => {
-      dispatch(userUpdatePassword(values, navigate));
-      navigate("/recover");
+      dispatch(userValidOTP(values,navigate));
     },
   });
 
@@ -48,44 +46,23 @@ const ForgetPassword = () => {
               >
                 <div className="flex flex-col gap-2 relative">
                   <input
-                    id="password"
-                    type="text"
+                    id="otp"
+                    type="number"
                     className="inputfield_css peer"
                     required="required"
                     autoComplete="off"
-                    value={formik.values.password}
+                    value={formik.values.otp}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
-                  <label htmlFor="password" className="labelfeild_css">
-                    password
+                  <label htmlFor="otp" className="labelfeild_css">
+                    otp
                   </label>
-                  {formik.errors.password && formik.touched.password && (
+                  {formik.errors.otp && formik.touched.otp && (
                     <span className="text-[12px] text-red-700">
-                      *{formik.errors.password}
+                      *{formik.errors.otp}
                     </span>
                   )}
-                </div>
-                <div className="flex flex-col gap-2 relative">
-                  <input
-                    id="confirmPassword"
-                    type="text"
-                    className="inputfield_css peer"
-                    required="required"
-                    autoComplete="off"
-                    value={formik.values.confirmPassword}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  <label htmlFor="confirmPassword" className="labelfeild_css">
-                    confirmPassword
-                  </label>
-                  {formik.errors.confirmPassword &&
-                    formik.touched.confirmPassword && (
-                      <span className="text-[12px] text-red-700">
-                        *{formik.errors.confirmPassword}
-                      </span>
-                    )}
                 </div>
                 <button
                   type="submit"
@@ -103,4 +80,4 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default OTPPassword;

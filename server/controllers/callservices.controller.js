@@ -1,4 +1,4 @@
-import CallServices from '../mongodb/models/callservices.js'
+import CallServices from '../models/callservices.js'
 
 export const createCallService = async (req, res) => {
     try {

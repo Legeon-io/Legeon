@@ -1,4 +1,4 @@
-import UserProfile from '../mongodb/models/userprofiles.js';
+import UserProfile from '../models/userprofiles.js';
 
 
 export const createUserProfile = async (req, res) => {

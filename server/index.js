@@ -1,6 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
+import { localVariables } from './middleware/auth.js'; 
 
 import connectDB from './mongodb/connect.js';
 import userRouter from './routes/users.routes.js';
@@ -23,29 +24,24 @@ dotenv.config();
 
 const app = express();
 app.use(express.json({ limit: "30mb" }));
-
 app.use(express.static(path.join(__dirname, '../client/build')));
-
 app.use(cors());
 
 app.get('/', (req, res) => {
     res.send({ message: "Hello Legeon" });
 })
 
-// Use the user routes
+
 app.use('/api/users', userRouter);
 app.use('/api/userprofiles', userProfileRouter);
 app.use('/api/callservices', callServicesRouter);
-
-app.get('/google', calendarRouter);
-app.get('/google/redirect', calendarRouter);
 app.use('/api/events', scheduleEvent);
-
 app.use('/api/payments/razorpay', paymentsRouter);
 app.use('/api/accounts', paymentsRouter);
-
-
 app.use('/api/masterkeys', keysRouter);
+app.get('/google', calendarRouter);
+app.get('/google/redirect', calendarRouter);
+
 
 const startServer = async () => {
     try {

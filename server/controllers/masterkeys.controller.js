@@ -1,5 +1,5 @@
-import MasterKeys from '../mongodb/models/masterkeys.js';
-import HSM from '../mongodb/models/hsm-client.js';
+import MasterKeys from '../models/masterkeys.js';
+import HSM from '../models/hsm-client.js';
 import crypto from 'crypto';
 import passwordGenerator from 'password-generator';
 import axios from 'axios';

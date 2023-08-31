@@ -1,4 +1,13 @@
-import User from "../mongodb/models/users.js";
+import User from "../models/users.js";
+
+import { v4 as uuidv4 } from "uuid";
+
+const generateShortUUID = () => {
+  const fullUUID = uuidv4();
+  const digitsOnly = fullUUID.replace(/\D/g, ""); 
+  const shortUUID = digitsOnly.substring(0, 6);
+  return shortUUID; 
+};
 
 // SignUp function
 /** POST : http://localhost:8080/api/users/signup */
@@ -12,25 +21,15 @@ export const signup = async (req, res) => {
     if (existingEmail) {
       return res.status(409).json({ errorMessage: "Email already registered" });
     }
-
     const newUser = new User({
       email,
-      username,
+      username: username + "#" + generateShortUUID(),
       password,
     });
-
     await newUser.save();
-
-    res.status(201).json({
-      message: "Registration successful. Welcome to Legeon",
-      user: {
-        _id: newUser._id,
-        email: newUser.email,
-        username: newUser.username,
-      },
-    });
+    return res.status(201).json(newUser);
   } catch (error) {
-    console.error("Error during registration:", error);
+    // console.error("Error during registration:", error);
     res.status(500).json({ errorMessage: "Internal server error" });
   }
 };
@@ -75,7 +74,7 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { username } = req.params;
-    const { firstname, lastname, email } = req.body;
+    const {email } = req.body;
 
     const currentUser = await User.findOne({ username });
 

@@ -37,6 +37,7 @@ import ForgetPassword from "./pages/login/forgetpassword/ForgetPassword.js";
 import SignUp from "./pages/login/signup/SignUp.js";
 import SignIn from "./pages/login/signin/SignIn.js";
 import RecoverPassword from "./pages/login/forgetpassword/RecoverPassword.js";
+import OTPPassword from "./pages/login/forgetpassword/OTPPasword.js";
 
 const App = () => {
   const [sidebarVisible, setSidebar] = useState(false);
@@ -132,6 +133,10 @@ const App = () => {
     {
       path: "/forgetpassword",
       element: <ForgetPassword />,
+    },
+    {
+      path: "/otp",
+      element: <OTPPassword />,
     },
     {
       path: "/recover",
