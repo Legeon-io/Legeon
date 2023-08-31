@@ -1,4 +1,13 @@
-import User from "../mongodb/models/users.js";
+import User from "../models/users.js";
+
+import { v4 as uuidv4 } from "uuid";
+
+const generateShortUUID = () => {
+  const fullUUID = uuidv4();
+  const digitsOnly = fullUUID.replace(/\D/g, ""); 
+  const shortUUID = digitsOnly.substring(0, 6);
+  return shortUUID; 
+};
 
 // SignUp function
 /** POST : http://localhost:8080/api/users/signup */
@@ -10,36 +19,16 @@ export const signup = async (req, res) => {
     if (!firstname || !email || !password) {
       return res.status(404).json({ error: "Missing Credentials" });
     }
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      const errorMessage = "Email already registered";
-      return res.status(409).json({ errorMessage });
-    }
-    const existingUsername = await User.findOne({ username });
-    if (existingUsername) {
-      username = `${username}#${Math.floor(1000 + Math.random() * 9000)}`;
-    }
-
-    const user = new User({
-      username,
-      firstname,
+    const newUser = new User({
       email,
+      username: username + "#" + generateShortUUID(),
       password,
     });
-
-    const savedUser = await user.save();
-
-    res.status(201).json({
-      message: "Registration successful. Welcome to Legeon",
-      user: {
-        _id: newUser._id,
-        email: newUser.email,
-        username: newUser.username,
-      },
-    });
+    await newUser.save();
+    return res.status(201).json(newUser);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error", error });
+    // console.error("Error during registration:", error);
+    res.status(500).json({ errorMessage: "Internal server error" });
   }
 };
 
@@ -86,7 +75,7 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { username } = req.params;
-    const { firstname, lastname, email } = req.body;
+    const {email } = req.body;
 
     const currentUser = await User.findOne({ username });
 

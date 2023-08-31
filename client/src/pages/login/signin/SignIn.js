@@ -7,6 +7,7 @@ import logo from "../../../assets/logo.png";
 import { signinSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { userSignInAction } from "../../../redux/actions/UserAction";
+import { Link } from "react-router-dom";
 
 const SignIn = ({ setToggleToRegister }) => {
   const dispatch = useDispatch();
@@ -87,9 +88,9 @@ const SignIn = ({ setToggleToRegister }) => {
                       ) : (
                         <span />
                       )}
-                      <span className="text-[12px] text-violet-500">
+                      <Link to="/forgetPassword" className="text-[12px] text-violet-500">
                         Forget Password ?
-                      </span>
+                      </Link>
                     </div>
                   </div>
                   <div className="flex justify-center">
@@ -103,13 +104,12 @@ const SignIn = ({ setToggleToRegister }) => {
                   </div>
                   <div className="signin_dont_css">
                     <span className="">Don't have any account ?</span>
-                    <span
-                      onClick={() => setToggleToRegister(true)}
+                    <Link to="/signup"
                       className="text-violet-500 cursor-pointer"
                     >
                       {" "}
                       Register Now
-                    </span>
+                    </Link>
                   </div>
                 </div>
               </form>

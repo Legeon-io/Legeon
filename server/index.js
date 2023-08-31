@@ -1,16 +1,6 @@
-import express from "express";
-import * as dotenv from "dotenv";
-import cors from "cors";
-
-import connectDB from "./mongodb/connect.js";
-import userRouter from "./routes/users.routes.js";
-import googleRouter from "./routes/googleuser.routes.js";
-import userProfileRouter from "./routes/userprofiles.routes.js";
-import callServicesRouter from "./routes/callservices.routes.js";
-import calendarRouter from "./routes/calendar.routes.js";
-import paymentsRouter from "./routes/payments.routes.js";
-import { scheduleEvent } from "./controllers/calendar.controller.js";
-import keysRouter from "./routes/keys.routes.js";
+import express from 'express';
+import * as dotenv from 'dotenv';
+import cors from 'cors';
 
 import passport from "passport";
 import passportStrategy from "./middlewares/authentication/auth.js";
@@ -29,7 +19,7 @@ dotenv.config();
 const app = express();
 app.use(express.json({ limit: "30mb" }));
 
-app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.use(cors());
 
@@ -44,21 +34,19 @@ app.get("/", (req, res) => {
 });
 
 // Use the user routes
-app.use("/api/users", userRouter);
-// Google OAuth
-app.use(googleRouter);
+app.use('/api/users', userRouter);
+app.use('/api/userprofiles', userProfileRouter);
+app.use('/api/callservices', callServicesRouter);
 
-app.use("/api/userprofiles", userProfileRouter);
-app.use("/api/callservices", callServicesRouter);
+app.get('/google', calendarRouter);
+app.get('/google/redirect', calendarRouter);
+app.use('/api/events', scheduleEvent);
 
-app.get("/google", calendarRouter);
-app.get("/google/redirect", calendarRouter);
-app.use("/api/events", scheduleEvent);
+app.use('/api/payments/razorpay', paymentsRouter);
+app.use('/api/accounts', paymentsRouter);
 
-app.use("/api/payments/razorpay", paymentsRouter);
-app.use("/api/accounts", paymentsRouter);
 
-app.use("/api/masterkeys", keysRouter);
+app.use('/api/masterkeys', keysRouter);
 
 const startServer = async () => {
   try {

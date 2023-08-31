@@ -1,5 +1,4 @@
 import express from "express";
-import passport from "passport";
 
 import {
   signup,
@@ -7,25 +6,26 @@ import {
   getUser,
   updateUser,
 } from "../controllers/users.controller.js";
+import {
+  updatePassword,
+  validEmail,
+  verifyOTP,
+} from "../controllers/otpGenerater.js";
+import { localVariables } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Google Routes
-// router.get(
-//   "/auth/google",
-//   passport.authenticate("google", { scope: ["email", "profile"] })
-// );
-
-// router.get(
-//   "/auth/google/callback",
-//   passport.authenticate("google", {
-//     successRedirect: "/protected",
-//     failureRedirect: "/auth/failure",
-//   })
-// );
-
 // Signup route
 router.post("/signup", signup);
+
+// Email Valid route
+router.post("/validEmail", localVariables, validEmail);
+
+// OTP Valid route
+router.post("/verifyOTP", verifyOTP);
+
+// Password Update Route
+router.post("/updatePasswod", updatePassword);
 
 // Login route
 router.post("/login", login);
