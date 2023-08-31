@@ -12,16 +12,16 @@ import Login from "./login/Login.js";
 import Logout from "./login/Logout.js";
 
 export {
-    Login,
-    Logout,
-    Dashboard,
-    Services,
-    Bookings,
-    Payments,
-    Earnings,
-    Profile,
-    Community,
-    About,  
-    Support,
-    Feedback,
+  Login,
+  Logout,
+  Dashboard,
+  Services,
+  Bookings,
+  Payments,
+  Earnings,
+  Profile,
+  Community,
+  About,
+  Support,
+  Feedback,
 };

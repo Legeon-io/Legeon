@@ -1,7 +1,7 @@
 import User from "../mongodb/models/users.js";
-import bcrypt from "bcrypt";
 
 // SignUp function
+/** POST : http://localhost:8080/api/users/signup */
 export const signup = async (req, res) => {
   try {
     const { firstname, lastname, email, password } = req.body;
@@ -24,16 +24,19 @@ export const signup = async (req, res) => {
     const user = new User({
       username,
       firstname,
-      lastname,
       email,
       password,
     });
 
     const savedUser = await user.save();
 
-    res.status(200).json({
-      message: "Registered successfully. Welcome to Legeon",
-      user: savedUser,
+    res.status(201).json({
+      message: "Registration successful. Welcome to Legeon",
+      user: {
+        _id: newUser._id,
+        email: newUser.email,
+        username: newUser.username,
+      },
     });
   } catch (error) {
     res.status(500).json({ error: "Internal server error", error });
@@ -41,6 +44,7 @@ export const signup = async (req, res) => {
 };
 
 // Login function
+/** POST : http://localhost:8080/api/users/login */
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;

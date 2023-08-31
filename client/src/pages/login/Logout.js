@@ -1,5 +1,4 @@
 import React from "react";
-import "./LoginForm.css";
 
 import { IoLogOut } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
