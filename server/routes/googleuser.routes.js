@@ -1,9 +1,19 @@
 import express from "express";
 import passport from "passport";
 
-import googleUser from "../mongodb/models/googleuser.js";
+import googleUser from "../models/googleuser.js";
+import User from "../models/users.js";
 
 const router = express.Router();
+
+import { v4 as uuidv4 } from "uuid";
+
+const generateShortUUID = () => {
+  const fullUUID = uuidv4();
+  const digitsOnly = fullUUID.replace(/\D/g, "");
+  const shortUUID = digitsOnly.substring(0, 6);
+  return shortUUID;
+};
 
 const isLoggedIn = (req, res, next) => {
   req.user ? next() : res.sendStatus(401);
@@ -33,6 +43,15 @@ router.get("/auth/failure", (req, res) => {
 router.get("/protected", isLoggedIn, async (req, res) => {
   if (req.user) {
     const { given_name: firstname, family_name: lastname, email } = req.user;
+
+    // Check for existing gmail in user collection
+    const existingCustomUser = await User.findOne({ email });
+    if (existingCustomUser) {
+      return res
+        .status(409)
+        .json({ message: "Already Registered in Custom Login" });
+    }
+
     let username = email.split("@")[0];
     const existingUser = await googleUser.findOne({ email });
     if (existingUser) {
@@ -48,7 +67,7 @@ router.get("/protected", isLoggedIn, async (req, res) => {
     } else {
       const existingUsername = await googleUser.findOne({ username });
       if (existingUsername) {
-        username = `${username}#${Math.floor(1000 + Math.random() * 9000)}`;
+        username = `${username}#${generateShortUUID()}`;
       }
       const user = new googleUser({
         username,

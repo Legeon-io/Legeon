@@ -1,12 +1,14 @@
 import User from "../models/users.js";
+import googleUser from "../models/googleuser.js";
+import bcrypt from "bcrypt";
 
 import { v4 as uuidv4 } from "uuid";
 
 const generateShortUUID = () => {
   const fullUUID = uuidv4();
-  const digitsOnly = fullUUID.replace(/\D/g, ""); 
+  const digitsOnly = fullUUID.replace(/\D/g, "");
   const shortUUID = digitsOnly.substring(0, 6);
-  return shortUUID; 
+  return shortUUID;
 };
 
 // SignUp function
@@ -16,13 +18,21 @@ export const signup = async (req, res) => {
     const { firstname, lastname, email, password } = req.body;
     let username = email.split("@")[0];
 
+    // Check for existing gmail in google user collection
+    const existingCustomUser = await googleUser.findOne({ email });
+    if (existingCustomUser) {
+      return res
+        .status(409)
+        .json({ message: "Already Registered in Google Login" });
+    }
+
     if (!firstname || !email || !password) {
       return res.status(404).json({ error: "Missing Credentials" });
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      const errorMessage = "Email already registered";
+      const errorMessage = "Email Taken";
       return res.status(409).json({ errorMessage });
     }
     const existingUsername = await User.findOne({ username });
@@ -33,7 +43,7 @@ export const signup = async (req, res) => {
     const newUser = new User({
       email,
       firstname,
-      username, 
+      username,
       password,
     });
     await newUser.save();
@@ -51,16 +61,22 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!email || !password || user || passwordMatch) {
+    if (!email || !password || !user || !passwordMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
-    res.status(200).json({ message: "Login successful", user: user });
+    res.status(200).json({
+      message: "Login successful",
+      user: {
+        email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        username: user.username,
+      },
+    });
   } catch (error) {
     res.status(500).json({ error: "Internal server error", error });
   }
 };
-
-
 
 // Get User function
 export const getUser = async (req, res) => {
@@ -81,7 +97,7 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { username } = req.params;
-    const {email } = req.body;
+    const { email } = req.body;
 
     const currentUser = await User.findOne({ username });
 
