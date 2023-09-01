@@ -1,6 +1,7 @@
 import otpGenerator from "otp-generator";
 import userModel from "../models/users.js";
 import speakeasy from "speakeasy";
+import bcrypt from "bcrypt";
 
 /** POST: http://localhost:8080/api/users/validEmail */
 export const validEmail = async (req, res) => {
@@ -61,13 +62,15 @@ export const verifyOTP = async (req, res) => {
 /** POST: http://localhost:8080/api/users/updatePassword */
 export const updatePassword = async (req, res) => {
   try {
-    const { password } = req.body;
+    const password = req.body.password;
 
     if (!req.app.locals.email || !req.app.locals.resetSession) {
       return res.status(409).send({ error: "Email not verified :(" });
     }
 
     const email = req.app.locals.email;
+    const salt = await bcrypt.genSalt(10);
+    password = await bcrypt.hash(password, salt);
 
     // console.log(email);
     const updatedUser = await userModel.findOneAndUpdate(

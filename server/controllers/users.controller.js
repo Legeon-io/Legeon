@@ -1,6 +1,7 @@
 import User from "../models/users.js";
 import googleUser from "../models/googleuser.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -64,6 +65,18 @@ export const login = async (req, res) => {
     if (!email || !password || !user || !passwordMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
+    const token = jwt.sign(
+      {
+        email: user.email,
+        username: user.username,
+      },
+      process.env.JWT_KEY
+    );
+    console.log(token);
+
+    // res.setHeader("Authorization", `Bearer ${token}`);
+    res.cookie("token", token, { maxAge: 1000 * 60 * 60 });
+
     res.status(200).json({
       message: "Login successful",
       user: {
