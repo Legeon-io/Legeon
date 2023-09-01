@@ -12,47 +12,50 @@ import "./Dashboard.css";
 const Dashboard = ({ sidebarVisible }) => {
   return (
     <>
-      <div id="maindiv" className="w-full  ">
-        <div className="flex gap-10 m-16 mb-0">
+      {/* First div   */}
+      <div id="maindiv" className="w-full">
+        <div className="flex flex-col md:flex-row gap-10 md:m-16 m-8 mt-10 mb-0">
           <img
-            alt="workers working together "
+            alt="workers working together"
             src={image1}
-            className="w-1/2"
-          ></img>
-          <div className="flex justify-center items-center flex-col gap-5">
-            <div className=" flex justify-start">
-              <h1 className="text-9xl  bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold  ">
+            className="w-full md:w-1/2"
+          />
+          <div className="flex justify-center items-center flex-col gap-10 ">
+            <div className=" hidden md:flex justify-start ">
+              <h1 className=" text-2xl  md:text-9xl bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold ">
                 LEGE
               </h1>
               <img
                 src={logo}
-                className="rounded-full h-32 shadow-sm shadow-black "
+                className="rounded-full sm:h-10 md:h-32 shadow-sm shadow-black"
                 alt="logo of legeon"
               />
-              <h1 className="text-9xl bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold">
+              <h1 className=" text-2xl md:text-9xl bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold">
                 N
               </h1>
             </div>
-            <div className="text-3xl font-semibold  ">
+            <div className="text-xl md:text-3xl font-semibold text-gray-800">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </div>
-            <button className="bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500 text-white py-4  px-10 shadow-md  rounded-2xl hover:opacity-80  duration-300">
+            <button className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-white py-4 px-10 shadow-md rounded-2xl hover:opacity-80 duration-300">
               More Info
             </button>
           </div>
         </div>
       </div>
-      <div className="bg-custom-blue h-full w-full p-10   ">
-        <div className=" flex">
-          <div className=" flex flex-col gap-10">
+
+      {/** second div */}
+      <div className="bg-custom-blue h-full w-full p-10 md:pt-0 md:-translate-y-20 translate-y-0 ">
+        <div className="flex flex-col md:flex-row gap-10">
+          <div className="flex flex-col gap-10 mt-4">
             <div>
               <h1 className="text-6xl text-white border-l-[0.5rem] pl-4 border-l-white">
                 Revenue Stream
               </h1>
             </div>
-            <div className="flex justify-between gap-10">
-              <p className="text-2xl text-justify text-white">
+            <div className="flex flex-col md:flex-row justify-between gap-10">
+              <p className="text-xl md:text-2xl text-justify text-white">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua lorem
                 ipsum dolor sit amet, consectetur adipiscing elit. Sed do
@@ -63,14 +66,16 @@ const Dashboard = ({ sidebarVisible }) => {
               <img
                 src={divImage}
                 className="shadow-xl rounded-2xl"
-                alt="girl working with calender"
+                alt="girl working with calendar"
               />
             </div>
           </div>
         </div>
       </div>
-      <div className="flex m-20   justify-between ">
-        <div className="bg-gray-200  flex flex-col  w-1/4  rounded-xl p-10  ">
+
+      {/* third div*/}
+      <div className="flex flex-col md:flex-row m-10 mt-20 md:m-20 gap-20 md:gap-0 justify-between">
+        <div className="bg-gray-200 flex flex-col w-full md:w-1/4 rounded-xl p-10">
           <img src={communication} alt="people communicating with each other" />
           <h1 className="text-4xl">Lorem ipsum</h1>
           <p className="text-start">
@@ -78,57 +83,60 @@ const Dashboard = ({ sidebarVisible }) => {
             labore et dolore magna aliqua lorem ipsum dolor sit amet,
             consectetur
           </p>
-          <div className="flex w-full flex-row-reverse   ">
-            <button className="bg-gradient-to-r to-pink-500  from-indigo-500 via-purple-500  p-2 text-white rounded-2xl">
+          <div className="flex w-full flex-row-reverse">
+            <button className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 p-2 text-white rounded-2xl">
               Know more
             </button>
           </div>
         </div>
 
-        <div className=" flex    justify-center  items-center ml-10  ">
-          <div className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text   font-semibold  text-8xl ">
-            Make robust
-            <br /> connections
+        <div className="flex justify-center items-center ml-10 mt-10 md:mt-0">
+          <div className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold text-4xl md:text-8xl">
+            Make robust <br /> connections
           </div>
         </div>
       </div>
-      <div className="flex m-20   justify-between flex-row-reverse ">
-        <div className="bg-gray-200  flex flex-col  w-1/4  rounded-xl p-10  ">
+
+      {/**fourth div */}
+      <div className="flex flex-col m-10 gap-20 mt-20 md:m-20 md:gap-0 justify-between md:flex-row-reverse">
+        <div className="bg-gray-200 flex flex-col w-full md:w-1/4 rounded-xl p-10">
           <img src={handshake} alt="people communicating with each other" />
-          <h1 className="text-4xl">Lorem ipsum</h1>
-          <p className="text-start">
+          <h1 className="text-2xl">Lorem ipsum</h1>
+          <p className="md:text-start  ">
             consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
             labore et dolore magna aliqua lorem ipsum dolor sit amet,
             consectetur
           </p>
-          <div className="flex w-full flex-row-reverse   ">
-            <button className="bg-gradient-to-r to-pink-500  from-indigo-500 via-purple-500  p-2 text-white rounded-2xl">
+          <div className="flex w-full flex-row-reverse">
+            <button className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 p-2 text-white rounded-2xl">
               Know more
             </button>
           </div>
         </div>
 
-        <div className=" flex    justify-center  items-center ml-10  ">
-          <div className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text   font-semibold  text-8xl ">
+        <div className="flex justify-center items-center ml-10 mt-10 md:mt-0">
+          <div className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold text-4xl md:text-8xl">
             Be the mentor <br /> and the mentee <br /> at the same time
           </div>
         </div>
       </div>
-      <div className="bg-custom-orange h-full w-full p-10    ">
-        <div className=" flex  gap-10">
+
+      {/*fifth div */}
+      <div className="bg-custom-orange h-full w-full p-10">
+        <div className="flex flex-col md:flex-row-reverse gap-10">
           <img
             src={divthreeimage}
-            className="shadow-xl rounded-2xl"
-            alt="girl working with calender"
+            className="shadow-xl rounded-2xl w-full md:w-1/2"
+            alt="girl working with calendar"
           />
 
-          <div className=" flex flex-col gap-10">
+          <div className="flex flex-col gap-10">
             <div>
               <h1 className="text-6xl borderl text-white border-l-[0.5rem] pl-4 border-l-white">
                 Your Network Is The Network You Build
               </h1>
             </div>
-            <p className="text-2xl  text-white text-justify">
+            <p className="text-lg  md:text-2xl text-white text-justify">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua lorem
               ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
@@ -136,12 +144,13 @@ const Dashboard = ({ sidebarVisible }) => {
               dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua
             </p>
-            <button className=" bg-gradient-to-r to-pink-500  from-indigo-500 via-purple-500  p-3 rounded-xl w-40 text-white shadow-md hover:opacity-80  duration-300">
+            <button className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 p-3 rounded-xl w-40 text-white shadow-md hover:opacity-80 duration-300">
               Join now
             </button>
           </div>
         </div>
       </div>
+
       <footer className="bg-gray-200 h-56 flex justify-center items-center">
         FOOTER
       </footer>
