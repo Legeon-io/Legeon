@@ -72,7 +72,6 @@ export const login = async (req, res) => {
       },
       process.env.JWT_KEY
     );
-    console.log(token);
 
     // res.setHeader("Authorization", `Bearer ${token}`);
     res.cookie("token", token, { maxAge: 1000 * 60 * 60 });

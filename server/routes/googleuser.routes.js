@@ -4,6 +4,8 @@ import passport from "passport";
 import googleUser from "../models/googleuser.js";
 import User from "../models/users.js";
 
+import jwt from "jsonwebtoken";
+
 const router = express.Router();
 
 import { v4 as uuidv4 } from "uuid";
@@ -55,6 +57,16 @@ router.get("/protected", isLoggedIn, async (req, res) => {
     let username = email.split("@")[0];
     const existingUser = await googleUser.findOne({ email });
     if (existingUser) {
+      const token = jwt.sign(
+        {
+          email: existingUser.email,
+          username: existingUser.username,
+        },
+        process.env.JWT_KEY
+      );
+
+      res.cookie("token", token, { maxAge: 1000 * 60 * 60 });
+
       res.status(200).json({
         message: "Login Successful",
         credentails: {
@@ -77,6 +89,16 @@ router.get("/protected", isLoggedIn, async (req, res) => {
       });
 
       const savedUser = await user.save();
+
+      const token = jwt.sign(
+        {
+          email: savedUser.email,
+          username: savedUser.username,
+        },
+        process.env.JWT_KEY
+      );
+
+      res.cookie("token", token, { maxAge: 1000 * 60 * 60 });
 
       res.status(200).json({
         message: "Registered successfully. Welcome to Legeon",

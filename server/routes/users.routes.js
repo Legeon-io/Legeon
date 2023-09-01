@@ -12,6 +12,7 @@ import {
   verifyOTP,
 } from "../controllers/otpGenerater.js";
 import { localVariables } from "../middleware/auth.js";
+import verifyToken from "../middlewares/authentication/verifyToken.js";
 
 const router = express.Router();
 
