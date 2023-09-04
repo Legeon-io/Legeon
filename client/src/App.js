@@ -38,7 +38,13 @@ const App = () => {
       {username && <Navbar />}
       <BrowserRouter>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/" element={<SignIn />} /> */}
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgetpassword" element={<ForgetPassword />} />
+          <Route path="/otp" element={<OTPPassword />} />
+          <Route path="/recover" element={<RecoverPassword />} />
+
+          <Route path="/" element={<Dashboard />} />
           <Route path="/services" element={<Services />} />
           <Route path="/bookings" element={<Bookings />} />
           <Route path="/payments" element={<Payments />} />
@@ -66,11 +72,6 @@ const App = () => {
             path="/:username/:title/:id/service"
             element={<BookingService />}
           />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/" element={<SignIn />} />
-          <Route path="/forgetpassword" element={<ForgetPassword />} />
-          <Route path="/otp" element={<OTPPassword />} />
-          <Route path="/recover" element={<RecoverPassword />} />
         </Routes>
       </BrowserRouter>
     </main>

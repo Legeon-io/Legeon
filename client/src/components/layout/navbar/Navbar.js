@@ -46,7 +46,7 @@ export const Navbar = (props) => {
           >
             Payments
           </a>
-          <div className="mt-0.5 mr-1">
+          <div className="mt-0.5 mr-1 flex justify-center items-center">
             <Toggle
               ischecked={checked}
               handleChange={handleChanges}
