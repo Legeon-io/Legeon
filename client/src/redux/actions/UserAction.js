@@ -37,7 +37,11 @@ export const userSignInAction = (values) => {
       dispatch({
         type: SIGNIN_USER_FAILURE,
       });
-      toast.error(error.response.data.error);
+      if (error.response && error.response.status === 400) {
+        toast.error("Invalid credintials !");
+      } else {
+        toast.error("Internal server error");
+      }
     }
   };
 };
@@ -62,7 +66,13 @@ export const userSignUpAction = (values, navigate) => {
       dispatch({
         type: SIGNUP_USER_FAILURE,
       });
-      toast.error(error.response.data.error);
+      if (error.response && error.response.status === 409) {
+        toast.error("Already Registered !");
+      } else if (error.response && error.response.status === 404) {
+        toast.error("Missing Credentials !");
+      } else {
+        toast.error("Internal server error");
+      }
     }
   };
 };
@@ -128,7 +138,7 @@ export const userUpdatePassword = (values, navigate) => {
     dispatch({ type: UPDATE_PASSWORD_REQUEST });
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/users/updatePasswod",
+        "http://localhost:8080/api/users/updatePassword",
         values
       );
       console.log(values, response);

@@ -13,8 +13,8 @@ const SignIn = ({ setToggleToRegister }) => {
   const dispatch = useDispatch();
  
   const initialValues = {
-    email: "shailendra@gmail.com",
-    password: "123456",
+    email: "",
+    password: "",
   };
 
   const formik = useFormik({

@@ -18,6 +18,7 @@ export const signup = async (req, res) => {
   try {
     const { firstname, lastname, email, password } = req.body;
     let username = email.split("@")[0];
+    // console.log(req.body);
 
     // Check for existing gmail in google user collection
     const existingCustomUser = await googleUser.findOne({ email });
@@ -33,8 +34,7 @@ export const signup = async (req, res) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      const errorMessage = "Email Taken";
-      return res.status(409).json({ errorMessage });
+      return res.status(409).json({ err: "Email Taken" });
     }
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
@@ -43,10 +43,14 @@ export const signup = async (req, res) => {
 
     const newUser = new User({
       email,
+      lastname,
       firstname,
       username,
       password,
     });
+
+    console.log(newUser);
+
     await newUser.save();
     return res.status(201).json(newUser);
   } catch (error) {
@@ -76,6 +80,10 @@ export const login = async (req, res) => {
     // res.setHeader("Authorization", `Bearer ${token}`);
     res.cookie("token", token, { maxAge: 1000 * 60 * 60 });
 
+    console.log(req.body);
+    if (!email || !password || !user || !passwordMatch) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
     res.status(200).json({
       message: "Login successful",
       user: {

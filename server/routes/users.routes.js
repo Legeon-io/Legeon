@@ -26,7 +26,7 @@ router.post("/validEmail", localVariables, validEmail);
 router.post("/verifyOTP", verifyOTP);
 
 // Password Update Route
-router.post("/updatePasswod", updatePassword);
+router.post("/updatePassword", updatePassword);
 
 // Login route
 router.post("/login", login);

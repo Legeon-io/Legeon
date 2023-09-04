@@ -15,7 +15,7 @@ const ForgetPassword = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "shailendra@gmail.com",
+      email: "",
     },
     validationSchema: forgetSchema,
     onSubmit: (values) => {

@@ -13,9 +13,11 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const initialValues = {
-    email: "shailendra@gmail.com",
-    password: "123456",
-    confirmPassword: "123456",
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   };
   const formik = useFormik({
     initialValues: initialValues,
@@ -52,6 +54,46 @@ const SignUp = () => {
 
               <form action="" onSubmit={formik.handleSubmit}>
                 <div className="flex flex-col gap-5">
+                  <div className="relative">
+                    <input
+                      id="firstname"
+                      type="text"
+                      className="inputfield_css peer"
+                      required="required"
+                      autoComplete="off"
+                      value={formik.values.firstname}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <label htmlFor="firstname" className="labelfeild_css">
+                      Firstname
+                    </label>
+                    {formik.errors.firstname && formik.touched.firstname && (
+                      <span className="text-[12px] text-red-700">
+                        {formik.errors.firstname}
+                      </span>
+                    )}
+                  </div>
+                  <div className="relative">
+                    <input
+                      id="lastname"
+                      type="text"
+                      className="inputfield_css peer"
+                      required="required"
+                      autoComplete="off"
+                      value={formik.values.lastname}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    <label htmlFor="lastname" className="labelfeild_css">
+                      Lastname
+                    </label>
+                    {formik.errors.lastname && formik.touched.lastname && (
+                      <span className="text-[12px] text-red-700">
+                        {formik.errors.lastname}
+                      </span>
+                    )}
+                  </div>
                   <div className="relative">
                     <input
                       id="email"
