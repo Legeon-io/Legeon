@@ -3,7 +3,7 @@ import {
   EMAIL_VALID_FAILURE,
   EMAIL_VALID_REQUEST,
   EMAIL_VALID_SUCCESS,
-  OTP_VALID_FAILURE, 
+  OTP_VALID_FAILURE,
   OTP_VALID_REQUEST,
   OTP_VALID_SUCCESS,
   SIGNIN_USER_FAILURE,
@@ -28,7 +28,7 @@ export const userSignInAction = (values) => {
         values
       );
       console.log(response);
-      if (response.status === 200) {
+      if (response.status == 200) {
         dispatch({ type: SIGNIN_USER_SUCCESS, payload: response.user });
         toast.success("Login Successfully !!!");
       }
@@ -37,7 +37,11 @@ export const userSignInAction = (values) => {
       dispatch({
         type: SIGNIN_USER_FAILURE,
       });
-      toast.error(error.response.data.error);
+      if (error.response && error.response.status === 400) {
+        toast.error("Invalid credintials !");
+      } else {
+        toast.error("Internal server error");
+      }
     }
   };
 };
@@ -52,7 +56,7 @@ export const userSignUpAction = (values, navigate) => {
         values
       );
       console.log(response);
-      if (response.status === 201) {
+      if (response.status == 201) {
         dispatch({ type: SIGNUP_USER_SUCCESS, payload: response.user });
         toast.success("Account Created Successfully !!!");
         navigate("/");
@@ -62,7 +66,13 @@ export const userSignUpAction = (values, navigate) => {
       dispatch({
         type: SIGNUP_USER_FAILURE,
       });
-      toast.error(error.response.data.error);
+      if (error.response && error.response.status === 409) {
+        toast.error("Already Registered !");
+      } else if (error.response && error.response.status === 404) {
+        toast.error("Missing Credentials !");
+      } else {
+        toast.error("Internal server error");
+      }
     }
   };
 };
@@ -77,7 +87,7 @@ export const userValidEmail = (values, navigate) => {
         values
       );
       console.log(response);
-      if (response.status === 200) {
+      if (response.status == 200) {
         dispatch({ type: EMAIL_VALID_SUCCESS, payload: response.data });
         toast.success("OTP is send to your Email");
         navigate("/otp");
