@@ -15,7 +15,13 @@ module.exports = {
       xl: "1200px",
       // => @media (min-width: 1200px) { ... }
     },
-    extend: {},
+    extend: {
+      colors: {
+        "custom-blue": "#7F70E7",
+        "custom-orange": "#FC5F2C",
+      },
+    },
+
+    plugins: [],
   },
-  plugins: [],
 };
