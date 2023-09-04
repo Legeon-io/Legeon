@@ -6,7 +6,11 @@ import {
   getUser,
   updateUser,
 } from "../controllers/users.controller.js";
-import { updatePassword, validEmail, verifyOTP } from "../controllers/otpGenerater.js";
+import {
+  updatePassword,
+  validEmail,
+  verifyOTP,
+} from "../controllers/otpGenerater.js";
 import { localVariables } from "../middleware/auth.js";
 
 const router = express.Router();
@@ -21,7 +25,7 @@ router.post("/validEmail", localVariables, validEmail);
 router.post("/verifyOTP", verifyOTP);
 
 // Password Update Route
-router.post("/updatePasswod", updatePassword);
+router.post("/updatePassword", updatePassword);
 
 // Login route
 router.post("/login", login);

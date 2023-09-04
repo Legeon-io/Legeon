@@ -3,7 +3,7 @@ import {
   EMAIL_VALID_FAILURE,
   EMAIL_VALID_REQUEST,
   EMAIL_VALID_SUCCESS,
-  OTP_VALID_FAILURE,
+  OTP_VALID_FAILURE, 
   OTP_VALID_REQUEST,
   OTP_VALID_SUCCESS,
   SIGNIN_USER_FAILURE,
@@ -128,7 +128,7 @@ export const userUpdatePassword = (values, navigate) => {
     dispatch({ type: UPDATE_PASSWORD_REQUEST });
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/users/updatePasswod",
+        "http://localhost:8080/api/users/updatePassword",
         values
       );
       console.log(values, response);

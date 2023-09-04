@@ -1,31 +1,55 @@
 import User from "../models/users.js";
+import googleUser from "../models/googleuser.js";
+import bcrypt from "bcrypt";
 
 import { v4 as uuidv4 } from "uuid";
 
 const generateShortUUID = () => {
   const fullUUID = uuidv4();
-  const digitsOnly = fullUUID.replace(/\D/g, ""); 
+  const digitsOnly = fullUUID.replace(/\D/g, "");
   const shortUUID = digitsOnly.substring(0, 6);
-  return shortUUID; 
+  return shortUUID;
 };
 
 // SignUp function
 /** POST : http://localhost:8080/api/users/signup */
 export const signup = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { firstname, lastname, email, password } = req.body;
+    let username = email.split("@")[0];
+    console.log(req.body);
 
-    const username = email.split("@")[0];
-
-    const existingEmail = await User.findOne({ email });
-    if (existingEmail) {
-      return res.status(409).json({ errorMessage: "Email already registered" });
+    // Check for existing gmail in google user collection
+    const existingCustomUser = await googleUser.findOne({ email });
+    if (existingCustomUser) {
+      return res
+        .status(409)
+        .json({ message: "Already Registered in Google Login" });
     }
+
+    if (!firstname || !email || !password) {
+      return res.status(404).json({ error: "Missing Credentials" });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ err: "Email Taken" });
+    }
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      username = `${username}#${generateShortUUID()}`;
+    }
+
     const newUser = new User({
       email,
-      username: username + "#" + generateShortUUID(),
+      lastname,
+      firstname,
+      username,
       password,
     });
+
+    console.log(newUser);
+
     await newUser.save();
     return res.status(201).json(newUser);
   } catch (error) {
@@ -39,16 +63,21 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // Check if user exists
     const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ error: "User not registered" });
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    console.log(req.body);
+    if (!email || !password || !user || !passwordMatch) {
+      return res.status(400).json({ error: "Invalid credentials" });
     }
-    // Check if password is correct
-    if (password !== user.password) {
-      return res.status(402).json({ error: "Invalid credentials" });
-    }
-    res.status(200).json({ message: "Login successful", user: user });
+    res.status(200).json({
+      message: "Login successful",
+      user: {
+        email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        username: user.username,
+      },
+    });
   } catch (error) {
     res.status(500).json({ error: "Internal server error", error });
   }
@@ -63,7 +92,6 @@ export const getUser = async (req, res) => {
     if (!user) {
       return res.status(401).json({ error: "User not registered" });
     }
-
     res.status(200).json({ message: "User information received", user: user });
   } catch (error) {
     res.status(500).json({ error: "Internal server error", error });
@@ -74,7 +102,7 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { username } = req.params;
-    const {email } = req.body;
+    const { email } = req.body;
 
     const currentUser = await User.findOne({ username });
 

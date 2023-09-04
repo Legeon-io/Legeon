@@ -50,6 +50,7 @@ export const validEmail = async (req, res) => {
 
         return res.status(200).send({
           msg: "You should receive an email",
+          otp: OTP,
           info: info.messageId,
           preview: nodemailer.getTestMessageUrl(info),
         });

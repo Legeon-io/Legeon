@@ -15,8 +15,8 @@ const ForgetPassword = () => {
 
   const formik = useFormik({
     initialValues: {
-      password: "asdfgh",
-      confirmPassword: "asdfgh",
+      password: "",
+      confirmPassword: "",
     },
     validationSchema: recoverSchema,
     onSubmit: (values) => {
