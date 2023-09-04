@@ -2,6 +2,8 @@ import otpGenerator from "otp-generator";
 import userModel from "../models/users.js";
 import speakeasy from "speakeasy";
 import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
+import * as dotenv from "dotenv";
 
 /** POST: http://localhost:8080/api/users/validEmail */
 export const validEmail = async (req, res) => {
@@ -17,15 +19,46 @@ export const validEmail = async (req, res) => {
         specialChars: false,
       });
 
-      req.app.locals.email = email;
-      req.app.locals.OTP = OTP;
-      req.app.locals.otpExpiry = Date.now() + 5 * 60 * 1000;
-      // console.log(req.app.locals);
-      res.status(200).send({ message: "OTP sent successfully.", OTP: OTP });
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          user: process.env.TEMP_EMAIL,
+          pass: process.env.TEMP_PASSWORD,
+        },
+      });
+
+      const message = {
+        from: "Legeon@gmail.com",
+        to: email,
+        subject: "Verification Code",
+        text: `Your OTP: ${OTP}`,
+      };
+
+      await transporter.sendMail(message, (error, info) => {
+        if (error) {
+          console.error(error);
+          return res
+            .status(500)
+            .json({ error: "Something went wrong with email sending." });
+        }
+
+        req.app.locals.email = email;
+        req.app.locals.OTP = OTP;
+        req.app.locals.otpExpiry = Date.now() + 5 * 60 * 1000;
+
+        return res.status(200).send({
+          msg: "You should receive an email",
+          info: info.messageId,
+          preview: nodemailer.getTestMessageUrl(info),
+        });
+      });
     } else {
       res.status(400).send({ error: "Email is not valid." });
     }
   } catch (error) {
+    console.error(error);
     res.status(500).send({ error: "Internal server error." });
   }
 };
@@ -69,13 +102,14 @@ export const updatePassword = async (req, res) => {
     }
 
     const email = req.app.locals.email;
-    const salt = await bcrypt.genSalt(10);
-    password = await bcrypt.hash(password, salt);
 
-    // console.log(email);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     const updatedUser = await userModel.findOneAndUpdate(
       { email: email },
-      { password: password }
+      { password: hashedPassword },
+      { new: true }
     );
 
     if (!updatedUser) {
@@ -84,9 +118,9 @@ export const updatePassword = async (req, res) => {
 
     req.app.locals.resetSession = false;
 
-    // console.log(updatedUser);
     return res.status(200).send({ message: "Password updated successfully." });
   } catch (error) {
+    console.error(error); // Log the error for debugging
     return res.status(500).send({ error: "Internal server error." });
   }
 };
