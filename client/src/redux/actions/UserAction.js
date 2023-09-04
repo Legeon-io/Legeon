@@ -25,7 +25,8 @@ export const userSignInAction = (values) => {
       //   console.log(values);
       const response = await axios.post(
         "http://localhost:8080/api/users/login",
-        values
+        values,
+        { withCredentials: true }
       );
       console.log(response);
       if (response.status == 200) {

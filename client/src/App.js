@@ -38,13 +38,13 @@ const App = () => {
       {username && <Navbar />}
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<SignIn />} /> */}
+          <Route path="/" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/otp" element={<OTPPassword />} />
           <Route path="/recover" element={<RecoverPassword />} />
 
-          <Route path="/" element={<Dashboard />} />
+          {/* <Route path="/" element={<Dashboard />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/services" element={<Services />} />
           <Route path="/bookings" element={<Bookings />} />

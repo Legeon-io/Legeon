@@ -62,6 +62,7 @@ export const signup = async (req, res) => {
 // Login function
 /** POST : http://localhost:8080/api/users/login */
 export const login = async (req, res) => {
+  console.log(req.body);
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -78,14 +79,15 @@ export const login = async (req, res) => {
     );
 
     // res.setHeader("Authorization", `Bearer ${token}`);
-    res.cookie("token", token, { maxAge: 1000 * 60 * 60 });
 
-    console.log(req.body);
     if (!email || !password || !user || !passwordMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
+    // res.cookie("token", token, { maxAge: 1000 * 60 * 60 });
+    res.cookie("token", token, { maxAge: 1000 * 10 });
     res.status(200).json({
       message: "Login successful",
+
       user: {
         email: user.email,
         firstname: user.firstname,

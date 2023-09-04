@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 
 import "../LoginForm.css";
+import axios from "axios";
 import { useFormik } from "formik";
 import logo from "../../../assets/logo.png";
 import { signinSchema } from "../../../schema";
@@ -11,7 +12,7 @@ import { Link } from "react-router-dom";
 
 const SignIn = ({ setToggleToRegister }) => {
   const dispatch = useDispatch();
- 
+
   const initialValues = {
     email: "",
     password: "",
@@ -88,26 +89,49 @@ const SignIn = ({ setToggleToRegister }) => {
                       ) : (
                         <span />
                       )}
-                      <Link to="/forgetPassword" className="text-[12px] text-violet-500">
+                      <Link
+                        to="/forgetPassword"
+                        className="text-[12px] text-violet-500"
+                      >
                         Forget Password ?
                       </Link>
                     </div>
                   </div>
                   <div className="flex justify-center">
                     <button
-                    type="submit"
+                      type="submit"
                       onClick={formik.handleSignIn}
                       className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl"
                     >
                       Login
                     </button>
                   </div>
+                  <button
+                    onClick={() => {
+                      // axios
+                      //   .get("http://localhost:8080/auth/google")
+                      //   .then((res) => {
+                      //     console.log(res.data);
+                      //   })
+                      //   .catch((err) => {
+                      //     console.log(err);
+                      //   });
+                      window.location.href =
+                        "http://localhost:8080/auth/google";
+                    }}
+                    type="button"
+                  >
+                    <a className="bg-gray-300 p-2 rounded hover:bg-gray-400 duration-300">
+                      <b className="text-2xl mr-4">G</b>{" "}
+                      <span className="text-white">Sign in with Google</span>
+                    </a>
+                  </button>
                   <div className="signin_dont_css">
                     <span className="">Don't have any account ?</span>
-                    <Link to="/signup"
+                    <Link
+                      to="/signup"
                       className="text-violet-500 cursor-pointer"
                     >
-                      {" "}
                       Register Now
                     </Link>
                   </div>

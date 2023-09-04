@@ -67,15 +67,18 @@ router.get("/protected", isLoggedIn, async (req, res) => {
 
       res.cookie("token", token, { maxAge: 1000 * 60 * 60 });
 
-      res.status(200).json({
-        message: "Login Successful",
-        credentails: {
-          firstname: firstname,
-          lastname: lastname,
-          email: email,
-          email_verified: req.user.email_verified,
-        },
-      });
+      // res.status(200).json({
+      //   message: "Login Successful",
+      //   credentails: {
+      //     firstname: firstname,
+      //     lastname: lastname,
+      //     email: email,
+      //     email_verified: req.user.email_verified,
+      //   },
+      // });
+      res.redirect("http://localhost:3000");
+
+      // return res.redirect("http://localhost:3000");
     } else {
       const existingUsername = await googleUser.findOne({ username });
       if (existingUsername) {
@@ -104,6 +107,7 @@ router.get("/protected", isLoggedIn, async (req, res) => {
         message: "Registered successfully. Welcome to Legeon",
         user: savedUser,
       });
+      res.redirect("http://localhost:3000");
     }
   } else {
     res.status(403).json({ error: true, message: "Not Authorized" });
