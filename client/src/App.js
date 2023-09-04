@@ -1,13 +1,6 @@
-import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { Navbar } from "./components/layout/index.js";
 import {
@@ -23,8 +16,6 @@ import {
   Payments,
 } from "./pages/index.js";
 import "./App.css";
-import { loginAction, logoutAction } from "./redux/actions/Actions.js";
-import { persistor } from "./redux/stores/Store.js";
 import {
   CreateService,
   EngageCall,
@@ -40,118 +31,48 @@ import RecoverPassword from "./pages/login/forgetpassword/RecoverPassword.js";
 import OTPPassword from "./pages/login/forgetpassword/OTPPasword.js";
 
 const App = () => {
-  const [sidebarVisible, setSidebar] = useState(false);
-
   const username = useSelector((state) => state.session.username);
-  const dispatch = useDispatch();
-
-  const handleLogin = (username) => {
-    dispatch(loginAction({ username }));
-  };
-
-  const handleLogout = () => {
-    dispatch(logoutAction());
-    persistor.purge();
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
-  };
-
-  const router = createBrowserRouter([
-    {
-      path: "/dashboard",
-      element: <Dashboard />,
-    },
-    {
-      path: "/services",
-      element: <Services />,
-    },
-    {
-      path: "/bookings",
-      element: <Bookings />,
-    },
-    {
-      path: "/payments",
-      element: <Payments />,
-    },
-    {
-      path: "/earnings",
-      element: <Earnings />,
-    },
-    {
-      path: "/profile",
-      element: <Profile />,
-    },
-    {
-      path: "/community",
-      element: <Community />,
-    },
-    {
-      path: "/about",
-      element: <About />,
-    },
-    {
-      path: "/support",
-      element: <Support />,
-    },
-    {
-      path: "/feedback",
-      element: <Feedback />,
-    },
-    {
-      path: "/services/create-service",
-      element: <CreateService />,
-    },
-    {
-      path: "/services/create-service/engage-call",
-      element: <EngageCall />,
-    },
-    {
-      path: "/services/create-service/text-query",
-      element: <TextQuery />,
-    },
-    {
-      path: "/services/engage-call/edit-service/:id",
-      element: <EditCallServiceForm />,
-    },
-    {
-      path: "/:username",
-      element: <UserServices />,
-    },
-    {
-      path: "/:username/:title/:id/service",
-      element: <BookingService />,
-    },
-    {
-      path: "/signup",
-      element: <SignUp />,
-    },
-    {
-      path: "/",
-      element: <SignIn />,
-    },
-    {
-      path: "/forgetpassword",
-      element: <ForgetPassword />,
-    },
-    {
-      path: "/otp",
-      element: <OTPPassword />,
-    },
-    {
-      path: "/recover",
-      element: <RecoverPassword />,
-    },
-    {
-      path: "/:username/service/:title",
-      element: <BookingService />,
-    },
-  ]);
 
   return (
     <main>
       {username && <Navbar />}
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/bookings" element={<Bookings />} />
+          <Route path="/payments" element={<Payments />} />
+          <Route path="/earnings" element={<Earnings />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/feedback" element={<Feedback />} />
+          <Route path="/services/create-service" element={<CreateService />} />
+          <Route
+            path="/services/create-service/engage-call"
+            element={<EngageCall />}
+          />
+          <Route
+            path="/services/create-service/text-query"
+            element={<TextQuery />}
+          />
+          <Route
+            path="/services/engage-call/edit-service/:id"
+            element={<EditCallServiceForm />}
+          />
+          <Route path="/:username" element={<UserServices />} />
+          <Route
+            path="/:username/:title/:id/service"
+            element={<BookingService />}
+          />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<SignIn />} />
+          <Route path="/forgetpassword" element={<ForgetPassword />} />
+          <Route path="/otp" element={<OTPPassword />} />
+          <Route path="/recover" element={<RecoverPassword />} />
+        </Routes>
+      </BrowserRouter>
     </main>
   );
 };
