@@ -28,7 +28,7 @@ export const userSignInAction = (values) => {
         values
       );
       console.log(response);
-      if (response.status == 200) {
+      if (response.status === 200) {
         dispatch({ type: SIGNIN_USER_SUCCESS, payload: response.user });
         toast.success("Login Successfully !!!");
       }
@@ -52,7 +52,7 @@ export const userSignUpAction = (values, navigate) => {
         values
       );
       console.log(response);
-      if (response.status == 201) {
+      if (response.status === 201) {
         dispatch({ type: SIGNUP_USER_SUCCESS, payload: response.user });
         toast.success("Account Created Successfully !!!");
         navigate("/");
@@ -77,7 +77,7 @@ export const userValidEmail = (values, navigate) => {
         values
       );
       console.log(response);
-      if (response.status == 200) {
+      if (response.status === 200) {
         dispatch({ type: EMAIL_VALID_SUCCESS, payload: response.data });
         toast.success("OTP is send to your Email");
         navigate("/otp");
