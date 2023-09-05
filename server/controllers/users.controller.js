@@ -83,8 +83,8 @@ export const login = async (req, res) => {
     if (!email || !password || !user || !passwordMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
-    // res.cookie("token", token, { maxAge: 1000 * 60 * 60 });
-    res.cookie("token", token, { maxAge: 1000 * 10 });
+
+    res.cookie("token", token, { maxAge: 1000 * 60 * 60 });
     res.status(200).json({
       message: "Login successful",
 
