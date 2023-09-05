@@ -1,277 +1,41 @@
-.popupWrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .popupContent {
-    position: relative;
-    width: 400px;
-    padding: 40px;
-    background-color: #333333;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    color: #ffc107;
-  }
-  
-  .closePopup {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
-    font-weight: bold;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-  }
-  
-  h2 {
-    margin-bottom: 30px;
-    font-size: 30px;
-    font-weight: 600;
-    text-align: center;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  
-  input[type="text"],
-  input[type="email"],
-  input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    outline: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 15px;
-  }
-  
-  button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.5s ease-in-out;
-  }
-  
-  button[type="submit"]:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .signUp {
-    background-color: #f39c12;
-    margin-right: 10px;
-    margin-top: 15px;
-  }
-  
-  .signIn {
-    background-color: #2ecc71;
-    margin-right: 10px;
-    margin-top: 15px;
-  }
-
-  .signup-container {
-    margin-left: 30px;
-    margin-right: 30px;
-  }
-  
-  .forgotPasswordWrapper {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .forgotPasswordText {
-    margin-right: 10px;
-    font-size: 16px;
-  }
-  
-  .forgotPasswordButton {
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-    background-color: #3498db;
-    cursor: pointer;
-    transition: all 0.5s ease-in-out;
-  }
-  
-  .forgotPasswordButton:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  
-
-  .alreadyHaveAccountWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-    font-weight: 600;
-  }
-  
-  .alreadyHaveAccountWrapper span {
-    font-size: 14px;
-    margin-right: 5px;
-  }
-  
-  .alreadyHaveAccountWrapper button {
-    font-size: 14px;
-    font-weight: bold;
-    background-color: #2ecc71;
-    border: none;
-    cursor: pointer;
-    margin-top: 5px;
-  }
-
-  .loginLogo {
-    height: 70px;
-    width: 70px;
-    border-radius: 50%;
-    margin-left: 110px;
+.signin_main_css {
+  @apply relative flex flex-col justify-around w-[30rem] h-[30rem] bg-white p-10 rounded-2xl;
+  @apply transition-all duration-100;
+}
+.signup_main_css {
+  @apply relative flex flex-col justify-around w-[30rem] h-[40rem] bg-white p-10 rounded-2xl;
+  @apply transition-all duration-100;
+}
+.signin_dont_css {
+  @apply flex gap-2 justify-center p-0;
+  @apply transition-all duration-100;
+}
+.inputfield_css {
+  @apply border-2 p-2 focus:outline-none focus:border-purple-800 transition-colors w-full  focus:ring-purple-800 rounded;
 }
 
-.loginLogo:hover {
-    transform: scale(1.1);
+.labelfeild_css {
+  @apply absolute left-3 top-2 select-none text-gray-400 transition-all duration-150;
 }
 
-.alert {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
+.inputfield_css:valid ~ label {
+  @apply text-xs border-l-2 border-r-2 bg-white text-purple-800 border-purple-800 px-2 -top-2;
+}
+.signin_header_css {
+  @apply flex justify-center items-center h-screen w-full;
 }
 
-.alert-danger {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-}
-
-button.logout {
-  background-color: #FF6347;
-  display: flex;
-  border: none;
-  color: #000;
-  padding: 10px 20px;
-  font-size: 18px;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.5s ease;
-  align-items: center;
-  justify-content: center; 
-  position: relative;
-  margin-top: 50px;
-  width: 100%;
-  max-width: 300px;
-  display: flex;
-}
-
-.logout {
-  margin-left: 0px;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
-button.logout:hover {
-  background-color: #ff473d;
-}
-
-.logout-icon {
-  font-size: 1.7rem;
-  margin-right: 0.5rem;
-}
-
-.logout-text {
-  text-decoration: none;
-  color: black;
-}
-
-
-.passwordVisibilityIcon {
-  position: absolute;
-  display: flex;
-  top: 50%;
-  margin-top: 37px;
-  margin-left: 330px;
-  cursor: pointer;
-}
-
-.passwordVisibilityIcon-moveDown {
-  position: absolute;
-  display: flex;
-  top: 50%;
-  margin-top: 67px;
-  margin-left: 330px;
-  cursor: pointer;
-}
-
-
-.signupPasswordVisibilityIcon {
-  position: absolute;
-  display: flex;
-  top: 50%;
-  margin-top: 108px;
-  margin-left: 330px;
-  cursor: pointer;
-}
-
-.signupPasswordVisibilityIcon-moveDown {
-  position: absolute;
-  display: flex;
-  top: 50%;
-  margin-top: 140px;
-  margin-left: 330px;
-  cursor: pointer;
-}
-
-
-.confirmPasswordVisibilityIcon {
-  position: absolute;
-  display: flex;
-  top: 50%;
-  margin-top: 160px;
-  margin-left: 330px;
-  cursor: pointer;
-}
-
-.confirmPasswordVisibilityIcon-moveDown {
-  position: absolute;
-  display: flex;
-  top: 50%;
-  margin-top: 192px;
-  margin-left: 330px;
-  cursor: pointer;
-}
-
-.headline {
-  color: rgb(146, 189, 36);
-  margin-left: -15px;
-  margin-right: -20px;
-  display: flex;
+@media (max-width: 500px) {
+  .signin_main_css {
+    @apply p-5 m-2;
+  }
+  .signup_main_css {
+    @apply p-5 m-2;
+  }
+  .signin_dont_css {
+    @apply gap-0 text-[12px];
+  }
+  .signin_header_css {
+    @apply flex justify-center items-center h-screen w-full;
+  }
 }
