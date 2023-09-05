@@ -1,149 +1,180 @@
-import React, { useEffect, useState } from 'react'
-import './Profile.css';
-import '../index.css'
-import { AccountPage, ProfilePage } from './profile-pages';
-import { getUser, updateUser } from '../../apis/users/users.api';
-import Popup from '../../components/common/Popup';
-import { updateUserProfile } from '../../apis/users/userprofiles';
-import { useSelector } from 'react-redux';
-
+import React, { useEffect, useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import "./Profile.css";
+import "../index.css";
+import { AccountPage, ProfilePage } from "./profile-pages";
+import { getUser, updateUser } from "../../apis/users/users.api";
+import Popup from "../../components/common/Popup";
+import { updateUserProfile } from "../../apis/users/userprofiles";
+import { useSelector } from "react-redux";
+import logo from "../../assets/logo.png";
 export const Profile = (props) => {
-  const username = useSelector((state) => state.session.username);
-  const [activeTab, setActiveTab] = useState('profilepage');
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isProfileChanges, setIsProfileChanges] = useState(false);
-  const [noChanges, setNoChanges] = useState(false);
-
-  const [formData, setFormData] = useState([
-    { name: 'firstname', value: '' },
-    { name: 'lastname', value: '' },
-    { name: 'bio', value: '' },
-    { name: 'profession', value: '' },
-  ]);
-
-  const handleTabToChange = (tab) => {
-    setActiveTab(tab);
+  const initialValues = {
+    link: "",
+    firstname: "",
+    lastname: "",
+    displayname: "",
+    intro: "",
+    bio: "",
   };
-
-  useEffect(() => {
-    async function fetchData() {
-      const { response, data } = await getUser(username);
-      if (response.status === 200) {
-        setUserData(data.user);
-        setIsLoading(false);
-      } else {
-        console.log('Internal Server Error, data not received', response.error);
-      }
-    }
-    const delay = setTimeout(() => {
-      fetchData();
-    }, 200);
-
-    return () => clearTimeout(delay);
-  }, [username]);
-
-  const handleInputChange = (event) => {
-    setIsProfileChanges(true);
-    const { id, value } = event.target;
-    setFormData((prevFormData) =>
-      prevFormData.map((field) =>
-        field.name === id ? { ...field, value: value } : field
-      )
-    );
-  }
-
-  const handleSubmit = () => {
-    // If there are any changes done by the user in the form then pop up is set to true
-    if (isProfileChanges || activeTab === 'accountpage') setIsPopupOpen(true);
-    else setNoChanges(true);
-  }
-
-
-  const handleConfirm = async () => {
-    if (activeTab === 'accountpage') {
-      window.location.href = '/profile';
-      setIsPopupOpen(false);
-    }
-    else {
-      const userUpdateResponse = await updateUser(username, formData[0].value, formData[1].value);
-      const userProfileUpdateResponse = await updateUserProfile(username, formData[2].value, formData[3].value);
-      if (userUpdateResponse.response.status !== 200) {
-        console.log(userUpdateResponse.data.error);
-        console.log(userProfileUpdateResponse.data.error);
-      }
-      setIsPopupOpen(false);
-      setTimeout(() => {
-        window.location.reload();
-      }, 200);
-    }
+  const validationSchema = Yup.object().shape({
+    link: Yup.string().required("Link is required"),
+    firstname: Yup.string().required("First name is required"),
+    lastname: Yup.string().required("Last name is required"),
+    displayname: Yup.string().required("Display name is required"),
+    intro: Yup.string().required("Legion intro is required"),
+    bio: Yup.string(),
+  });
+  const handleSubmit = (values) => {
+    console.log(initialValues);
   };
-
-  const handleCancel = () => {
-    setNoChanges(false);
-    setIsPopupOpen(false);
-  };
-
 
   return (
-    <>
-      {isLoading ? (
-        <p className='loading' style={{background: 'linear-gradient(to right, #0B0C10, #1F2833)'}} >Engaging...</p>
-      ) : (
-        <>
-          <div className={props.sidebarVisible ? 'page move-right' : 'page'} >
-            <div className='button-container'>
-              <span className='profile-span'>
-                <button className={activeTab === "profilepage" ? "active" : ""} onClick={() => handleTabToChange("profilepage")}>
-                  Profile
-                </button>
-              </span>
-              <span className='account-span'>
-                <button className={activeTab === "accountpage" ? "active" : ""} onClick={() => handleTabToChange("accountpage")}>
-                  Account
-                </button>
-              </span>
-            </div>
-            
-            <span className='save-span'>
-              <button className="save-button" onClick={handleSubmit}>
-                Save Changes
+    <div className="grid grid-cols-7 h-screen">
+      <div className="col-span-1 bg-gray-100 text-lg flex flex-col gap-10  ">
+        <ul className="flex flex-col items-center space-y-4 p-4 gap-3 mt-5">
+          <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
+            <a
+              className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
+              href="/"
+            >
+              Dashboard
+            </a>
+          </li>
+          <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
+            <a
+              className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
+              href="/"
+            >
+              DirectMessage
+            </a>
+          </li>
+          <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
+            <a
+              className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
+              href="/"
+            >
+              Bookings
+            </a>
+          </li>
+        </ul>
+        <div className="  flex flex-col">
+          <ul className="flex flex-col items-center space-y-4 p-4 gap-3">
+            <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
+              <a
+                className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
+                href="/"
+              >
+                Availability
+              </a>
+            </li>
+            <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
+              <a
+                className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
+                href="/"
+              >
+                Services
+              </a>
+            </li>
+            <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
+              <a
+                className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
+                href="/"
+              >
+                Payments
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="col-span-6 grid grid-rows-6 ">
+        <div className=" flex flex-col  row-span-1 w-full gap-x-5  ">
+          <h1 className="text-3xl mx-10">Profile</h1>
+          <div className="flex justify-between mx-10 ">
+            <div className="flex gap-10 mt-3">
+              <button className="border border-black p-2 rounded-md">
+                Profile
               </button>
-              {isPopupOpen && (
-                <Popup
-                  message="Are you sure you want to save changes?"
-                  onConfirm={handleConfirm}
-                  onCancel={handleCancel}
-                />
-              )}
-              {noChanges && (
-                <Popup
-                  message="No changes made yet!"
-                  onConfirm={handleConfirm}
-                  onCancel={handleCancel}
-                  showConfirm={false}
-                />
-              )}
-            </span>
+              <button className="border border-black p-2 rounded-md">
+                Settings
+              </button>
+              <button className="border border-black p-2 rounded-md">
+                Account
+              </button>
+            </div>
+            <button className="border border-black p-2 rounded-md">save</button>
           </div>
+        </div>
+        <div className=" flex flex-col   row-span-5  items-center  ">
+          <Formik
+            initialValues={initialValues}
+            validate={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting }) => (
+              <Form className="bg-gray-300 w-6/12">
+                <div className="flex justify-between w-full items-center">
+                  <div className="flex">
+                    {/*eslint-disable-next-line jsx-a11y/img-redundant-alt*/}
+                    <img src={logo} alt="user image" className="h-20 w-20" />
+                    <div className="flex flex-col justify-center items-center">
+                      <h1>Profile photo</h1> <h1>required </h1>
+                    </div>
+                  </div>
+                  <a href="./">Change profile </a>
+                </div>
+                <div className="flex flex-col">
+                  <div className="flex flex-col ">
+                    <label>Your legeon link</label>
+                    <Field
+                      name="link"
+                      placeholder="link"
+                      className="border border-black"
+                    />
+                    <ErrorMessage name="link" />
+                  </div>
+                  <div className="flex  ">
+                    <Field
+                      name="firstname"
+                      placeholder="firstname"
+                      className="border border-black w-full "
+                    />
+                    <ErrorMessage name="firstname" />
+                    <Field
+                      name="lastname"
+                      placeholder="lastname"
+                      className="border border-black w-full "
+                    />
+                    <ErrorMessage name="lastname" />
+                  </div>
+                  <Field
+                    name="displayname"
+                    placeholder="display name"
+                    className="border border-black w-full "
+                  />
+                  <ErrorMessage name="displayname" />
+                  <Field
+                    name="intro"
+                    placeholder="legion intro"
+                    className="border border-black w-full "
+                  />
+                  <ErrorMessage name="intro" />
+                  <Field as="textarea" name="bio">
+                    ellaborate yourself
+                  </Field>
+                  <ErrorMessage name="bio" />
+                </div>
+                <button type="submit" disabled={isSubmitting}>
+                  Submit
+                </button>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-          <div className='division'></div>
-          <div className={props.sidebarVisible ? 'page-container move-right' : 'page-container'} >
-            {
-              activeTab === "profilepage" && <ProfilePage username={username} userData={userData}
-                onInputChange={handleInputChange} />
-            }
-            {
-              activeTab === "accountpage" && <AccountPage username={username} email={userData.email} />
-            }
-          </div>
-
-        </>
-      )
-      }
-    </>
-  )
-}
-
-export default Profile
+export default Profile;

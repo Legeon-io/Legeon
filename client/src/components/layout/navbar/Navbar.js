@@ -21,7 +21,7 @@ export const Navbar = (props) => {
 
   return (
     <>
-      <nav className="flex justify-between items-center   shadow-md hover:shadow-lg duration-300  p-2 ">
+      <nav className="flex justify-between items-center   shadow-md hover:shadow-lg duration-300  z-30 p-2 ">
         <div className=" flex m-3 ">
           <h1 className="text-transparent bg-clip-text  bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500 font-semibold text-lg ">
             LEGEON
