@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Dashboard.css";
 import "../index.css";
 import image1 from "../../assets/job_interview_illustration_1.png";
@@ -9,11 +9,35 @@ import communication from "../../assets/peopleCommunicating.png";
 import handshake from "../../assets/handshake.png";
 import divthreeimage from "../../assets/divthreeimage.png";
 import "./Dashboard.css";
+import SignIn from "../login/signin/SignIn";
+import { useSelector, useDispatch } from "react-redux";
+import SignUp from "../login/signup/SignUp";
+import ForgetPassword from "../login/forgetpassword/ForgetPassword";
 const Dashboard = ({ sidebarVisible }) => {
+  const dispatch = useDispatch();
+
+  const openLogin = useSelector((state) => state.dashboard.showLogin);
+  const openRegister = useSelector((state) => state.dashboard.showRegister);
+  const openForgetPassword = useSelector((state) => state.dashboard.showFP);
+
   return (
     <>
-      {/* First div   */}
       <div id="maindiv" className="w-full">
+        {openLogin && (
+          <div className="popup-container">
+            <SignIn />
+          </div>
+        )}
+        {openRegister && (
+          <div className="popup-container">
+            <SignUp />
+          </div>
+        )}
+        {openForgetPassword && (
+          <div className="popup-container">
+            <ForgetPassword />
+          </div>
+        )}
         <div className="flex flex-col lg:flex-row gap-10 lg:m-16 m-8 mt-10 mb-0">
           <img
             alt="workers working together"

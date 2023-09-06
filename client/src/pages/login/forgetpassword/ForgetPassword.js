@@ -67,7 +67,7 @@ const ForgetPassword = () => {
                 <button
                   type="submit"
                   onClick={formik.handleForgetPassword}
-                  className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2  text-white rounded"
+                  className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2  text-white rounded hover:opacity-80  duration-300"
                 >
                   Recover Now
                 </button>

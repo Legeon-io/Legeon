@@ -31,21 +31,23 @@ import RecoverPassword from "./pages/login/forgetpassword/RecoverPassword.js";
 import OTPPassword from "./pages/login/forgetpassword/OTPPasword.js";
 
 const App = () => {
-  const username = useSelector((state) => state.session.username);
+  // const username = useSelector((state) => state.session.username);
 
   return (
     <main>
-      {username && <Navbar />}
+      {/* {username && <Navbar />} */}
+      <Navbar />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
+          {/* <Route path="/" element={<SignIn />} /> */}
+          {/* <Route path="/signup" element={<SignUp />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/otp" element={<OTPPassword />} />
-          <Route path="/recover" element={<RecoverPassword />} />
+          <Route path="/recover" element={<RecoverPassword />} /> */}
 
           {/* <Route path="/" element={<Dashboard />} /> */}
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<div>Dashboard Page</div>} />
           <Route path="/services" element={<Services />} />
           <Route path="/bookings" element={<Bookings />} />
           <Route path="/payments" element={<Payments />} />

@@ -1,4 +1,6 @@
 import axios from "axios";
+// import {Lin} from "react-router-dom";
+
 import {
   EMAIL_VALID_FAILURE,
   EMAIL_VALID_REQUEST,
@@ -32,6 +34,9 @@ export const userSignInAction = (values) => {
       if (response.status == 200) {
         dispatch({ type: SIGNIN_USER_SUCCESS, payload: response.user });
         toast.success("Login Successfully !!!");
+        setTimeout(() => {
+          window.location = "/dashboard";
+        }, 2000);
       }
     } catch (error) {
       console.log(error);

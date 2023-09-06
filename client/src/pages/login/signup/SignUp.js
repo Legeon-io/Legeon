@@ -8,6 +8,7 @@ import { signupSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { userSignUpAction } from "../../../redux/actions/UserAction";
 import { Link, useNavigate } from "react-router-dom";
+import { openRegister } from "../../../redux/actions/dashboardActions";
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -33,12 +34,12 @@ const SignUp = () => {
         <div className="fixed inset-0 bg-gray-500 bg-opacity-80 transition-opacity">
           <div className="signin_header_css ">
             <div className="signup_main_css">
-              <Link to="/">
+              <button onClick={() => dispatch(openRegister())}>
                 <X
                   className="absolute right-2 top-2 active:text-3xl"
                   size={30}
                 />
-              </Link>
+              </button>
               <div className="flex flex-col justify-around items-center w-full">
                 <img src={logo} alt="" className="h-20 w-20 rounded-full" />
                 <div className="flex flex-col">
@@ -155,11 +156,12 @@ const SignUp = () => {
                         </span>
                       )}
                   </div>
+
                   <div className="flex justify-center">
                     <button
                       type="submit"
                       onClick={formik.handleSignUp}
-                      className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl"
+                      className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl hover:opacity-80  duration-300"
                     >
                       Register
                     </button>

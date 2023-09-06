@@ -8,9 +8,16 @@ import logo from "../../../assets/logo.png";
 import { signinSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { userSignInAction } from "../../../redux/actions/UserAction";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
+import {
+  openLogin,
+  openRegister,
+} from "../../../redux/actions/dashboardActions";
+import SignUp from "../signup/SignUp";
+import ForgetPassword from "../forgetpassword/ForgetPassword";
+import OTPPassword from "../forgetpassword/OTPPasword";
 
-const SignIn = ({ setToggleToRegister }) => {
+const SignIn = ({ onClose }) => {
   const dispatch = useDispatch();
 
   const initialValues = {
@@ -32,6 +39,12 @@ const SignIn = ({ setToggleToRegister }) => {
         <div className="fixed inset-0 bg-gray-500 bg-opacity-80 transition-opacity">
           <div className="signin_header_css ">
             <div className="signin_main_css">
+              <button onClick={() => dispatch(openLogin())}>
+                <X
+                  className="absolute right-2 top-2 active:text-3xl"
+                  size={30}
+                />
+              </button>
               <div className="flex flex-col justify-around items-center w-full">
                 <img src={logo} alt="" className="h-20 w-20 rounded-full" />
                 <div className="flex flex-col">
@@ -101,39 +114,35 @@ const SignIn = ({ setToggleToRegister }) => {
                     <button
                       type="submit"
                       onClick={formik.handleSignIn}
-                      className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl"
+                      className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl hover:opacity-80  duration-300"
                     >
                       Login
                     </button>
                   </div>
                   <button
+                    className="w-fit m-auto"
                     onClick={() => {
-                      // axios
-                      //   .get("http://localhost:8080/auth/google")
-                      //   .then((res) => {
-                      //     console.log(res.data);
-                      //   })
-                      //   .catch((err) => {
-                      //     console.log(err);
-                      //   });
-                      window.location.href =
-                        "http://localhost:8080/auth/google";
+                      window.open("http://localhost:8080/auth/google", "_self");
                     }}
                     type="button"
                   >
-                    <a className="bg-gray-300 p-2 rounded hover:bg-gray-400 duration-300">
-                      <b className="text-2xl mr-4">G</b>{" "}
-                      <span className="text-white">Sign in with Google</span>
+                    <a className="block bg-white shadow-md px-4 py-2 rounded hover:bg-gray-200 duration-300 w-fit m-auto">
+                      <div className="flex justify-center gap-5 items-center">
+                        <img src="icons/googleIcon.svg" width={30} />
+                        <h6 className="text-black font-semibold">
+                          Sign in with Google
+                        </h6>
+                      </div>
                     </a>
                   </button>
                   <div className="signin_dont_css">
                     <span className="">Don't have any account ?</span>
-                    <Link
-                      to="/signup"
-                      className="text-violet-500 cursor-pointer"
+                    <button
+                      onClick={() => dispatch(openRegister())}
+                      className="text-violet-500 cursor-pointer "
                     >
                       Register Now
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </form>

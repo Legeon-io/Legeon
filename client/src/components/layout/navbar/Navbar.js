@@ -3,7 +3,13 @@ import React from "react";
 import { useState } from "react";
 //Components
 import { Toggle } from "../../common/Toggle.js";
+import { useDispatch } from "react-redux";
+import {
+  openLogin,
+  openRegister,
+} from "../../../redux/actions/dashboardActions.js";
 export const Navbar = (props) => {
+  const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -53,10 +59,17 @@ export const Navbar = (props) => {
               onClick={handleClick}
             />
           </div>
-          <button className=" hidden md:block bg-gradient-to-r m-1 p-2 text-white rounded-md to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  duration-300">
+          <button
+            onClick={() => dispatch(openLogin())}
+            className=" hidden md:block bg-gradient-to-r m-1 p-2 text-white rounded-md to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  duration-300"
+          >
             Login
           </button>
-          <button className="  hidden md:block bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 m-1 p-2 text-white rounded-md hover:opacity-80  duration-300">
+
+          <button
+            onClick={() => dispatch(openRegister())}
+            className="  hidden md:block bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 m-1 p-2 text-white rounded-md hover:opacity-80  duration-300"
+          >
             Register
           </button>
           <button
