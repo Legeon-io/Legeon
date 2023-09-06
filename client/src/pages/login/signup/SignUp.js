@@ -10,8 +10,10 @@ import { userSignUpAction } from "../../../redux/actions/UserAction";
 import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const initialValues = {
     firstname: "",
     lastname: "",
@@ -19,6 +21,7 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
   };
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: signupSchema,
