@@ -106,66 +106,154 @@ export const Profile = (props) => {
             <button className="border border-black p-2 rounded-md">save</button>
           </div>
         </div>
-        <div className=" flex flex-col   row-span-5  items-center  ">
+        <div className="flex flex-col row-span-5 items-center">
           <Formik
             initialValues={initialValues}
-            validate={validationSchema}
+            validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
-              <Form className="bg-gray-300 w-6/12">
-                <div className="flex justify-between w-full items-center">
-                  <div className="flex">
-                    {/*eslint-disable-next-line jsx-a11y/img-redundant-alt*/}
-                    <img src={logo} alt="user image" className="h-20 w-20" />
-                    <div className="flex flex-col justify-center items-center">
-                      <h1>Profile photo</h1> <h1>required </h1>
+              <Form className=" text-black w-6/12 p-6 rounded-lg shadow-md">
+                <div className="flex justify-between w-full items-center mb-4">
+                  <div className="flex items-center">
+                    <img
+                      src={logo}
+                      alt="user image"
+                      className="h-20 w-20 rounded-full"
+                    />
+                    <div className="ml-4">
+                      <h1 className="text-lg font-semibold">Profile photo</h1>
+                      <p className="text-sm text-gray-600">Required</p>
                     </div>
                   </div>
-                  <a href="./">Change profile </a>
+                  <a
+                    href="./"
+                    className=" text-transparent bg-clip-text  bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500 font-semibold hover:text-violet-600  duration-300"
+                  >
+                    Change profile
+                  </a>
                 </div>
-                <div className="flex flex-col">
-                  <div className="flex flex-col ">
-                    <label>Your legeon link</label>
+                <div className="mb-4  flex flex-col">
+                  <label
+                    htmlFor="link"
+                    className="text-sm font-semibold text-gray-600"
+                  >
+                    Your Legion Link
+                  </label>
+                  <div className="flex  border border-black rounded  focus-within:border-blue-600  focus-within: ">
+                    <div className="bg-gray-200  px-4 flex items-center  rounded-l">
+                      <h1 className="text-gray-600">legeon.io</h1>
+                    </div>
                     <Field
                       name="link"
-                      placeholder="link"
-                      className="border border-black"
+                      placeholder="Link"
+                      className=" w-full  px-3 py-2 rounded focus:outline-none  "
                     />
-                    <ErrorMessage name="link" />
                   </div>
-                  <div className="flex  ">
+                  <ErrorMessage
+                    name="link"
+                    component="div"
+                    className="text-red-600 text-sm"
+                  />
+                </div>
+                <div className="mb-4 flex">
+                  <div className="mr-2 flex-1">
+                    <label
+                      htmlFor="firstname"
+                      className="text-sm font-semibold text-gray-600"
+                    >
+                      First Name
+                    </label>
                     <Field
                       name="firstname"
-                      placeholder="firstname"
-                      className="border border-black w-full "
+                      placeholder="First Name"
+                      className="border border-black px-3 py-2 rounded w-full"
                     />
-                    <ErrorMessage name="firstname" />
+                    <ErrorMessage
+                      name="firstname"
+                      component="div"
+                      className="text-red-600 text-sm"
+                    />
+                  </div>
+                  <div className="ml-2 flex-1">
+                    <label
+                      htmlFor="lastname"
+                      className="text-sm font-semibold text-gray-600"
+                    >
+                      Last Name
+                    </label>
                     <Field
                       name="lastname"
-                      placeholder="lastname"
-                      className="border border-black w-full "
+                      placeholder="Last Name"
+                      className="border border-black px-3 py-2 rounded w-full"
                     />
-                    <ErrorMessage name="lastname" />
+                    <ErrorMessage
+                      name="lastname"
+                      component="div"
+                      className="text-red-600 text-sm"
+                    />
                   </div>
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="displayname"
+                    className="text-sm font-semibold text-gray-600"
+                  >
+                    Display Name
+                  </label>
                   <Field
                     name="displayname"
-                    placeholder="display name"
-                    className="border border-black w-full "
+                    placeholder="Display Name"
+                    className="border border-black px-3 py-2 rounded w-full text-gray-600"
                   />
-                  <ErrorMessage name="displayname" />
+                  <ErrorMessage
+                    name="displayname"
+                    component="div"
+                    className="text-red-600 text-sm "
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="intro"
+                    className="text-sm font-semibold text-gray-600"
+                  >
+                    Legion Intro
+                  </label>
                   <Field
                     name="intro"
-                    placeholder="legion intro"
-                    className="border border-black w-full "
+                    placeholder="Legion Intro"
+                    className="border border-black px-3 py-2 rounded w-full"
                   />
-                  <ErrorMessage name="intro" />
-                  <Field as="textarea" name="bio">
-                    ellaborate yourself
-                  </Field>
-                  <ErrorMessage name="bio" />
+                  <ErrorMessage
+                    name="intro"
+                    component="div"
+                    className="text-red-600 text-sm"
+                  />
                 </div>
-                <button type="submit" disabled={isSubmitting}>
+                <div className="mb-4">
+                  <label
+                    htmlFor="bio"
+                    className="text-sm font-semibold text-gray-600"
+                  >
+                    Bio
+                  </label>
+                  <Field
+                    as="textarea"
+                    name="bio"
+                    placeholder="Elaborate yourself"
+                    className="border border-black px-3 py-2 rounded w-full"
+                  />
+                  <ErrorMessage
+                    name="bio"
+                    component="div"
+                    className="text-red-600 text-sm"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-gradient-to-r to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  duration-300 text-white font-semibold py-2 px-4 rounded-full"
+                >
                   Submit
                 </button>
               </Form>
