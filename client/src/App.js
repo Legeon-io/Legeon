@@ -40,10 +40,7 @@ const App = () => {
       <div className="sm:pl-64">
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/availability"
-              element={<Availability/>}
-            />
+            <Route path="/availability" element={<Availability />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/services" element={<Services />} />
             <Route path="/bookings" element={<Bookings />} />

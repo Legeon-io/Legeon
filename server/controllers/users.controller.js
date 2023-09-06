@@ -70,6 +70,7 @@ export const login = async (req, res) => {
     if (!email || !password || !user || !passwordMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
+    console.log(process.env.JWT_KEY);
     const token = jwt.sign(
       {
         email: user.email,
