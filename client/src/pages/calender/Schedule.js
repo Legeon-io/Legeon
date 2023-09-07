@@ -68,11 +68,11 @@ const Schedule = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 p-5 h-full gap-5">
+    <div className="grid 2xl:grid-cols-2 grid-cols-1 p-5 h-full gap-5">
       {/* Left Side */}
       <div className="flex flex-col gap-5 border-2 py-5">
         {daysOfWeek.map((day, index) => (
-          <div key={index} className="flex justify-between items-center px-10">
+          <div key={index} className="flex xs:flex-row flex-col justify-between xs:items-center lg:px-10 px-5 xs:pl-5">
             <div className="flex gap-2">
               <input
                 type="checkbox"
@@ -85,7 +85,7 @@ const Schedule = () => {
               <label htmlFor="">{day}</label>
             </div>
             {selectedSchedules[day]?.checked && (
-              <div className="flex gap-2 items-center">
+              <div className="p-2 focus:outline-none rounded flex lg:flex-row flex-col items-center gap-2">
                 <div className="flex gap-1">
                   <select
                     className="border-2 border-gray-500 p-2 w-[5rem] focus:outline-none rounded"
@@ -102,7 +102,7 @@ const Schedule = () => {
                     ))}
                   </select>
                   <select
-                    className="border-2 border-gray-500 p-2 focus:outline-none rounded"
+                    className="border-2 border-gray-500 p-2 focus:outline-none rounded flex lg:flex-row flex-col gap-2 "
                     onChange={(e) =>
                       handleScheduleChange(day, "fromPeriod", e.target.value)
                     }
@@ -113,7 +113,7 @@ const Schedule = () => {
                     <option value="PM">PM</option>
                   </select>
                 </div>
-                <div>
+                <div className="lg:flex hidden">
                   <Minus />
                 </div>
                 <div className="flex gap-1">
@@ -159,7 +159,7 @@ const Schedule = () => {
         {daysOfWeek.map(
           (day, index) =>
             selectedSchedules[day]?.checked && (
-              <div key={index} className="grid grid-cols-4 text-center">
+              <div key={index} className="grid grid-cols-4 text-center xs:text-sm text-[10px]">
                 <div className="">{day}</div>
                 <div className="">
                   {selectedSchedules[day]?.fromTime || "-"}

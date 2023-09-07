@@ -21,11 +21,12 @@
 .inputfield_css:valid ~ label {
   @apply text-xs border-l-2 border-r-2 bg-white text-purple-800 border-purple-800 px-2 -top-2;
 }
+
 .signin_header_css {
   @apply flex justify-center items-center h-screen w-full;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 640px) {
   .signin_main_css {
     @apply p-5 m-2;
   }

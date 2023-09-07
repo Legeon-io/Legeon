@@ -17,10 +17,10 @@ const Calendar_A = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-10">
+    <div className="w-full flex flex-col sm:gap-10 gap-5">
       <div className=" text-2xl p-2">Calendar Configuration</div>
-      <div className="flex flex-col gap-5 w-[70%] px-10">
-        <div className="flex justify-between gap-10">
+      <div className="flex flex-col gap-5 sm:px-10 px-2">
+        <div className="flex lg:flex-row flex-col justify-between lg:gap-10 gap-2">
           <div className="flex gap-0 items-center ">
             <MapPin />
             <span>TimeZone</span>
@@ -30,14 +30,14 @@ const Calendar_A = () => {
             onChange={(value) => handleFormChange("selectedTimezone", value)}
           />
         </div>
-        <div className="flex justify-between w-full">
+        <div className="flex lg:flex-row flex-col gap-2 justify-between w-full">
           <div className="flex gap-0 items-center">
             <Calendar />
             <span>Booking Period</span>
           </div>
           <div className="">
             <select
-              className="border-2 border-gray-500 p-2 focus:outline-none rounded w-[27rem]"
+              className="border-2 border-gray-500 p-2 focus:outline-none lg:w-[27rem] w-full rounded "
               value={formData.bookingPeriod}
               onChange={(e) =>
                 handleFormChange("bookingPeriod", e.target.value)
@@ -56,7 +56,7 @@ const Calendar_A = () => {
         </div>
       </div>
       <div className=" text-2xl p-2">Calendar</div>
-      <div className="px-20">
+      <div className="sm:px-10 px-3">
         <button className="w-[15rem] p-2 flex gap-2 border-2 rounded-3xl items-center justify-center bg-gray-200">
           <Plus />
           <span>Add Calendar Account</span>
