@@ -3,6 +3,7 @@ import {
   OPEN_REGISTER,
   OPEN_FORGET_PASSWORD,
   CLOSE_FORGET_PASSWORD,
+  INCREMENT_PHASE,
 } from "../constant";
 
 export const openLogin = () => {
@@ -26,5 +27,11 @@ export const openForgetPassword = () => {
 export const closeForgetPassword = () => {
   return {
     type: CLOSE_FORGET_PASSWORD,
+  };
+};
+
+export const incrementPhase = () => {
+  return {
+    type: INCREMENT_PHASE,
   };
 };

@@ -1,4 +1,4 @@
-import Dashboard from "./dashboard/Dashboard.js";
+import LandingPage from "./landingPage/LandingPage.js";
 import Services from "./services/Services.js";
 import Bookings from "./bookings/Bookings.js";
 import Payments from "./payments/Payments.js";
@@ -12,7 +12,7 @@ import Logout from "./login/Logout.js";
 
 export {
   Logout,
-  Dashboard,
+  LandingPage,
   Services,
   Bookings,
   Payments,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Dashboard.css";
+import "./LandingPage.css";
 import "../index.css";
 import image1 from "../../assets/job_interview_illustration_1.png";
 import logo from "../../assets/logo1.png";
@@ -8,17 +8,21 @@ import divImage from "../../assets/divoneimage.png";
 import communication from "../../assets/peopleCommunicating.png";
 import handshake from "../../assets/handshake.png";
 import divthreeimage from "../../assets/divthreeimage.png";
-import "./Dashboard.css";
+
 import SignIn from "../login/signin/SignIn";
 import { useSelector, useDispatch } from "react-redux";
 import SignUp from "../login/signup/SignUp";
 import ForgetPassword from "../login/forgetpassword/ForgetPassword";
-const Dashboard = ({ sidebarVisible }) => {
+import OTPPassword from "../login/forgetpassword/OTPPasword";
+import RecoverPassword from "../login/forgetpassword/RecoverPassword";
+
+const LandingPage = ({ sidebarVisible }) => {
   const dispatch = useDispatch();
 
-  const openLogin = useSelector((state) => state.dashboard.showLogin);
-  const openRegister = useSelector((state) => state.dashboard.showRegister);
-  const openForgetPassword = useSelector((state) => state.dashboard.showFP);
+  const openLogin = useSelector((state) => state.landingpage.showLogin);
+  const openRegister = useSelector((state) => state.landingpage.showRegister);
+  const openForgetPassword = useSelector((state) => state.landingpage.showFP);
+  const fpPhase = useSelector((state) => state.landingpage.phase);
 
   return (
     <>
@@ -35,7 +39,9 @@ const Dashboard = ({ sidebarVisible }) => {
         )}
         {openForgetPassword && (
           <div className="popup-container">
-            <ForgetPassword />
+            {fpPhase == 0 && <ForgetPassword />}
+            {fpPhase == 1 && <OTPPassword />}
+            {fpPhase == 2 && <RecoverPassword />}
           </div>
         )}
         <div className="flex flex-col lg:flex-row gap-10 lg:m-16 m-8 mt-10 mb-0">
@@ -182,4 +188,4 @@ const Dashboard = ({ sidebarVisible }) => {
   );
 };
 
-export default Dashboard;
+export default LandingPage;

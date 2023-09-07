@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import { forgetSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { userValidEmail } from "../../../redux/actions/UserAction";
+import { closeForgetPassword } from "../../../redux/actions/landingPageActions";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
@@ -25,10 +26,16 @@ const ForgetPassword = () => {
 
   return (
     <>
-      <div className="relative z-50">
+      <div className="duration-300  relative z-50">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-80 transition-opacity">
           <div className="signin_header_css ">
             <div className="relative flex flex-col justify-around w-[30rem] h-[24rem] bg-white p-10 rounded-2xl transition-all duration-100;">
+              <button onClick={() => dispatch(closeForgetPassword())}>
+                <X
+                  className="absolute right-2 top-2 active:text-3xl"
+                  size={30}
+                />
+              </button>
               <div className="flex flex-col justify-around items-center w-full">
                 <div className="flex flex-col">
                   <span className="text-2xl font-bold text-center">

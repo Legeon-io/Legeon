@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import sessionReducer from "../reducers/Reducers.js";
-import dashboardReducer from "../reducers/dashboardReducer.js";
+import landingPageReducer from "../reducers/landingPageReducer.js";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { applyMiddleware } from "redux";
 import { logger } from "redux-logger";
@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
 const store = configureStore(
   {
     reducer: {
-      dashboard: dashboardReducer,
+      landingpage: landingPageReducer,
       session: rootReducer,
     },
     middleware: (getDefaultMiddleware) =>

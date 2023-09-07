@@ -10,9 +10,10 @@ import { useDispatch } from "react-redux";
 import { userSignInAction } from "../../../redux/actions/UserAction";
 import { Link, Route, Routes } from "react-router-dom";
 import {
+  openForgetPassword,
   openLogin,
   openRegister,
-} from "../../../redux/actions/dashboardActions";
+} from "../../../redux/actions/landingPageActions";
 import SignUp from "../signup/SignUp";
 import ForgetPassword from "../forgetpassword/ForgetPassword";
 import OTPPassword from "../forgetpassword/OTPPasword";
@@ -102,12 +103,13 @@ const SignIn = ({ onClose }) => {
                       ) : (
                         <span />
                       )}
-                      <Link
-                        to="/forgetPassword"
+                      <button
+                        type="button"
+                        onClick={() => dispatch(openForgetPassword())}
                         className="text-[12px] text-violet-500"
                       >
                         Forget Password ?
-                      </Link>
+                      </button>
                     </div>
                   </div>
                   <div className="flex justify-center">

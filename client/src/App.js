@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import { Navbar } from "./components/layout/index.js";
 import {
-  Dashboard,
+  LandingPage,
   Services,
   Bookings,
   Earnings,
@@ -24,11 +24,6 @@ import {
 import EditCallServiceForm from "./components/common/services_cards/EditCallServiceForm.js";
 import UserServices from "./pages/services/user_services/UserServices.js";
 import BookingService from "./pages/services/user_services/BookingService.js";
-import ForgetPassword from "./pages/login/forgetpassword/ForgetPassword.js";
-import SignUp from "./pages/login/signup/SignUp.js";
-import SignIn from "./pages/login/signin/SignIn.js";
-import RecoverPassword from "./pages/login/forgetpassword/RecoverPassword.js";
-import OTPPassword from "./pages/login/forgetpassword/OTPPasword.js";
 
 const App = () => {
   // const username = useSelector((state) => state.session.username);
@@ -39,14 +34,8 @@ const App = () => {
       <Navbar />
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<SignIn />} /> */}
-          {/* <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgetpassword" element={<ForgetPassword />} />
-          <Route path="/otp" element={<OTPPassword />} />
-          <Route path="/recover" element={<RecoverPassword />} /> */}
-
           {/* <Route path="/" element={<Dashboard />} /> */}
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<div>Dashboard Page</div>} />
           <Route path="/services" element={<Services />} />
           <Route path="/bookings" element={<Bookings />} />

@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import {
   openLogin,
   openRegister,
-} from "../../../redux/actions/dashboardActions.js";
+} from "../../../redux/actions/landingPageActions.js";
 export const Navbar = (props) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);

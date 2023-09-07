@@ -3,12 +3,14 @@ import {
   OPEN_FORGET_PASSWORD,
   OPEN_LOGIN,
   OPEN_REGISTER,
+  INCREMENT_PHASE,
 } from "../constant";
 
 const initialState = {
   showLogin: false,
   showRegister: false,
-  showFP: 0,
+  showFP: false,
+  phase: 0,
 };
 
 const dashboardReducer = (state = initialState, action) => {
@@ -17,6 +19,7 @@ const dashboardReducer = (state = initialState, action) => {
       return {
         ...state,
         showLogin: !state.showLogin,
+        showRegister: false,
       };
     case OPEN_REGISTER:
       return {
@@ -26,14 +29,30 @@ const dashboardReducer = (state = initialState, action) => {
       };
     case OPEN_FORGET_PASSWORD:
       return {
-        showFP: state.showFP++,
+        ...state,
+        showLogin: false,
+        showFP: true,
       };
 
     case CLOSE_FORGET_PASSWORD:
       return {
         ...state,
-        showFP: 0,
+        showFP: false,
+        phase: 0,
       };
+
+    case INCREMENT_PHASE:
+      if (state.phase == 2) {
+        return {
+          ...state,
+          phase: 0,
+        };
+      } else {
+        return {
+          ...state,
+          phase: state.phase++,
+        };
+      }
 
     default:
       return state;
