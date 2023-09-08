@@ -7,7 +7,8 @@ import { useDispatch } from "react-redux";
 import {
   openLogin,
   openRegister,
-} from "../../../redux/actions/landingPageActions.js";
+} from "../../../redux/landingpage/landingPageSlice.js";
+
 export const Navbar = (props) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
@@ -42,13 +43,13 @@ export const Navbar = (props) => {
           </a>
           <a
             className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold hover:text-violet-600  duration-300  mt-2 text-lg"
-            href=""
+            href="#"
           >
             Calender
           </a>
           <a
             className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold  hover:text-violet-600  duration-300  mt-2 text-lg"
-            href="http://localhost:3000/dashboard"
+            href="#"
           >
             Payments
           </a>

@@ -5,8 +5,6 @@ import {
   EMAIL_VALID_FAILURE,
   EMAIL_VALID_REQUEST,
   EMAIL_VALID_SUCCESS,
-  INCREMENT_PHASE,
-  OPEN_LOGIN,
   OTP_VALID_FAILURE,
   OTP_VALID_REQUEST,
   OTP_VALID_SUCCESS,
@@ -21,6 +19,7 @@ import {
   UPDATE_PASSWORD_SUCCESS,
 } from "../constant";
 import { toast } from "react-toastify";
+import { incrementPhase, openLogin } from "../landingpage/landingPageSlice";
 
 export const userSignInAction = (values) => {
   return async (dispatch) => {
@@ -67,7 +66,7 @@ export const userSignUpAction = (values, navigate) => {
       if (response.status == 201) {
         dispatch({ type: SIGNUP_USER_SUCCESS, payload: response.user });
         toast.success("Account Created Successfully !!!");
-        dispatch({ type: OPEN_LOGIN });
+        dispatch(openLogin());
       }
     } catch (error) {
       console.log(error);
@@ -98,9 +97,7 @@ export const userValidEmail = (values, navigate) => {
       if (response.status == 200) {
         dispatch({ type: EMAIL_VALID_SUCCESS, payload: response.data });
         toast.success("OTP is send to your Email");
-        dispatch({
-          type: INCREMENT_PHASE,
-        });
+        dispatch(incrementPhase());
       }
     } catch (error) {
       console.log(error);
@@ -128,9 +125,7 @@ export const userValidOTP = (values, navigate) => {
       if (response.status === 200) {
         dispatch({ type: OTP_VALID_SUCCESS });
         toast.success("Valid OTP :)");
-        dispatch({
-          type: INCREMENT_PHASE,
-        });
+        dispatch(incrementPhase());
       }
     } catch (error) {
       dispatch({ type: OTP_VALID_FAILURE });

@@ -8,7 +8,7 @@ import { signupSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { userSignUpAction } from "../../../redux/actions/UserAction";
 import { Link, useNavigate } from "react-router-dom";
-import { openRegister } from "../../../redux/actions/landingPageActions";
+import { openRegister } from "../../../redux/landingpage/landingPageSlice";
 
 const SignUp = () => {
   const dispatch = useDispatch();

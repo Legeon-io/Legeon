@@ -9,14 +9,15 @@ import { signinSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { userSignInAction } from "../../../redux/actions/UserAction";
 import { Link, Route, Routes } from "react-router-dom";
+
+import SignUp from "../signup/SignUp";
+import ForgetPassword from "../forgetpassword/ForgetPassword";
+import OTPPassword from "../forgetpassword/OTPPasword";
 import {
   openForgetPassword,
   openLogin,
   openRegister,
-} from "../../../redux/actions/landingPageActions";
-import SignUp from "../signup/SignUp";
-import ForgetPassword from "../forgetpassword/ForgetPassword";
-import OTPPassword from "../forgetpassword/OTPPasword";
+} from "../../../redux/landingpage/landingPageSlice";
 
 const SignIn = ({ onClose }) => {
   const dispatch = useDispatch();

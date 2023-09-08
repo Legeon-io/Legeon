@@ -15,29 +15,35 @@ import SignUp from "../login/signup/SignUp";
 import ForgetPassword from "../login/forgetpassword/ForgetPassword";
 import OTPPassword from "../login/forgetpassword/OTPPasword";
 import RecoverPassword from "../login/forgetpassword/RecoverPassword";
+import { openLogin } from "../../redux/landingpage/landingPageSlice";
+
+import Cookie from "js-cookie";
 
 const LandingPage = ({ sidebarVisible }) => {
   const dispatch = useDispatch();
 
-  const openLogin = useSelector((state) => state.landingpage.showLogin);
-  const openRegister = useSelector((state) => state.landingpage.showRegister);
-  const openForgetPassword = useSelector((state) => state.landingpage.showFP);
+  console.log(Cookie.get("tarun"));
+
+  const showLogin = useSelector((state) => state.landingpage.showLogin);
+
+  const showRegister = useSelector((state) => state.landingpage.showRegister);
+  const showForgetPassword = useSelector((state) => state.landingpage.showFP);
   const fpPhase = useSelector((state) => state.landingpage.phase);
 
   return (
     <>
       <div id="maindiv" className="w-full">
-        {openLogin && (
+        {showLogin && (
           <div className="popup-container">
             <SignIn />
           </div>
         )}
-        {openRegister && (
+        {showRegister && (
           <div className="popup-container">
             <SignUp />
           </div>
         )}
-        {openForgetPassword && (
+        {showForgetPassword && (
           <div className="popup-container">
             {fpPhase == 0 && <ForgetPassword />}
             {fpPhase == 1 && <OTPPassword />}
@@ -68,8 +74,17 @@ const LandingPage = ({ sidebarVisible }) => {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </div>
-            <button className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-white py-4 px-10 shadow-md rounded-2xl hover:opacity-80 duration-300">
-              More Info
+            <button>
+              <a
+                className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-white py-4 px-10 shadow-md rounded-2xl hover:opacity-80 duration-300"
+                onClick={(e) => {
+                  e.preventDefault();
+                  let smooth_scroll = document.getElementById("smooth-scroll");
+                  smooth_scroll && smooth_scroll.scrollIntoView();
+                }}
+              >
+                More Info
+              </a>
             </button>
           </div>
         </div>
@@ -104,7 +119,10 @@ const LandingPage = ({ sidebarVisible }) => {
       </div>
 
       {/* third div*/}
-      <div className="flex flex-col lg:flex-row m-10 mt-20 lg:m-20 gap-20 lg:gap-0 justify-between">
+      <div
+        id="smooth-scroll"
+        className="flex flex-col lg:flex-row m-10 mt-20 lg:m-20 gap-20 lg:gap-0 justify-between"
+      >
         <div className="bg-gray-200 flex flex-col w-full lg:w-1/4 rounded-xl p-10">
           <img src={communication} alt="people communicating with each other" />
           <h1 className="text-4xl">Lorem ipsum</h1>
@@ -174,7 +192,10 @@ const LandingPage = ({ sidebarVisible }) => {
               dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua
             </p>
-            <button className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 p-3 rounded-xl w-40 text-white shadow-md hover:opacity-80 duration-300">
+            <button
+              onClick={() => dispatch(openLogin())}
+              className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 p-3 rounded-xl w-40 text-white shadow-md hover:opacity-80 duration-300"
+            >
               Join now
             </button>
           </div>

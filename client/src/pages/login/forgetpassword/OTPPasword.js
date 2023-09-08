@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import { otpSchema, recoverSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { userValidOTP } from "../../../redux/actions/UserAction";
-import { closeForgetPassword } from "../../../redux/actions/landingPageActions";
+import { closeForgetPassword } from "../../../redux/landingpage/landingPageSlice";
 
 const OTPPassword = () => {
   const navigate = useNavigate();

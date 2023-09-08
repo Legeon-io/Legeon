@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import { recoverSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { userUpdatePassword } from "../../../redux/actions/UserAction";
-import { closeForgetPassword } from "../../../redux/actions/landingPageActions";
+import { closeForgetPassword } from "../../../redux/landingpage/landingPageSlice";
 
 const RecoverPassword = () => {
   const navigate = useNavigate();
