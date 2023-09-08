@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { useState } from "react";
 //Components
@@ -46,7 +45,7 @@ export const Navbar = (props) => {
           >
             Payments
           </a>
-          <div className="mt-0.5 mr-1">
+          <div className="mt-0.5 mr-1 flex justify-center items-center">
             <Toggle
               ischecked={checked}
               handleChange={handleChanges}

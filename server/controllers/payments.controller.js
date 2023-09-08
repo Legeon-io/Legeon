@@ -3,7 +3,7 @@
 import Razorpay from "razorpay";
 import CryptoJS from "crypto-js";
 import axios from "axios";
-import BankAccountDetails from "../mongodb/models/bankaccountdetails.js";
+import BankAccountDetails from "../models/bankaccountdetails.js";
 
 //const razorpay = new Razorpay({
 //key_id: process.env.RAZORPAY_KEY_ID,
