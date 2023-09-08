@@ -42,7 +42,6 @@ import OTPPassword from "./pages/login/forgetpassword/OTPPasword.js";
 import Availability from "./pages/calender/Availability.js";
 
 const App = () => {
-  const username = useSelector((state) => state.session.username);
   const [sidebarVisible, setSidebar] = useState(false);
 
   const username = useSelector((state) => state.session.username);
