@@ -79,7 +79,7 @@ export const Profile = (props) => {
                   </label>
                   <div className="flex border border-black rounded focus-within:border-blue-600 focus-within: ">
                     <div className="bg-gray-200 px-4 flex items-center rounded-l">
-                      <h1 className="text-gray-600">legeon.io</h1>
+                      <h1 className="text-gray-600">legeon.io/</h1>
                     </div>
                     <Field
                       name="link"

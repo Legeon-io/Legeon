@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { Navbar } from "./components/layout/index.js";
 import {
-  Login,
   Dashboard,
   Services,
   Bookings,
@@ -107,7 +106,6 @@ const App = () => {
       ) : (
         <Router>
           <Routes>
-            <Route exact path="/" element={<Login />} />
             <Route path="/:username" element={<UserServices />} />
             <Route
               path="/:username/service/:title"
