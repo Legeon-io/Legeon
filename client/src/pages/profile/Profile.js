@@ -3,11 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./Profile.css";
 import "../index.css";
-import { AccountPage, ProfilePage } from "./profile-pages";
-import { getUser, updateUser } from "../../apis/users/users.api";
-import Popup from "../../components/common/Popup";
-import { updateUserProfile } from "../../apis/users/userprofiles";
-import { useSelector } from "react-redux";
+import Sidebar from "../../components/layout/sider/Sidebar";
+import InternalNav from "../../components/layout/profileInternalNav/internalNav";
 import logo from "../../assets/logo.png";
 export const Profile = (props) => {
   const initialValues = {
@@ -18,6 +15,17 @@ export const Profile = (props) => {
     intro: "",
     bio: "",
   };
+  const handleEdit = (fieldName) => {
+    setIsEditing((prevState) => ({
+      ...prevState,
+      [fieldName]: true,
+    }));
+  };
+  const [isEditing, setIsEditing] = useState({
+    email: false,
+    mobile: false,
+    password: false,
+  });
   const validationSchema = Yup.object().shape({
     link: Yup.string().required("Link is required"),
     firstname: Yup.string().required("First name is required"),
@@ -32,80 +40,9 @@ export const Profile = (props) => {
 
   return (
     <div className="grid grid-cols-7 h-screen">
-      <div className="col-span-1 bg-gray-100 text-lg flex flex-col gap-10  ">
-        <ul className="flex flex-col items-center space-y-4 p-4 gap-3 mt-5">
-          <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
-            <a
-              className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
-              href="/"
-            >
-              Dashboard
-            </a>
-          </li>
-          <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
-            <a
-              className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
-              href="/"
-            >
-              DirectMessage
-            </a>
-          </li>
-          <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
-            <a
-              className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
-              href="/"
-            >
-              Bookings
-            </a>
-          </li>
-        </ul>
-        <div className="  flex flex-col">
-          <ul className="flex flex-col items-center space-y-4 p-4 gap-3">
-            <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
-              <a
-                className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
-                href="/"
-              >
-                Availability
-              </a>
-            </li>
-            <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
-              <a
-                className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
-                href="/"
-              >
-                Services
-              </a>
-            </li>
-            <li className="font-bold  hover:bg-purple-200  w-full text-center p-2 transition duration-300 rounded-md">
-              <a
-                className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
-                href="/"
-              >
-                Payments
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <Sidebar />
       <div className="col-span-6 grid grid-rows-6 ">
-        <div className=" flex flex-col  row-span-1 w-full gap-x-5  ">
-          <h1 className="text-3xl mx-10">Profile</h1>
-          <div className="flex justify-between mx-10 ">
-            <div className="flex gap-10 mt-3">
-              <button className="border border-black p-2 rounded-md">
-                Profile
-              </button>
-              <button className="border border-black p-2 rounded-md">
-                Settings
-              </button>
-              <button className="border border-black p-2 rounded-md">
-                Account
-              </button>
-            </div>
-            <button className="border border-black p-2 rounded-md">save</button>
-          </div>
-        </div>
+        <InternalNav />
         <div className="flex flex-col row-span-5 items-center">
           <Formik
             initialValues={initialValues}
@@ -113,8 +50,8 @@ export const Profile = (props) => {
             onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
-              <Form className=" text-black w-6/12 p-6 rounded-lg shadow-md">
-                <div className="flex justify-between w-full items-center mb-4">
+              <Form className="bg-white text-black w-full md:w-6/12 p-6 rounded-lg shadow-md">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
                   <div className="flex items-center">
                     <img
                       src={logo}
@@ -128,26 +65,26 @@ export const Profile = (props) => {
                   </div>
                   <a
                     href="./"
-                    className=" text-transparent bg-clip-text  bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500 font-semibold hover:text-violet-600  duration-300"
+                    className="text-transparent bg-clip-text bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 font-semibold hover:text-violet-600 duration-300 mt-2 md:mt-0"
                   >
                     Change profile
                   </a>
                 </div>
-                <div className="mb-4  flex flex-col">
+                <div className="mb-4 flex flex-col">
                   <label
                     htmlFor="link"
                     className="text-sm font-semibold text-gray-600"
                   >
                     Your Legion Link
                   </label>
-                  <div className="flex  border border-black rounded  focus-within:border-blue-600  focus-within: ">
-                    <div className="bg-gray-200  px-4 flex items-center  rounded-l">
+                  <div className="flex border border-black rounded focus-within:border-blue-600 focus-within: ">
+                    <div className="bg-gray-200 px-4 flex items-center rounded-l">
                       <h1 className="text-gray-600">legeon.io</h1>
                     </div>
                     <Field
                       name="link"
                       placeholder="Link"
-                      className=" w-full  px-3 py-2 rounded focus:outline-none  "
+                      className="w-full px-3 py-2 rounded focus:outline-none"
                     />
                   </div>
                   <ErrorMessage
@@ -156,8 +93,8 @@ export const Profile = (props) => {
                     className="text-red-600 text-sm"
                   />
                 </div>
-                <div className="mb-4 flex">
-                  <div className="mr-2 flex-1">
+                <div className="mb-4 flex flex-col  md:flex-row md:gap-5">
+                  <div className=" md:flex-1">
                     <label
                       htmlFor="firstname"
                       className="text-sm font-semibold text-gray-600"
@@ -175,7 +112,7 @@ export const Profile = (props) => {
                       className="text-red-600 text-sm"
                     />
                   </div>
-                  <div className="ml-2 flex-1">
+                  <div className=" md:flex-1">
                     <label
                       htmlFor="lastname"
                       className="text-sm font-semibold text-gray-600"
@@ -209,7 +146,7 @@ export const Profile = (props) => {
                   <ErrorMessage
                     name="displayname"
                     component="div"
-                    className="text-red-600 text-sm "
+                    className="text-red-600 text-sm"
                   />
                 </div>
                 <div className="mb-4">
@@ -252,7 +189,7 @@ export const Profile = (props) => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-gradient-to-r to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  duration-300 text-white font-semibold py-2 px-4 rounded-full"
+                  className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 hover:opacity-80 duration-300 text-white font-semibold py-2 px-4 rounded-md w-full"
                 >
                   Submit
                 </button>
