@@ -84,7 +84,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ error: "Invalid credentials" });
     }
 
-    res.cookie("token", token, { maxAge: 1000 * 60 * 60 });
+    res.cookie("token", token, { maxAge: 1000 * 60 * 60 * 24 * 7 });
     res.status(200).json({
       message: "Login successful",
 

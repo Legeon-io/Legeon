@@ -24,6 +24,8 @@ import {
 import EditCallServiceForm from "./components/common/services_cards/EditCallServiceForm.js";
 import UserServices from "./pages/services/user_services/UserServices.js";
 import BookingService from "./pages/services/user_services/BookingService.js";
+import ProtectedRoute from "./ProtectedRoute.js";
+import Dashboard from "./pages/dashboard/Dashboard.js";
 
 const App = () => {
   // const username = useSelector((state) => state.session.username);
@@ -35,35 +37,40 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           {/* <Route path="/" element={<Dashboard />} /> */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/dashboard" element={<div>Dashboard Page</div>} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/bookings" element={<Bookings />} />
-          <Route path="/payments" element={<Payments />} />
-          <Route path="/earnings" element={<Earnings />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/feedback" element={<Feedback />} />
-          <Route path="/services/create-service" element={<CreateService />} />
-          <Route
-            path="/services/create-service/engage-call"
-            element={<EngageCall />}
-          />
-          <Route
-            path="/services/create-service/text-query"
-            element={<TextQuery />}
-          />
-          <Route
-            path="/services/engage-call/edit-service/:id"
-            element={<EditCallServiceForm />}
-          />
-          <Route path="/:username" element={<UserServices />} />
-          <Route
-            path="/:username/:title/:id/service"
-            element={<BookingService />}
-          />
+          <Route exact path="/" element={<LandingPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/bookings" element={<Bookings />} />
+            <Route path="/payments" element={<Payments />} />
+            <Route path="/earnings" element={<Earnings />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/feedback" element={<Feedback />} />
+            <Route
+              path="/services/create-service"
+              element={<CreateService />}
+            />
+            <Route
+              path="/services/create-service/engage-call"
+              element={<EngageCall />}
+            />
+            <Route
+              path="/services/create-service/text-query"
+              element={<TextQuery />}
+            />
+            <Route
+              path="/services/engage-call/edit-service/:id"
+              element={<EditCallServiceForm />}
+            />
+            <Route path="/:username" element={<UserServices />} />
+            <Route
+              path="/:username/:title/:id/service"
+              element={<BookingService />}
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </main>

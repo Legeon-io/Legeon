@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { otpSchema, recoverSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
-import { userValidOTP } from "../../../redux/actions/UserAction";
 import { closeForgetPassword } from "../../../redux/landingpage/landingPageSlice";
+import { userValidOTP } from "../../../redux/auth/authSlice";
 
 const OTPPassword = () => {
   const navigate = useNavigate();

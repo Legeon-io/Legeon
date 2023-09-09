@@ -17,12 +17,8 @@ import OTPPassword from "../login/forgetpassword/OTPPasword";
 import RecoverPassword from "../login/forgetpassword/RecoverPassword";
 import { openLogin } from "../../redux/landingpage/landingPageSlice";
 
-import Cookie from "js-cookie";
-
 const LandingPage = ({ sidebarVisible }) => {
   const dispatch = useDispatch();
-
-  console.log(Cookie.get("tarun"));
 
   const showLogin = useSelector((state) => state.landingpage.showLogin);
 

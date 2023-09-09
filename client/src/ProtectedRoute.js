@@ -1,14 +1,12 @@
 import { Outlet, Navigate } from "react-router-dom";
+import Cookie from "js-cookie";
 
 function ProtectedRoute() {
-  let localToken = localStorage.getItem("access_token");
-  let sessionToken = sessionStorage.getItem("access_token");
-  let localAuth = { token: localToken };
-  let sessionAuth = { token: sessionToken };
+  let googleToken = Cookie.get("googletoken");
+  let token = Cookie.get("token");
+  let checkToken = googleToken || token;
 
-  // logic
-  // let sessionAuth = true;
-  return false ? <Outlet /> : <Navigate to="/" />;
+  return checkToken ? <Outlet /> : <Navigate to="/" />;
 }
 
 export default ProtectedRoute;

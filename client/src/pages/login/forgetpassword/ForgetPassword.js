@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { forgetSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
-import { userValidEmail } from "../../../redux/actions/UserAction";
+import { userValidEmail } from "../../../redux/auth/authSlice";
+
 import { closeForgetPassword } from "../../../redux/landingpage/landingPageSlice";
 
 const ForgetPassword = () => {

@@ -6,9 +6,9 @@ import { useFormik } from "formik";
 import logo from "../../../assets/logo.png";
 import { signupSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
-import { userSignUpAction } from "../../../redux/actions/UserAction";
 import { Link, useNavigate } from "react-router-dom";
 import { openRegister } from "../../../redux/landingpage/landingPageSlice";
+import { userSignUpAction } from "../../../redux/auth/authSlice";
 
 const SignUp = () => {
   const dispatch = useDispatch();

@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { recoverSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
-import { userUpdatePassword } from "../../../redux/actions/UserAction";
 import { closeForgetPassword } from "../../../redux/landingpage/landingPageSlice";
+import { userUpdatePassword } from "../../../redux/auth/authSlice";
 
 const RecoverPassword = () => {
   const navigate = useNavigate();

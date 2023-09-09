@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 import logo from "../../../assets/logo.png";
 import { signinSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
-import { userSignInAction } from "../../../redux/actions/UserAction";
+
 import { Link, Route, Routes } from "react-router-dom";
 
 import SignUp from "../signup/SignUp";
@@ -18,6 +18,7 @@ import {
   openLogin,
   openRegister,
 } from "../../../redux/landingpage/landingPageSlice";
+import { userSignInAction } from "../../../redux/auth/authSlice";
 
 const SignIn = ({ onClose }) => {
   const dispatch = useDispatch();

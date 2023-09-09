@@ -38,13 +38,14 @@ export const googleAuth = async (req, res) => {
           process.env.JWT_KEY
         );
 
-        res.cookie("googletoken", token, { maxAge: 1000 * 60 * 60 });
+        res.cookie("googletoken", token, { maxAge: 1000 * 60 * 60 * 24 * 7 });
 
         res.status(200).json({
           message: "Login Successful",
           credentails: {
             firstname: firstname,
             lastname: lastname,
+            username: existingUser.username,
             email: email,
             email_verified: req.user.email_verified,
           },
@@ -71,11 +72,11 @@ export const googleAuth = async (req, res) => {
           process.env.JWT_KEY
         );
 
-        res.cookie("googletoken", token, { maxAge: 1000 * 60 * 60 });
+        res.cookie("googletoken", token, { maxAge: 1000 * 60 * 60 * 24 * 7 });
 
         res.status(200).json({
           message: "Registered successfully. Welcome to Legeon",
-          user: savedUser,
+          credentails: savedUser,
         });
       }
     } else {
