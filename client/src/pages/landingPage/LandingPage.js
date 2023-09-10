@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./LandingPage.css";
 import "../index.css";
 import image1 from "../../assets/job_interview_illustration_1.png";
@@ -41,9 +41,9 @@ const LandingPage = ({ sidebarVisible }) => {
         )}
         {showForgetPassword && (
           <div className="popup-container">
-            {fpPhase == 0 && <ForgetPassword />}
-            {fpPhase == 1 && <OTPPassword />}
-            {fpPhase == 2 && <RecoverPassword />}
+            {fpPhase === 0 && <ForgetPassword />}
+            {fpPhase === 1 && <OTPPassword />}
+            {fpPhase === 2 && <RecoverPassword />}
           </div>
         )}
         <div className="flex flex-col lg:flex-row gap-10 lg:m-16 m-8 mt-10 mb-0">
@@ -66,9 +66,8 @@ const LandingPage = ({ sidebarVisible }) => {
                 N
               </h1>
             </div>
-            <div className="text-xl lg:text-3xl font-semibold text-gray-800">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <div className="text-xl lg:text-3xl font-semibold text-black-800">
+              Connecting Influencers and Seekers for Personalized 1-on-1 Services
             </div>
             <button>
               <a
@@ -119,13 +118,11 @@ const LandingPage = ({ sidebarVisible }) => {
         id="smooth-scroll"
         className="flex flex-col lg:flex-row m-10 mt-20 lg:m-20 gap-20 lg:gap-0 justify-between"
       >
-        <div className="bg-gray-200 flex flex-col w-full lg:w-1/4 rounded-xl p-10">
+        <div className="bg-gray-200 flex flex-col w-full  rounded-xl p-10">
           <img src={communication} alt="people communicating with each other" />
-          <h1 className="text-4xl">Lorem ipsum</h1>
+          <h1 className="text-4xl"></h1>
           <p className="text-start">
-            consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-            labore et dolore magna aliqua lorem ipsum dolor sit amet,
-            consectetur
+            Are you an influencer or expert looking to share your knowledge and earn from your skills? Are you someone seeking tailored services like mock interviews, resume reviews, webinars, and workshops? Look no further! Legeon is your ultimate platform for seamless interactions and opportunities.
           </p>
           <div className="flex w-full flex-row-reverse">
             <button className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 p-2 text-white rounded-2xl">
@@ -145,11 +142,11 @@ const LandingPage = ({ sidebarVisible }) => {
       <div className="flex flex-col m-10 gap-20 mt-20 lg:m-20 lg:gap-0 justify-between lg:flex-row-reverse">
         <div className="bg-gray-200 flex flex-col w-full lg:w-1/4 rounded-xl p-10">
           <img src={handshake} alt="people communicating with each other" />
-          <h1 className="text-2xl">Lorem ipsum</h1>
+          <h1 className="text-2xl"></h1>
           <p className="lg:text-start  ">
-            consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-            labore et dolore magna aliqua lorem ipsum dolor sit amet,
-            consectetur
+            Take control of your career growth or personal development.
+            Monetize your expertise as an influencer or expert.
+            Experience the future of personalized services.
           </p>
           <div className="flex w-full flex-row-reverse">
             <button className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 p-2 text-white rounded-2xl">
