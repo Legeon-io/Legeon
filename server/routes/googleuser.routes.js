@@ -1,26 +1,16 @@
 import express from "express";
 import passport from "passport";
 
-// import googleUser from "../models/googleuser.js";
-// import User from "../models/users.js";
-
-// import jwt from "jsonwebtoken";
-
 const router = express.Router();
 
-// import { v4 as uuidv4 } from "uuid";
 import {
   authFailure,
   googleAuth,
+  googleRedirect,
   logOut,
 } from "../controllers/googleuser.controller.js";
 
-const CLIENT_URL = "http://localhost:3000";
-const SERVER_URL = "http://localhost:8080";
-
-// const isLoggedIn = (req, res, next) => {
-//   req.user ? next() : res.sendStatus(401);
-// };
+import verifyToken from "../middlewares/authentication/verifyToken.js";
 
 // Google Routes
 router.get(
@@ -31,13 +21,11 @@ router.get(
 router.get(
   "/auth/google/callback",
 
-  passport.authenticate("google", {
-    successRedirect: `${CLIENT_URL}/dashboard`,
-    failureRedirect: `${SERVER_URL}/auth/failure`,
-  })
+  passport.authenticate("google"),
+  googleRedirect
 );
 
-router.get("/auth/success", googleAuth);
+router.get("/auth/success", verifyToken, googleAuth);
 
 router.get("/auth/failure", authFailure);
 

@@ -32,9 +32,11 @@ router.post("/updatePassword", updatePassword);
 router.post("/login", login);
 
 // Get user profile route
-router.get("/:username/getUser", getUser);
+router.get("/getuser", verifyToken, getUser);
 
 //  Update user route
 router.put("/:username/updateUser", updateUser);
 
 export default router;
+
+// router.get("/:username/getUser", getUser);

@@ -22,15 +22,18 @@ export const validEmail = async (req, res) => {
       const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
-        secure: true,
+
         auth: {
-          user: process.env.TEMP_EMAIL,
-          pass: process.env.TEMP_PASSWORD,
+          user: "legeon.connect@gmail.com",
+          pass: "ntlneorttlfgrxda",
+        },
+        tls: {
+          rejectUnauthorized: false,
         },
       });
 
       const message = {
-        from: "Legeon@gmail.com",
+        from: "legeon.connect@gmail.com",
         to: email,
         subject: "Verification Code",
         text: `Your OTP: ${OTP}`,
@@ -59,7 +62,7 @@ export const validEmail = async (req, res) => {
       res.status(400).send({ error: "Email is not valid." });
     }
   } catch (error) {
-    console.error(error);
+    console.log("error here");
     res.status(500).send({ error: "Internal server error." });
   }
 };
