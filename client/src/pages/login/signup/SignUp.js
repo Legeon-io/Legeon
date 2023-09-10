@@ -87,7 +87,7 @@ const SignUp = () => {
                       onBlur={formik.handleBlur}
                     />
                     <label htmlFor="lastname" className="labelfeild_css">
-                      Lastname
+                      Lastname (optional)
                     </label>
                     {formik.errors.lastname && formik.touched.lastname && (
                       <span className="text-[12px] text-red-700">

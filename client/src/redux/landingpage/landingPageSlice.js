@@ -31,7 +31,7 @@ const landingPageSlice = createSlice({
       if (state.phase == 2) {
         state.phase = 0;
       } else {
-        state.phase = state.phase++;
+        state.phase = state.phase + 1;
       }
     },
   },

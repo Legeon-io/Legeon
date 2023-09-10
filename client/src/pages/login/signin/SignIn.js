@@ -8,7 +8,7 @@ import logo from "../../../assets/logo.png";
 import { signinSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 
 import SignUp from "../signup/SignUp";
 import ForgetPassword from "../forgetpassword/ForgetPassword";
@@ -19,9 +19,11 @@ import {
   openRegister,
 } from "../../../redux/landingpage/landingPageSlice";
 import { userSignInAction } from "../../../redux/auth/authSlice";
+import { getGoogleUserDetails } from "../../../redux/profile/profileSlice";
 
 const SignIn = ({ onClose }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const initialValues = {
     email: "",
@@ -32,7 +34,7 @@ const SignIn = ({ onClose }) => {
     initialValues: initialValues,
     validationSchema: signinSchema,
     onSubmit: (values) => {
-      dispatch(userSignInAction(values));
+      dispatch(userSignInAction(values, navigate));
     },
   });
 
@@ -127,6 +129,7 @@ const SignIn = ({ onClose }) => {
                     className="w-fit m-auto"
                     onClick={() => {
                       window.open("http://localhost:8080/auth/google", "_self");
+                      dispatch(getGoogleUserDetails());
                     }}
                     type="button"
                   >

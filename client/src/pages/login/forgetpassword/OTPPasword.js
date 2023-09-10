@@ -20,7 +20,7 @@ const OTPPassword = () => {
     },
     validationSchema: otpSchema,
     onSubmit: (values) => {
-      dispatch(userValidOTP(values, navigate));
+      dispatch(userValidOTP(values));
     },
   });
 

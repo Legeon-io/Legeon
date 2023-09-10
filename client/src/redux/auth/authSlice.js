@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { incrementPhase, openLogin } from "../landingpage/landingPageSlice";
+import {
+  closeForgetPassword,
+  incrementPhase,
+  openLogin,
+} from "../landingpage/landingPageSlice";
+import { setProfile } from "../profile/profileSlice";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {};
 
@@ -13,7 +19,7 @@ const authSlice = createSlice({
   },
 });
 
-export const userSignInAction = (userData) => async (dispatch) => {
+export const userSignInAction = (userData, navigate) => async (dispatch) => {
   try {
     const response = await axios.post(
       "http://localhost:8080/api/users/login",
@@ -22,9 +28,11 @@ export const userSignInAction = (userData) => async (dispatch) => {
     );
 
     if (response.status === 200) {
+      dispatch(setProfile(response.data.user));
       toast.success("Login Successfully !!!");
       setTimeout(() => {
-        window.location = "/dashboard";
+        // window.location = "/dashboard";
+        navigate("/dashboard");
       }, 2000);
     }
   } catch (error) {
@@ -52,7 +60,7 @@ export const userSignUpAction = (userData) => async (dispatch) => {
     }
   } catch (error) {
     if (error.response && error.response.status === 409) {
-      toast.error("Already Registered !");
+      toast.error("Account Already Registered !");
     } else if (error.response && error.response.status === 404) {
       toast.error("Missing Credentials !");
     } else {
@@ -101,7 +109,7 @@ export const userValidOTP = (userData) => async (dispatch) => {
   }
 };
 
-export const userUpdatePassword = (userData, navigate) => async (dispatch) => {
+export const userUpdatePassword = (userData) => async (dispatch) => {
   try {
     const response = await axios.post(
       "http://localhost:8080/api/users/updatePassword",
@@ -109,7 +117,8 @@ export const userUpdatePassword = (userData, navigate) => async (dispatch) => {
     );
     if (response.status === 200) {
       toast.success("Password updated successfully :)");
-      navigate("/");
+      dispatch(closeForgetPassword());
+      dispatch(openLogin());
     }
   } catch (error) {
     if (error.response && error.response.status === 409) {

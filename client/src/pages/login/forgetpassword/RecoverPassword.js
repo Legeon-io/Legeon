@@ -21,8 +21,7 @@ const RecoverPassword = () => {
     },
     validationSchema: recoverSchema,
     onSubmit: (values) => {
-      dispatch(userUpdatePassword(values, navigate));
-      // navigate("/recover");
+      dispatch(userUpdatePassword(values));
     },
   });
 
