@@ -8,6 +8,7 @@ import divImage from "../../assets/divoneimage.png";
 import communication from "../../assets/peopleCommunicating.png";
 import handshake from "../../assets/handshake.png";
 import divthreeimage from "../../assets/divthreeimage.png";
+import { FaBeer } from "react-icons/fa";
 
 import SignIn from "../login/signin/SignIn";
 import { useSelector, useDispatch } from "react-redux";
@@ -28,7 +29,7 @@ const LandingPage = ({ sidebarVisible }) => {
 
   return (
     <>
-      <div id="maindiv" className="w-full">
+      <div id="maindiv" className="w-full ">
         {showLogin && (
           <div className="popup-container">
             <SignIn />
@@ -66,12 +67,13 @@ const LandingPage = ({ sidebarVisible }) => {
                 N
               </h1>
             </div>
-            <div className="text-xl lg:text-3xl font-semibold text-black-800">
-              Connecting Influencers and Seekers for Personalized 1-on-1 Services
+            <div className="text-xl lg:text-3xl font-semibold text-white">
+              Connecting Influencers and Seekers for Personalized 1-on-1
+              Services
             </div>
-            <button>
+            <button className=" z-10 md:z-10">
               <a
-                className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-white py-4 px-10 shadow-md rounded-2xl hover:opacity-80 duration-300"
+                className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-white py-4 px-10 shadow-md rounded-2xl hover:opacity-80 duration-300 "
                 onClick={(e) => {
                   e.preventDefault();
                   let smooth_scroll = document.getElementById("smooth-scroll");
@@ -86,7 +88,7 @@ const LandingPage = ({ sidebarVisible }) => {
       </div>
 
       {/** second div */}
-      <div className="bg-custom-blue h-full w-full p-10 lg:pt-0 lg:-translate-y-20 translate-y-0 ">
+      <div className="bg-custom-blue h-full w-full p-10 lg:pt-0 lg:-translate-y-16 -translate-y-5 -z-10">
         <div className="flex flex-col lg:flex-row gap-10">
           <div className="flex flex-col gap-10 mt-4">
             <div>
@@ -113,51 +115,93 @@ const LandingPage = ({ sidebarVisible }) => {
         </div>
       </div>
 
-      {/* third div*/}
+      {/* third div */}
       <div
         id="smooth-scroll"
-        className="flex flex-col lg:flex-row m-10 mt-20 lg:m-20 gap-20 lg:gap-0 justify-between"
+        className="flex flex-col lg:flex-row m-10 mt-20 lg:m-20 gap-10 lg:gap-20 items-center justify-between h-full"
       >
-        <div className="bg-gray-200 flex flex-col w-full  rounded-xl p-10">
-          <img src={communication} alt="people communicating with each other" />
-          <h1 className="text-4xl"></h1>
-          <p className="text-start">
-            Are you an influencer or expert looking to share your knowledge and earn from your skills? Are you someone seeking tailored services like mock interviews, resume reviews, webinars, and workshops? Look no further! Legeon is your ultimate platform for seamless interactions and opportunities.
-          </p>
-          <div className="flex w-full flex-row-reverse">
-            <button className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 p-2 text-white rounded-2xl">
-              Know more
-            </button>
+        <div className="bg-purple-500 flex flex-col w-full lg:w-1/2 gap-10 rounded-lg shadow-lg p-6 hover:-translate-y-10 duration-300 items-center">
+          <div className="flex items-center gap-3 text-white">
+            <FaBeer className="h-5" />
+            <div className="text-center text-4xl font-bold text-white  border-l-4 border-white px-2">
+              Host and Earn
+            </div>
+          </div>
+          <div className="text-left text-2xl h-1/2 text-white">
+            As an influencer or expert, easily host 1-on-1 sessions and set your
+            prices for services. Monetize your skills without the hassle of
+            managing bookings.
           </div>
         </div>
 
-        <div className="flex justify-center items-center ml-10 mt-10 lg:mt-0">
-          <div className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold text-4xl lg:text-8xl">
-            Make robust <br /> connections
+        <div className="bg-indigo-500 flex flex-col w-full lg:w-1/2 gap-10 rounded-lg shadow-lg p-6 hover:-translate-y-10 duration-300 items-center mt-10 lg:mt-0">
+          <div className="flex items-center gap-3 text-white">
+            <FaBeer className="h-5" />
+            <div className="text-center text-4xl font-bold text-white  border-l-4 border-white px-2">
+              Host and Earn
+            </div>
+          </div>
+
+          <div className="text-left text-2xl h-1/2 text-white">
+            As an influencer or expert, easily host 1-on-1 sessions and set your
+            prices for services. Monetize your skills without the hassle of
+            managing bookings.
+          </div>
+        </div>
+
+        <div className="bg-pink-500 flex flex-col w-full lg:w-1/2 gap-10 rounded-lg shadow-lg hover:-translate-y-10 duration-300 items-center mt-10 lg:mt-0 p-7">
+          <div className="flex items-center gap-4 text-white">
+            <FaBeer className="h-5" />
+            <div className="text-3xl font-bold text-white text text-center px-2 border-l-4 border-white">
+              <h1>Book Expert services</h1>
+            </div>
+          </div>
+
+          <div className="text-left text-2xl h-1/2 text-white">
+            Browse through a diverse range of services offered by influencers
+            and experts. Book the ones that match your needs and schedule.
           </div>
         </div>
       </div>
 
       {/**fourth div */}
-      <div className="flex flex-col m-10 gap-20 mt-20 lg:m-20 lg:gap-0 justify-between lg:flex-row-reverse">
-        <div className="bg-gray-200 flex flex-col w-full lg:w-1/4 rounded-xl p-10">
-          <img src={handshake} alt="people communicating with each other" />
-          <h1 className="text-2xl"></h1>
-          <p className="lg:text-start  ">
-            Take control of your career growth or personal development.
-            Monetize your expertise as an influencer or expert.
-            Experience the future of personalized services.
-          </p>
-          <div className="flex w-full flex-row-reverse">
-            <button className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 p-2 text-white rounded-2xl">
-              Know more
-            </button>
+      <div className="flex flex-col m-10 gap-10 mt-20 lg:m-20 lg:gap-20 justify-between lg:flex-row">
+        <div className="bg-pink-500 flex flex-col w-full lg:w-1/2 gap-10 rounded-lg shadow-lg p-5 hover:-translate-y-10 duration-300 items-center">
+          <div className="flex items-center gap-3 text-white">
+            <FaBeer className="h-5" />
+            <div className="text-center text-4xl font-bold text-white  border-l-4 border-white px-2">
+              Host and Earn
+            </div>
+          </div>
+          <div className="text-left text-2xl h-1/2 text-white">
+            As an influencer or expert, easily host 1-on-1 sessions and set your
+            prices for services. Monetize your skills without the hassle of
+            managing bookings.
           </div>
         </div>
-
-        <div className="flex justify-center items-center ml-10 mt-10 lg:mt-0">
-          <div className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold text-4xl lg:text-8xl">
-            Be the mentor <br /> and the mentee <br /> at the same time
+        <div className="bg-indigo-500 flex flex-col w-full lg:w-1/2 gap-10 rounded-lg shadow-lg p-5 hover:-translate-y-10 duration-300 items-center mt-10 lg:mt-0">
+          <div className="flex items-center gap-3 text-white">
+            <FaBeer className="h-5" />
+            <div className="text-center text-4xl font-bold text-white  border-l-4 border-white px-2">
+              Host and Earn
+            </div>
+          </div>
+          <div className="text-left text-2xl h-1/2 text-white">
+            As an influencer or expert, easily host 1-on-1 sessions and set your
+            prices for services. Monetize your skills without the hassle of
+            managing bookings.
+          </div>
+        </div>
+        <div className="bg-violet-500 flex flex-col w-full lg:w-1/2 gap-10 rounded-lg shadow-lg p-5 hover:-translate-y-10 duration-300 items-center mt-10 lg:mt-0">
+          <div className="flex items-center gap-4 text-white">
+            <FaBeer className="h-5" />
+            <div className="text-3xl font-bold text-white text text-center px-2 border-l-4 border-white">
+              <h1>Book Expert services</h1>
+            </div>
+          </div>
+          <div className="text-left text-2xl h-1/2 text-white">
+            Browse through a diverse range of services offered by influencers
+            and experts. Book the ones that match your needs and schedule.
           </div>
         </div>
       </div>
