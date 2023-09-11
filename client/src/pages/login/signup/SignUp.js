@@ -1,32 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { X } from "lucide-react";
 
 import "../LoginForm.css";
-import { useFormik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import logo from "../../../assets/logo.png";
 import { signupSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { openRegister } from "../../../redux/landingpage/landingPageSlice";
 import { userSignUpAction } from "../../../redux/auth/authSlice";
+import Input from "../../../components/helper/Input";
 
 const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const initialValues = {
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: signupSchema,
-    onSubmit: (values) => {
-      dispatch(userSignUpAction(values, navigate));
-    },
-  });
 
   return (
     <>
@@ -52,122 +39,69 @@ const SignUp = () => {
                   </span>
                 </div>
               </div>
-
-              <form action="" onSubmit={formik.handleSubmit}>
-                <div className="flex flex-col gap-5">
-                  <div className="relative">
-                    <input
+              <Formik
+                initialValues={{
+                  firstname: "",
+                  lastname: "",
+                  email: "",
+                  password: "",
+                  confirmPassword: "",
+                }}
+                validationSchema={signupSchema}
+                onSubmit={(values) => {
+                  // console.log(values);
+                  dispatch(userSignUpAction(values, navigate));
+                }}
+              >
+                {() => (
+                  <Form className="flex flex-col gap-5">
+                    <Input
                       id="firstname"
                       type="text"
-                      className="inputfield_css peer"
-                      required="required"
-                      autoComplete="off"
-                      value={formik.values.firstname}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      name="firstname"
+                      label="First Name"
                     />
-                    <label htmlFor="firstname" className="labelfeild_css">
-                      Firstname
-                    </label>
-                    {formik.errors.firstname && formik.touched.firstname && (
-                      <span className="text-[12px] text-red-700">
-                        {formik.errors.firstname}
-                      </span>
-                    )}
-                  </div>
-                  <div className="relative">
-                    <input
-                      id="lastname"
-                      type="text"
-                      className="inputfield_css peer"
-                      required="required"
-                      autoComplete="off"
-                      value={formik.values.lastname}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    <label htmlFor="lastname" className="labelfeild_css">
-                      Lastname (optional)
-                    </label>
-                    {formik.errors.lastname && formik.touched.lastname && (
-                      <span className="text-[12px] text-red-700">
-                        {formik.errors.lastname}
-                      </span>
-                    )}
-                  </div>
-                  <div className="relative">
-                    <input
-                      id="email"
-                      type="text"
-                      className="inputfield_css peer"
-                      required="required"
-                      autoComplete="off"
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    <label htmlFor="email" className="labelfeild_css">
-                      Email
-                    </label>
-                    {formik.errors.email && formik.touched.email && (
-                      <span className="text-[12px] text-red-700">
-                        {formik.errors.email}
-                      </span>
-                    )}
-                  </div>
-                  <div className="relative">
-                    <input
+                    <div className="relative">
+                      <Field
+                        id="lastname"
+                        type="text"
+                        name="lastname"
+                        className="inputfield_css peer"
+                        required="required"
+                        autoComplete="off"
+                      />
+                      <label htmlFor="lastname" className="labelfeild_css">
+                        Last Name (optional)
+                      </label>
+                      <div className="text-red-700 text-[12px]">
+                        <ErrorMessage name="lastname" />
+                      </div>
+                    </div>
+                    <Input id="email" type="text" name="email" label="Email" />
+                    <Input
                       id="password"
                       type="password"
-                      className="inputfield_css peer"
-                      required="required"
-                      autoComplete="off"
-                      value={formik.values.password}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      name="password"
+                      label="Password"
                     />
-                    <label htmlFor="password" className="labelfeild_css">
-                      Password
-                    </label>
-                    {formik.errors.password && formik.touched.password && (
-                      <span className="text-[12px] text-red-700">
-                        {formik.errors.password}
-                      </span>
-                    )}
-                  </div>
-                  <div className="relative">
-                    <input
+                    <Input
                       id="confirmPassword"
                       type="password"
-                      className="inputfield_css peer"
-                      required="required"
-                      autoComplete="off"
-                      value={formik.values.confirmPassword}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      name="confirmPassword"
+                      label="Confirm Password"
                     />
-                    <label htmlFor="confirmPassword" className="labelfeild_css">
-                      Confirm Password
-                    </label>
-                    {formik.errors.confirmPassword &&
-                      formik.touched.confirmPassword && (
-                        <span className="text-[12px] text-red-700">
-                          {formik.errors.confirmPassword}
-                        </span>
-                      )}
-                  </div>
 
-                  <div className="flex justify-center">
-                    <button
-                      type="submit"
-                      onClick={formik.handleSignUp}
-                      className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl hover:opacity-80  duration-300"
-                    >
-                      Register
-                    </button>
-                  </div>
-                </div>
-              </form>
+                    <div className="flex justify-center">
+                      <button
+                        type="submit"
+                        className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl hover:opacity-80  duration-300"
+                      >
+                        Register
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             </div>
           </div>
         </div>

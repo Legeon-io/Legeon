@@ -1,29 +1,20 @@
-import React, { useState } from "react";
-import { Check, X } from "lucide-react";
+import React from "react";
+import {  X } from "lucide-react";
 
-import logo from "../../../assets/logo.png";
 import "../LoginForm.css";
 import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
+import { Form, Formik } from "formik";
 import { forgetSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { userValidEmail } from "../../../redux/auth/authSlice";
 
 import { closeForgetPassword } from "../../../redux/landingpage/landingPageSlice";
+import Input from "../../../components/helper/Input";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-    },
-    validationSchema: forgetSchema,
-    onSubmit: (values) => {
-      dispatch(userValidEmail(values, navigate));
-    },
-  });
 
   return (
     <>
@@ -48,38 +39,28 @@ const ForgetPassword = () => {
                   </span>
                 </div>
               </div>
-              <form
-                onSubmit={formik.handleSubmit}
-                className="flex flex-col gap-5"
+              <Formik
+                initialValues={{
+                  email: "",
+                }}
+                validationSchema={forgetSchema}
+                onSubmit={(values) => {
+                  // console.log(values)
+                  dispatch(userValidEmail(values, navigate));
+                }}
               >
-                <div className="flex flex-col gap-2 relative">
-                  <input
-                    id="email"
-                    type="text"
-                    className="inputfield_css peer"
-                    required="required"
-                    autoComplete="off"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  <label htmlFor="email" className="labelfeild_css">
-                    Email
-                  </label>
-                  {formik.errors.email && formik.touched.email && (
-                    <span className="text-[12px] text-red-700">
-                      *{formik.errors.email}
-                    </span>
-                  )}
-                </div>
-                <button
-                  type="submit"
-                  onClick={formik.handleForgetPassword}
-                  className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2  text-white rounded hover:opacity-80  duration-300"
-                >
-                  Recover Now
-                </button>
-              </form>
+                {() => (
+                  <Form className="flex flex-col gap-10">
+                    <Input id="email" type="text" name="email" label="Email" />
+                    <button
+                      type="submit"
+                      className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2  text-white rounded hover:opacity-80  duration-300"
+                    >
+                      Recover Now
+                    </button>
+                  </Form>
+                )}
+              </Formik>
             </div>
           </div>
         </div>
