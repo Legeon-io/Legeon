@@ -7,12 +7,6 @@ export const signinSchema = Yup.object({
       /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
       "Please enter a valid email address"
     )
-    .test("is-gmail", "Please use a Gmail address", (value) => {
-      if (value) {
-        return value.endsWith("@gmail.com");
-      }
-      return true;
-    })
     .required("Email is required"),
 
   password: Yup.string()
@@ -26,19 +20,12 @@ export const signinSchema = Yup.object({
 
 export const signupSchema = Yup.object({
   firstname: Yup.string().required("Please enter the Firstname !"),
-  lastname: Yup.string().required("Please enter the Lastname !"),
   email: Yup.string()
     .email("Please enter a valid email address")
     .matches(
       /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
       "Please enter a valid email address"
     )
-    .test("is-gmail", "Please use a Gmail address", (value) => {
-      if (value) {
-        return value.endsWith("@gmail.com");
-      }
-      return true;
-    })
     .required("Email is required"),
   password: Yup.string()
     .min(6, "Password should be at least 6 characters")
@@ -59,12 +46,6 @@ export const forgetSchema = Yup.object({
       /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
       "Please enter a valid email address"
     )
-    .test("is-gmail", "Please use a Gmail address", (value) => {
-      if (value) {
-        return value.endsWith("@gmail.com");
-      }
-      return true;
-    })
     .required("Email is required"),
 });
 

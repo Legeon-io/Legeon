@@ -37,9 +37,11 @@ export const userSignInAction = (userData, navigate) => async (dispatch) => {
     }
   } catch (error) {
     console.log(error);
-
+ 
     if (error.response && error.response.status === 400) {
       toast.error("Invalid credentials !");
+    } else if (error.response && error.response.status === 404) {
+      toast.error("Account Not Registerd !");
     } else {
       toast.error("Internal server error");
     }
@@ -81,7 +83,7 @@ export const userValidEmail = (userData) => async (dispatch) => {
     }
   } catch (error) {
     if (error.response && error.response.status === 400) {
-      toast.error("Email is not valid !");
+      toast.error("Email Not Registerd !");
     } else {
       toast.error("Internal server error !");
     }
@@ -101,7 +103,7 @@ export const userValidOTP = (userData) => async (dispatch) => {
   } catch (error) {
     if (error.response && error.response.status === 409) {
       toast.error("OTP expired !");
-    } else if (error.response && error.response.status === 404) {
+    } else if (error.response && error.response.status === 401) {
       toast.error("Invalid OTP !");
     } else {
       toast.error("Internal server error !");

@@ -66,8 +66,11 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "Account Not Registerd" });
+    }
     const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!email || !password || !user || !passwordMatch) {
+    if (!email || !password || !passwordMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
     const token = jwt.sign(
@@ -81,7 +84,7 @@ export const login = async (req, res) => {
 
     // res.setHeader("Authorization", `Bearer ${token}`);
 
-    if (!email || !password || !user || !passwordMatch) {
+    if (!email || !password || !passwordMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
 

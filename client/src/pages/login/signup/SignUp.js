@@ -2,7 +2,7 @@ import React from "react";
 import { X } from "lucide-react";
 
 import "../LoginForm.css";
-import { Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import logo from "../../../assets/logo.png";
 import { signupSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
@@ -49,6 +49,7 @@ const SignUp = () => {
                 }}
                 validationSchema={signupSchema}
                 onSubmit={(values) => {
+                  // console.log(values);
                   dispatch(userSignUpAction(values, navigate));
                 }}
               >
@@ -60,12 +61,22 @@ const SignUp = () => {
                       name="firstname"
                       label="First Name"
                     />
-                    <Input
-                      id="lastname"
-                      type="text"
-                      name="lastname"
-                      label="Last Name"
-                    />
+                    <div className="relative">
+                      <Field
+                        id="lastname"
+                        type="text"
+                        name="lastname"
+                        className="inputfield_css peer"
+                        required="required"
+                        autoComplete="off"
+                      />
+                      <label htmlFor="lastname" className="labelfeild_css">
+                        Last Name (optional)
+                      </label>
+                      <div className="text-red-700 text-[12px]">
+                        <ErrorMessage name="lastname" />
+                      </div>
+                    </div>
                     <Input id="email" type="text" name="email" label="Email" />
                     <Input
                       id="password"
