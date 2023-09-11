@@ -4,7 +4,7 @@ import Calendar_A from "./Calendar_A";
 
 const Availability = () => {
   const [toggle, setToggle] = useState(false);
-
+  
   return (
     <div>
       <div className="min-h-screen lg:p-5 p-3">

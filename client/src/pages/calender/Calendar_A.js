@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import TimezoneSelect from "react-timezone-select";
 
 const Calendar_A = () => {
-  const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({
     selectedTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     bookingPeriod: "",
   });
@@ -16,7 +16,7 @@ const Calendar_A = () => {
     }));
   };
 
-  return (
+    return (
     <div className="w-full flex flex-col sm:gap-10 gap-5">
       <div className=" text-2xl p-2">Calendar Configuration</div>
       <div className="flex flex-col gap-5 sm:px-10 px-2">

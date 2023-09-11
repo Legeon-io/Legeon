@@ -20,7 +20,7 @@ const Schedule = () => {
   }
 
   const [selectedSchedules, setSelectedSchedules] = useState({});
-
+  
   console.log(selectedSchedules);
 
   const handleScheduleChange = (day, field, value) => {
