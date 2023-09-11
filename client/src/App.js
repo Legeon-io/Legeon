@@ -1,8 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useSelector } from "react-redux";
 
-import { Navbar } from "./components/layout/index.js";
+import { Sidebar } from "./components/layout/index.js";
 import {
   LandingPage,
   Services,
@@ -27,18 +26,23 @@ import BookingService from "./pages/services/user_services/BookingService.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 import Dashboard from "./pages/dashboard/Dashboard.js";
 
+import Availability from "./pages/calender/Availability.js";
+import Navbar from "./components/layout/navbar/Navbar.js";
+
 const App = () => {
   // const username = useSelector((state) => state.session.username);
 
   return (
     <main>
-      {/* {username && <Navbar />} */}
+      {/* <Sidebar /> */}
+      {false && <Sidebar />}
       <Navbar />
+      {/* <div className="sm:pl-64"> */}
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<Dashboard />} /> */}
           <Route exact path="/" element={<LandingPage />} />
           <Route element={<ProtectedRoute />}>
+            <Route path="/availability" element={<Availability />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/services" element={<Services />} />
             <Route path="/bookings" element={<Bookings />} />
@@ -73,6 +77,7 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>
+      {/* </div> */}
     </main>
   );
 };

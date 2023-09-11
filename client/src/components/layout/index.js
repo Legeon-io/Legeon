@@ -1,5 +1,3 @@
-import Navbar from "./navbar/Navbar.js";
+import Sidebar from "./sidebar/Sidebar.js";
 
-export {
-    Navbar,
-};
+export { Sidebar };
