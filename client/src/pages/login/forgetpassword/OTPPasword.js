@@ -1,28 +1,16 @@
-import React, { useState } from "react";
-import { Check, X } from "lucide-react";
+import React from "react";
+import { X } from "lucide-react";
 
-import logo from "../../../assets/logo.png";
 import "../LoginForm.css";
-import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
-import { otpSchema, recoverSchema } from "../../../schema";
+import { Form, Formik } from "formik";
+import { otpSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { closeForgetPassword } from "../../../redux/landingpage/landingPageSlice";
 import { userValidOTP } from "../../../redux/auth/authSlice";
+import Input from "../../../components/helper/Input";
 
 const OTPPassword = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const formik = useFormik({
-    initialValues: {
-      otp: "",
-    },
-    validationSchema: otpSchema,
-    onSubmit: (values) => {
-      dispatch(userValidOTP(values));
-    },
-  });
 
   return (
     <>
@@ -47,38 +35,26 @@ const OTPPassword = () => {
                   </span>
                 </div>
               </div>
-              <form
-                onSubmit={formik.handleSubmit}
-                className="flex flex-col gap-5"
+              <Formik
+                initialValues={{ otp: "" }}
+                validationSchema={otpSchema}
+                onSubmit={(values) => {
+                  // console.log(values)
+                  dispatch(userValidOTP(values));
+                }}
               >
-                <div className="flex flex-col gap-2 relative">
-                  <input
-                    id="otp"
-                    type="number"
-                    className="inputfield_css peer"
-                    required="required"
-                    autoComplete="off"
-                    value={formik.values.otp}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  <label htmlFor="otp" className="labelfeild_css">
-                    otp
-                  </label>
-                  {formik.errors.otp && formik.touched.otp && (
-                    <span className="text-[12px] text-red-700">
-                      *{formik.errors.otp}
-                    </span>
-                  )}
-                </div>
-                <button
-                  type="submit"
-                  onClick={formik.handleForgetPassword}
-                  className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2  text-white rounded hover:opacity-80  duration-300"
-                >
-                  Verify
-                </button>
-              </form>
+                {() => (
+                  <Form className="flex flex-col gap-5">
+                    <Input id="otp" type="text" name="otp" label="OTP" />
+                    <button
+                      type="submit"
+                      className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2  text-white rounded hover:opacity-80  duration-300"
+                    >
+                      Verify
+                    </button>
+                  </Form>
+                )}
+              </Formik>
             </div>
           </div>
         </div>

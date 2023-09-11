@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { X } from "lucide-react";
 
 import "../LoginForm.css";
-import axios from "axios";
-import { useFormik } from "formik";
+import { Form, Formik } from "formik";
 import logo from "../../../assets/logo.png";
 import { signinSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
-
-import SignUp from "../signup/SignUp";
-import ForgetPassword from "../forgetpassword/ForgetPassword";
-import OTPPassword from "../forgetpassword/OTPPasword";
+import { useNavigate } from "react-router-dom";
 import {
   openForgetPassword,
   openLogin,
@@ -20,23 +15,11 @@ import {
 } from "../../../redux/landingpage/landingPageSlice";
 import { userSignInAction } from "../../../redux/auth/authSlice";
 import { getGoogleUserDetails } from "../../../redux/profile/profileSlice";
+import Input from "../../../components/helper/Input";
 
-const SignIn = ({ onClose }) => {
+const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const initialValues = {
-    email: "",
-    password: "",
-  };
-
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: signinSchema,
-    onSubmit: (values) => {
-      dispatch(userSignInAction(values, navigate));
-    },
-  });
 
   return (
     <>
@@ -62,97 +45,72 @@ const SignIn = ({ onClose }) => {
                   </span>
                 </div>
               </div>
-
-              <form action="" onSubmit={formik.handleSubmit}>
-                <div className="flex flex-col gap-5">
-                  <div className="relative">
-                    <input
-                      id="email"
-                      type="text"
-                      className="inputfield_css peer"
-                      required="required"
-                      autoComplete="off"
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    <label htmlFor="email" className="labelfeild_css">
-                      Email
-                    </label>
-                    {formik.errors.email && formik.touched.email && (
-                      <span className="text-[12px] text-red-700">
-                        {formik.errors.email}
-                      </span>
-                    )}
-                  </div>
-                  <div className="relative">
-                    <input
+              <Formik
+                initialValues={{
+                  email: "",
+                  password: "",
+                }}
+                validationSchema={signinSchema}
+                onSubmit={(values) => {
+                  dispatch(userSignInAction(values, navigate));
+                }}
+              >
+                {() => (
+                  <Form className="flex flex-col gap-5">
+                    <Input id="email" type="text" name="email" label="Email" />
+                    <Input
                       id="password"
                       type="password"
-                      className="inputfield_css peer"
-                      required="required"
-                      autoComplete="off"
-                      value={formik.values.password}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      name="password"
+                      label="Password"
                     />
-                    <label htmlFor="password" className="labelfeild_css">
-                      Password
-                    </label>
-                    <div className="flex justify-between">
-                      {formik.errors.password && formik.touched.password ? (
-                        <span className="text-[12px] text-red-700">
-                          {formik.errors.password}
-                        </span>
-                      ) : (
-                        <span />
-                      )}
+                    <button
+                      type="button"
+                      onClick={() => dispatch(openForgetPassword())}
+                      className="text-[12px] text-violet-500 flex justify-end"
+                    >
+                      Forget Password ?
+                    </button>
+                    <div className="flex justify-center">
                       <button
-                        type="button"
-                        onClick={() => dispatch(openForgetPassword())}
-                        className="text-[12px] text-violet-500"
+                        type="submit"
+                        className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl hover:opacity-80  duration-300"
                       >
-                        Forget Password ?
+                        Login
                       </button>
                     </div>
-                  </div>
-                  <div className="flex justify-center">
                     <button
-                      type="submit"
-                      onClick={formik.handleSignIn}
-                      className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl hover:opacity-80  duration-300"
+                      className="w-fit m-auto"
+                      onClick={() => {
+                        window.open(
+                          "http://localhost:8080/auth/google",
+                          "_self"
+                        );
+                        dispatch(getGoogleUserDetails());
+                      }}
+                      type="button"
                     >
-                      Login
+                      <button className="block bg-white shadow-md px-4 py-2 rounded hover:bg-gray-200 duration-300 w-fit m-auto">
+                        <div className="flex justify-center gap-5 items-center">
+                          <img alt="Not Found" src="icons/googleIcon.svg" width={30} />
+                          <h6 className="text-black font-semibold">
+                            Sign in with Google
+                          </h6>
+                        </div>
+                      </button>
                     </button>
-                  </div>
-                  <button
-                    className="w-fit m-auto"
-                    onClick={() => {
-                      window.open("http://localhost:8080/auth/google", "_self");
-                      dispatch(getGoogleUserDetails());
-                    }}
-                    type="button"
-                  >
-                    <a className="block bg-white shadow-md px-4 py-2 rounded hover:bg-gray-200 duration-300 w-fit m-auto">
-                      <div className="flex justify-center gap-5 items-center">
-                        <img src="icons/googleIcon.svg" width={30} />
-                        <h6 className="text-black font-semibold">
-                          Sign in with Google
-                        </h6>
-                      </div>
-                    </a>
-                  </button>
-                  <div className="signin_dont_css">
-                    <span className="">Don't have any account ?</span>
-                    <button
-                      onClick={() => dispatch(openRegister())}
-                      className="text-violet-500 cursor-pointer "
-                    >
-                      Register Now
-                    </button>
-                  </div>
-                </div>
-              </form>
+                    <div className="signin_dont_css">
+                      <span className="">Don't have any account ?</span>
+                      <button
+                        onClick={() => dispatch(openRegister())}
+                        className="text-violet-500 cursor-pointer "
+                      >
+                        Register Now
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             </div>
           </div>
         </div>
