@@ -1,149 +1,205 @@
-import React, { useEffect, useState } from 'react'
-import './Profile.css';
-import '../index.css'
-import { AccountPage, ProfilePage } from './profile-pages';
-import { getUser, updateUser } from '../../apis/users/users.api';
-import Popup from '../../components/common/Popup';
-import { updateUserProfile } from '../../apis/users/userprofiles';
-import { useSelector } from 'react-redux';
-
+import React, { useEffect, useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import "./Profile.css";
+import "../index.css";
+import Sidebar from "../../components/layout/sider/Sidebar";
+import InternalNav from "../../components/layout/profileInternalNav/internalNav";
+import logo from "../../assets/logo.png";
 export const Profile = (props) => {
-  const username = useSelector((state) => state.session.username);
-  const [activeTab, setActiveTab] = useState('profilepage');
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isProfileChanges, setIsProfileChanges] = useState(false);
-  const [noChanges, setNoChanges] = useState(false);
-
-  const [formData, setFormData] = useState([
-    { name: 'firstname', value: '' },
-    { name: 'lastname', value: '' },
-    { name: 'bio', value: '' },
-    { name: 'profession', value: '' },
-  ]);
-
-  const handleTabToChange = (tab) => {
-    setActiveTab(tab);
+  const initialValues = {
+    link: "",
+    firstname: "",
+    lastname: "",
+    displayname: "",
+    intro: "",
+    bio: "",
   };
-
-  useEffect(() => {
-    async function fetchData() {
-      const { response, data } = await getUser(username);
-      if (response.status === 200) {
-        setUserData(data.user);
-        setIsLoading(false);
-      } else {
-        console.log('Internal Server Error, data not received', response.error);
-      }
-    }
-    const delay = setTimeout(() => {
-      fetchData();
-    }, 200);
-
-    return () => clearTimeout(delay);
-  }, [username]);
-
-  const handleInputChange = (event) => {
-    setIsProfileChanges(true);
-    const { id, value } = event.target;
-    setFormData((prevFormData) =>
-      prevFormData.map((field) =>
-        field.name === id ? { ...field, value: value } : field
-      )
-    );
-  }
-
-  const handleSubmit = () => {
-    // If there are any changes done by the user in the form then pop up is set to true
-    if (isProfileChanges || activeTab === 'accountpage') setIsPopupOpen(true);
-    else setNoChanges(true);
-  }
-
-
-  const handleConfirm = async () => {
-    if (activeTab === 'accountpage') {
-      window.location.href = '/profile';
-      setIsPopupOpen(false);
-    }
-    else {
-      const userUpdateResponse = await updateUser(username, formData[0].value, formData[1].value);
-      const userProfileUpdateResponse = await updateUserProfile(username, formData[2].value, formData[3].value);
-      if (userUpdateResponse.response.status !== 200) {
-        console.log(userUpdateResponse.data.error);
-        console.log(userProfileUpdateResponse.data.error);
-      }
-      setIsPopupOpen(false);
-      setTimeout(() => {
-        window.location.reload();
-      }, 200);
-    }
+  const handleEdit = (fieldName) => {
+    setIsEditing((prevState) => ({
+      ...prevState,
+      [fieldName]: true,
+    }));
   };
-
-  const handleCancel = () => {
-    setNoChanges(false);
-    setIsPopupOpen(false);
+  const [isEditing, setIsEditing] = useState({
+    email: false,
+    mobile: false,
+    password: false,
+  });
+  const validationSchema = Yup.object().shape({
+    link: Yup.string().required("Link is required"),
+    firstname: Yup.string().required("First name is required"),
+    lastname: Yup.string().required("Last name is required"),
+    displayname: Yup.string().required("Display name is required"),
+    intro: Yup.string().required("Legion intro is required"),
+    bio: Yup.string(),
+  });
+  const handleSubmit = (values) => {
+    console.log(initialValues);
   };
-
 
   return (
-    <>
-      {isLoading ? (
-        <p className='loading' style={{background: 'linear-gradient(to right, #0B0C10, #1F2833)'}} >Engaging...</p>
-      ) : (
-        <>
-          <div className={props.sidebarVisible ? 'page move-right' : 'page'} >
-            <div className='button-container'>
-              <span className='profile-span'>
-                <button className={activeTab === "profilepage" ? "active" : ""} onClick={() => handleTabToChange("profilepage")}>
-                  Profile
+    <div className="grid grid-cols-7 h-screen">
+      <Sidebar />
+      <div className="col-span-6 grid grid-rows-6 ">
+        <InternalNav />
+        <div className="flex flex-col row-span-5 items-center">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting }) => (
+              <Form className="bg-white text-black w-full md:w-6/12 p-6 rounded-lg shadow-md">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                  <div className="flex items-center">
+                    <img
+                      src={logo}
+                      alt="user image"
+                      className="h-20 w-20 rounded-full"
+                    />
+                    <div className="ml-4">
+                      <h1 className="text-lg font-semibold">Profile photo</h1>
+                      <p className="text-sm text-gray-600">Required</p>
+                    </div>
+                  </div>
+                  <a
+                    href="./"
+                    className="text-transparent bg-clip-text bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 font-semibold hover:text-violet-600 duration-300 mt-2 md:mt-0"
+                  >
+                    Change profile
+                  </a>
+                </div>
+                <div className="mb-4 flex flex-col">
+                  <label
+                    htmlFor="link"
+                    className="text-sm font-semibold text-gray-600"
+                  >
+                    Your Legion Link
+                  </label>
+                  <div className="flex border border-black rounded focus-within:border-blue-600 focus-within: ">
+                    <div className="bg-gray-200 px-4 flex items-center rounded-l">
+                      <h1 className="text-gray-600">legeon.io/</h1>
+                    </div>
+                    <Field
+                      name="link"
+                      placeholder="Link"
+                      className="w-full px-3 py-2 rounded focus:outline-none"
+                    />
+                  </div>
+                  <ErrorMessage
+                    name="link"
+                    component="div"
+                    className="text-red-600 text-sm"
+                  />
+                </div>
+                <div className="mb-4 flex flex-col  md:flex-row md:gap-5">
+                  <div className=" md:flex-1">
+                    <label
+                      htmlFor="firstname"
+                      className="text-sm font-semibold text-gray-600"
+                    >
+                      First Name
+                    </label>
+                    <Field
+                      name="firstname"
+                      placeholder="First Name"
+                      className="border border-black px-3 py-2 rounded w-full"
+                    />
+                    <ErrorMessage
+                      name="firstname"
+                      component="div"
+                      className="text-red-600 text-sm"
+                    />
+                  </div>
+                  <div className=" md:flex-1">
+                    <label
+                      htmlFor="lastname"
+                      className="text-sm font-semibold text-gray-600"
+                    >
+                      Last Name
+                    </label>
+                    <Field
+                      name="lastname"
+                      placeholder="Last Name"
+                      className="border border-black px-3 py-2 rounded w-full"
+                    />
+                    <ErrorMessage
+                      name="lastname"
+                      component="div"
+                      className="text-red-600 text-sm"
+                    />
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="displayname"
+                    className="text-sm font-semibold text-gray-600"
+                  >
+                    Display Name
+                  </label>
+                  <Field
+                    name="displayname"
+                    placeholder="Display Name"
+                    className="border border-black px-3 py-2 rounded w-full text-gray-600"
+                  />
+                  <ErrorMessage
+                    name="displayname"
+                    component="div"
+                    className="text-red-600 text-sm"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="intro"
+                    className="text-sm font-semibold text-gray-600"
+                  >
+                    Legion Intro
+                  </label>
+                  <Field
+                    name="intro"
+                    placeholder="Legion Intro"
+                    className="border border-black px-3 py-2 rounded w-full"
+                  />
+                  <ErrorMessage
+                    name="intro"
+                    component="div"
+                    className="text-red-600 text-sm"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="bio"
+                    className="text-sm font-semibold text-gray-600"
+                  >
+                    Bio
+                  </label>
+                  <Field
+                    as="textarea"
+                    name="bio"
+                    placeholder="Elaborate yourself"
+                    className="border border-black px-3 py-2 rounded w-full"
+                  />
+                  <ErrorMessage
+                    name="bio"
+                    component="div"
+                    className="text-red-600 text-sm"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 hover:opacity-80 duration-300 text-white font-semibold py-2 px-4 rounded-md w-full"
+                >
+                  Submit
                 </button>
-              </span>
-              <span className='account-span'>
-                <button className={activeTab === "accountpage" ? "active" : ""} onClick={() => handleTabToChange("accountpage")}>
-                  Account
-                </button>
-              </span>
-            </div>
-            
-            <span className='save-span'>
-              <button className="save-button" onClick={handleSubmit}>
-                Save Changes
-              </button>
-              {isPopupOpen && (
-                <Popup
-                  message="Are you sure you want to save changes?"
-                  onConfirm={handleConfirm}
-                  onCancel={handleCancel}
-                />
-              )}
-              {noChanges && (
-                <Popup
-                  message="No changes made yet!"
-                  onConfirm={handleConfirm}
-                  onCancel={handleCancel}
-                  showConfirm={false}
-                />
-              )}
-            </span>
-          </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-          <div className='division'></div>
-          <div className={props.sidebarVisible ? 'page-container move-right' : 'page-container'} >
-            {
-              activeTab === "profilepage" && <ProfilePage username={username} userData={userData}
-                onInputChange={handleInputChange} />
-            }
-            {
-              activeTab === "accountpage" && <AccountPage username={username} email={userData.email} />
-            }
-          </div>
-
-        </>
-      )
-      }
-    </>
-  )
-}
-
-export default Profile
+export default Profile;

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import { Sidebar } from "./components/layout/index.js";
 import {
@@ -14,7 +14,10 @@ import {
   Feedback,
   Payments,
 } from "./pages/index.js";
+
 import "./App.css";
+
+import { persistor } from "./redux/stores/Store.js";
 import {
   CreateService,
   EngageCall,
@@ -25,6 +28,8 @@ import UserServices from "./pages/services/user_services/UserServices.js";
 import BookingService from "./pages/services/user_services/BookingService.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 import Dashboard from "./pages/dashboard/Dashboard.js";
+
+import AccountPage from "./pages/profile/profile-pages/AccountPage.js";
 
 import Availability from "./pages/calender/Availability.js";
 import Navbar from "./components/layout/navbar/Navbar.js";
@@ -49,14 +54,17 @@ const App = () => {
             <Route path="/payments" element={<Payments />} />
             <Route path="/earnings" element={<Earnings />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/account" element={<AccountPage />} />
             <Route path="/community" element={<Community />} />
             <Route path="/about" element={<About />} />
             <Route path="/support" element={<Support />} />
             <Route path="/feedback" element={<Feedback />} />
+
             <Route
               path="/services/create-service"
               element={<CreateService />}
             />
+
             <Route
               path="/services/create-service/engage-call"
               element={<EngageCall />}
@@ -65,10 +73,12 @@ const App = () => {
               path="/services/create-service/text-query"
               element={<TextQuery />}
             />
+
             <Route
               path="/services/engage-call/edit-service/:id"
               element={<EditCallServiceForm />}
             />
+
             <Route path="/:username" element={<UserServices />} />
             <Route
               path="/:username/:title/:id/service"
