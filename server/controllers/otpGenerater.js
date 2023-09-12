@@ -19,13 +19,17 @@ export const validEmail = async (req, res) => {
         specialChars: false,
       });
 
+      // Some problem here for other systems
       const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
-        secure: true,
+        // secure: true,
         auth: {
           user: "legeon.connect@gmail.com",
           pass: "ntlneorttlfgrxda",
+        },
+        tls: {
+          rejectUnauthorized: false,
         },
       });
 

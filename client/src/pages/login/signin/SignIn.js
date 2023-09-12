@@ -79,8 +79,8 @@ const SignIn = () => {
                         Login
                       </button>
                     </div>
+
                     <button
-                      className="w-fit m-auto"
                       onClick={() => {
                         window.open(
                           "http://localhost:8080/auth/google",
@@ -89,15 +89,18 @@ const SignIn = () => {
                         dispatch(getGoogleUserDetails());
                       }}
                       type="button"
+                      className="block bg-white shadow-md px-4 py-2 rounded hover:bg-gray-200 duration-300 w-fit m-auto"
                     >
-                      <button className="block bg-white shadow-md px-4 py-2 rounded hover:bg-gray-200 duration-300 w-fit m-auto">
-                        <div className="flex justify-center gap-5 items-center">
-                          <img alt="Not Found" src="icons/googleIcon.svg" width={30} />
-                          <h6 className="text-black font-semibold">
-                            Sign in with Google
-                          </h6>
-                        </div>
-                      </button>
+                      <div className="flex justify-center gap-5 items-center">
+                        <img
+                          alt="Not Found"
+                          src="icons/googleIcon.svg"
+                          width={30}
+                        />
+                        <h6 className="text-black font-semibold">
+                          Sign in with Google
+                        </h6>
+                      </div>
                     </button>
                     <div className="signin_dont_css">
                       <span className="">Don't have any account ?</span>
