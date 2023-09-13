@@ -35,7 +35,7 @@ const App = () => {
   return (
     <main>
       {/* <Sidebar /> */}
-      {false && <Sidebar />}
+      {/* {false && <Sidebar />} */}
       <Navbar />
       {/* <div className="sm:pl-64"> */}
       <BrowserRouter>

@@ -8,7 +8,8 @@ import { updateUserProfile } from '../../apis/users/userprofiles';
 import { useSelector } from 'react-redux';
 
 export const Profile = (props) => {
-  const username = useSelector((state) => state.session.username);
+  const username = useSelector((state) => state.profile.username);
+  console.log(username);
   const [activeTab, setActiveTab] = useState('profilepage');
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

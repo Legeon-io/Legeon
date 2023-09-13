@@ -38,7 +38,8 @@ export const signup = async (req, res) => {
     }
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
-      username = `${username}#${generateShortUUID()}`;
+      // Removeing Hash '#'
+      username = `${username}${generateShortUUID()}`;
     }
 
     const newUser = new User({
