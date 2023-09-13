@@ -1,18 +1,30 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 //Components
 import { Toggle } from "../../common/Toggle.js";
 import { useDispatch } from "react-redux";
+import Cookie from "js-cookie";
+import profileLogo from "../../../assets/logo.png";
 import {
   openLogin,
   openRegister,
 } from "../../../redux/landingpage/landingPageSlice.js";
+import DropdownMenu from "./DropdownMenu.js";
 
 export const Navbar = (props) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // for login profile visibility
+  const [show, setShow] = useState(true);
+  useEffect(() => {
+    const token = Cookie.get("token");
+    if (token) {
+      setShow(false);
+    }
+  }, []);
 
   function handleChanges(e) {
     setChecked(e.target.checked);
@@ -34,25 +46,29 @@ export const Navbar = (props) => {
             LEGEON
           </h1>
         </div>
-        <div className=" flex gap-5">
-          <a
-            className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold hover:text-violet-600  duration-300 mt-2 text-lg"
-            href="#"
-          >
-            Services
-          </a>
-          <a
-            className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold hover:text-violet-600  duration-300  mt-2 text-lg"
-            href="#"
-          >
-            Calender
-          </a>
-          <a
-            className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold  hover:text-violet-600  duration-300  mt-2 text-lg"
-            href="#"
-          >
-            Payments
-          </a>
+        <div className="flex gap-5">
+          {show && (
+            <div className="flex gap-5">
+              <a
+                className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold hover:text-violet-600  duration-300 mt-2 text-lg"
+                href="#"
+              >
+                Services
+              </a>
+              <a
+                className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold hover:text-violet-600  duration-300  mt-2 text-lg"
+                href="#"
+              >
+                Calender
+              </a>
+              <a
+                className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold  hover:text-violet-600  duration-300  mt-2 text-lg"
+                href="#"
+              >
+                Payments
+              </a>
+            </div>
+          )}
           <div className="mt-0.5 mr-1 flex justify-center items-center">
             <Toggle
               ischecked={checked}
@@ -60,12 +76,23 @@ export const Navbar = (props) => {
               onClick={handleClick}
             />
           </div>
-          <button
-            onClick={() => dispatch(openLogin())}
-            className=" hidden md:block bg-gradient-to-r m-1 p-2 text-white rounded-md to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  duration-300"
-          >
-            Login
-          </button>
+          {show && (
+            <button
+              onClick={() => dispatch(openLogin())}
+              className=" hidden md:block bg-gradient-to-r m-1 p-2 text-white rounded-md to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  duration-300 w-[6rem]"
+            >
+              Login
+            </button>
+          )}
+
+          {!show && (
+            <button className="rounded-full w-16 dura hover:shadow-sm hover:shadow-black focus:shadow-sm focus:shadow-black">
+              <img src={profileLogo} alt="profile" />
+            </button>
+            // <div className="mr-12">
+            //   <DropdownMenu />
+            // </div>
+          )}
 
           {/* <button
             onClick={() => dispatch(openRegister())}

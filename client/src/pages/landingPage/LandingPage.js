@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./LandingPage.css";
 import "../index.css";
 import image1 from "../../assets/job_interview_illustration_1.png";
@@ -17,8 +17,19 @@ import ForgetPassword from "../login/forgetpassword/ForgetPassword";
 import OTPPassword from "../login/forgetpassword/OTPPasword";
 import RecoverPassword from "../login/forgetpassword/RecoverPassword";
 import { openLogin } from "../../redux/landingpage/landingPageSlice";
+import { toast } from "react-toastify";
 
 const LandingPage = ({ sidebarVisible }) => {
+  useEffect(() => {
+    const val = new URLSearchParams(window.location.search);
+    if (val.get("accountRegistered") == "true") {
+      toast.error("Account Already Registered!");
+      setTimeout(() => {
+        window.location = "/";
+      }, 3000);
+    }
+  }, []);
+
   const dispatch = useDispatch();
 
   const showLogin = useSelector((state) => state.landingpage.showLogin);

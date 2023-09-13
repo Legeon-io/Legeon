@@ -2,6 +2,7 @@ import googleUser from "../models/googleuser.js";
 import User from "../models/users.js";
 import jwt from "jsonwebtoken";
 
+const CLIENT_FAIL_URL = "http://localhost:3000";
 const CLIENT_URL = "http://localhost:3000/dashboard";
 const SERVER_URL = "http://localhost:8080/auth/failure";
 
@@ -22,7 +23,7 @@ export const googleRedirect = async (req, res) => {
       // Check for existing gmail in user collection
       const existingCustomUser = await User.findOne({ email });
       if (existingCustomUser) {
-        return res.redirect(CLIENT_URL);
+        return res.redirect(`${CLIENT_FAIL_URL}/?accountRegistered=true`);
         // return res
         //   .status(409)
         //   .json({ message: "Already Registered in Custom Login" });
@@ -35,7 +36,6 @@ export const googleRedirect = async (req, res) => {
           {
             email: existingUser.email,
             username: existingUser.username,
-            isGoogle: true,
           },
           process.env.JWT_KEY,
           { expiresIn: "7d" }
@@ -61,7 +61,6 @@ export const googleRedirect = async (req, res) => {
           {
             email: savedUser.email,
             username: savedUser.username,
-            isGoogle: true,
           },
           process.env.JWT_KEY,
           { expiresIn: "7d" }
@@ -76,39 +75,6 @@ export const googleRedirect = async (req, res) => {
   } catch (err) {
     // res.status(500).json({ error: "Internal server error", err });
     res.redirect(SERVER_URL);
-  }
-};
-
-export const googleAuth = async (req, res) => {
-  try {
-    if (req.user) {
-      const { email } = req.user;
-
-      const userDetails = await googleUser.findOne(
-        { email },
-        { username: 1, firstname: 1, _id: 0, lastname: 1, email: 1 }
-      );
-      if (!userDetails) {
-        res.status(404).json({ error: "No Google User Found" });
-      }
-
-      res.status(200).json({ credentials: userDetails });
-    } else {
-      res.status(404).json({ error: "No Google User Found" });
-    }
-  } catch (err) {
-    res.status(500).json({ error: "Internal server error", err });
-  }
-};
-
-export const authFailure = (req, res) => {
-  try {
-    res.status(401).json({
-      error: true,
-      message: "Login Failed",
-    });
-  } catch (err) {
-    res.status(500).json({ error: "Internal server error", err });
   }
 };
 
