@@ -6,20 +6,23 @@ export const InternalNav = (props) => {
       <h1 className="text-3xl mt-5 mx-5 md:ml-10">Profile</h1>
       <div className="flex flex-row items-center gap-x-4 md:justify-between mx-5 md:mx-10 mt-3">
         <div className="flex flex-row gap-4 md:gap-10 mt-3">
-          <Link className="border border-black p-2 rounded-md" to="/profile">
+          <Link
+            className="border border-black p-2 rounded-md  hover:bg-gray-200"
+            to="/profile"
+          >
             Profile
           </Link>
-          <button className="border border-black p-2 rounded-md">
-            Settings
+          <button className="border border-black p-2 hover:bg-gray-200 rounded-md focus:bg-gray-200">
+            Edit Profile
           </button>
           <Link
-            className="border border-black p-2 rounded-md"
+            className="border border-black p-2 hover:bg-gray-200 focus:bg-gray-200 rounded-md"
             to="/profile/account"
           >
             Account
           </Link>
         </div>
-        <button className="border border-black p-2 rounded-md mt-3 md:mt-0">
+        <button className="border border-black p-2 rounded-md mt-3 hover:bg-gray-200 md:mt-0">
           Save
         </button>
       </div>

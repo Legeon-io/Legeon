@@ -30,7 +30,7 @@ export const Profile = (props) => {
     link: Yup.string().required("Link is required"),
     firstname: Yup.string().required("First name is required"),
     lastname: Yup.string().required("Last name is required"),
-    displayname: Yup.string().required("Display name is required"),
+    displayname: Yup.string().required(" Username is required"),
     intro: Yup.string().required("Legion intro is required"),
     bio: Yup.string(),
   });
@@ -75,7 +75,7 @@ export const Profile = (props) => {
                     htmlFor="link"
                     className="text-sm font-semibold text-gray-600"
                   >
-                    Your Legion Link
+                    Your Legeon Link
                   </label>
                   <div className="flex border border-black rounded focus-within:border-blue-600 focus-within: ">
                     <div className="bg-gray-200 px-4 flex items-center rounded-l">
@@ -136,11 +136,11 @@ export const Profile = (props) => {
                     htmlFor="displayname"
                     className="text-sm font-semibold text-gray-600"
                   >
-                    Display Name
+                    Username
                   </label>
                   <Field
                     name="displayname"
-                    placeholder="Display Name"
+                    placeholder="Username"
                     className="border border-black px-3 py-2 rounded w-full text-gray-600"
                   />
                   <ErrorMessage
@@ -154,11 +154,11 @@ export const Profile = (props) => {
                     htmlFor="intro"
                     className="text-sm font-semibold text-gray-600"
                   >
-                    Legion Intro
+                    Introduction
                   </label>
                   <Field
                     name="intro"
-                    placeholder="Legion Intro"
+                    placeholder="Introduce yourself"
                     className="border border-black px-3 py-2 rounded w-full"
                   />
                   <ErrorMessage
