@@ -49,8 +49,6 @@ export const signup = async (req, res) => {
       password,
     });
 
-    console.log(newUser);
-
     await newUser.save();
     return res.status(201).json(newUser);
   } catch (error) {
@@ -78,6 +76,7 @@ export const login = async (req, res) => {
       {
         email: user.email,
         username: user.username,
+        isGoogle: false,
       },
       process.env.JWT_KEY,
       { expiresIn: "7d" }
@@ -169,11 +168,20 @@ export const updateUser = async (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
+    console.log(req.user);
     const email = req.user.email;
-    const userData = await User.findOne(
-      { email },
-      { lastname: 1, firstname: 1, username: 1, email: 1, _id: 0 }
-    );
+    let userData;
+    if (req.user.isGoogle) {
+      userData = await googleUser.findOne(
+        { email },
+        { lastname: 1, firstname: 1, username: 1, email: 1, _id: 0 }
+      );
+    } else {
+      userData = await User.findOne(
+        { email },
+        { lastname: 1, firstname: 1, username: 1, email: 1, _id: 0 }
+      );
+    }
 
     if (userData) {
       res.status(200).json(userData);

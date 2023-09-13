@@ -67,12 +67,12 @@ export const Navbar = (props) => {
             Login
           </button>
 
-          <button
+          {/* <button
             onClick={() => dispatch(openRegister())}
             className="  hidden md:block bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 m-1 p-2 text-white rounded-md hover:opacity-80  duration-300"
           >
             Register
-          </button>
+          </button> */}
           <button
             className="  md:hidden block  bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 m-1 p-2 text-white rounded-md hover:opacity-80  duration-300"
             onClick={openMenu}
@@ -111,12 +111,12 @@ export const Navbar = (props) => {
         >
           Login
         </a>
-        <a
+        {/* <a
           className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
           href="http://localhost:3000/dashboard"
         >
           Register
-        </a>
+        </a> */}
       </nav>
     </>
   );

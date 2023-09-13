@@ -22,7 +22,7 @@ export const googleRedirect = async (req, res) => {
       // Check for existing gmail in user collection
       const existingCustomUser = await User.findOne({ email });
       if (existingCustomUser) {
-        res.redirect(SERVER_URL);
+        return res.redirect(CLIENT_URL);
         // return res
         //   .status(409)
         //   .json({ message: "Already Registered in Custom Login" });
@@ -35,12 +35,13 @@ export const googleRedirect = async (req, res) => {
           {
             email: existingUser.email,
             username: existingUser.username,
+            isGoogle: true,
           },
           process.env.JWT_KEY,
           { expiresIn: "7d" }
         );
 
-        res.cookie("googletoken", token, { maxAge: 1000 * 60 * 60 * 24 * 7 });
+        res.cookie("token", token, { maxAge: 1000 * 60 * 60 * 24 * 7 });
         res.redirect(CLIENT_URL);
       } else {
         const existingUsername = await googleUser.findOne({ username });
@@ -60,11 +61,12 @@ export const googleRedirect = async (req, res) => {
           {
             email: savedUser.email,
             username: savedUser.username,
+            isGoogle: true,
           },
           process.env.JWT_KEY,
           { expiresIn: "7d" }
         );
-        res.cookie("googletoken", token, { maxAge: 1000 * 60 * 60 * 24 * 7 });
+        res.cookie("token", token, { maxAge: 1000 * 60 * 60 * 24 * 7 });
         res.redirect(CLIENT_URL);
       }
     } else {

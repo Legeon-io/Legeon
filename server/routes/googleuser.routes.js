@@ -25,7 +25,7 @@ router.get(
   googleRedirect
 );
 
-router.get("/auth/success", verifyToken, googleAuth);
+// router.get("/auth/success", verifyToken, googleAuth);
 
 router.get("/auth/failure", authFailure);
 

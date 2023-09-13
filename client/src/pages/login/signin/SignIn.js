@@ -86,7 +86,6 @@ const SignIn = () => {
                           "http://localhost:8080/auth/google",
                           "_self"
                         );
-                        dispatch(getGoogleUserDetails());
                       }}
                       type="button"
                       className="block bg-white shadow-md px-4 py-2 rounded hover:bg-gray-200 duration-300 w-fit m-auto"
