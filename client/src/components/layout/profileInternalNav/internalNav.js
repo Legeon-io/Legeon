@@ -12,9 +12,12 @@ export const InternalNav = (props) => {
           >
             Profile
           </Link>
-          <button className="border border-black p-2 hover:bg-gray-200 rounded-md focus:bg-gray-200">
+          <Link
+            className="border border-black p-2 hover:bg-gray-200 rounded-md focus:bg-gray-200"
+            to="/profile/editProfile"
+          >
             Edit Profile
-          </button>
+          </Link>
           <Link
             className="border border-black p-2 hover:bg-gray-200 focus:bg-gray-200 rounded-md"
             to="/profile/account"
@@ -22,9 +25,6 @@ export const InternalNav = (props) => {
             Account
           </Link>
         </div>
-        <button className="border border-black p-2 rounded-md mt-3 hover:bg-gray-200 md:mt-0">
-          Save
-        </button>
       </div>
     </div>
   );

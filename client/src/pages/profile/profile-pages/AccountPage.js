@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { AiOutlineEdit, AiOutlineSave } from "react-icons/ai";
 import * as yup from "yup";
 import InternalNav from "../../../components/layout/profileInternalNav/internalNav";
 import "../../index.css";
@@ -79,9 +80,13 @@ export const AccountPage = (props) => {
                 <button
                   type="button"
                   onClick={() => handleEdit("email")}
-                  className="ml-2 bg-gradient-to-r to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  text-white px-4 py-2 rounded"
+                  className="ml-2 px-4 py-2 "
                 >
-                  {isEditing.email ? "Save" : "Edit"}
+                  {isEditing.email ? (
+                    <AiOutlineSave size={20} />
+                  ) : (
+                    <AiOutlineEdit size={20} />
+                  )}
                 </button>
               </div>
 
@@ -108,9 +113,13 @@ export const AccountPage = (props) => {
                 <button
                   type="button"
                   onClick={() => handleEdit("mobile")}
-                  className="ml-2  bg-gradient-to-r to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  text-white  px-4 py-2 rounded"
+                  className="ml-2 px-4 py-2 "
                 >
-                  {isEditing.mobile ? "Save" : "Edit"}
+                  {isEditing.mobile ? (
+                    <AiOutlineSave size={20} />
+                  ) : (
+                    <AiOutlineEdit size={20} />
+                  )}
                 </button>
               </div>
 
@@ -140,9 +149,13 @@ export const AccountPage = (props) => {
                 <button
                   type="button"
                   onClick={() => handleEdit("password")}
-                  className="ml-2 bg-gradient-to-r to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  text-white   px-4 py-2 rounded"
+                  className="ml-2 px-4 py-2 "
                 >
-                  {isEditing.password ? "Save" : "Edit"}
+                  {isEditing.password ? (
+                    <AiOutlineSave size={20} />
+                  ) : (
+                    <AiOutlineEdit size={20} />
+                  )}
                 </button>
               </div>
 
@@ -170,15 +183,19 @@ export const AccountPage = (props) => {
                 <button
                   type="button"
                   onClick={() => handleEdit("notification")}
-                  className="ml-2 bg-gradient-to-r to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  text-white    px-4 py-2 rounded"
+                  className="ml-2 px-4 py-2 "
                 >
-                  {isEditing.notification ? "Save" : "Edit"}
+                  {isEditing.notification ? (
+                    <AiOutlineSave size={20} />
+                  ) : (
+                    <AiOutlineEdit size={20} />
+                  )}
                 </button>
               </div>
 
               <button
                 type="submit"
-                className="bg-gradient-to-r to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  duration-300 rounded-md md:px-4 md:py-3 px-2 py-2 text-white "
+                className="border border-black p-2 rounded-md  hover:bg-gray-200"
               >
                 Submit
               </button>

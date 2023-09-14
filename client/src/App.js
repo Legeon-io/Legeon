@@ -33,6 +33,7 @@ import AccountPage from "./pages/profile/profile-pages/AccountPage.js";
 
 import Availability from "./pages/calender/Availability.js";
 import Navbar from "./components/layout/navbar/Navbar.js";
+import EditProfile from "./pages/profile/profile-pages/EditProfile.js";
 
 const App = () => {
   // const username = useSelector((state) => state.session.username);
@@ -48,6 +49,7 @@ const App = () => {
           <Route exact path="/" element={<LandingPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/availability" element={<Availability />} />
+
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/services" element={<Services />} />
             <Route path="/bookings" element={<Bookings />} />
@@ -55,6 +57,7 @@ const App = () => {
             <Route path="/earnings" element={<Earnings />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/account" element={<AccountPage />} />
+            <Route path="/profile/editProfile" element={<EditProfile />} />
             <Route path="/community" element={<Community />} />
             <Route path="/about" element={<About />} />
             <Route path="/support" element={<Support />} />
