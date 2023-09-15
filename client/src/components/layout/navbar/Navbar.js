@@ -3,19 +3,19 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 //Components
 import { Toggle } from "../../common/Toggle.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cookie from "js-cookie";
 import profileLogo from "../../../assets/logo.png";
-import {
-  openLogin,
-  openRegister,
-} from "../../../redux/landingpage/landingPageSlice.js";
-import DropdownMenu from "./DropdownMenu.js";
+import { openLogin } from "../../../redux/landingpage/landingPageSlice.js";
+import { LogOut } from "lucide-react";
 
 export const Navbar = (props) => {
   const dispatch = useDispatch();
+
   const [checked, setChecked] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const data = useSelector((state) => state.profile.userData);
 
   // for login profile visibility
   const [show, setShow] = useState(true);
@@ -25,6 +25,12 @@ export const Navbar = (props) => {
       setShow(false);
     }
   }, []);
+
+  const handleLogout = () => {
+    Cookie.remove("token");
+    // navigate("/");
+    window.location.href = "/";
+  };
 
   function handleChanges(e) {
     setChecked(e.target.checked);
@@ -86,20 +92,38 @@ export const Navbar = (props) => {
           )}
 
           {!show && (
-            <button className="rounded-full w-16 dura hover:shadow-sm hover:shadow-black focus:shadow-sm focus:shadow-black">
-              <img src={profileLogo} alt="profile" />
-            </button>
-            // <div className="mr-12">
-            //   <DropdownMenu />
-            // </div>
+            <div className="relative">
+              <button
+                onClick={() => {
+                  setShowProfile(!showProfile);
+                }}
+                className="rounded-full w-16 duration-300 hover:shadow-sm hover:shadow-black "
+              >
+                <img src={profileLogo} alt="profile" />
+              </button>
+              {showProfile && (
+                <div className="absolute right-0 z-10" id="dropmenu">
+                  <div className="bg-gray-200 rounded-bl-2xl">
+                    <div className="p-5">
+                      <div className="text-xl font-semibold whitespace-nowrap">
+                        Hi, {`${data.firstname} ${data.lastname}`}
+                      </div>
+                      <div className="text-xs">{data.email}</div>
+                    </div>
+                    <hr className="border-[0.1rem] border-white" />
+                    <button
+                      onClick={handleLogout}
+                      className="flex justify-center gap-2 w-full py-2 text-white bg-red-600 hover:bg-red-800 duration-300 rounded-bl-2xl"
+                    >
+                      <LogOut />
+                      Log Out
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
 
-          {/* <button
-            onClick={() => dispatch(openRegister())}
-            className="  hidden md:block bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 m-1 p-2 text-white rounded-md hover:opacity-80  duration-300"
-          >
-            Register
-          </button> */}
           <button
             className="  md:hidden block  bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 m-1 p-2 text-white rounded-md hover:opacity-80  duration-300"
             onClick={openMenu}

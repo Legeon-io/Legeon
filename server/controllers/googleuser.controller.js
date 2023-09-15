@@ -36,6 +36,7 @@ export const googleRedirect = async (req, res) => {
           {
             email: existingUser.email,
             username: existingUser.username,
+            isGoogle: true,
           },
           process.env.JWT_KEY,
           { expiresIn: "7d" }
@@ -61,6 +62,7 @@ export const googleRedirect = async (req, res) => {
           {
             email: savedUser.email,
             username: savedUser.username,
+            isGoogle: true,
           },
           process.env.JWT_KEY,
           { expiresIn: "7d" }
@@ -78,11 +80,11 @@ export const googleRedirect = async (req, res) => {
   }
 };
 
-export const logOut = (req, res) => {
-  try {
-    req.logOut();
-    res.redirect(CLIENT_URL);
-  } catch (err) {
-    res.status(500).json({ error: "Internal server error", err });
-  }
-};
+// export const logOut = (req, res) => {
+//   try {
+//     req.logOut();
+//     res.redirect(CLIENT_URL);
+//   } catch (err) {
+//     res.status(500).json({ error: "Internal server error", err });
+//   }
+// };
