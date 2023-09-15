@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Cookie from "js-cookie";
 import { CalendarDays, Mail } from "lucide-react";
 import Input from "../../components/helper/Input";
+import { Form, Formik } from "formik";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -34,17 +35,24 @@ function Dashboard() {
           <div className="text-xl">Priority DM</div>
         </button>
       </div>
-      <div>
-        <div>
-          <label>Title</label>
-          {/* <Input
-            id="password"
-            type="password"
-            name="password"
-            label="Password"
-          /> */}
-        </div>
-      </div>
+      <Formik
+        initialValues={{
+          title: "",
+        }}
+        onSubmit={(values) => {}}
+      >
+        {() => (
+          <Form className="flex flex-col gap-5">
+            <Input id="title" type="text" name="title" label="Title" />
+            <button
+              type="button"
+              className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2 w-[10rem] text-white rounded-3xl hover:opacity-80  duration-300"
+            >
+              Forget Password ?
+            </button>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 }
