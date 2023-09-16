@@ -10,6 +10,7 @@ import connectDB from "./mongodb/connect.js";
 import userRouter from "./routes/users.routes.js";
 import googleRouter from "./routes/googleuser.routes.js";
 import userProfileRouter from "./routes/userprofiles.routes.js";
+import profilesRouter from "./routes/profiles.routes.js";
 import callServicesRouter from "./routes/callservices.routes.js";
 import calendarRouter from "./routes/calendar.routes.js";
 import paymentsRouter from "./routes/payments.routes.js";
@@ -55,6 +56,7 @@ app.use("/api/users", userRouter);
 app.use(googleRouter);
 
 app.use("/api/userprofiles", userProfileRouter);
+app.use("/api/profiles", profilesRouter);
 app.use("/api/callservices", callServicesRouter);
 
 app.get("/google", calendarRouter);
