@@ -8,11 +8,13 @@ import Cookie from "js-cookie";
 import profileLogo from "../../../assets/logo.png";
 import { openLogin } from "../../../redux/landingpage/landingPageSlice.js";
 import { LogOut } from "lucide-react";
+import { getUserDetails } from "../../../redux/profile/profileSlice.js";
 
 export const Navbar = (props) => {
   const dispatch = useDispatch();
 
   const [checked, setChecked] = useState(false);
+  const [currentUrl, setcurrentUrl] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const data = useSelector((state) => state.profile.userData);
@@ -22,13 +24,18 @@ export const Navbar = (props) => {
   useEffect(() => {
     const token = Cookie.get("token");
     if (token) {
+      dispatch(getUserDetails(token));
+
+      if (window.location.pathname === "/") {
+        setcurrentUrl(true);
+      }
+
       setShow(false);
     }
   }, []);
 
   const handleLogout = () => {
     Cookie.remove("token");
-    // navigate("/");
     window.location.href = "/";
   };
 
@@ -38,6 +45,7 @@ export const Navbar = (props) => {
 
   function openMenu() {
     setMenuOpen(!menuOpen);
+    setShowProfile(false);
   }
 
   function handleClick() {
@@ -47,28 +55,29 @@ export const Navbar = (props) => {
   return (
     <>
       <nav className="flex justify-between items-center   shadow-md hover:shadow-lg duration-300  p-2 ">
-        <div className=" flex m-3 ">
+        <div className=" flex items-center gap-3 m-3 ">
+          <img src={profileLogo} className="w-10" />
           <h1 className="text-transparent bg-clip-text  bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500 font-semibold text-lg ">
             LEGEON
           </h1>
         </div>
         <div className="flex gap-5">
-          {show && (
-            <div className="flex gap-5">
+          {(show || currentUrl) && (
+            <div className="flex items-center gap-5">
               <a
-                className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold hover:text-violet-600  duration-300 mt-2 text-lg"
+                className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold hover:text-violet-600  duration-300  text-lg"
                 href="#"
               >
                 Services
               </a>
               <a
-                className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold hover:text-violet-600  duration-300  mt-2 text-lg"
+                className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold hover:text-violet-600  duration-300   text-lg"
                 href="#"
               >
                 Calender
               </a>
               <a
-                className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold  hover:text-violet-600  duration-300  mt-2 text-lg"
+                className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold  hover:text-violet-600  duration-300   text-lg"
                 href="#"
               >
                 Payments
@@ -91,10 +100,18 @@ export const Navbar = (props) => {
             </button>
           )}
 
+          <button
+            className="  md:hidden block  bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 m-1 p-2 text-white rounded-md hover:opacity-80  duration-300"
+            onClick={openMenu}
+          >
+            menu
+          </button>
+
           {!show && (
             <div className="relative">
               <button
                 onClick={() => {
+                  setMenuOpen(false);
                   setShowProfile(!showProfile);
                 }}
                 className="rounded-full w-16 duration-300 hover:shadow-sm hover:shadow-black "
@@ -102,13 +119,13 @@ export const Navbar = (props) => {
                 <img src={profileLogo} alt="profile" />
               </button>
               {showProfile && (
-                <div className="absolute right-0 z-10" id="dropmenu">
-                  <div className="bg-gray-200 rounded-bl-2xl">
+                <div className="absolute right-0 z-10 " id="dropmenu">
+                  <div className="bg-white shadow-lg shadow-gray-400  rounded-bl-2xl">
                     <div className="p-5">
-                      <div className="text-xl font-semibold whitespace-nowrap">
+                      <div className="text-xl font-semibold whitespace-nowrap text-transparent bg-clip-text  bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500">
                         Hi, {`${data.firstname} ${data.lastname}`}
                       </div>
-                      <div className="text-xs">{data.email}</div>
+                      <div className="text-xs ">{data.email}</div>
                     </div>
                     <hr className="border-[0.1rem] border-white" />
                     <button
@@ -123,52 +140,45 @@ export const Navbar = (props) => {
               )}
             </div>
           )}
-
-          <button
-            className="  md:hidden block  bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 m-1 p-2 text-white rounded-md hover:opacity-80  duration-300"
-            onClick={openMenu}
-          >
-            menu
-          </button>
         </div>
       </nav>
 
-      <nav
-        className={`${
-          menuOpen ? "block" : "hidden"
-        } md:hidden flex flex-col md:flex-row justify-end gap-5 mr-5 p-5`}
-      >
-        <a
-          className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
-          href="#"
+      {/* before login show */}
+      {show && (
+        <nav
+          className={`${
+            menuOpen ? "block" : "hidden"
+          } md:hidden flex flex-col md:flex-row justify-end gap-5 mr-5 p-5`}
         >
-          Services
-        </a>
-        <a
-          className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
-          href="#"
-        >
-          Calendar
-        </a>
-        <a
-          className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
-          href="http://localhost:3000/dashboard"
-        >
-          Payments
-        </a>
-        <a
-          className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
-          href="http://localhost:3000/dashboard"
-        >
-          Login
-        </a>
-        {/* <a
-          className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
-          href="http://localhost:3000/dashboard"
-        >
-          Register
-        </a> */}
-      </nav>
+          <a
+            className="w-fit bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
+            href="#"
+          >
+            Services
+          </a>
+          <a
+            className="w-fit bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
+            href="#"
+          >
+            Calendar
+          </a>
+          <a
+            className="w-fit bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
+            href="#"
+          >
+            Payments
+          </a>
+
+          <button
+            onClick={() => {
+              dispatch(openLogin());
+            }}
+            className="w-fit text-start bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
+          >
+            Login
+          </button>
+        </nav>
+      )}
     </>
   );
 };

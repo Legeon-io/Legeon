@@ -9,16 +9,6 @@ import { Form, Formik } from "formik";
 function Dashboard() {
   const dispatch = useDispatch();
 
-  const data = useSelector((state) => state.profile.userData);
-
-  useEffect(() => {
-    const token = Cookie.get("token");
-
-    if (token) {
-      dispatch(getUserDetails(token));
-    }
-  }, []);
-
   return (
     <div>
       <h1>hi</h1>

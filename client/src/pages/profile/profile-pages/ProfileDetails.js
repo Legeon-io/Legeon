@@ -1,7 +1,8 @@
 import logo from "../../../assets/logo.png";
 export const ProfileDetails = () => {
   return (
-    <div className="flex flex-col md:flex-row md:justify-center row-span-5 gap-y-5 mt-10 md:mt-0 md:mb-20 md:-translate-y-8 md:gap-x-10 items-center translate-x-10 md:translate-x-0 ">
+    //removed translate-x-10 md:translate-x-0 md:-translate-y-8
+    <div className="flex flex-col md:flex-row md:justify-center row-span-5 gap-y-5 mt-10 md:mt-0 md:mb-20  md:gap-x-10 items-center  ">
       <div className="flex flex-col items-center md:p-10 ">
         <img
           src={logo}
