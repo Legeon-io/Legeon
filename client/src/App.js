@@ -34,6 +34,8 @@ import AccountPage from "./pages/profile/profile-pages/AccountPage.js";
 import Availability from "./pages/calender/Availability.js";
 import Navbar from "./components/layout/navbar/Navbar.js";
 import EditProfile from "./pages/profile/profile-pages/EditProfile.js";
+import ServiceHub from "./pages/servicehub/ServiceHub.js";
+import NotFound from "./pages/NotFound.js";
 
 const App = () => {
   // const username = useSelector((state) => state.session.username);
@@ -82,12 +84,14 @@ const App = () => {
               element={<EditCallServiceForm />}
             />
 
-            <Route path="/:username" element={<UserServices />} />
+            {/* <Route path="/:username" element={<UserServices />} />
             <Route
-              path="/:username/:title/:id/service"
-              element={<BookingService />}
-            />
+            path="/:username/:title/:id/service"
+            element={<BookingService />}
+          /> */}
           </Route>
+          <Route path="/:username" element={<ServiceHub />} />
+          <Route path="/404" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
       {/* </div> */}

@@ -33,7 +33,7 @@ export const EditProfile = (props) => {
     intro: Yup.string().required("Legion intro is required"),
     bio: Yup.string(),
   });
-  const handleSubmit = (values) => {
+  const handleSubmit = () => {
     console.log(initialValues);
   };
 
@@ -58,9 +58,6 @@ export const EditProfile = (props) => {
                   <p className="text-sm text-gray-600">Required</p>
                 </div>
               </div>
-              <a href="./">
-                <BiSolidEdit size={40} />
-              </a>
             </div>
 
             <div className="mb-4 flex flex-col  md:flex-row md:gap-5">

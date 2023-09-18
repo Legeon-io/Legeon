@@ -80,3 +80,42 @@ export const updateAccount = async (req, res) => {
     res.status(500).json({ errorMessage: "Internal server error" });
   }
 };
+
+// Get User Details For Service Hub
+export const getUserDetails = async (req, res) => {
+  try {
+    const username = req.body.username;
+    const pipeline = [
+      {
+        $match: {
+          username: username,
+        },
+      },
+      {
+        $lookup: {
+          from: "profiles",
+          localField: "username",
+          foreignField: "username",
+          as: "userData",
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          password: 0,
+        },
+      },
+    ];
+
+    const userData = await user.aggregate(pipeline);
+
+    if (userData.length > 0) return res.status(200).json(userData);
+    const googleData = await googleUser.aggregate(pipeline);
+
+    if (googleData.length > 0) return res.status(200).json(googleData);
+    return res.status(404).json({ message: "Account Not Found" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ errorMessage: "Internal server error" });
+  }
+};
