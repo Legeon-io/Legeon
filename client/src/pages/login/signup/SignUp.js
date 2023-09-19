@@ -1,5 +1,6 @@
 import React from "react";
-import { X } from "lucide-react";
+import {RxCross1} from "react-icons/rx"
+
 
 import "../LoginForm.css";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -22,7 +23,7 @@ const SignUp = () => {
           <div className="signin_header_css ">
             <div className="signup_main_css">
               <button onClick={() => dispatch(openRegister())}>
-                <X
+                <RxCross1
                   className="absolute right-2 top-2 active:text-3xl"
                   size={30}
                 />

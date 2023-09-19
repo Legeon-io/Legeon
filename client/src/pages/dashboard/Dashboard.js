@@ -13,11 +13,8 @@ function Dashboard() {
 
   useEffect(() => {
     const token = Cookie.get("token");
-    const googletoken = Cookie.get("googletoken");
 
-    if (!token) {
-      dispatch(getGoogleUserDetails(googletoken));
-    } else {
+    if (token) {
       dispatch(getUserDetails(token));
     }
   }, []);
@@ -25,10 +22,10 @@ function Dashboard() {
   return (
     <div>
       Dashboards
-      <h1>{data?.username} </h1>
-      <h1>{data?.firstname} </h1>
-      <h1>{data?.lastname} </h1>
-      <h1>{data?.email} </h1>
+      <h1>1 {data?.username} </h1>
+      <h1>2 {data?.firstname} </h1>
+      <h1>3 {data?.lastname} </h1>
+      <h1>4 {data?.email} </h1>
     </div>
   );
 }

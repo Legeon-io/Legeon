@@ -1,108 +1,8 @@
-import React, { useState } from "react";
-
-const TempData = () => {
-  const daysOfWeek = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-
-  const timeOptions = [];
-  for (let hour = 1; hour <= 12; hour++) {
-    const hourString = hour.toString().padStart(2, "0");
-    timeOptions.push(`${hourString}:00 AM`);
-    timeOptions.push(`${hourString}:30 AM`);
-    timeOptions.push(`${hourString}:00 PM`);
-    timeOptions.push(`${hourString}:30 PM`);
-  }
-
-  const [selectedSchedules, setSelectedSchedules] = useState({});
-
-  const handleScheduleChange = (day, field, value) => {
-    setSelectedSchedules((prevSchedules) => ({
-      ...prevSchedules,
-      [day]: {
-        ...prevSchedules[day],
-        [field]: value,
-      },
-    }));
-  };
-
-  const addTimeSlot = (day) => {
-    setSelectedSchedules((prevSchedules) => ({
-      ...prevSchedules,
-      [day]: {
-        ...prevSchedules[day],
-        timeSlots: [...(prevSchedules[day]?.timeSlots || []), {}],
-      },
-    }));
-  };
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-      {daysOfWeek.map((day) => (
-        <div key={day} className="border p-4">
-          <h2 className="text-lg font-semibold">{day}</h2>
-          <input
-            type="checkbox"
-            onChange={(e) => handleScheduleChange(day, "checked", e.target.checked)}
-            checked={selectedSchedules[day]?.checked || false}
-          />
-          <label>Available</label>
-          {selectedSchedules[day]?.checked && (
-            <div>
-              {selectedSchedules[day]?.timeSlots?.map((slot, index) => (
-                <div key={index} className="flex space-x-2">
-                  <select
-                    className="border p-2"
-                    onChange={(e) => handleScheduleChange(day, `fromTime${index}`, e.target.value)}
-                    value={selectedSchedules[day][`fromTime${index}`] || ""}
-                  >
-                    <option value="">From</option>
-                    {timeOptions.map((time, index) => (
-                      <option key={index} value={time}>
-                        {time}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    className="border p-2"
-                    onChange={(e) => handleScheduleChange(day, `toTime${index}`, e.target.value)}
-                    value={selectedSchedules[day][`toTime${index}`] || ""}
-                  >
-                    <option value="">To</option>
-                    {timeOptions.map((time, index) => (
-                      <option key={index} value={time}>
-                        {time}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              ))}
-              <button onClick={() => addTimeSlot(day)}>Add Time Slot</button>
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default TempData;
-
-
-// -------------------------------------------------------------------------------------------------------------------------------
-
-
-// import { Minus, Plus, PlusCircle } from "lucide-react";
-// import React, { useState } from "react";
+// import { XCircle } from "lucide-react";
+// import React, { useMemo, useState } from "react";
 
 // const Schedule = () => {
-//   const daysOfWeek = [
+//   const days = [
 //     "Monday",
 //     "Tuesday",
 //     "Wednesday",
@@ -112,103 +12,202 @@ export default TempData;
 //     "Sunday",
 //   ];
 
-//   const timeOptions = [];
-//   for (let hour = 1; hour <= 12; hour++) {
-//     const hourString = hour.toString().padStart(2, "0");
-//     timeOptions.push(`${hourString}:00`);
-//     timeOptions.push(`${hourString}:30`);
-//   }
+//   const generateTimeArray = () => {
+//     const times = [];
+//     for (let hour = 1; hour <= 12; hour++) {
+//       for (let minute = 0; minute < 60; minute += 30) {
+//         const formattedHour = hour.toString().padStart(2, "0");
+//         const formattedMinute = minute.toString().padStart(2, "0");
+//         const time = `${formattedHour}:${formattedMinute}`;
+//         times.push(time);
+//       }
+//     }
+//     return times;
+//   };
 
-//   const [selectedSchedules, setSelectedSchedules] = useState({});
+//   const timeArray = useMemo(() => generateTimeArray(), []);
+//   const periods = ["Period", "AM", "PM"];
 
-//   console.log(selectedSchedules);
+//   const [selectedDays, setSelectedDays] = useState([]);
+
+//   const toggleDay = (day) => {
+//     if (selectedDays.includes(day)) {
+//       setSelectedDays(
+//         selectedDays.filter((selectedDay) => selectedDay !== day)
+//       );
+//     } else {
+//       setSelectedDays([...selectedDays, day]);
+//     }
+//   };
+
+//   const [scheduleData, setScheduleData] = useState(
+//     days.map((day) => ({
+//       day,
+//       timeSlots: [{ fromTime: "", fromPeriod: "", toTime: "", toPeriod: "" }],
+//     }))
+//   );
+
+//   const handleTimeSlotChange = (dayIndex, slotIndex, field, value) => {
+//     const updatedScheduleData = [...scheduleData];
+//     updatedScheduleData[dayIndex].timeSlots[slotIndex][field] = value;
+//     setScheduleData(updatedScheduleData);
+//   };
+
+//   const addTimeSlot = (dayIndex) => {
+//     const updatedScheduleData = [...scheduleData];
+//     updatedScheduleData[dayIndex].timeSlots.push({
+//       fromTime: "",
+//       fromPeriod: "",
+//       toTime: "",
+//       toPeriod: "",
+//     });
+//     setScheduleData(updatedScheduleData);
+//   };
+
+//   const removeTimeSlot = (dayIndex, slotIndex) => {
+//     const updatedScheduleData = [...scheduleData];
+//     updatedScheduleData[dayIndex].timeSlots.splice(slotIndex, 1);
+//     setScheduleData(updatedScheduleData);
+//   };
 
 //   return (
-//     <div className="grid 2xl:grid-cols-5 grid-cols-1 p-5 h-full gap-5 text-lg">
+//     <div className="grid 2xl:grid-cols-3 grid-cols-1 p-5 h-full gap-5 text-lg">
 //       {/* Left Side */}
-//       <div className="flex flex-col gap-5 border-2 py-5 col-span-4">
+//       <div className="flex flex-col gap-5 border-2 py-5 col-span-2">
 //         <div className="flex justify-end px-16">
-//           <button className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white p-2 w-[8rem] rounded-3xl">
+//           <button className="bg-[#3691f3] text-white p-2 w-[8rem] rounded-3xl">
 //             Save
 //           </button>
 //         </div>
-//         {daysOfWeek.map((day, index) => (
-//           <div
-//             key={index}
-//             className="flex xs:flex-row flex-col justify-between xs:items-center lg:px-10 px-5 xs:pl-5"
-//           >
-//             <div className="flex gap-2">
-//               <input type="checkbox" className="" />
-//               <label htmlFor="">{day}</label>
-//             </div>
-//             <div className="flex items-center">
-//               <div className="p-2 focus:outline-none rounded flex lg:flex-row flex-col items-center gap-2">
-//                 <div className="flex gap-1">
-//                   <select className="border-2 border-gray-500 p-2 w-[6rem] focus:outline-none rounded">
-//                     <option
-//                       value=""
-//                       className="w-[200px] bg-[#f2f2f2] border text-[#333] text-base p-[5px] border-solid border-[#ccc]"
-//                     >
-//                       From{" "}
-//                     </option>
-//                     {timeOptions.map((time, index) => (
-//                       <option key={index} value={time}>
-//                         {time}
-//                       </option>
-//                     ))}
-//                   </select>
-//                   <select className="border-2 border-gray-500 p-2 focus:outline-none rounded flex lg:flex-row flex-col gap-2 ">
-//                     <option value="">Period</option>
-//                     <option value="AM">AM</option>
-//                     <option value="PM">PM</option>
-//                   </select>
-//                 </div>
-//                 <div className="lg:flex hidden">
-//                   <Minus />
-//                 </div>
-//                 <div className="flex gap-1">
-//                   <select className="border-2 border-gray-500 p-2 w-[6rem] focus:outline-none rounded">
-//                     <option value="">Till</option>
-//                     {timeOptions.map((time, index) => (
-//                       <option key={index} value={time}>
-//                         {time}
-//                       </option>
-//                     ))}
-//                   </select>
-//                   <select className="border-2 border-gray-500 p-2 focus:outline-none rounded">
-//                     <option value="">Period</option>
-//                     <option value="AM">AM</option>
-//                     <option value="PM">PM</option>
-//                   </select>
-//                 </div>
+//         <div className="flex flex-col gap-5">
+//           {scheduleData.map((dayData, dayIndex) => (
+//             <div className="flex justify-between px-10" key={dayIndex}>
+//               <div className="flex items-center gap-2">
+//                 <input
+//                   type="checkbox"
+//                   id={dayData.day}
+//                   className="h-4 w-4"
+//                   checked={selectedDays.includes(dayData.day)}
+//                   onChange={() => toggleDay(dayData.day)}
+//                 />
+//                 <label htmlFor={dayData.day}>{dayData.day}</label>
 //               </div>
-//               <div className="">
-//                 <PlusCircle />
-//               </div>
+//               {selectedDays.includes(dayData.day) ? (
+//                 <div className="flex flex-col gap-2 px-10">
+//                   {dayData.timeSlots.map((timeSlot, slotIndex) => (
+//                     <div className="flex gap-2" key={slotIndex}>
+//                       <select
+//                         value={timeSlot.fromTime}
+//                         onChange={(e) =>
+//                           handleTimeSlotChange(
+//                             dayIndex,
+//                             slotIndex,
+//                             "fromTime",
+//                             e.target.value
+//                           )
+//                         }
+//                         className="border-2 border-black focus:outline-none rounded px-2 w-[6rem]"
+//                       >
+//                         <option value="">From</option>
+//                         {timeArray.map((item, i) => (
+//                           <option key={i} value={item}>
+//                             {item}
+//                           </option>
+//                         ))}
+//                       </select>
+//                       <select
+//                         value={timeSlot.fromPeriod}
+//                         onChange={(e) =>
+//                           handleTimeSlotChange(
+//                             dayIndex,
+//                             slotIndex,
+//                             "fromPeriod",
+//                             e.target.value
+//                           )
+//                         }
+//                         className="border-2 border-black focus:outline-none rounded px-2 w-[6rem]"
+//                       >
+//                         <option value="">Period</option>
+//                         <option value="AM">AM</option>
+//                         <option value="PM">PM</option>
+//                       </select>
+//                       <span>-</span>
+//                       <select
+//                         value={timeSlot.toTime}
+//                         onChange={(e) =>
+//                           handleTimeSlotChange(
+//                             dayIndex,
+//                             slotIndex,
+//                             "toTime",
+//                             e.target.value
+//                           )
+//                         }
+//                         className="border-2 border-black focus:outline-none rounded px-2 w-[6rem]"
+//                       >
+//                         <option value="">To</option>
+//                         {timeArray.map((item, i) => (
+//                           <option key={i} value={item}>
+//                             {item}
+//                           </option>
+//                         ))}
+//                       </select>
+//                       <select
+//                         value={timeSlot.toPeriod}
+//                         onChange={(e) =>
+//                           handleTimeSlotChange(
+//                             dayIndex,
+//                             slotIndex,
+//                             "toPeriod",
+//                             e.target.value
+//                           )
+//                         }
+//                         className="border-2 border-black focus:outline-none rounded px-2 w-[6rem]"
+//                       >
+//                         <option value="">Period</option>
+//                         <option value="AM">AM</option>
+//                         <option value="PM">PM</option>
+//                       </select>
+//                       <button
+//                         onClick={() => removeTimeSlot(dayIndex, slotIndex)}
+//                       >
+//                         <XCircle />
+//                       </button>
+//                     </div>
+//                   ))}
+//                   <button onClick={() => addTimeSlot(dayIndex)}>
+//                     Add Time Slot
+//                   </button>
+//                 </div>
+//               ) : (
+//                 <div className="text-gray-500">Unavailable</div>
+//               )}
 //             </div>
-//           </div>
-//         ))}
+//           ))}
+//         </div>
 //       </div>
 //       {/* Right Side */}
 //       <div className="border-2">
 //         <div className="text-center font-bold text-2xl">Available Slot</div>
-//         {daysOfWeek.map(
-//           (day, index) =>
-//             selectedSchedules[day]?.checked && (
-//               <div
-//                 key={index}
-//                 className="flex flex-col text-center xs:text-base text-[10px]"
-//               >
-//                 <div className="flex items-center justify-center">
-//                   {day},{selectedSchedules[day]?.fromTime || "-"}
-//                   {selectedSchedules[day]?.fromPeriod || "-"}
-//                   <Minus size={10} />
-//                   {selectedSchedules[day]?.toTime || "-"}
-//                   {selectedSchedules[day]?.toPeriod || "-"}
-//                 </div>
+//         <div className="grid 2xl:grid-cols-2 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 p-4">
+//           {selectedDays.map((selectedDay) => {
+//             const dayData = scheduleData.find(
+//               (data) => data.day === selectedDay
+//             );
+//             return (
+//               <div key={selectedDay} className="mb-4">
+//                 <h3>{selectedDay}</h3>
+//                 <ul className="">
+//                   {dayData.timeSlots.map((timeSlot, slotIndex) => (
+//                     <li className="flex gap-2 items-center" key={slotIndex}>
+//                       {`${timeSlot.fromTime}${timeSlot.fromPeriod} - ${timeSlot.toTime}${timeSlot.toPeriod}`}
+//                       ,
+//                     </li>
+//                   ))}
+//                 </ul>
 //               </div>
-//             )
-//         )}
+//             );
+//           })}
+//         </div>
 //       </div>
 //     </div>
 //   );
@@ -216,15 +215,13 @@ export default TempData;
 
 // export default Schedule;
 
-
-//----------------------------------------------------------------------------------------------------------------------------
-
-
-// import { Minus, Plus, PlusCircle } from "lucide-react";
-// import React, { useState } from "react";
+// import { Minus, PlusCircle, Trash2 } from "lucide-react";
+// import React, { useMemo, useState } from "react";
+// import { Formik, Form, Field } from "formik";
+// import * as Yup from "yup";
 
 // const Schedule = () => {
-//   const daysOfWeek = [
+//   const days = [
 //     "Monday",
 //     "Tuesday",
 //     "Wednesday",
@@ -234,150 +231,208 @@ export default TempData;
 //     "Sunday",
 //   ];
 
-//   const timeOptions = [];
-//   for (let hour = 1; hour <= 12; hour++) {
-//     const hourString = hour.toString().padStart(2, "0");
-//     timeOptions.push(`${hourString}:00`);
-//     timeOptions.push(`${hourString}:30`);
-//   }
-
-//   const [selectedSchedules, setSelectedSchedules] = useState({});
-
-//   console.log(selectedSchedules);
-
-//   const handleScheduleChange = (day, field, value) => {
-//     setSelectedSchedules((prevSchedules) => ({
-//       ...prevSchedules,
-//       [day]: {
-//         ...prevSchedules[day],
-//         [field]: value,
-//       },
-//     }));
+//   const generateTimeArray = () => {
+//     const times = [];
+//     for (let hour = 1; hour <= 12; hour++) {
+//       for (let minute = 0; minute < 60; minute += 30) {
+//         const formattedHour = hour.toString().padStart(2, "0");
+//         const formattedMinute = minute.toString().padStart(2, "0");
+//         const time = `${formattedHour}:${formattedMinute}`;
+//         times.push(time);
+//       }
+//     }
+//     return times;
 //   };
-//   console.log();
+
+//   const timeArray = useMemo(() => generateTimeArray(), []);
+
+//   const sheduleSchema = Yup.object({
+//     fromTime: Yup.string().required(),
+//     fromPeriod: Yup.string().required(),
+//     toTime: Yup.string().required(),
+//     toPeriod: Yup.string().required(),
+//   });
+
+//   const [sheduleData, setSheduleData] = useState(
+//     days.map((day) => ({
+//       selected: false,
+//       day: day,
+//       timeSlots: [],
+//     }))
+//   );
+
+//   const handleSave = () => {
+//     console.log(sheduleData);
+//   };
+
 //   return (
-//     <div className="grid 2xl:grid-cols-5 grid-cols-1 p-5 h-full gap-5 text-lg">
+//     <div className="grid 2xl:grid-cols-3 grid-cols-1 p-5 h-full gap-5 text-lg">
 //       {/* Left Side */}
-//       <div className="flex flex-col gap-5 border-2 py-5 col-span-4">
-//         <div className="flex justify-end px-8">
-//           <button className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white p-2 w-[8rem] rounded-3xl">
+//       <div className="flex flex-col gap-5 border-2 py-5 col-span-2">
+//         <div className="flex justify-end px-16">
+//           <button
+//             onClick={handleSave}
+//             className="bg-[#3691f3] text-white p-2 w-[8rem] rounded-3xl"
+//           >
 //             Save
 //           </button>
 //         </div>
-//         {daysOfWeek.map((day, index) => (
-//           <div
-//             key={index}
-//             className="flex xs:flex-row flex-col justify-between xs:items-center lg:px-10 px-5 xs:pl-5"
-//           >
-//             <div className="flex gap-2">
+//         {sheduleData.map((dayData, item) => (
+//           <div key={item} className="flex justify-between px-10">
+//             <div className="flex gap-2 items-center">
 //               <input
+//                 id={dayData.day}
 //                 type="checkbox"
-//                 className=""
-//                 onChange={(e) =>
-//                   handleScheduleChange(day, "checked", e.target.checked)
+//                 checked={dayData.selected}
+//                 onChange={() =>
+//                   setSheduleData((prevScheduleData) => {
+//                     const updatedScheduleData = prevScheduleData.map((item) => {
+//                       if (item.day == dayData.day) {
+//                         return {
+//                           ...item,
+//                           selected: !item.selected,
+//                         };
+//                       }
+//                       return item;
+//                     });
+//                     return updatedScheduleData;
+//                   })
 //                 }
-//                 checked={selectedSchedules[day]?.checked || false}
+//                 className="h-4 w-4 border-2 border-black"
 //               />
-//               <label htmlFor="">{day}</label>
+//               {dayData.day}
 //             </div>
-//             <div className="flex items-center">
-//               {selectedSchedules[day]?.checked ? (
-//                 <>
-//                   <div className="p-2 focus:outline-none rounded flex lg:flex-row flex-col items-center gap-2">
-//                     <div className="flex gap-1">
-//                       <select
-//                         placeholder="from"
-//                         className="border-2 border-gray-500 p-2 w-[6rem] focus:outline-none rounded"
-//                         onChange={(e) =>
-//                           handleScheduleChange(day, "fromTime", e.target.value)
-//                         }
-//                         value={selectedSchedules[day]?.fromTime || ""}
-//                       >
-//                         <option value="">From </option>
-//                         {timeOptions.map((time, index) => (
-//                           <option key={index} value={time}>
-//                             {time}
-//                           </option>
-//                         ))}
-//                       </select>
-//                       <select
-//                         className="border-2 border-gray-500 p-2 focus:outline-none rounded flex lg:flex-row flex-col gap-2 "
-//                         onChange={(e) =>
-//                           handleScheduleChange(
-//                             day,
-//                             "fromPeriod",
-//                             e.target.value
-//                           )
-//                         }
-//                         value={selectedSchedules[day]?.fromPeriod || ""}
-//                       >
-//                         <option value="">Period</option>
-//                         <option value="AM">AM</option>
-//                         <option value="PM">PM</option>
-//                       </select>
-//                     </div>
-//                     <div className="lg:flex hidden">
-//                       <Minus />
-//                     </div>
-//                     <div className="flex gap-1">
-//                       <select
-//                         className="border-2 border-gray-500 p-2 w-[6rem] focus:outline-none rounded"
-//                         onChange={(e) =>
-//                           handleScheduleChange(day, "toTime", e.target.value)
-//                         }
-//                         value={selectedSchedules[day]?.toTime || ""}
-//                       >
-//                         <option value="">Till</option>
-//                         {timeOptions.map((time, index) => (
-//                           <option key={index} value={time}>
-//                             {time}
-//                           </option>
-//                         ))}
-//                       </select>
-//                       <select
-//                         className="border-2 border-gray-500 p-2 focus:outline-none rounded"
-//                         onChange={(e) =>
-//                           handleScheduleChange(day, "toPeriod", e.target.value)
-//                         }
-//                         value={selectedSchedules[day]?.toPeriod || ""}
-//                       >
-//                         <option value="">Period</option>
-//                         <option value="AM">AM</option>
-//                         <option value="PM">PM</option>
-//                       </select>
-//                     </div>
-//                   </div>
-//                   <div className="">
-//                     <PlusCircle />
-//                   </div>
-//                 </>
-//               ) : (
-//                 <div className="text-gray-400">Unavailable</div>
-//               )}
-//             </div>
+//             <Formik
+//               initialValues={{
+//                 fromTime: "",
+//                 fromPeriod: "",
+//                 toTime: "",
+//                 toPeriod: "",
+//               }}
+//               validationSchema={sheduleSchema}
+//               onSubmit={(values, { resetForm }) => {
+//                 setSheduleData((prevScheduleData) => {
+//                   const updatedData = prevScheduleData.map((item) => {
+//                     if (item.day == dayData.day) {
+//                       return {
+//                         ...item,
+//                         timeSlots: [...item.timeSlots, values],
+//                       };
+//                     }
+//                     return item;
+//                   });
+//                   return updatedData;
+//                 });
+//                 resetForm();
+//               }}
+//             >
+//               <Form>
+//                 <div className="flex items-center gap-2">
+//                   <Field
+//                     as="select"
+//                     name="fromTime"
+//                     className="w-[6rem] border-2 border-black rounded"
+//                   >
+//                     <option value="">From</option>
+//                     {timeArray.map((time, i) => (
+//                       <option key={i} value={time}>
+//                         {time}
+//                       </option>
+//                     ))}
+//                   </Field>
+//                   <Field
+//                     as="select"
+//                     name="fromPeriod"
+//                     className="w-[6rem] border-2 border-black rounded"
+//                   >
+//                     <option value="">Period</option>
+//                     <option value="AM">AM</option>
+//                     <option value="PM">PM</option>
+//                   </Field>
+//                   <Minus size={30} />
+//                   <Field
+//                     as="select"
+//                     name="toTime"
+//                     className="w-[6rem] border-2 border-black rounded"
+//                   >
+//                     <option value="">From</option>
+//                     {timeArray.map((time, i) => (
+//                       <option key={i} value={time}>
+//                         {time}
+//                       </option>
+//                     ))}
+//                   </Field>
+//                   <Field
+//                     as="select"
+//                     name="toPeriod"
+//                     className="w-[6rem] border-2 border-black rounded"
+//                   >
+//                     <option value="">Period</option>
+//                     <option value="AM">AM</option>
+//                     <option value="PM">PM</option>
+//                   </Field>
+//                   <button type="submit">
+//                     <PlusCircle size={30} />
+//                   </button>
+//                 </div>
+//               </Form>
+//             </Formik>
 //           </div>
 //         ))}
 //       </div>
 //       {/* Right Side */}
-//       <div className="border-2">
+//       <div className="flex flex-col border-2">
 //         <div className="text-center font-bold text-2xl">Available Slot</div>
-//         {daysOfWeek.map(
-//           (day, index) =>
-//             selectedSchedules[day]?.checked && (
-//               <div
-//                 key={index}
-//                 className="flex flex-col text-center xs:text-base text-[10px]"
-//               >
-//                 <div className="flex items-center justify-center">
-//                   {day},{selectedSchedules[day]?.fromTime || "-"}
-//                   {selectedSchedules[day]?.fromPeriod || "-"}
-//                   <Minus size={10} />
-//                   {selectedSchedules[day]?.toTime || "-"}
-//                   {selectedSchedules[day]?.toPeriod || "-"}
-//                 </div>
-//               </div>
-//             )
-//         )}
+//         {sheduleData.map((dayData, item) => (
+//           <div key={item} className="flex justify-between px-4 py-2">
+//             <div className="font-bold">{dayData.day}</div>
+//             {dayData.selected ? (
+//               <>
+//                 {dayData.timeSlots.length > 0 ? (
+//                   <>
+//                     <div className="flex flex-col gap-2">
+//                       {dayData.timeSlots.map((slot, i) => (
+//                         <div key={i} className="flex items-center gap-2">
+//                           <span>
+//                             {slot.fromTime}
+//                             {slot.fromPeriod} : {slot.toTime}
+//                             {slot.toPeriod}
+//                           </span>
+//                           <button
+//                             onClick={() =>
+//                               setSheduleData((prevScheduleData) => {
+//                                 const updatedScheduleData =
+//                                   prevScheduleData.map((item) => {
+//                                     if (item.day === dayData.day) {
+//                                       return {
+//                                         ...item,
+//                                         timeSlots: [
+//                                           ...item.timeSlots.slice(0, i),
+//                                           ...item.timeSlots.slice(i + 1),
+//                                         ],
+//                                       };
+//                                     }
+//                                     return item;
+//                                   });
+//                                 return updatedScheduleData;
+//                               })
+//                             }
+//                           >
+//                             <Trash2 size={18} />
+//                           </button>
+//                         </div>
+//                       ))}
+//                     </div>
+//                   </>
+//                 ) : (
+//                   <div>Select Slots</div>
+//                 )}
+//               </>
+//             ) : (
+//               <div>Unavailable</div>
+//             )}
+//           </div>
+//         ))}
 //       </div>
 //     </div>
 //   );

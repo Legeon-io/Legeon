@@ -1,8 +1,10 @@
-import { Calendar, MapPin, Plus } from "lucide-react";
+import {AiOutlineCalendar, AiOutlinePlusCircle} from "react-icons/ai"
+import {FiMapPin} from "react-icons/fi"
+
 import React, { useState } from "react";
 import TimezoneSelect from "react-timezone-select";
 
-const Calendar_A = () => {
+const CalendarAvailability = () => {
     const [formData, setFormData] = useState({
     selectedTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     bookingPeriod: "",
@@ -22,7 +24,7 @@ const Calendar_A = () => {
       <div className="flex flex-col gap-5 sm:px-10 px-2">
         <div className="flex lg:flex-row flex-col justify-between lg:gap-10 gap-2">
           <div className="flex gap-0 items-center ">
-            <MapPin />
+            <FiMapPin />
             <span>TimeZone</span>
           </div>
           <TimezoneSelect
@@ -32,7 +34,7 @@ const Calendar_A = () => {
         </div>
         <div className="flex lg:flex-row flex-col gap-2 justify-between w-full">
           <div className="flex gap-0 items-center">
-            <Calendar />
+            <AiOutlineCalendar />
             <span>Booking Period</span>
           </div>
           <div className="">
@@ -58,7 +60,7 @@ const Calendar_A = () => {
       <div className=" text-2xl p-2">Calendar</div>
       <div className="sm:px-10 px-3">
         <button className="w-[15rem] p-2 flex gap-2 border-2 rounded-3xl items-center justify-center bg-gray-200">
-          <Plus />
+          <AiOutlinePlusCircle />
           <span>Add Calendar Account</span>
         </button>
       </div>
@@ -66,4 +68,4 @@ const Calendar_A = () => {
   );
 };
 
-export default Calendar_A;
+export default CalendarAvailability;

@@ -4,12 +4,11 @@ import { useState } from "react";
 //Components
 import { Toggle } from "../../common/Toggle.js";
 import { useDispatch } from "react-redux";
-import {
-  openLogin,
-  openRegister,
-} from "../../../redux/landingpage/landingPageSlice.js";
-
-export const Navbar = (props) => {
+import { openLogin } from "../../../redux/landingpage/landingPageSlice.js";
+import LOGO from "../../../assets/logo.png";
+import { Link } from "react-router-dom";
+import { AiOutlineLogout, AiOutlineMenu } from "react-icons/ai";
+export const Navbar = ({ handleClickMenu }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,106 +17,81 @@ export const Navbar = (props) => {
     setChecked(e.target.checked);
   }
 
-  function openMenu() {
-    setMenuOpen(!menuOpen);
-  }
-
   function handleClick() {
     setChecked(!checked);
   }
 
   return (
     <>
-      <nav className="flex justify-between items-center   shadow-md hover:shadow-lg duration-300  p-2 ">
-        <div className=" flex m-3 ">
-          <h1 className="text-transparent bg-clip-text  bg-gradient-to-r to-pink-500 from-indigo-500  via-purple-500 font-semibold text-lg ">
-            LEGEON
-          </h1>
-        </div>
-        <div className=" flex gap-5">
-          <a
-            className="bg-gradient-to-r  hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold hover:text-violet-600  duration-300 mt-2 text-lg"
-            href="#"
-          >
-            Services
-          </a>
-          <a
-            className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold hover:text-violet-600  duration-300  mt-2 text-lg"
-            href="#"
-          >
-            Calender
-          </a>
-          <a
-            className="bg-gradient-to-r hidden md:block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text font-semibold  hover:text-violet-600  duration-300  mt-2 text-lg"
-            href="#"
-          >
-            Payments
-          </a>
-          <div className="mt-0.5 mr-1 flex justify-center items-center">
-            <Toggle
-              ischecked={checked}
-              handleChange={handleChanges}
-              onClick={handleClick}
-            />
+      <div className="relative h-[4rem] z-40">
+        <nav className="fixed top-0 h-[4rem] w-full flex justify-between items-center  shadow-md hover:shadow-lg duration-300 p-2 bg-white">
+          <div className=" flex gap-2 justify-center items-center sm:p-5">
+            <img src={LOGO} alt="" className="h-10" />
+            <h1 className="text-transparent bg-clip-text bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 font-semibold text-2xl ">
+              LEGEON
+            </h1>
           </div>
-          <button
-            onClick={() => dispatch(openLogin())}
-            className=" hidden md:block bg-gradient-to-r m-1 p-2 text-white rounded-md to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  duration-300"
-          >
-            Login
-          </button>
-
-          <button
-            onClick={() => dispatch(openRegister())}
-            className="  hidden md:block bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 m-1 p-2 text-white rounded-md hover:opacity-80  duration-300"
-          >
-            Register
-          </button>
-          <button
-            className="  md:hidden block  bg-gradient-to-r  to-pink-500 from-indigo-500  via-purple-500 m-1 p-2 text-white rounded-md hover:opacity-80  duration-300"
-            onClick={openMenu}
-          >
-            menu
-          </button>
-        </div>
-      </nav>
-
-      <nav
-        className={`${
-          menuOpen ? "block" : "hidden"
-        } md:hidden flex flex-col md:flex-row justify-end gap-5 mr-5 p-5`}
-      >
-        <a
-          className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
-          href="#"
-        >
-          Services
-        </a>
-        <a
-          className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
-          href="#"
-        >
-          Calendar
-        </a>
-        <a
-          className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
-          href="http://localhost:3000/dashboard"
-        >
-          Payments
-        </a>
-        <a
-          className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
-          href="http://localhost:3000/dashboard"
-        >
-          Login
-        </a>
-        <a
-          className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text font-semibold "
-          href="http://localhost:3000/dashboard"
-        >
-          Register
-        </a>
-      </nav>
+          <div />
+          <div className=" flex gap-5">
+            <div className="mt-0.5 mr-1 flex justify-center items-center">
+              <Toggle
+                ischecked={checked}
+                handleChange={handleChanges}
+                onClick={handleClick}
+              />
+            </div>
+            <button
+              onClick={() => dispatch(openLogin())}
+              className=" hidden md:block bg-gradient-to-r m-1 p-2 text-white rounded-3xl to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  duration-300 w-[6rem]"
+            >
+              Login
+            </button>
+            <div
+              onClick={handleClickMenu}
+              className="flex items-center text-indigo-500 sm:hidden"
+            >
+              <AiOutlineMenu />
+            </div>
+            <div
+              className="relative sm:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <img
+                src=""
+                alt=""
+                className="h-10 w-10 border-2 border-indigo-500 rounded-full active:scale-90 transition-all duration-100"
+              />
+              {menuOpen && (
+                <div className="absolute top-14 -left-32 w-[10rem] h-[9rem] bg-white border-2 border-indigo-500 rounded p-2">
+                  <nav className="flex flex-col gap-2">
+                    <Link>
+                      <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text">
+                        Profile
+                      </div>
+                    </Link>
+                    <Link>
+                      <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text">
+                        Login
+                      </div>
+                    </Link>
+                    <Link>
+                      <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text">
+                        Login
+                      </div>
+                    </Link>
+                    <Link className="flex gap-2 text-indigo-500">
+                      <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text">
+                        Logout
+                      </div>
+                      <AiOutlineLogout />
+                    </Link>
+                  </nav>
+                </div>
+              )}
+            </div>
+          </div>
+        </nav>
+      </div>
     </>
   );
 };
