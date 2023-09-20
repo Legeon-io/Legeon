@@ -17,7 +17,6 @@ export const Profile = (props) => {
 
   return (
     <div className="grid grid-cols-7 h-screen">
-      <Sidebar />
       <div className="col-span-6 grid grid-rows-6">
         <div className="flex flex-col w-full">
           <h1 className="text-3xl mt-5 mx-5 md:ml-10">Profile</h1>

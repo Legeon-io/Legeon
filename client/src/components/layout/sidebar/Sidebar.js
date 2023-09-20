@@ -1,6 +1,5 @@
 import React from "react";
 
-// CSS
 import "./Sidebar.css";
 import { LuAlbum, LuLayoutDashboard } from "react-icons/lu";
 import {
@@ -12,12 +11,19 @@ import {
   AiOutlineMail,
   AiOutlineMessage,
 } from "react-icons/ai";
+import { BsArrowUpRight } from "react-icons/bs";
 
 export const Sidebar = ({ clickMenu }) => {
   return (
     <>
-      <div className="fixed sm:flex hidden top-0 left-0 z-10 w-64 h-screen bg-gray-100 ">
-        <div className="flex flex-col py-20 gap-10 text-xl p-5">
+      <div className="fixed sm:flex hidden top-0 left-0 z-10 h-screen bg-gray-100 ">
+        <div className="flex flex-col py-20 gap-10 text-xl p-5 w-64">
+          <div className="flex justify-center">
+            <button className=" flex gap-3 items-center  justify-center border-2 border-indigo-500 p-2 w-full rounded-2xl shadow-lg shadow-gray-300 text-lg">
+              <BsArrowUpRight />
+              My Service Hub
+            </button>
+          </div>
           <ul className="flex flex-col gap-2">
             <li className="flex items-center gap-2 ">
               <LuLayoutDashboard className=" text-indigo-500" />
@@ -80,6 +86,7 @@ export const Sidebar = ({ clickMenu }) => {
           </ul>
         </div>
       </div>
+      {/*  Sidenavbar for Mobile view */}
       <div className="sm:hidden">
         <div
           className={`${
@@ -88,6 +95,12 @@ export const Sidebar = ({ clickMenu }) => {
         >
           {clickMenu && (
             <div className="flex flex-col py-20 gap-10 p-5">
+              <div className="flex justify-center">
+                <button className=" flex gap-2 items-center  justify-center border-2 border-indigo-500 p-2 w-full rounded-2xl shadow-lg shadow-gray-300 text-base">
+                  <BsArrowUpRight />
+                  My Service Hub
+                </button>
+              </div>
               <ul className="flex flex-col gap-2">
                 <li className="flex items-center gap-2 ">
                   <LuLayoutDashboard className=" text-indigo-500" />

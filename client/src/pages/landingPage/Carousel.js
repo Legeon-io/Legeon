@@ -5,6 +5,7 @@ import Img1 from "./1.jpg";
 import Img2 from "./2.jpg";
 import Img3 from "./3.jpg";
 
+// add other images for caraousel
 const slides = [image1, Img1, Img2, Img3];
 
 const Carousel = () => {
@@ -34,6 +35,9 @@ const Carousel = () => {
             )}
           </>
         ))}
+      </div>
+      <div className="">
+        
       </div>
     </div>
   );
