@@ -4,8 +4,6 @@ import passport from "passport";
 const router = express.Router();
 
 import {
-  authFailure,
-  googleAuth,
   googleRedirect,
   logOut,
 } from "../controllers/googleuser.controller.js";
@@ -24,10 +22,6 @@ router.get(
   passport.authenticate("google"),
   googleRedirect
 );
-
-// router.get("/auth/success", verifyToken, googleAuth);
-
-router.get("/auth/failure", authFailure);
 
 router.get("/logout", logOut);
 

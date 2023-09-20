@@ -1,5 +1,11 @@
-import React, { useState } from "react";
-import { BrowserRouter, Route, Routes, Navigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 
 // import { Sidebar } from "./components/layout/sider/Sidebar";
 import Sidebar from "./components/layout/sidebar/Sidebar";
@@ -33,6 +39,7 @@ import AccountPage from "./pages/profile/profile-pages/AccountPage.js";
 
 import Availability from "./pages/calender/Availability.js";
 import Navbar from "./components/layout/navbar/Navbar.js";
+import EditProfile from "./pages/profile/profile-pages/EditProfile.js";
 
 const App = () => {
   // const username = useSelector((state) => state.session.username);
@@ -40,13 +47,19 @@ const App = () => {
   const handleClickMenu = () => {
     setClickMenu(!clickMenu);
   };
+  const [showSidebar, setSidebar] = useState(true);
+  useEffect(() => {
+    if (window.location.pathname === "/") {
+      setSidebar(false);
+    }
+  });
   return (
     <main>
       <BrowserRouter>
         <Navbar handleClickMenu={handleClickMenu} />
-        <Sidebar clickMenu={clickMenu} />
+        {showSidebar && <Sidebar clickMenu={clickMenu} />}
         {/* {true && <Sidebar />} */}
-        <div className="sm:pl-64">
+        <div className={`${showSidebar ? "sm:pl-64" : ""}`}>
           <Routes>
             <Route exact path="/" element={<LandingPage />} />
             <Route element={<ProtectedRoute />}>

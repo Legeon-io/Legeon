@@ -1,17 +1,33 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 //Components
 import { Toggle } from "../../common/Toggle.js";
 import { useDispatch } from "react-redux";
-import { openLogin } from "../../../redux/landingpage/landingPageSlice.js";
 import LOGO from "../../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { AiOutlineLogout, AiOutlineMenu } from "react-icons/ai";
-export const Navbar = ({ handleClickMenu }) => {
+import Cookie from "js-cookie";
+// import profileLogo from "../../../assets/logo.png";
+import {
+  openLogin,
+  openRegister,
+} from "../../../redux/landingpage/landingPageSlice.js";
+import DropdownMenu from "./DropdownMenu.js";
+
+export const Navbar = ({handleClickMenu}) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // for login profile visibility
+  const [show, setShow] = useState(true);
+  useEffect(() => {
+    const token = Cookie.get("token");
+    if (token) {
+      setShow(false);
+    }
+  }, []);
 
   function handleChanges(e) {
     setChecked(e.target.checked);
