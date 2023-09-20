@@ -45,10 +45,13 @@ const App = () => {
   };
   const [showSidebar, setSidebar] = useState(true);
   useEffect(() => {
-    if (window.location.pathname === "/") {
+    if (
+      window.location.pathname === "/" ||
+      window.location.pathname == "/404"
+    ) {
       setSidebar(false);
     }
-  });
+  }, []);
   return (
     <main>
       <BrowserRouter>

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 //Components
 import { Toggle } from "../../common/Toggle.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LOGO from "../../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { AiOutlineLogout, AiOutlineMenu } from "react-icons/ai";
@@ -14,6 +14,7 @@ import {
   openRegister,
 } from "../../../redux/landingpage/landingPageSlice.js";
 import DropdownMenu from "./DropdownMenu.js";
+import { getUserDetails } from "../../../redux/profile/profileSlice.js";
 
 export const Navbar = ({ handleClickMenu }) => {
   const dispatch = useDispatch();

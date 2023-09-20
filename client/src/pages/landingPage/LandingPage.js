@@ -145,7 +145,7 @@ const LandingPage = ({ sidebarVisible }) => {
         </div>
 
         {/* Third div section */}
-        <div className="grid grid-cols-3 gap-20 p-10 ">
+        <div className="grid sm:grid-cols-3  gap-20 p-10 ">
           {cardsData.map((item, i) => {
             return (
               <>
