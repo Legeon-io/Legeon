@@ -1,19 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import * as Yup from "yup";
+import Cookie from "js-cookie";
 import { BiSolidEdit } from "react-icons/bi";
 
 import logo from "../../../assets/logo.png";
+import axios from "axios";
+import { toast } from "react-toastify";
 export const EditProfile = (props) => {
-  const initialValues = {
+  const [value, setValue] = useState({
     firstname: "",
     lastname: "",
     username: "",
     profession: "",
     intro: "",
     bio: "",
-  };
+  });
+
+  // let initialValues = {
+  //   firstname: "",
+  //   lastname: "",
+  //   username: "",
+  //   profession: "",
+  //   intro: "",
+  //   bio: "",
+  // };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/profiles/getprofile", {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setValue({ ...value, firstname: res.data[0].firstname });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().required("First name is required"),
@@ -26,12 +54,26 @@ export const EditProfile = (props) => {
   const handleSubmit = (values) => {
     // console.log(initialValues);
     console.log(values);
+    // axios
+    //   .post("http://localhost:8080/api/profiles/putprofile", values, {
+    //     headers: {
+    //       Authorization: `Bearer ${Cookie.get("token")}`,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     toast.success("Profile Updated Successfully");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     toast.error("Username Taken");
+    //   });
   };
 
   return (
     <div className="flex flex-col row-span-5 items-center justify-center">
       <Formik
-        initialValues={initialValues}
+        initialValues={value}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
@@ -60,6 +102,7 @@ export const EditProfile = (props) => {
               </label>
               <Field
                 name="firstname"
+                value={value.firstname}
                 placeholder="First Name"
                 className="border border-black px-3 py-2 rounded w-full"
               />
