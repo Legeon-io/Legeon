@@ -169,8 +169,10 @@ export const updateUser = async (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
+    console.log(req.user);
     const email = req.user.email;
     let userData;
+    console.log(req.user.isGoogle);
     if (req.user.isGoogle) {
       userData = await googleUser.findOne(
         { email },

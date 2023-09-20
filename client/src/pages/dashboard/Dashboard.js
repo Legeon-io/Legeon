@@ -4,19 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Cookie from "js-cookie";
 // import { CalendarDays, Mail } from "lucide-react";
 import Input from "../../components/helper/Input";
+import { Form, Formik } from "formik";
 
 function Dashboard() {
   const dispatch = useDispatch();
-
-  const data = useSelector((state) => state.profile.userData);
-
-  useEffect(() => {
-    const token = Cookie.get("token");
-
-    if (token) {
-      dispatch(getUserDetails(token));
-    }
-  }, []);
 
   return (
     <div className="bg-gray-200 h-screen p-5">

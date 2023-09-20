@@ -32,12 +32,13 @@ export const userSignInAction = (userData, navigate) => async (dispatch) => {
       toast.success("Login Successfully !!!");
       setTimeout(() => {
         // window.location = "/dashboard";
-        navigate("/dashboard");
+        // navigate("/dashboard");
+        window.location.href = "/dashboard";
       }, 2000);
     }
   } catch (error) {
     console.log(error);
- 
+
     if (error.response && error.response.status === 400) {
       toast.error("Invalid credentials !");
     } else if (error.response && error.response.status === 404) {

@@ -15,19 +15,34 @@ import {
 } from "../../../redux/landingpage/landingPageSlice.js";
 import DropdownMenu from "./DropdownMenu.js";
 
-export const Navbar = ({handleClickMenu}) => {
+export const Navbar = ({ handleClickMenu }) => {
   const dispatch = useDispatch();
+
   const [checked, setChecked] = useState(false);
+  const [currentUrl, setcurrentUrl] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const data = useSelector((state) => state.profile.userData);
 
   // for login profile visibility
   const [show, setShow] = useState(true);
   useEffect(() => {
     const token = Cookie.get("token");
     if (token) {
+      dispatch(getUserDetails(token));
+
+      if (window.location.pathname === "/") {
+        setcurrentUrl(true);
+      }
+
       setShow(false);
     }
   }, []);
+
+  const handleLogout = () => {
+    Cookie.remove("token");
+    window.location.href = "/";
+  };
 
   function handleChanges(e) {
     setChecked(e.target.checked);

@@ -9,7 +9,8 @@ export const EditProfile = (props) => {
   const initialValues = {
     firstname: "",
     lastname: "",
-    displayname: "",
+    username: "",
+    profession: "",
     intro: "",
     bio: "",
   };
@@ -26,12 +27,13 @@ export const EditProfile = (props) => {
   });
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().required("First name is required"),
-    lastname: Yup.string().required("Last name is required"),
-    displayname: Yup.string().required(" Username is required"),
+    lastname: Yup.string(),
+    username: Yup.string().required("Username is required"),
+    profession: Yup.string().required("Profession is required"),
     intro: Yup.string().required("Legion intro is required"),
     bio: Yup.string(),
   });
-  const handleSubmit = (values) => {
+  const handleSubmit = () => {
     console.log(initialValues);
   };
 
@@ -56,9 +58,6 @@ export const EditProfile = (props) => {
                   <p className="text-sm text-gray-600">Required</p>
                 </div>
               </div>
-              <a href="./">
-                <BiSolidEdit size={40} />
-              </a>
             </div>
 
             <div className="mb-4 flex flex-col  md:flex-row md:gap-5">
@@ -101,18 +100,36 @@ export const EditProfile = (props) => {
             </div>
             <div className="mb-4">
               <label
-                htmlFor="displayname"
+                htmlFor="username"
                 className="text-sm font-semibold text-gray-600"
               >
                 Username
               </label>
               <Field
-                name="displayname"
+                name="username"
                 placeholder="Username"
                 className="border border-black px-3 py-2 rounded w-full text-gray-600"
               />
               <ErrorMessage
-                name="displayname"
+                name="username"
+                component="div"
+                className="text-red-600 text-sm"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="profession"
+                className="text-sm font-semibold text-gray-600"
+              >
+                Profession
+              </label>
+              <Field
+                name="profession"
+                placeholder="Profession"
+                className="border border-black px-3 py-2 rounded w-full text-gray-600"
+              />
+              <ErrorMessage
+                name="profession"
                 component="div"
                 className="text-red-600 text-sm"
               />

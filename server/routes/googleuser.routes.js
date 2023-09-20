@@ -3,12 +3,7 @@ import passport from "passport";
 
 const router = express.Router();
 
-import {
-  googleRedirect,
-  logOut,
-} from "../controllers/googleuser.controller.js";
-
-import verifyToken from "../middlewares/authentication/verifyToken.js";
+import { googleRedirect } from "../controllers/googleuser.controller.js";
 
 // Google Routes
 router.get(
@@ -23,6 +18,6 @@ router.get(
   googleRedirect
 );
 
-router.get("/logout", logOut);
+// router.get("/logout", logOut);
 
 export default router;

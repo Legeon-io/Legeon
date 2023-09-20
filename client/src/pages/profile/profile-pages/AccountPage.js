@@ -14,15 +14,10 @@ export const AccountPage = (props) => {
   const initialValues = {
     email: "harisrevatcha@gmail.com",
     mobile: "123456789",
-    password: "helloworld",
-    notification: false,
+    password: "",
   };
 
   const validationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email("Please enter a valid email address")
-      .required("Email is required"),
     mobile: yup
       .string()
       .matches(/^[0-9]*$/, "Mobile number must contain only digits")
@@ -32,7 +27,6 @@ export const AccountPage = (props) => {
       .string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
-    notification: yup.boolean().oneOf([true], "You must accept notifications"),
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -93,7 +87,7 @@ export const AccountPage = (props) => {
             {isEditing ? (
               <div className="md:w-2/3 w-full">
                 <Field
-                  type="text"
+                  type="number"
                   name="mobile"
                   className="border border-gray-300 px-2 py-2 w-full rounded"
                 />
@@ -130,35 +124,7 @@ export const AccountPage = (props) => {
                 />
               </div>
             ) : (
-              <div className="w-2/3 md:text-lg">
-                {initialValues.password
-                  .split("")
-                  .map((char) => "*")
-                  .join("")}
-              </div>
-            )}
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <label className="w-1/3 md:text-2xl">Notification</label>
-            {isEditing ? (
-              <div className="w-2/3 flex gap-4">
-                <Field
-                  type="checkbox"
-                  name="notification"
-                  className="border border-gray-300 px-2 py-1 rounded"
-                />
-                <div>allow notifications in WhatsApp and email</div>
-                <ErrorMessage
-                  name="notification"
-                  component="div"
-                  className="text-red-600 text-sm"
-                />
-              </div>
-            ) : (
-              <div className="w-2/3 text-lg">
-                {initialValues.notification ? "Yes" : "No"}
-              </div>
+              <div className="w-2/3 md:text-lg"></div>
             )}
           </div>
 
