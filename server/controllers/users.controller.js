@@ -172,21 +172,27 @@ export const getUser = async (req, res) => {
     console.log(req.user);
     const email = req.user.email;
     let userData;
+    let sendData;
     console.log(req.user.isGoogle);
     if (req.user.isGoogle) {
-      userData = await googleUser.findOne(
-        { email },
-        { lastname: 1, firstname: 1, username: 1, email: 1, _id: 0 }
-      );
+      userData = await googleUser
+        .findOne(
+          { email },
+          { lastname: 1, firstname: 1, username: 1, email: 1, _id: 0 }
+        )
+        .lean();
+
+      sendData = { ...userData, isGoogle: true };
     } else {
       userData = await User.findOne(
         { email },
         { lastname: 1, firstname: 1, username: 1, email: 1, _id: 0 }
-      );
+      ).lean();
+      sendData = { ...userData, isGoogle: false };
     }
 
-    if (userData) {
-      res.status(200).json(userData);
+    if (sendData) {
+      res.status(200).json(sendData);
     } else {
       res.status(404).json({ error: "Account Not Found" });
     }

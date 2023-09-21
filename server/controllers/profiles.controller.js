@@ -1,6 +1,7 @@
 import user from "../models/users.js";
 import googleUser from "../models/googleuser.js";
 import profile from "../models/profiles.js";
+import bcrypt from "bcrypt";
 
 export const getUserProfile = async (req, res) => {
   try {
@@ -96,12 +97,45 @@ export const updateUserProfile = async (req, res) => {
   }
 };
 
-// Pending
+// Testing Needed
 export const updateAccount = async (req, res) => {
   try {
+    console.log(req.user);
+    const email = req.user.email;
+
+    const data = req.body.values;
+    console.log(email);
+    console.log(data);
+
+    const update = await profile.updateOne(
+      { email: email },
+      {
+        $set: {
+          mobile: data.mobile,
+        },
+      },
+      { upsert: true }
+    );
+
+    if (!req.user.isGoogle) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(data.password, salt);
+      await user.updateOne(
+        { email },
+        {
+          $set: {
+            password: hashedPassword,
+          },
+        }
+      );
+    }
+
+    if (update) {
+      res.status(200).json({ message: "Account Update Successful" });
+    }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ errorMessage: "Internal server error" });
+    res.status(504).json({ errorMessage: "Internal server error" });
   }
 };
 

@@ -34,9 +34,11 @@ export const ProfileDetails = () => {
           <h2 className="text-lg md:text-2xl font-semibold">
             {data[0]?.firstname} {data[0]?.lastname}
           </h2>
-          <p className="text-sm text-gray-600 md:text-lg">
-            {data[0]?.data[0].profession}
-          </p>
+          {data[0]?.data[0]?.profession && (
+            <p className="text-sm text-gray-600 md:text-lg">
+              {data[0]?.data[0].profession}
+            </p>
+          )}
         </div>
       </div>
       <div className="bg-gray-50 text-black w-full md:w-6/12 p-6 lg:text-lg rounded-lg drop-shadow-xl">
@@ -66,7 +68,7 @@ export const ProfileDetails = () => {
             {data[0]?.username}
           </p>
         </div>
-        {data[0]?.data[0].introduction && (
+        {data[0]?.data[0]?.introduction && (
           <div className="mb-4 flex flex-col md:flex-row md:items-center">
             <h2 className="text-sm font-semibold text-gray-600 md:w-1/4">
               Introduction
@@ -76,7 +78,7 @@ export const ProfileDetails = () => {
             </p>
           </div>
         )}
-        {data[0]?.data[0].bio && (
+        {data[0]?.data[0]?.bio && (
           <div className="mb-4 flex flex-col md:flex-row md:items-center">
             <h2 className="text-sm font-semibold text-gray-600 md:w-1/4">
               Bio

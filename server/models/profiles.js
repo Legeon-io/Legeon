@@ -9,6 +9,10 @@ const profileSchema = new mongoose.Schema({
     default:
       "Tell your audience about your experience that makes people Engage with you",
   },
+  mobile: {
+    type: Number,
+    default: null,
+  },
 });
 
 const profileModel = mongoose.model("profile", profileSchema);

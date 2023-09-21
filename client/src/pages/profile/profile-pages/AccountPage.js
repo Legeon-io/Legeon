@@ -6,11 +6,17 @@ import { BiSolidEdit } from "react-icons/bi";
 import "../../index.css";
 import "./AccountPage.css";
 import { IconContext } from "react-icons/lib";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import Cookie from "js-cookie";
+import { toast } from "react-toastify";
 const inlineStyles = {
   color: "blue",
 };
 
 export const AccountPage = (props) => {
+  const profile = useSelector((state) => state.profile.userData);
+
   const initialValues = {
     email: "harisrevatcha@gmail.com",
     mobile: "123456789",
@@ -23,10 +29,8 @@ export const AccountPage = (props) => {
       .matches(/^[0-9]*$/, "Mobile number must contain only digits")
       .min(10, "Mobile number must be at least 10 digits")
       .required("Mobile number is required"),
-    password: yup
-      .string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
+    password: yup.string().min(6, "Password must be at least 6 characters"),
+    // .required("Password is required"),
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -37,6 +41,24 @@ export const AccountPage = (props) => {
 
   const handleSubmit = (values) => {
     console.log(values);
+    axios
+      .put(
+        "http://localhost:8080/api/profiles/updateaccount",
+        { values },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookie.get("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        toast.success("Account Update Successful");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something Went Wrong");
+      });
   };
 
   return (
@@ -64,22 +86,8 @@ export const AccountPage = (props) => {
 
           <div className="flex items-center   space-x-2 ">
             <label className="md:w-1/3 md:text-2xl">Email</label>
-            {isEditing ? (
-              <div className="md:w-2/3 w-full">
-                <Field
-                  type="text"
-                  name="email"
-                  className="border border-blue-400 px-2 py-2 w-full rounded"
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="text-red-600 text-sm"
-                />
-              </div>
-            ) : (
-              <div className="w-2/3 md:text-xl">{initialValues.email}</div>
-            )}
+
+            <div className="w-2/3 md:text-xl">{initialValues.email}</div>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -102,31 +110,34 @@ export const AccountPage = (props) => {
             )}
           </div>
 
-          <div className="flex items-center space-x-2">
-            <label
-              className={` md:w-1/3  md:text-2xl ${
-                isEditing ? "text-xs font-bold" : "text-sm"
-              }  md:font-thin`}
-            >
-              Password
-            </label>
-            {isEditing ? (
-              <div className="md:w-2/3 w-full">
-                <Field
-                  type="password"
-                  name="password"
-                  className="border border-gray-300 px-2 py-2 w-full rounded"
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="text-red-600 text-sm"
-                />
-              </div>
-            ) : (
-              <div className="w-2/3 md:text-lg"></div>
-            )}
-          </div>
+          {!profile.isGoogle && (
+            <div className="flex items-center space-x-2">
+              <label
+                className={` md:w-1/3  md:text-2xl ${
+                  isEditing ? "text-xs font-bold" : "text-sm"
+                }  md:font-thin`}
+              >
+                Password
+              </label>
+              {isEditing ? (
+                <div className="md:w-2/3 w-full">
+                  <Field
+                    type="password"
+                    name="password"
+                    required
+                    className="border border-gray-300 px-2 py-2 w-full rounded"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="text-red-600 text-sm"
+                  />
+                </div>
+              ) : (
+                <div className="w-2/3 md:text-lg"></div>
+              )}
+            </div>
+          )}
 
           {isEditing && (
             <button
