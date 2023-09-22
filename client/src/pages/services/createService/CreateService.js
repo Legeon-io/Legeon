@@ -1,51 +1,14 @@
-import React from 'react'
-import '../Services.css'
-import './CreateService.css'
-import EngageCall from './EngageCall';
+import React from "react";
+import "../Services.css";
+import "./CreateService.css";
+import EngageCall from "./EngageCall";
 
 const CreateService = ({ sidebarVisible }) => {
+  return (
+    <div>
+      <h1>Create service is working</h1>
+    </div>
+  );
+};
 
-    return (
-        <>
-            <EngageCall sidebarVisible={sidebarVisible} />
-            {/* <div className={sidebarVisible ? 'page move-right' : 'page'} >
-
-                <div className='services-container'>
-                    <span className='services-text'>
-                        Services
-                    </span>
-                </div>
-            </div>
-
-            <div className='division'></div>
-
-            <div className={sidebarVisible ? 'services-types move-right' : 'services-types'} >
-                <div className='services-type'>
-                    Service Type
-
-                    <div className='button-container'>
-                        <span className='profile-span'>
-                            <Link to='/services/create-service/engage-call' style={{ textDecoration: 'none' }} >
-                                <button className={activeTab === "engageCall" ? "active" : ""} onClick={() => handleTabToChange("engageCall")}>
-                                    1:1 Engage
-                                </button>
-                            </Link>
-                        </span>
-                        <span className='account-span'>
-                            <Link to='/services/create-service/text-query' style={{ textDecoration: 'none' }} >
-                                <button className={activeTab === "textQuery" ? "active" : ""} onClick={() => handleTabToChange("textQuery")}>
-                                    Ask Query?
-                                </button>
-                            </Link>
-                        </span>
-
-
-                    </div>
-                </div>
-            </div> */}
-
-        </>
-    )
-}
-
-export default CreateService
+export default CreateService;
