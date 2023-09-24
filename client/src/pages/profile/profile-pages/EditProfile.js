@@ -72,9 +72,14 @@ const FormikForm = (props) => {
         props.setFieldValue("firstname", res.data[0].firstname);
         props.setFieldValue("lastname", res.data[0].lastname);
         props.setFieldValue("username", res.data[0].username);
-        props.setFieldValue("intro", res.data[0].data[0].introduction || null);
-        props.setFieldValue("profession", res.data[0].data[0].profession);
-        props.setFieldValue("bio", res.data[0].data[0].bio);
+        if (res.data[0].data[0]) {
+          props.setFieldValue(
+            "intro",
+            res.data[0].data[0].introduction || null
+          );
+          props.setFieldValue("profession", res.data[0].data[0].profession);
+          props.setFieldValue("bio", res.data[0].data[0].bio);
+        }
       })
       .catch((err) => {
         console.log(err);

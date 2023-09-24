@@ -2,21 +2,23 @@ import user from "../models/users.js";
 import googleUser from "../models/googleuser.js";
 import profile from "../models/profiles.js";
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
 export const getUserProfile = async (req, res) => {
   try {
     const data = req.user;
+
     const pipeline = [
       {
         $match: {
-          email: data.email,
+          _id: mongoose.Types.ObjectId(data.id),
         },
       },
       {
         $lookup: {
           from: "profiles",
-          localField: "email",
-          foreignField: "email",
+          localField: "_id",
+          foreignField: "_id",
           as: "data",
         },
       },
@@ -28,6 +30,49 @@ export const getUserProfile = async (req, res) => {
     ];
     if (data.isGoogle) {
       const googleRes = await googleUser.aggregate(pipeline);
+      console.log(googleRes);
+      return res.status(200).json(googleRes);
+    }
+    const userRes = await user.aggregate(pipeline);
+    return res.status(200).json(userRes);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ errorMessage: "Internal server error" });
+  }
+};
+
+export const getAccount = async (req, res) => {
+  try {
+    const data = req.user;
+    const pipeline = [
+      {
+        $match: {
+          _id: mongoose.Types.ObjectId(data.id),
+        },
+      },
+
+      {
+        $lookup: {
+          from: "profiles",
+          localField: "_id",
+          foreignField: "_id",
+          as: "data",
+        },
+      },
+      {
+        $unwind: "$data",
+      },
+      {
+        $project: {
+          _id: 0,
+          "data.mobile": 1,
+          email: 1,
+        },
+      },
+    ];
+    if (data.isGoogle) {
+      const googleRes = await googleUser.aggregate(pipeline);
+
       return res.status(200).json(googleRes);
     }
     const userRes = await user.aggregate(pipeline);
@@ -44,7 +89,7 @@ export const updateUserProfile = async (req, res) => {
     const data = req.body;
 
     const response = await profile.updateOne(
-      { email: userData.email },
+      { _id: mongoose.Types.ObjectId(userData.id) },
       {
         $set: {
           profession: data.profession,
@@ -58,7 +103,7 @@ export const updateUserProfile = async (req, res) => {
     if (response) {
       if (userData.isGoogle) {
         const resp = await googleUser.updateOne(
-          { email: userData.email },
+          { _id: mongoose.Types.ObjectId(userData.id) },
           {
             $set: {
               firstname: data.firstname,
@@ -75,7 +120,7 @@ export const updateUserProfile = async (req, res) => {
         }
       } else {
         const resp = await user.updateOne(
-          { email: userData.email },
+          { _id: mongoose.Types.ObjectId(userData.id) },
           {
             $set: {
               firstname: data.firstname,
@@ -93,6 +138,7 @@ export const updateUserProfile = async (req, res) => {
       }
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });
   }
 };
@@ -101,14 +147,14 @@ export const updateUserProfile = async (req, res) => {
 export const updateAccount = async (req, res) => {
   try {
     console.log(req.user);
-    const email = req.user.email;
+    const id = req.user.id;
 
     const data = req.body.values;
-    console.log(email);
+    console.log(id);
     console.log(data);
 
     const update = await profile.updateOne(
-      { email: email },
+      { _id: mongoose.Types.ObjectId(id) },
       {
         $set: {
           mobile: data.mobile,
@@ -121,7 +167,7 @@ export const updateAccount = async (req, res) => {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(data.password, salt);
       await user.updateOne(
-        { email },
+        { _id: mongoose.Types.ObjectId(id) },
         {
           $set: {
             password: hashedPassword,
