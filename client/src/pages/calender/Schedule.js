@@ -1,8 +1,30 @@
-import { Minus } from "lucide-react";
-import React, { useState } from "react";
+import { AiOutlineMinus, AiOutlinePlusCircle } from "react-icons/ai";
+import { BsTrash } from "react-icons/bs";
+import React, { useEffect, useMemo, useState } from "react";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const Schedule = () => {
-  const daysOfWeek = [
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/events/getevents", {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setSheduleData(res.data.events);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const days = [
     "Monday",
     "Tuesday",
     "Wednesday",
@@ -12,175 +34,241 @@ const Schedule = () => {
     "Sunday",
   ];
 
-  const timeOptions = [];
-  for (let hour = 1; hour <= 12; hour++) {
-    const hourString = hour.toString().padStart(2, "0");
-    timeOptions.push(`${hourString}:00`);
-    timeOptions.push(`${hourString}:30`);
-  }
-
-  const [selectedSchedules, setSelectedSchedules] = useState({});
-  
-  console.log(selectedSchedules);
-
-  const handleScheduleChange = (day, field, value) => {
-    setSelectedSchedules((prevSchedules) => ({
-      ...prevSchedules,
-      [day]: {
-        ...prevSchedules[day],
-        [field]: value,
-      },
-    }));
+  const generateTimeArray = () => {
+    const times = [];
+    for (let hour = 1; hour <= 12; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const formattedHour = hour.toString().padStart(2, "0");
+        const formattedMinute = minute.toString().padStart(2, "0");
+        const time = `${formattedHour}:${formattedMinute}`;
+        times.push(time);
+      }
+    }
+    return times;
   };
 
-  const calculateHours = (fromTime, fromPeriod, toTime, toPeriod) => {
-    if (fromTime && fromPeriod && toTime && toPeriod) {
-      let fromHours = parseInt(fromTime.split(":")[0]);
-      let toHours = parseInt(toTime.split(":")[0]);
-      let fromMinutes = parseInt(fromTime.split(":")[1]);
-      let toMinutes = parseInt(toTime.split(":")[1]);
+  const timeArray = useMemo(() => generateTimeArray(), []);
 
-      if (fromPeriod === "PM" && fromHours !== 12) {
-        fromHours += 12;
-      }
-      if (toPeriod === "PM" && toHours !== 12) {
-        toHours += 12;
-      }
+  const sheduleSchema = Yup.object({
+    fromTime: Yup.string().required(),
+    fromPeriod: Yup.string().required(),
+    toTime: Yup.string().required(),
+    toPeriod: Yup.string().required(),
+  });
 
-      let hoursDifference = toHours - fromHours;
-      let minutesDifference = toMinutes - fromMinutes;
+  const [sheduleData, setSheduleData] = useState(
+    days.map((day) => ({
+      selected: false,
+      day: day,
+      timeSlots: [],
+    }))
+  );
 
-      if (minutesDifference < 0) {
-        hoursDifference -= 1;
-        minutesDifference += 60;
-      }
-
-      let totalHours = hoursDifference + minutesDifference / 60;
-
-      if (totalHours < 0) {
-        totalHours += 24;
-      }
-
-      return totalHours;
-    }
-
-    return 0;
+  const handleSave = () => {
+    axios
+      .put(
+        "http://localhost:8080/api/events/updateevents",
+        { data: sheduleData },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        toast.success("Updated Slots");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(sheduleData);
   };
 
   return (
-    <div className="grid 2xl:grid-cols-2 grid-cols-1 p-5 h-full gap-5">
+    <div className="grid 2xl:grid-cols-3 grid-cols-1 p-5 h-full gap-5 text-lg">
       {/* Left Side */}
-      <div className="flex flex-col gap-5 border-2 py-5">
-        {daysOfWeek.map((day, index) => (
-          <div key={index} className="flex xs:flex-row flex-col justify-between xs:items-center lg:px-10 px-5 xs:pl-5">
-            <div className="flex gap-2">
+      <div className="flex flex-col gap-5 border-2 py-5 col-span-2">
+        <div className="flex justify-end px-16">
+          <button
+            onClick={handleSave}
+            className="bg-[#3691f3] text-white p-2 w-[8rem] rounded-3xl"
+          >
+            Save
+          </button>
+        </div>
+        {sheduleData.map((dayData, item) => (
+          <div
+            key={item}
+            className="flex md:flex-row flex-col justify-between px-10"
+          >
+            <div className="flex gap-2 items-center">
               <input
+                id={dayData.day}
                 type="checkbox"
-                className=""
-                onChange={(e) =>
-                  handleScheduleChange(day, "checked", e.target.checked)
+                checked={dayData.selected}
+                onChange={() =>
+                  setSheduleData((prevScheduleData) => {
+                    const updatedScheduleData = prevScheduleData.map((item) => {
+                      if (item.day === dayData.day) {
+                        return {
+                          ...item,
+                          selected: !item.selected,
+                        };
+                      }
+                      return item;
+                    });
+                    return updatedScheduleData;
+                  })
                 }
-                checked={selectedSchedules[day]?.checked || false}
+                className="h-4 w-4 border-2 border-black"
               />
-              <label htmlFor="">{day}</label>
+              {dayData.day}
             </div>
-            {selectedSchedules[day]?.checked && (
-              <div className="p-2 focus:outline-none rounded flex lg:flex-row flex-col items-center gap-2">
-                <div className="flex gap-1">
-                  <select
-                    className="border-2 border-gray-500 p-2 w-[5rem] focus:outline-none rounded"
-                    onChange={(e) =>
-                      handleScheduleChange(day, "fromTime", e.target.value)
+            <Formik
+              initialValues={{
+                fromTime: "",
+                fromPeriod: "",
+                toTime: "",
+                toPeriod: "",
+              }}
+              validationSchema={sheduleSchema}
+              onSubmit={(values, { resetForm }) => {
+                setSheduleData((prevScheduleData) => {
+                  const updatedData = prevScheduleData.map((item) => {
+                    if (item.day === dayData.day) {
+                      return {
+                        ...item,
+                        timeSlots: [...item.timeSlots, values],
+                      };
                     }
-                    value={selectedSchedules[day]?.fromTime || ""}
-                  >
-                    <option value="">From </option>
-                    {timeOptions.map((time, index) => (
-                      <option key={index} value={time}>
-                        {time}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    className="border-2 border-gray-500 p-2 focus:outline-none rounded flex lg:flex-row flex-col gap-2 "
-                    onChange={(e) =>
-                      handleScheduleChange(day, "fromPeriod", e.target.value)
-                    }
-                    value={selectedSchedules[day]?.fromPeriod || ""}
-                  >
-                    <option value="">Period</option>
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                  </select>
+                    return item;
+                  });
+                  return updatedData;
+                });
+                resetForm();
+              }}
+            >
+              <Form>
+                <div className="flex lg:flex-row flex-col items-center gap-2">
+                  <div className="flex gap-2">
+                    <Field
+                      as="select"
+                      name="fromTime"
+                      className="w-[6rem] border-2 border-black rounded"
+                    >
+                      <option value="">From</option>
+                      {timeArray.map((time, i) => (
+                        <option key={i} value={time}>
+                          {time}
+                        </option>
+                      ))}
+                    </Field>
+                    <Field
+                      as="select"
+                      name="fromPeriod"
+                      className="w-[6rem] border-2 border-black rounded"
+                    >
+                      <option value="">Period</option>
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </Field>
+                  </div>
+                  <AiOutlineMinus className="lg:flex hidden" size={30} />
+                  <div className="flex gap-2">
+                    <Field
+                      as="select"
+                      name="toTime"
+                      className="w-[6rem] border-2 border-black rounded"
+                    >
+                      <option value="">From</option>
+                      {timeArray.map((time, i) => (
+                        <option key={i} value={time}>
+                          {time}
+                        </option>
+                      ))}
+                    </Field>
+                    <Field
+                      as="select"
+                      name="toPeriod"
+                      className="w-[6rem] border-2 border-black rounded"
+                    >
+                      <option value="">Period</option>
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </Field>
+                  </div>
+                  <button type="submit">
+                    <AiOutlinePlusCircle size={30} />
+                  </button>
                 </div>
-                <div className="lg:flex hidden">
-                  <Minus />
-                </div>
-                <div className="flex gap-1">
-                  <select
-                    className="border-2 border-gray-500 p-2 w-[5rem] focus:outline-none rounded"
-                    onChange={(e) =>
-                      handleScheduleChange(day, "toTime", e.target.value)
-                    }
-                    value={selectedSchedules[day]?.toTime || ""}
-                  >
-                    <option value="">Till</option>
-                    {timeOptions.map((time, index) => (
-                      <option key={index} value={time}>
-                        {time}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    className="border-2 border-gray-500 p-2 focus:outline-none rounded"
-                    onChange={(e) =>
-                      handleScheduleChange(day, "toPeriod", e.target.value)
-                    }
-                    value={selectedSchedules[day]?.toPeriod || ""}
-                  >
-                    <option value="">Period</option>
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                  </select>
-                </div>
-              </div>
-            )}
+              </Form>
+            </Formik>
           </div>
         ))}
       </div>
       {/* Right Side */}
-      <div className="border-2">
-        <div className="grid grid-cols-4 text-center font-bold text-lg bg-black text-white">
-          <div className="">Day</div>
-          <div className="">From</div>
-          <div className="">To</div>
-          <div className="">Hours</div>
-        </div>
-        {daysOfWeek.map(
-          (day, index) =>
-            selectedSchedules[day]?.checked && (
-              <div key={index} className="grid grid-cols-4 text-center xs:text-sm text-[10px]">
-                <div className="">{day}</div>
-                <div className="">
-                  {selectedSchedules[day]?.fromTime || "-"}
-                  {selectedSchedules[day]?.fromPeriod || "-"}
-                </div>
-                <div className="">
-                  {selectedSchedules[day]?.toTime || "-"}
-                  {selectedSchedules[day]?.toPeriod || "-"}
-                </div>
-                <div className="">
-                  {calculateHours(
-                    selectedSchedules[day]?.fromTime,
-                    selectedSchedules[day]?.fromPeriod,
-                    selectedSchedules[day]?.toTime,
-                    selectedSchedules[day]?.toPeriod
-                  )}
-                  hrs
-                </div>
-              </div>
-            )
-        )}
+      <div className="flex flex-col border-2">
+        <div className="text-center font-bold text-2xl">Available Slot</div>
+        {sheduleData.map((dayData, item) => (
+          <div
+            key={item}
+            className="flex xs:flex-row flex-col justify-between xs:px-4 px-1  py-2"
+          >
+            <div className="font-bold">{dayData.day}</div>
+            {dayData.selected ? (
+              <>
+                {dayData.timeSlots.length > 0 ? (
+                  <>
+                    <div className="flex flex-col gap-2">
+                      {dayData.timeSlots.map((slot, i) => (
+                        <div key={i} className="flex  items-center gap-2">
+                          <span className="flex sm:gap-1">
+                            <div>
+                              {slot.fromTime}
+                              {slot.fromPeriod}
+                            </div>
+                            <div className="sm:flex ">:</div>
+                            <div>
+                              {slot.toTime}
+                              {slot.toPeriod}
+                            </div>
+                          </span>
+                          <button
+                            onClick={() =>
+                              setSheduleData((prevScheduleData) => {
+                                const updatedScheduleData =
+                                  prevScheduleData.map((item) => {
+                                    if (item.day === dayData.day) {
+                                      return {
+                                        ...item,
+                                        timeSlots: [
+                                          ...item.timeSlots.slice(0, i),
+                                          ...item.timeSlots.slice(i + 1),
+                                        ],
+                                      };
+                                    }
+                                    return item;
+                                  });
+                                return updatedScheduleData;
+                              })
+                            }
+                          >
+                            <BsTrash size={18} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div>Select Slots</div>
+                )}
+              </>
+            ) : (
+              <div>Unavailable</div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

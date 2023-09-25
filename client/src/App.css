@@ -3,6 +3,11 @@
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 
+/* Fonts defined by Jana */
+@import url("https://fonts.googleapis.com/css2?family=Overpass:wght@300&family=Sacramento&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300&family=Overpass:wght@300&family=Sacramento&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Catamaran:wght@300&family=Lexend:wght@300&family=Overpass:wght@300&family=Sacramento&display=swap");
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,4 +15,16 @@
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
   scroll-behavior: smooth;
+}
+
+h1 {
+  font-family: "Overpass", sans-serif;
+}
+
+h2 {
+  font-family: "Lexend", sans-serif;
+}
+
+p {
+  font-family: "Catamaran", sans-serif;
 }

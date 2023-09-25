@@ -1,5 +1,6 @@
 import React from "react";
-import { X } from "lucide-react";
+import {RxCross1} from "react-icons/rx"
+
 
 import "../LoginForm.css";
 import { Form, Formik } from "formik";
@@ -18,7 +19,7 @@ const RecoverPassword = () => {
           <div className="signin_header_css ">
             <div className="relative flex flex-col justify-around w-[30rem] h-[24rem] bg-white p-10 rounded-2xl transition-all duration-100;">
               <button onClick={() => dispatch(closeForgetPassword())}>
-                <X
+                <RxCross1
                   className="absolute right-2 top-2 active:text-3xl"
                   size={30}
                 />

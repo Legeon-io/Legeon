@@ -18,7 +18,6 @@ export const signup = async (req, res) => {
   try {
     const { firstname, lastname, email, password } = req.body;
     let username = email.split("@")[0];
-    // console.log(req.body);
 
     // Check for existing gmail in google user collection
     const existingCustomUser = await googleUser.findOne({ email });
@@ -38,7 +37,7 @@ export const signup = async (req, res) => {
     }
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
-      username = `${username}#${generateShortUUID()}`;
+      username = `${username}${generateShortUUID()}`;
     }
 
     const newUser = new User({
@@ -52,7 +51,6 @@ export const signup = async (req, res) => {
     await newUser.save();
     return res.status(201).json(newUser);
   } catch (error) {
-    // console.error("Error during registration:", error);
     res.status(500).json({ errorMessage: "Internal server error" });
   }
 };
@@ -71,18 +69,15 @@ export const login = async (req, res) => {
     if (!email || !password || !passwordMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
-    console.log(process.env.JWT_KEY);
+
     const token = jwt.sign(
       {
-        email: user.email,
-        username: user.username,
+        id: user._id,
         isGoogle: false,
       },
       process.env.JWT_KEY,
       { expiresIn: "7d" }
     );
-
-    // res.setHeader("Authorization", `Bearer ${token}`);
 
     if (!email || !password || !passwordMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
@@ -91,7 +86,6 @@ export const login = async (req, res) => {
     res.cookie("token", token, { maxAge: 1000 * 60 * 60 * 24 * 7 });
     res.status(200).json({
       message: "Login successful",
-
       user: {
         email: user.email,
         firstname: user.firstname,
@@ -168,22 +162,28 @@ export const updateUser = async (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
-    const email = req.user.email;
+    const id = req.user.id;
     let userData;
+    let sendData;
     if (req.user.isGoogle) {
-      userData = await googleUser.findOne(
-        { email },
-        { lastname: 1, firstname: 1, username: 1, email: 1, _id: 0 }
-      );
+      userData = await googleUser
+        .findOne(
+          { _id: id },
+          { lastname: 1, firstname: 1, username: 1, email: 1, _id: 0 }
+        )
+        .lean();
+
+      sendData = { ...userData, isGoogle: true };
     } else {
       userData = await User.findOne(
-        { email },
+        { _id: id },
         { lastname: 1, firstname: 1, username: 1, email: 1, _id: 0 }
-      );
+      ).lean();
+      sendData = { ...userData, isGoogle: false };
     }
 
-    if (userData) {
-      res.status(200).json(userData);
+    if (sendData) {
+      res.status(200).json(sendData);
     } else {
       res.status(404).json({ error: "Account Not Found" });
     }

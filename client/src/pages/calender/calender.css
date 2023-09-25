@@ -1,0 +1,9 @@
+.custom-select {
+    /* Add your desired styles here */
+    width: 200px; /* Set the width as needed */
+    background-color: #f2f2f2; /* Set the background color */
+    border: 1px solid #ccc; /* Add a border for appearance */
+    padding: 5px; /* Adjust padding as desired */
+    color: #333; /* Set text color */
+    font-size: 16px; /* Adjust font size */
+}

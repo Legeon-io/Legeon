@@ -15,24 +15,6 @@ const profileSlice = createSlice({
   },
 });
 
-// export const getGoogleUserDetails = (googletoken) => async (dispatch) => {
-//   try {
-//     const response = await axios.get("http://localhost:8080/auth/success", {
-//       withCredentials: true,
-//       headers: {
-//         Authorization: `Bearer ${googletoken}`,
-//       },
-//     });
-
-//     if (response.status === 200) {
-//       console.log(response.data);
-//       dispatch(setProfile(response.data.credentials));
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 export const getUserDetails = (token) => async (dispatch) => {
   try {
     const response = await axios.get(

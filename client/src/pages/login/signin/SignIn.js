@@ -1,11 +1,11 @@
 import React from "react";
-import { X } from "lucide-react";
 
 import "../LoginForm.css";
 import { Form, Formik } from "formik";
 import logo from "../../../assets/logo.png";
 import { signinSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
+import {RxCross1} from "react-icons/rx"
 
 import { useNavigate } from "react-router-dom";
 import {
@@ -28,7 +28,7 @@ const SignIn = () => {
           <div className="signin_header_css ">
             <div className="signin_main_css">
               <button onClick={() => dispatch(openLogin())}>
-                <X
+                <RxCross1
                   className="absolute right-2 top-2 active:text-3xl"
                   size={30}
                 />
