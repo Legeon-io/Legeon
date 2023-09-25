@@ -1,10 +1,29 @@
 import { AiOutlineMinus, AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const Schedule = () => {
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/events/getevents", {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setSheduleData(res.data.events);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const days = [
     "Monday",
     "Tuesday",
@@ -46,6 +65,23 @@ const Schedule = () => {
   );
 
   const handleSave = () => {
+    axios
+      .put(
+        "http://localhost:8080/api/events/updateevents",
+        { data: sheduleData },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        toast.success("Updated Slots");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     console.log(sheduleData);
   };
 
@@ -175,7 +211,10 @@ const Schedule = () => {
       <div className="flex flex-col border-2">
         <div className="text-center font-bold text-2xl">Available Slot</div>
         {sheduleData.map((dayData, item) => (
-          <div key={item} className="flex xs:flex-row flex-col justify-between xs:px-4 px-1  py-2">
+          <div
+            key={item}
+            className="flex xs:flex-row flex-col justify-between xs:px-4 px-1  py-2"
+          >
             <div className="font-bold">{dayData.day}</div>
             {dayData.selected ? (
               <>

@@ -1,5 +1,5 @@
 // import user from "../models/users.js";
-// import googleUser from "../models/googleuser.js";
+import mongoose from "mongoose";
 import schedule from "../models/schedule.js";
 
 export const updateEvents = async (req, res) => {
@@ -11,7 +11,7 @@ export const updateEvents = async (req, res) => {
       { _id: mongoose.Types.ObjectId(id) },
       {
         $set: {
-          available: data,
+          events: data,
         },
       },
       { upsert: true }
