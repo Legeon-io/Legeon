@@ -57,9 +57,24 @@ const LandingPage = ({ sidebarVisible }) => {
     const interval = setInterval(() => {
       setShowingDiv(!showingDiv);
     }, 4000);
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
+  });
+
+  const [textShowing, setTextShowing] = useState(0);
+
+  const text = [
+    "Connecting Influencers and Users for Personalized 1-on-1 Services",
+    "Your Gateway to Skill Enhancement and Career Growth",
+    "Experience Tailored Guidance from Industry Influencers",
+    "Where Experts and Enthusiasts Collaborate for Success",
+  ];
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTextShowing((prevtext) =>
+        prevtext === text.length - 1 ? 0 : prevtext + 1
+      );
+    }, 4000);
+    return () => clearInterval(interval);
   });
 
   return (
@@ -112,7 +127,7 @@ const LandingPage = ({ sidebarVisible }) => {
                   </h1>
                 </div>
                 <div className="text-base xl:text-3xl sm:text-2xl font-semibold text- text-center">
-                  Connecting Influencers and Seekers for Personalized 1-on-1
+                  {text[textShowing]}
                   Services
                 </div>
               </Zoom>
@@ -203,10 +218,10 @@ const LandingPage = ({ sidebarVisible }) => {
         </div>
 
         {/* Third Component */}
-        <div className="relative flex flex-col gap-5">
-          <div className="p-10">
+        <div className="relative flex flex-col gap-5 bg-gray-200">
+          <div className="p-16">
             <div className="absolute top-0 left-0 w-full flex flex-col sm:items-center">
-              <div className="border-l-8 sm:pl-20 pl-10 border-indigo-500">
+              <div className="border-l-8 sm:pl-20 pl-10 border-indigo-500 m-10">
                 <Zoom left>
                   <div className=" bg-gradient-to-r text-transparent from-pink-500 via-indigo-500 to-purple-500 bg-clip-text sm:text-7xl text-5xl">
                     How it works !
@@ -225,17 +240,17 @@ const LandingPage = ({ sidebarVisible }) => {
                   {showingDiv && (
                     <Zoom left cascade>
                       <div className="space-y-3">
-                        <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
-                          Mock Interviews
+                        <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                          "Mock Interviews"
                         </li>
-                        <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
-                          Resume Review
+                        <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                          "Resume Review"
                         </li>
-                        <li className="p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
-                          Career Guidance
+                        <li className="bg-white p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                          "Career Guidance"
                         </li>
-                        <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
-                          Raise funding for your startup
+                        <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                          "Raise funding for your startup"
                         </li>
                       </div>
                     </Zoom>
@@ -243,17 +258,17 @@ const LandingPage = ({ sidebarVisible }) => {
                   {!showingDiv && (
                     <Zoom right cascade>
                       <div className="space-y-3">
-                        <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
-                          Ask me anything
+                        <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                          "Ask me anything"
                         </li>
-                        <li className="p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
-                          GATE Preparation Strategy
+                        <li className="bg-white p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                          "GATE Preparation Strategy"
                         </li>
-                        <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
-                          Placement Training
+                        <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                          "Placement Training"
                         </li>
-                        <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
-                          Personal Branding Coach
+                        <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                          "Personal Branding Coach"
                         </li>
                       </div>
                     </Zoom>
@@ -297,17 +312,17 @@ const LandingPage = ({ sidebarVisible }) => {
                 {showingDiv && (
                   <Zoom left cascade>
                     <div className="space-y-3">
-                      <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
-                        Mock Interviews
+                      <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        "Mock Interviews"
                       </li>
-                      <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
-                        Resume Review
+                      <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                        "Resume Review"
                       </li>
-                      <li className="p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
-                        Career Guidance
+                      <li className="bg-white p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                        "Career Guidance"
                       </li>
-                      <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
-                        Raise funding for your startup
+                      <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        "Raise funding for your startup"
                       </li>
                     </div>
                   </Zoom>
@@ -315,17 +330,17 @@ const LandingPage = ({ sidebarVisible }) => {
                 {!showingDiv && (
                   <Zoom right cascade>
                     <div className="space-y-3">
-                      <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
-                        Ask me anything
+                      <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                        "Ask me anything"
                       </li>
-                      <li className="p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
-                        GATE Preparation Strategy
+                      <li className="bg-white p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                        "GATE Preparation Strategy"
                       </li>
-                      <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
-                        Placement Training
+                      <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        "Placement Training"
                       </li>
-                      <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
-                        Personal Branding Coach
+                      <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                        "Personal Branding Coach"
                       </li>
                     </div>
                   </Zoom>
