@@ -30,7 +30,7 @@ export const getUserProfile = async (req, res) => {
     ];
     if (data.isGoogle) {
       const googleRes = await googleUser.aggregate(pipeline);
-      console.log(googleRes);
+      // console.log(googleRes);
       return res.status(200).json(googleRes);
     }
     const userRes = await user.aggregate(pipeline);
@@ -64,7 +64,7 @@ export const getAccount = async (req, res) => {
       },
       {
         $project: {
-          _id: 0,
+          _id: 1,
           "data.mobile": 1,
           email: 1,
         },

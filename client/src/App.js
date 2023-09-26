@@ -39,6 +39,8 @@ import AccountPage from "./pages/profile/profile-pages/AccountPage.js";
 import Availability from "./pages/calender/Availability.js";
 import Navbar from "./components/layout/navbar/Navbar.js";
 import EditProfile from "./pages/profile/profile-pages/EditProfile.js";
+import ServiceHub from "./pages/servicehub/ServiceHub";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   const [clickMenu, setClickMenu] = useState(false);
@@ -47,7 +49,7 @@ const App = () => {
   };
 
   const [showSidebar, setSidebar] = useState(true);
-  
+
   const location = useLocation();
 
   useEffect(() => {
@@ -70,22 +72,27 @@ const App = () => {
             <Route path="/availability" element={<Availability />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/services" element={<Services />} />
-            <Route path="/bookings" element={<Bookings />} />
-            <Route path="/payments" element={<Payments />} />
-            <Route path="/earnings" element={<Earnings />} />
+            {/* <Route path="/bookings" element={<Bookings />} /> */}
+            {/* <Route path="/payments" element={<Payments />} /> */}
+            {/* <Route path="/earnings" element={<Earnings />} /> */}
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/account" element={<AccountPage />} />
-            <Route path="/community" element={<Community />} />
+            {/* <Route path="/community" element={<Community />} /> */}
             <Route path="/about" element={<About />} />
             <Route path="/support" element={<Support />} />
             <Route path="/feedback" element={<Feedback />} />
-            <Route path="/services/create-service" element={<CreateService />} />
-            <Route path="/services/create-service/engage-call" element={<EngageCall />} />
-            <Route path="/services/create-service/text-query" element={<TextQuery />} />
-            <Route path="/services/engage-call/edit-service/:id" element={<EditCallServiceForm />} />
-            <Route path="/:username" element={<UserServices />} />
-            <Route path="/:username/:title/:id/service" element={<BookingService />} />
+            <Route
+              path="/services/create-service"
+              element={<CreateService />}
+            />
+            {/* <Route path="/services/create-service/engage-call" element={<EngageCall />} /> */}
+            {/* <Route path="/services/create-service/text-query" element={<TextQuery />} /> */}
+            {/* <Route path="/services/engage-call/edit-service/:id" element={<EditCallServiceForm />} /> */}
+            {/* <Route path="/:username" element={<UserServices />} /> */}
+            {/* <Route path="/:username/:title/:id/service" element={<BookingService />} /> */}
           </Route>
+          <Route path="/:username" element={<ServiceHub />} />
+          <Route path="/404" element={<NotFound />} />
         </Routes>
       </div>
     </>
