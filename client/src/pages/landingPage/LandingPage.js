@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./LandingPage.css";
 import "../index.css";
 import image1 from "../../assets/job_interview_illustration_1.png";
@@ -8,7 +8,8 @@ import divImage from "../../assets/divoneimage.png";
 import communication from "../../assets/peopleCommunicating.png";
 import handshake from "../../assets/handshake.png";
 import divthreeimage from "../../assets/divthreeimage.png";
-import { FaBeer } from "react-icons/fa";
+import asking from "../../assets/asking.jpg";
+import { FaBeer, FaClipboardCheck, FaHome } from "react-icons/fa";
 
 import SignIn from "../login/signin/SignIn";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,15 +20,18 @@ import RecoverPassword from "../login/forgetpassword/RecoverPassword";
 import { openLogin } from "../../redux/landingpage/landingPageSlice";
 import { toast } from "react-toastify";
 import Footer from "../../components/layout/footer/Footer";
-import Carousel from "./Carousel";
 
-import { cardsData, stackData } from "./landingData";
+import { cardsDataCol1, cardsDataCol2, stackData } from "./landingData";
 
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
+
+import Zoom from "react-reveal/Zoom";
+import { BiBookBookmark, BiTime } from "react-icons/bi";
+import { BsShieldCheck } from "react-icons/bs";
 
 const LandingPage = ({ sidebarVisible }) => {
   useEffect(() => {
@@ -47,6 +51,16 @@ const LandingPage = ({ sidebarVisible }) => {
   const showRegister = useSelector((state) => state.landingpage.showRegister);
   const showForgetPassword = useSelector((state) => state.landingpage.showFP);
   const fpPhase = useSelector((state) => state.landingpage.phase);
+  const [showingDiv, setShowingDiv] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowingDiv(!showingDiv);
+    }, 4000);
+    return () => {
+      clearInterval(interval);
+    };
+  });
 
   return (
     <>
@@ -73,174 +87,400 @@ const LandingPage = ({ sidebarVisible }) => {
       </div>
 
       {/*  Landing page code -------------------------- */}
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-20 select-none">
+        {/* First Component */}
         <div>
+          {/* Top Part of First Component */}
           <div
             id="maindiv"
-            className="w-full h-[45rem] grid grid-cols-2 gap-10 p-10"
+            className="sm:h-[45rem] h-[42rem] grid lg:grid-cols-2 grid-cols-1 sm:gap-10 gap-5 xs:p-10 p-2"
           >
-            <div className="bg-white rounded-2xl overflow-hidden">
-              <Carousel />
-            </div>
-            <div className="flex justify-center items-center flex-col gap-10 ">
-              <div className="hidden lg:flex justify-start text-2xl lg:text-9xl font-semibold ">
-                <h1 className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text">
-                  LEGE
-                </h1>
-                <img
-                  src={logo}
-                  className="rounded-full sm:h-10 lg:h-32 shadow-sm shadow-black"
-                  alt="Not Found"
-                />
-                <h1 className=" bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text">
-                  N
-                </h1>
-              </div>
-              <div className="text-xl lg:text-3xl font-semibold text-white text-center">
-                Connecting Influencers and Seekers for Personalized 1-on-1
-                Services
-              </div>
-              <button className=" z-10 md:z-10">
-                <a
-                  className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-white py-4 px-10 shadow-md rounded-2xl hover:opacity-80 duration-300 "
-                  onClick={(e) => {
-                    e.preventDefault();
-                    let smooth_scroll =
-                      document.getElementById("smooth-scroll");
-                    smooth_scroll && smooth_scroll.scrollIntoView();
-                  }}
-                >
-                  More Info
-                </a>
-              </button>
-            </div>
-          </div>
-          <div className="bg-custom-blue h-full w-full p-10">
-            <div className="flex flex-col lg:flex-row gap-10">
-              <div className="flex flex-col gap-10 mt-4">
-                <div>
-                  <h1 className="text-6xl text-white border-l-[0.5rem] pl-4 border-l-white">
-                    Revenue Stream
+            <div />
+            <div className="flex justify-center items-center flex-col gap-10 bg-white inset-0 opacity-80 rounded-">
+              <Zoom>
+                <div className="flex justify-start text-5xl xl:text-9xl sm:text-7xl font-semibold ">
+                  <h1 className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text">
+                    LEGE
+                  </h1>
+                  <img
+                    src={logo}
+                    className="rounded-full xl:h-32 sm:h-16 h-10  shadow-sm shadow-black"
+                    alt="Not Found"
+                  />
+                  <h1 className=" bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-transparent bg-clip-text">
+                    N
                   </h1>
                 </div>
-                <div className="flex flex-col lg:flex-row justify-between gap-10">
-                  <p className="text-xl lg:text-2xl text-justify text-white">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit. Sed do eiusmod tempor incididunt ut labore et dolore
-                    magna aliqua lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua
-                  </p>
-                  <img
-                    src={divImage}
-                    className="shadow-xl rounded-2xl"
-                    alt="girl working with calendar"
-                  />
+                <div className="text-base xl:text-3xl sm:text-2xl font-semibold text- text-center">
+                  Connecting Influencers and Seekers for Personalized 1-on-1
+                  Services
                 </div>
+              </Zoom>
+            </div>
+          </div>
+        </div>
+
+        {/* Second Component */}
+        <div className="relative flex flex-col gap-5">
+          <div className="flex sm:justify-center">
+            <div className="border-l-8 sm:pl-20 pl-5 border-indigo-500">
+              <Zoom left>
+                <div className=" bg-gradient-to-r text-transparent from-pink-500 via-indigo-500 to-purple-500 bg-clip-text text-center sm:text-7xl text-5xl">
+                  What we Offer !
+                </div>
+              </Zoom>
+            </div>
+          </div>
+          <div className="flex flex-col sm:gap-20 lg:p-10 p-3">
+            <div className="flex md:flex-row flex-col justify-around items-center lg:gap-20 sm:gap-2 gap-20 sm:p-0 xs:p-10 p-3">
+              <div className="flex flex-col items-center lg:p-10 xs:p-5 p-3 gap-4 border-4 min-h-[20rem] md:w-[25rem] rounded-2xl hover:-translate-y-10 hover:scale-110 transition-all duration-500 hover:shadow-2xl border-indigo-500 text-indigo-500 hover:bg-indigo-500 hover:text-white">
+                <Zoom>
+                  <FaHome className="text-6xl" />
+                  <h1 className="sm:text-3xl text-2xl font-bold text-center">
+                    Host and Earn
+                  </h1>
+                  <p className="text-center text-lg">
+                    As an influencer or expert, easily host 1-on-1 sessions and
+                    set your prices for services. Monetize your skills without
+                    the hassle of managing bookings.
+                  </p>
+                </Zoom>
+              </div>
+              <div className="flex flex-col items-center lg:p-10 xs:p-5 p-3 gap-4 border-4 min-h-[20rem] md:w-[25rem] rounded-2xl hover:-translate-y-10 hover:scale-110 transition-all duration-500 hover:shadow-2xl text-violet-500 border-violet-500 hover:bg-violet-500 hover:text-white">
+                <Zoom>
+                  <BiTime className="text-6xl" />
+                  <h1 className="sm:text-3xl text-2xl font-bold text-center">
+                    Flexible Scheduling
+                  </h1>
+                  <p className="text-center text-lg">
+                    Our platform offers flexible booking options, allowing you
+                    to find and book services that align with your availability
+                    and time zones.
+                  </p>
+                </Zoom>
+              </div>{" "}
+              <div className="flex flex-col items-center lg:p-10 xs:p-5 p-3 gap-4 border-4 min-h-[20rem] md:w-[25rem] rounded-2xl hover:-translate-y-10 hover:scale-110 transition-all duration-500 hover:shadow-2xl text-pink-500 border-pink-500 hover:bg-pink-500 hover:text-white">
+                <Zoom>
+                  <FaClipboardCheck className="text-6xl" />
+                  <h1 className="sm:text-3xl text-2xl font-bold text-center">
+                    Book Expert Services
+                  </h1>
+                  <p className="text-center text-lg">
+                    Browse through a diverse range of services offered by
+                    influencers and experts. Book the ones that match your needs
+                    and schedule.
+                  </p>
+                </Zoom>
+              </div>
+            </div>
+            <div className="flex md:flex-row flex-col justify-center items-center lg:gap-20 sm:gap-2 gap-20 sm:p-0 xs:p-10 p-3">
+              <div className="flex flex-col items-center lg:p-10 xs:p-5 p-3 gap-4 border-4 min-h-[20rem] md:w-[25rem] rounded-2xl hover:-translate-y-10 hover:scale-110 transition-all duration-500 hover:shadow-2xl text-indigo-500 border-indigo-500 hover:bg-indigo-500 hover:text-white">
+                <Zoom>
+                  <BiBookBookmark className="text-6xl" />
+                  <h1 className="sm:text-3xl text-2xl font-bold text-center">
+                    Personalized Learning
+                  </h1>
+                  <p className="text-center text-lg">
+                    Get individual attention and guidance from experienced
+                    professionals to boost your career or personal growth.
+                  </p>
+                </Zoom>
+              </div>{" "}
+              <div className="flex flex-col items-center lg:p-10 xs:p-5 p-3 gap-4 border-4 min-h-[20rem] md:w-[25rem] rounded-2xl hover:-translate-y-10 hover:scale-110 transition-all duration-500 hover:shadow-2xl text-pink-500 border-pink-500 hover:bg-pink-500 hover:text-white">
+                <Zoom>
+                  <BsShieldCheck className="text-6xl" />
+                  <h1 className="sm:text-3xl text-2xl font-bold text-center">
+                    Safe and Secure
+                  </h1>
+                  <p className="text-center text-lg">
+                    Trust and safety are our top priorities. Our platform
+                    ensures secure transactions and authentic service providers.
+                  </p>
+                </Zoom>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Third div section */}
-        <div className="grid sm:grid-cols-3  gap-20 p-10 ">
-          {cardsData.map((item, i) => {
-            return (
-              <>
-                <div
-                  className={`flex flex-col p-5 gap-2 ${item.color} text-white rounded-2xl hover:-translate-y-10 hover:scale-110 transition-all duration-500`}
-                >
-                  <div className="flex justify-center items-center text-3xl gap-2">
-                    <div className="">{item.icon}</div>
-                    <div className="">{item.label}</div>
+        {/* Third Component */}
+        <div className="relative flex flex-col gap-5">
+          <div className="p-10">
+            <div className="absolute top-0 left-0 w-full flex flex-col sm:items-center">
+              <div className="border-l-8 sm:pl-20 pl-10 border-indigo-500">
+                <Zoom left>
+                  <div className=" bg-gradient-to-r text-transparent from-pink-500 via-indigo-500 to-purple-500 bg-clip-text sm:text-7xl text-5xl">
+                    How it works !
                   </div>
-                  <div className="">{item.content}</div>
+                </Zoom>
+              </div>
+            </div>
+          </div>
+          <div className="relative grid h-[40rem] w-full">
+            <div className="absolute top-0 left-0 h-full sm:w-1/2">
+              <div className="lg:flex hidden flex-col justify-center items-center h-full p-10">
+                <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text text-4xl">
+                  Services that you can provide:
                 </div>
-              </>
-            );
-          })}
+                <ul className="p-10 text-xl w-full">
+                  {showingDiv && (
+                    <Zoom left cascade>
+                      <div className="space-y-3">
+                        <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                          Mock Interviews
+                        </li>
+                        <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                          Resume Review
+                        </li>
+                        <li className="p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                          Career Guidance
+                        </li>
+                        <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                          Raise funding for your startup
+                        </li>
+                      </div>
+                    </Zoom>
+                  )}
+                  {!showingDiv && (
+                    <Zoom right cascade>
+                      <div className="space-y-3">
+                        <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                          Ask me anything
+                        </li>
+                        <li className="p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                          GATE Preparation Strategy
+                        </li>
+                        <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                          Placement Training
+                        </li>
+                        <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                          Personal Branding Coach
+                        </li>
+                      </div>
+                    </Zoom>
+                  )}
+                </ul>
+              </div>
+            </div>
+            <div className="scroll">
+              <VerticalTimeline className="">
+                {stackData.map((item, i) => (
+                  <VerticalTimelineElement
+                    position="right"
+                    key={i}
+                    className="vertical-timeline-element--work"
+                    contentStyle={{
+                      borderRadius: "20px",
+                      border: `${item.border} solid 3px`,
+                    }}
+                    contentArrowStyle={{
+                      borderRight: `${item.border} solid 10px`,
+                      width: "100%",
+                    }}
+                    iconStyle={{ background: item.border, color: "#fff" }}
+                    icon={item.icon}
+                  >
+                    <div>
+                      <h1 className="text-2xl font-bold">{item.label}</h1>
+                      <p>{item.content}</p>
+                    </div>
+                  </VerticalTimelineElement>
+                ))}
+              </VerticalTimeline>
+            </div>
+          </div>
+          <div className="">
+            <div className="lg:hidden flex flex-col gap-10 justify-center items-center h-full p-5">
+              <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text sm:text-4xl text-2xl">
+                Services that you can provide:
+              </div>
+              <ul className="flex flex-col sm:text-xl gap-2 w-full">
+                {showingDiv && (
+                  <Zoom left cascade>
+                    <div className="space-y-3">
+                      <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        Mock Interviews
+                      </li>
+                      <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                        Resume Review
+                      </li>
+                      <li className="p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                        Career Guidance
+                      </li>
+                      <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        Raise funding for your startup
+                      </li>
+                    </div>
+                  </Zoom>
+                )}
+                {!showingDiv && (
+                  <Zoom right cascade>
+                    <div className="space-y-3">
+                      <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                        Ask me anything
+                      </li>
+                      <li className="p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                        GATE Preparation Strategy
+                      </li>
+                      <li className="p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        Placement Training
+                      </li>
+                      <li className="p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                        Personal Branding Coach
+                      </li>
+                    </div>
+                  </Zoom>
+                )}
+              </ul>
+            </div>
+          </div>
         </div>
 
-        {/* <div className="grid grid-cols-2 gap-20 p-10">
-          {stackData.map((item, i) => (
-            <>
-              {i % 2 == 0 ? (
-                <>
-                  <div className="flex flex-col">
-                    <div className="">{item.label}</div>
-                    <div className="">{item.content}</div>
-                  </div>
-                  <div />
-                </>
-              ) : (
-                <>
-                  <div />
-                  <div className="flex flex-col">
-                    <div className="">{item.label}</div>
-                    <div className="">{item.content}</div>
-                  </div>
-                </>
-              )}
-            </>
-          ))}
-        </div> */}
-
-        <VerticalTimeline>
-          {stackData.map((item, i) => (
-            <VerticalTimelineElement
-              className="vertical-timeline-element--work"
-              contentStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
-              contentArrowStyle={{
-                borderRight: "7px solid  rgb(33, 150, 243)",
-              }}
-              date="2010 - 2011"
-              iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
-              icon={<FaBeer />}
-            >
-              <div>
-                <h1>{item.label}</h1>
-                <p>{item.content}</p>
+        {/*Fourth Compontent */}
+        <div>
+          <div className="relative sm:flex hidden flex-col sm:gap-0 gap-20">
+            <div className="sm:p-10 ">
+              <div className="absolute top-0 left-0 w-full flex flex-col sm:items-center">
+                <div className="border-l-8 sm:pl-20 pl-20 border-indigo-500">
+                  <Zoom left>
+                    <div className=" bg-gradient-to-r text-transparent from-pink-500 via-indigo-500 to-purple-500 bg-clip-text sm:text-7xl text-5xl">
+                      Why us?
+                    </div>
+                  </Zoom>
+                </div>
               </div>
-            </VerticalTimelineElement>
-          ))}
-        </VerticalTimeline>
-
-        {/*fifth div */}
-        <div className="bg-custom-orange h-full w-full p-10">
-          <div className="flex flex-col lg:flex-row-reverse gap-10">
-            <img
-              src={divthreeimage}
-              className="shadow-xl rounded-2xl w-full lg:w-1/2"
-              alt="girl working with calendar"
-            />
-
-            <div className="flex flex-col gap-10">
-              <div>
-                <h1 className="text-6xl borderl text-white border-l-[0.5rem] pl-4 border-l-white">
-                  Your Network Is The Network You Build
-                </h1>
+            </div>
+            <div className="flex flex-col gap-5 sm:p-10 p-5">
+              <div className="grid grid-cols-3 gap-5">
+                <div />
+                <div className="flex flex-col justify-center items-center">
+                  <h1 className="text-2xl font-bold text-pink-500">
+                    Empowering Your Journey
+                  </h1>
+                  <p>
+                    Legeon is not just a platform; it's your gateway to personal
+                    and professional development.
+                  </p>
+                </div>
+                <div />
+                <div className="flex flex-col justify-center items-center">
+                  <h1 className="text-2xl font-bold text-indigo-500">
+                    Quality and Variety
+                  </h1>
+                  <p>
+                    Access a broad spectrum of services, all provided by
+                    reputable influencers and experts.
+                  </p>
+                </div>
+                <div className="flex flex-col justify-center items-center">
+                  <img
+                    src={asking}
+                    alt=""
+                    className="h-[20rem] w-[20rem] object-contain "
+                  />
+                </div>
+                <div className="flex flex-col justify-center items-center">
+                  <h1 className="text-2xl font-bold text-violet-500">
+                    Flexible and Secure
+                  </h1>
+                  <p>
+                    Our platform is designed to adapt to your schedule while
+                    ensuring the utmost security.
+                  </p>
+                </div>
               </div>
-              <p className="text-lg  lg:text-2xl text-white text-justify">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua lorem
-                ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua lorem
-                ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua
-              </p>
-              <button
-                onClick={() => dispatch(openLogin())}
-                className="bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 p-3 rounded-xl w-40 text-white shadow-md hover:opacity-80 duration-300"
-              >
-                Join now
-              </button>
+              <div className="grid grid-cols-2 gap-5">
+                <div className="flex flex-col justify-center items-center">
+                  <h1 className="text-2xl font-bold text-violet-500">
+                    Community-Driven
+                  </h1>
+                  <p>
+                    Join a thriving community of learners and mentors, all
+                    driven by a shared passion for growth.
+                  </p>
+                </div>
+                <div className="flex flex-col justify-center items-center">
+                  <h1 className="text-2xl font-bold text-pink-500">
+                    Your Achievement, Our Commitment
+                  </h1>
+                  <p>
+                    We are committed to your success, every step of the way.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="relative sm:hidden flex flex-col sm:gap-5 gap-20">
+            <div className="sm:p-10 ">
+              <div className="absolute top-0 left-0 w-full flex flex-col sm:items-center">
+                <div className="border-l-8 sm:pl-20 pl-20 border-indigo-500">
+                  <Zoom left>
+                    <div className=" bg-gradient-to-r text-transparent from-pink-500 via-indigo-500 to-purple-500 bg-clip-text sm:text-7xl text-5xl">
+                      Why us?
+                    </div>
+                  </Zoom>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-5 sm:p-10 p-5">
+              <div className="flex  flex-col justify-around gap-5">
+                <img
+                  src={asking}
+                  alt=""
+                  className="h-[20rem] w-[20rem] object-contain "
+                />
+                <div className="">
+                  <h1 className="text-2xl font-bold text-pink-500">
+                    Empowering Your Journey
+                  </h1>
+                  <p>
+                    Legeon is not just a platform; it's your gateway to personal
+                    and professional development.
+                  </p>
+                </div>
+                <div className="">
+                  <h1 className="text-2xl font-bold text-indigo-500">
+                    Quality and Variety
+                  </h1>
+                  <p>
+                    Access a broad spectrum of services, all provided by
+                    reputable influencers and experts.
+                  </p>
+                </div>
+                <div className="">
+                  <h1 className="text-2xl font-bold text-violet-500">
+                    Flexible and Secure
+                  </h1>
+                  <p>
+                    Our platform is designed to adapt to your schedule while
+                    ensuring the utmost security.
+                  </p>
+                </div>
+              </div>
+              <div className="flex sm:flex-row flex-col justify-around gap-5">
+                <div className="">
+                  <h1 className="text-2xl font-bold text-violet-500">
+                    Community-Driven
+                  </h1>
+                  <p>
+                    Join a thriving community of learners and mentors, all
+                    driven by a shared passion for growth.
+                  </p>
+                </div>
+                <div className="">
+                  <h1 className="text-2xl font-bold text-pink-500">
+                    Your Achievement, Our Commitment
+                  </h1>
+                  <p>
+                    We are committed to your success, every step of the way.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Fifty Compontent */}
       <Footer />
     </>
   );

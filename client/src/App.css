@@ -28,3 +28,15 @@ h2 {
 p {
   font-family: "Catamaran", sans-serif;
 }
+
+.scroll {
+  @apply overflow-y-auto;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}

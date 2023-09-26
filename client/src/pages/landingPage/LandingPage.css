@@ -1,8 +1,8 @@
 #maindiv {
-  background: url("../../assets/rectangle.png");
+  background: url("../../assets/BG image.png");
   background-repeat: no-repeat;
   background-position: bottom;
-  background-size: contain;
+  background-size: cover;
 }
 
 .popup-container {
@@ -17,3 +17,13 @@
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   z-index: 999; /* Ensure it's on top of other content */
 }
+
+
+.vertical-timeline-element-content {
+  padding-left: 20px; /* Add left padding to create space between icon and content */
+}
+
+.vertical-timeline-element-subtitle {
+  margin-top: 10px; /* Add margin to create space below the subtitle */
+}
+

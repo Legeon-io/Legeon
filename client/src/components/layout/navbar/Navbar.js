@@ -27,6 +27,7 @@ export const Navbar = ({ handleClickMenu }) => {
 
   // for login profile visibility
   const [show, setShow] = useState(true);
+
   useEffect(() => {
     const token = Cookie.get("token");
     if (token) {
@@ -65,62 +66,68 @@ export const Navbar = ({ handleClickMenu }) => {
           </div>
           <div />
           <div className=" flex gap-5">
-            <div className="mt-0.5 mr-1 flex justify-center items-center">
+            {/* <div className="mt-0.5 mr-1 flex justify-center items-center">
               <Toggle
                 ischecked={checked}
                 handleChange={handleChanges}
                 onClick={handleClick}
               />
-            </div>
-            <button
-              onClick={() => dispatch(openLogin())}
-              className=" hidden md:block bg-gradient-to-r m-1 p-2 text-white rounded-3xl to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  duration-300 w-[6rem]"
-            >
-              Login
-            </button>
-            <div
-              onClick={handleClickMenu}
-              className="flex items-center text-indigo-500 sm:hidden"
-            >
-              <AiOutlineMenu />
-            </div>
-            <div
-              className="relative sm:hidden"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              <img
-                src=""
-                alt=""
-                className="h-10 w-10 border-2 border-indigo-500 rounded-full active:scale-90 transition-all duration-100"
-              />
-              {menuOpen && (
-                <div className="absolute top-14 -left-32 w-[10rem] h-[9rem] bg-white border-2 border-indigo-500 rounded p-2">
-                  <nav className="flex flex-col gap-2">
-                    <Link>
-                      <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text">
-                        Profile
-                      </div>
-                    </Link>
-                    <Link>
-                      <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text">
-                        Login
-                      </div>
-                    </Link>
-                    <Link>
-                      <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text">
-                        Login
-                      </div>
-                    </Link>
-                    <Link className="flex gap-2 text-indigo-500">
-                      <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text">
-                        Logout
-                      </div>
-                      <AiOutlineLogout />
-                    </Link>
-                  </nav>
-                </div>
-              )}
-            </div>
+            </div> */}
+            {show && (
+              <button
+                onClick={() => dispatch(openLogin())}
+                className="block bg-gradient-to-r m-1 p-2 text-white rounded-3xl to-pink-500  from-indigo-500  via-purple-500 hover:opacity-80  duration-300 w-[6rem]"
+              >
+                Login
+              </button>
+            )}
+            {!show && (
+              <div
+                onClick={handleClickMenu}
+                className="flex items-center text-indigo-500 sm:hidden"
+              >
+                <AiOutlineMenu />
+              </div>
+            )}
+            {!show && (
+              <div className="relative" onClick={() => setMenuOpen(!menuOpen)}>
+                <img
+                  src=""
+                  alt=""
+                  className="h-10 w-10 border-2 border-indigo-500 rounded-full active:scale-90 transition-all duration-100"
+                />
+                {menuOpen && (
+                  <div className="absolute top-14 -left-32 w-[10rem] h-[9rem] bg-white border-2 border-indigo-500 rounded p-2">
+                    <nav className="flex flex-col gap-2">
+                      <Link>
+                        <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text">
+                          Profile
+                        </div>
+                      </Link>
+                      <Link>
+                        <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text">
+                          Login
+                        </div>
+                      </Link>
+                      <Link>
+                        <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text">
+                          Login
+                        </div>
+                      </Link>
+                      <Link className="flex gap-2 text-indigo-500">
+                        <div
+                          onClick={handleLogout}
+                          className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text"
+                        >
+                          Logout
+                        </div>
+                        <AiOutlineLogout />
+                      </Link>
+                    </nav>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </nav>
       </div>
