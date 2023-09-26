@@ -129,11 +129,16 @@ const FormikForm = (props) => {
         <label htmlFor="price" className="text-sm font-semibold text-gray-600">
           Price
         </label>
-        <Field
-          name="price"
-          placeholder="Price in Rs"
-          className="border border-black px-3 py-2 rounded w-full"
-        />
+        <div className="flex flex-row focus-within:border-black focus-within:border-2 rounded-md focus:outline-none">
+          <div className="flex justify-center items-center px-5 text-center text-gray-600 border border-black rounded-l-md border-r-0 focus-within:border-none ">
+            <h1>₹</h1>
+          </div>
+          <Field
+            name="price"
+            placeholder="price"
+            className="border border-black border-l-0 pl-8 px-3 py-2 rounded-r-md w-full focus:outline-none focus:border-none"
+          />
+        </div>
         <ErrorMessage
           name="price"
           component="div"
@@ -147,11 +152,16 @@ const FormikForm = (props) => {
         >
           Slash Price
         </label>
-        <Field
-          name="SlashPrice"
-          placeholder="Slash Price in Rs"
-          className="border border-black px-3 py-2 rounded w-full"
-        />
+        <div className="flex flex-row focus-within:border-black focus-within:border-2 rounded-md focus:outline-none">
+          <div className="flex justify-center items-center px-5 text-center text-gray-600 border border-black rounded-l-md border-r-0 focus-within:border-none ">
+            <h1>₹</h1>
+          </div>
+          <Field
+            name="SlashPrice"
+            placeholder="SlashPrice"
+            className="border border-black border-l-0 pl-8 px-3 py-2 rounded-r-md w-full focus:outline-none focus:border-none"
+          />
+        </div>
         <ErrorMessage
           name="SlashPrice"
           component="div"
