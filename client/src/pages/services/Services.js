@@ -5,11 +5,42 @@ import { useState } from "react";
 import sample from "../../assets/img-empty-state-video.svg";
 import PlaceHolderServices from "./PlaceHolderServices";
 import CreateService from "./createService/CreateService";
+import CreateMessageService from "./createService/CreateMessageService";
 export const Services = ({ sidebarVisible }) => {
   const [pageState, setPageState] = useState(0);
+  const [service, createService] = useState(false);
+
   function buttonSubmit(number) {
     setPageState(number);
   }
+
+  let content;
+  if (pageState === 0 && service === false) {
+    content = (
+      <PlaceHolderServices
+        img={sample}
+        title={"Create a 1:1 service "}
+        discription={
+          "Use legeon's simple and easy way to create a 1:1 communication with your mentor"
+        }
+      />
+    );
+  } else if (pageState === 1 && service === false) {
+    content = (
+      <PlaceHolderServices
+        img={sample}
+        title={"Create a dm service"}
+        discription={
+          "Create personal dm's using legeon's dm service and interact with your people"
+        }
+      />
+    );
+  } else if (pageState === 0 && service === true) {
+    content = <CreateService />;
+  } else {
+    content = <CreateMessageService />;
+  }
+
   return (
     <div className="grid grid-cols-7 h-screen">
       <div className="col-span-6 grid grid-rows-6">
@@ -47,7 +78,7 @@ export const Services = ({ sidebarVisible }) => {
               <button
                 className=" px-1 py-2   border-black border-2 rounded-md"
                 onClick={() => {
-                  buttonSubmit(2);
+                  createService(!service);
                 }}
               >
                 create Services
@@ -55,25 +86,7 @@ export const Services = ({ sidebarVisible }) => {
             </div>
           </div>
         </div>
-        {pageState === 0 ? (
-          <PlaceHolderServices
-            img={sample}
-            title={"Create a 1:1 service "}
-            discription={
-              "Use legeon's simple and easy way to create a 1:1 communication with your mentor"
-            }
-          />
-        ) : pageState === 1 ? (
-          <PlaceHolderServices
-            img={sample}
-            title={"Create a dm service"}
-            discription={
-              "Create personal dm's using legeon's dm service and interact with your people"
-            }
-          />
-        ) : (
-          <CreateService />
-        )}
+        {content}
       </div>
     </div>
   );
