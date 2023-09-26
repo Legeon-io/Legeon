@@ -1,17 +1,17 @@
 // import user from "../models/users.js";
-// import googleUser from "../models/googleuser.js";
+import mongoose from "mongoose";
 import schedule from "../models/schedule.js";
 
 export const updateEvents = async (req, res) => {
   try {
-    const username = req.user.username;
+    const id = req.user.id;
     // check at frontend
     const data = req.body.data;
     await schedule.updateOne(
-      { username: username },
+      { _id: mongoose.Types.ObjectId(id) },
       {
         $set: {
-          available: data,
+          events: data,
         },
       },
       { upsert: true }
@@ -25,8 +25,13 @@ export const updateEvents = async (req, res) => {
 
 export const getEvents = async (req, res) => {
   try {
-    const username = req.user.username;
-    const response = await schedule.findOne({ username }, { _id: 0 });
+    const id = req.user.id;
+    // const username = req.user.username;
+    const response = await schedule.findOne(
+      { _id: id },
+      // { username },
+      { _id: 0 }
+    );
     if (response) {
       res.status(200).json(response);
     } else {

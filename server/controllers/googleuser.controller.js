@@ -34,8 +34,7 @@ export const googleRedirect = async (req, res) => {
       if (existingUser) {
         const token = jwt.sign(
           {
-            email: existingUser.email,
-            username: existingUser.username,
+            id: existingUser._id,
             isGoogle: true,
           },
           process.env.JWT_KEY,
@@ -56,12 +55,11 @@ export const googleRedirect = async (req, res) => {
           email,
         });
 
-        const savedUser = await user.save();
+        await user.save();
 
         const token = jwt.sign(
           {
-            email: savedUser.email,
-            username: savedUser.username,
+            id: existingUser._id,
             isGoogle: true,
           },
           process.env.JWT_KEY,

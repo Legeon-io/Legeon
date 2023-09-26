@@ -1,16 +1,82 @@
 import user from "../models/users.js";
 import googleUser from "../models/googleuser.js";
 import profile from "../models/profiles.js";
+import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
 export const getUserProfile = async (req, res) => {
   try {
     const data = req.user;
+
+    const pipeline = [
+      {
+        $match: {
+          _id: mongoose.Types.ObjectId(data.id),
+        },
+      },
+      {
+        $lookup: {
+          from: "profiles",
+          localField: "_id",
+          foreignField: "_id",
+          as: "data",
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+        },
+      },
+    ];
     if (data.isGoogle) {
-      const googleRes = await googleUser.find({ username: data.username });
-      return res.json(googleRes);
+      const googleRes = await googleUser.aggregate(pipeline);
+      console.log(googleRes);
+      return res.status(200).json(googleRes);
     }
-    const userRes = await user.find({ username: data.username });
-    res.json(userRes);
+    const userRes = await user.aggregate(pipeline);
+    return res.status(200).json(userRes);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ errorMessage: "Internal server error" });
+  }
+};
+
+export const getAccount = async (req, res) => {
+  try {
+    const data = req.user;
+    const pipeline = [
+      {
+        $match: {
+          _id: mongoose.Types.ObjectId(data.id),
+        },
+      },
+
+      {
+        $lookup: {
+          from: "profiles",
+          localField: "_id",
+          foreignField: "_id",
+          as: "data",
+        },
+      },
+      {
+        $unwind: "$data",
+      },
+      {
+        $project: {
+          _id: 0,
+          "data.mobile": 1,
+          email: 1,
+        },
+      },
+    ];
+    if (data.isGoogle) {
+      const googleRes = await googleUser.aggregate(pipeline);
+
+      return res.status(200).json(googleRes);
+    }
+    const userRes = await user.aggregate(pipeline);
+    return res.status(200).json(userRes);
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });
@@ -21,63 +87,101 @@ export const updateUserProfile = async (req, res) => {
   try {
     const userData = req.user;
     const data = req.body;
-    // problem in mongodb for two schmemas
-    await profile.updateOne(
-      { username: userData.username },
+
+    const response = await profile.updateOne(
+      { _id: mongoose.Types.ObjectId(userData.id) },
       {
         $set: {
           profession: data.profession,
-          introduction: data.introduction,
+          introduction: data.intro,
           bio: data.bio,
         },
       },
       { upsert: true }
     );
 
-    if (userData.isGoogle) {
-      //   pending
-      const res = await googleUser.updateOne(
-        { username: userData.username },
-        {
-          $set: {
-            firstname: userData.firstname,
-            lastname: userData.lastname,
-            username: userData.username,
-          },
+    if (response) {
+      if (userData.isGoogle) {
+        const resp = await googleUser.updateOne(
+          { _id: mongoose.Types.ObjectId(userData.id) },
+          {
+            $set: {
+              firstname: data.firstname,
+              lastname: data.lastname,
+              username: data.username,
+            },
+          }
+        );
+
+        if (resp) {
+          return res
+            .status(200)
+            .json({ message: "Profile Updated Successfully" });
         }
-      );
-      console.log(res);
-      //   pending
+      } else {
+        const resp = await user.updateOne(
+          { _id: mongoose.Types.ObjectId(userData.id) },
+          {
+            $set: {
+              firstname: data.firstname,
+              lastname: data.lastname,
+              username: data.username,
+            },
+          }
+        );
 
-      return res.json({ message: "Profile Updated Successfully" });
-    }
-
-    //   pending
-    const res = await user.updateOne(
-      { username: userData.username },
-      {
-        $set: {
-          firstname: userData.firstname,
-          lastname: userData.lastname,
-          username: userData.username,
-        },
+        if (resp) {
+          return res
+            .status(200)
+            .json({ message: "Profile Updated Successfully" });
+        }
       }
-    );
-    console.log(res);
-    //   pending
-
-    res.json({ message: "Profile Updated Successfully" });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });
   }
 };
 
+// Testing Needed
 export const updateAccount = async (req, res) => {
   try {
+    console.log(req.user);
+    const id = req.user.id;
+
+    const data = req.body.values;
+    console.log(id);
+    console.log(data);
+
+    const update = await profile.updateOne(
+      { _id: mongoose.Types.ObjectId(id) },
+      {
+        $set: {
+          mobile: data.mobile,
+        },
+      },
+      { upsert: true }
+    );
+
+    if (!req.user.isGoogle) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(data.password, salt);
+      await user.updateOne(
+        { _id: mongoose.Types.ObjectId(id) },
+        {
+          $set: {
+            password: hashedPassword,
+          },
+        }
+      );
+    }
+
+    if (update) {
+      res.status(200).json({ message: "Account Update Successful" });
+    }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ errorMessage: "Internal server error" });
+    res.status(504).json({ errorMessage: "Internal server error" });
   }
 };
 
