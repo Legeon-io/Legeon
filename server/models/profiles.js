@@ -1,13 +1,10 @@
 import mongoose from "mongoose";
 
 const profileSchema = new mongoose.Schema({
-  // email: { type: String, required: true, unique: true },
-  profession: { type: String, required: true },
-  introduction: { type: String, required: true },
+  profession: { type: String },
+  introduction: { type: String },
   bio: {
     type: String,
-    default:
-      "Tell your audience about your experience that makes people Engage with you",
   },
   mobile: {
     type: Number,
