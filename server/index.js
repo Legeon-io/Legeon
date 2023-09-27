@@ -3,7 +3,6 @@ import * as dotenv from "dotenv";
 import cors from "cors";
 
 import passport from "passport";
-import passportStrategy from "./middlewares/authentication/auth.js";
 import expressSession from "express-session";
 
 import connectDB from "./mongodb/connect.js";
@@ -17,6 +16,7 @@ import paymentsRouter from "./routes/payments.routes.js";
 import { scheduleEvent } from "./controllers/calendar.controller.js";
 import keysRouter from "./routes/keys.routes.js";
 import scheduleRouter from "./routes/schedule.routes.js";
+import serviceRouter from "./routes/services.routes.js";
 
 import path from "path";
 
@@ -56,6 +56,9 @@ app.use("/api/users", userRouter);
 // Google OAuth
 app.use(googleRouter);
 app.use("/api/events", scheduleRouter);
+
+// Services OneToOneCall Message
+app.use("/api/services", serviceRouter);
 
 app.use("/api/userprofiles", userProfileRouter);
 app.use("/api/profiles", profilesRouter);
