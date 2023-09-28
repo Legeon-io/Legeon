@@ -10,7 +10,7 @@ import ServiceFull from "./ServiceFull";
 export const Services = ({ sidebarVisible }) => {
   const [pageState, setPageState] = useState(0);
   const [service, createService] = useState(false);
-  const [serviceEmpty, setServiceEmpty] = useState(false);
+  const [serviceEmpty, setServiceEmpty] = useState(true);
 
   function buttonSubmit(number) {
     setPageState(number);
