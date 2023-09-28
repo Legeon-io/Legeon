@@ -6,16 +6,18 @@ import sample from "../../assets/img-empty-state-video.svg";
 import PlaceHolderServices from "./PlaceHolderServices";
 import CreateService from "./createService/CreateService";
 import CreateMessageService from "./createService/CreateMessageService";
+import ServiceFull from "./ServiceFull";
 export const Services = ({ sidebarVisible }) => {
   const [pageState, setPageState] = useState(0);
   const [service, createService] = useState(false);
+  const [serviceEmpty, setServiceEmpty] = useState(false);
 
   function buttonSubmit(number) {
     setPageState(number);
   }
 
   let content;
-  if (pageState === 0 && service === false) {
+  if (pageState === 0 && service === false && serviceEmpty === true) {
     content = (
       <PlaceHolderServices
         img={sample}
@@ -25,7 +27,7 @@ export const Services = ({ sidebarVisible }) => {
         }
       />
     );
-  } else if (pageState === 1 && service === false) {
+  } else if (pageState === 1 && service === false && serviceEmpty === true) {
     content = (
       <PlaceHolderServices
         img={sample}
@@ -37,6 +39,8 @@ export const Services = ({ sidebarVisible }) => {
     );
   } else if (pageState === 0 && service === true) {
     content = <CreateService />;
+  } else if (pageState === 0 && service === false && serviceEmpty === false) {
+    content = <ServiceFull />;
   } else {
     content = <CreateMessageService />;
   }
