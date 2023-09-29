@@ -6,7 +6,7 @@ export const insertMessage = async (req, res) => {
 
     let data = req.body;
     data.userid = id;
-    const response = await messageModel.insertMany(data);
+    const response = await messageModel.create(data);
     if (response) {
       return res.status(200).json({ message: "Created Message Successfully" });
     }
@@ -17,14 +17,14 @@ export const insertMessage = async (req, res) => {
 
 export const updateMessage = async (req, res) => {
   try {
-    const id = req.user.id;
-    let { title, description, price, slashPrice } = req.body;
+    let { serviceTitle, serviceDescription, price, slashPrice, serviceId } =
+      req.body;
     const response = await messageModel.updateOne(
-      { userid: id },
+      { _id: serviceId },
       {
         $set: {
-          title: title,
-          description: description,
+          serviceTitle: serviceTitle,
+          serviceDescription: serviceDescription,
           price: price,
           slashPrice: slashPrice,
         },

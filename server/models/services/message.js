@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
   userid: { type: String, required: true },
-  title: { type: String, required: true },
-  description: {
+  serviceTitle: { type: String, required: true },
+  serviceDescription: {
     type: String,
   },
 

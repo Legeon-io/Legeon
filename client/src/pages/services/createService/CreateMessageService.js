@@ -1,22 +1,35 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export const CreateMessageService = () => {
   let initialValues = {
     serviceTitle: "",
     serviceDescription: "",
-    Price: "",
-    SlashPrice: "",
+    price: null || "",
+    slashPrice: null || "",
   };
   const validationSchema = Yup.object().shape({
     serviceTitle: Yup.string().required("Service title is required"),
     serviceDescription: Yup.string(),
-    Price: Yup.string().required("Price is required"), // Updated field name
-    SlashPrice: Yup.string(),
+    price: Yup.number().required("Price is required"), // Updated field name
+    slashPrice: Yup.number(),
   });
 
   const handleSubmit = (values) => {
-    console.log(values);
+    axios
+      .post("http://localhost:8080/api/services/message", values, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="flex flex-col row-span-5 items-center justify-center">
@@ -75,7 +88,7 @@ const FormikForm = (props) => {
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="Price" className="text-sm font-semibold text-gray-600">
+        <label htmlFor="price" className="text-sm font-semibold text-gray-600">
           Price
         </label>
         <div className="flex flex-row focus-within:border-black focus-within:border-2 rounded-md focus:outline-none">
@@ -83,20 +96,20 @@ const FormikForm = (props) => {
             <h1>₹</h1>
           </div>
           <Field
-            name="Price"
+            name="price"
             placeholder="Price"
             className="border border-black border-l-0 pl-8 px-3 py-2 rounded-r-md w-full focus:outline-none focus:border-none"
           />
         </div>
         <ErrorMessage
-          name="Price"
+          name="price"
           component="div"
           className="text-red-600 text-sm"
         />
       </div>
       <div className="mb-4">
         <label
-          htmlFor="SlashPrice"
+          htmlFor="slashPrice"
           className="text-sm font-semibold text-gray-600"
         >
           Slash Price
@@ -106,13 +119,13 @@ const FormikForm = (props) => {
             <h1>₹</h1>
           </div>
           <Field
-            name="SlashPrice"
+            name="slashPrice"
             placeholder="SlashPrice"
             className="border border-black border-l-0 pl-8 px-3 py-2 rounded-r-md w-full focus:outline-none focus:border-none"
           />
         </div>
         <ErrorMessage
-          name="SlashPrice"
+          name="slashPrice"
           component="div"
           className="text-red-600 text-sm"
         />

@@ -30,7 +30,9 @@ export const CreateService = (props) => {
     console.log(values);
     axios
       .post("http://localhost:8080/api/services/onetoonecall", values, {
-        Authorization: `Bearer ${Cookies.get("token")}`,
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
       })
       .then((res) => {
         console.log(res.data);

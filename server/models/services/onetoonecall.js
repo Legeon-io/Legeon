@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 const oneToOneSchema = new mongoose.Schema({
   userid: { type: String, required: true },
-  title: { type: String, required: true },
-  type: { type: String, required: true },
-  description: {
+  serviceTitle: { type: String, required: true },
+  serviceType: { type: String, required: true },
+  serviceDescription: {
     type: String,
   },
   duration: {

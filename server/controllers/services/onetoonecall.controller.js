@@ -3,30 +3,38 @@ import oneToOneModel from "../../models/services/onetoonecall.js";
 export const insertCall = async (req, res) => {
   try {
     const id = req.user.id;
-    console.log(id);
 
-    // let data = req.body;
-    // data.userid = id;
-    // const response = await oneToOneModel.insertMany(data);
-    // if (response) {
-    //   return res.status(200).json({ message: "Created Call Successfully" });
-    // }
+    let data = req.body;
+    data.userid = id;
+
+    const response = await oneToOneModel.create(data);
+    if (response) {
+      return res.status(200).json({ message: "Created Call Successfully" });
+    }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });
   }
 };
 
 export const updateCall = async (req, res) => {
   try {
-    const id = req.user.id;
-    let { title, description, type, duration, price, slashPrice } = req.body;
+    let {
+      serviceTitle,
+      serviceDescription,
+      serviceType,
+      duration,
+      price,
+      slashPrice,
+      serviceId,
+    } = req.body;
     const response = await oneToOneModel.updateOne(
-      { userid: id },
+      { _id: serviceId },
       {
         $set: {
-          title: title,
-          description: description,
-          type: type,
+          serviceTitle: serviceTitle,
+          serviceDescription: serviceDescription,
+          serviceType: serviceType,
           duration: duration,
           price: price,
           slashPrice: slashPrice,
