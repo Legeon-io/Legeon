@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const oneToOneSchema = new mongoose.Schema({
-  key: { type: String, required: true },
+  userid: { type: String, required: true },
   title: { type: String, required: true },
   type: { type: String, required: true },
   description: {

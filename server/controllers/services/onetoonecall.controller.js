@@ -3,13 +3,14 @@ import oneToOneModel from "../../models/services/onetoonecall.js";
 export const insertCall = async (req, res) => {
   try {
     const id = req.user.id;
+    console.log(id);
 
-    let data = req.body;
-    data.key = id;
-    const response = await oneToOneModel.insertMany(data);
-    if (response) {
-      return res.status(200).json({ message: "Created Call Successfully" });
-    }
+    // let data = req.body;
+    // data.userid = id;
+    // const response = await oneToOneModel.insertMany(data);
+    // if (response) {
+    //   return res.status(200).json({ message: "Created Call Successfully" });
+    // }
   } catch (error) {
     res.status(500).json({ errorMessage: "Internal server error" });
   }
@@ -20,7 +21,7 @@ export const updateCall = async (req, res) => {
     const id = req.user.id;
     let { title, description, type, duration, price, slashPrice } = req.body;
     const response = await oneToOneModel.updateOne(
-      { key: id },
+      { userid: id },
       {
         $set: {
           title: title,
@@ -45,7 +46,7 @@ export const updateCall = async (req, res) => {
 export const getCall = async (req, res) => {
   try {
     const id = req.user.id;
-    const response = await oneToOneModel.find({ key: id });
+    const response = await oneToOneModel.find({ userid: id });
     if (response) {
       return res.status(200).json(response);
     } else {

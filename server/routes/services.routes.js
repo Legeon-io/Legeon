@@ -20,8 +20,10 @@ const router = express.Router();
 router
   .route("/onetoonecall")
   .get(verifyToken, getCall)
-  .put(verifyToken, updateCall)
-  .post(verifyToken, insertCall);
+  .put(verifyToken, updateCall);
+// .post(verifyToken, insertCall);
+
+router.post("/onetoonecall", verifyToken, insertCall);
 
 // Delete Function
 router.post("/onetoonecall/delete", verifyToken, deleteCall);
