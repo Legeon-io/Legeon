@@ -7,6 +7,7 @@ import PlaceHolderServices from "./PlaceHolderServices";
 import CreateService from "./createService/CreateService";
 import CreateMessageService from "./createService/CreateMessageService";
 import ServiceFull from "./ServiceFull";
+import ServiceCards from "../../components/common/ServiceCards";
 export const Services = ({ sidebarVisible }) => {
   const [pageState, setPageState] = useState(0);
   const [service, createService] = useState(false);
