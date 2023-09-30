@@ -35,7 +35,7 @@ export const AccountPage = (props) => {
     console.log(values);
     axios
       .put(
-        "http://localhost:8080/api/profiles/updateaccount",
+        `${process.env.REACT_APP_API_URL}/api/profiles/updateaccount`,
         { values },
         {
           headers: {
@@ -77,7 +77,7 @@ const FormikForm = (props) => {
   };
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/profiles/getaccount", {
+      .get(`${process.env.REACT_APP_API_URL}/api/profiles/getaccount`, {
         headers: {
           Authorization: `Bearer ${Cookie.get("token")}`,
         },

@@ -31,7 +31,7 @@ export const EditProfile = (props) => {
     console.log(values);
 
     axios
-      .put("http://localhost:8080/api/profiles/putprofile", values, {
+      .put(`${process.env.REACT_APP_API_URL}/api/profiles/putprofile`, values, {
         headers: {
           Authorization: `Bearer ${Cookie.get("token")}`,
         },
@@ -62,7 +62,7 @@ export const EditProfile = (props) => {
 const FormikForm = (props) => {
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/profiles/getprofile", {
+      .get(`${process.env.REACT_APP_API_URL}/api/profiles/getprofile`, {
         headers: {
           Authorization: `Bearer ${Cookie.get("token")}`,
         },

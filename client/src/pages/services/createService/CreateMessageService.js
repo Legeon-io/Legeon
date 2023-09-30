@@ -19,7 +19,7 @@ export const CreateMessageService = () => {
 
   const handleSubmit = (values) => {
     axios
-      .post("http://localhost:8080/api/services/message", values, {
+      .post(`${process.env.REACT_APP_API_URL}/api/services/message`, values, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },

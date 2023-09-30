@@ -7,7 +7,7 @@ export const ProfileDetails = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/profiles/getprofile", {
+      .get(`${process.env.REACT_APP_API_URL}/api/profiles/getprofile`, {
         headers: {
           Authorization: `Bearer ${Cookie.get("token")}`,
         },

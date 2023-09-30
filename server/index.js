@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import cors from "cors";
 
 import passport from "passport";
+import passportStrategy from "./middlewares/authentication/auth.js";
 import expressSession from "express-session";
 
 import connectDB from "./mongodb/connect.js";

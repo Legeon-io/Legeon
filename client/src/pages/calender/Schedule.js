@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 const Schedule = () => {
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/events/getevents", {
+      .get(`${process.env.REACT_APP_API_URL}/api/events/getevents`, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
@@ -67,7 +67,7 @@ const Schedule = () => {
   const handleSave = () => {
     axios
       .put(
-        "http://localhost:8080/api/events/updateevents",
+        `${process.env.REACT_APP_API_URL}/api/events/updateevents`,
         { data: sheduleData },
         {
           headers: {

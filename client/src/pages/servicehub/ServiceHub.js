@@ -6,7 +6,7 @@ function ServiceHub() {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .post("http://localhost:8080/api/profiles/getUserDetails", {
+      .post(`${process.env.REACT_APP_API_URL}/api/profiles/getUserDetails`, {
         username: window.location.pathname.split("/")[1],
       })
       .then((res) => {

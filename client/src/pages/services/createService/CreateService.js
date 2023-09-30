@@ -29,11 +29,15 @@ export const CreateService = (props) => {
   const handleSubmit = (values) => {
     console.log(values);
     axios
-      .post("http://localhost:8080/api/services/onetoonecall", values, {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("token")}`,
-        },
-      })
+      .post(
+        `${process.env.REACT_APP_API_URL}/api/services/onetoonecall`,
+        values,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data);
       })
