@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Services.css";
 import "../index.css";
 import { useState } from "react";
@@ -6,12 +6,34 @@ import sample from "../../assets/img-empty-state-video.svg";
 import PlaceHolderServices from "./PlaceHolderServices";
 import CreateService from "./createService/CreateService";
 import CreateMessageService from "./createService/CreateMessageService";
-import ServiceFull from "./ServiceFull";
+import { ServiceList } from "./ServiceList";
 import ServiceCards from "../../components/common/ServiceCards";
+import Cookies from "js-cookie";
+import axios from "axios";
 export const Services = ({ sidebarVisible }) => {
+  const [data, setData] = useState([]);
+  //To get all routes
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/services/onetoonecall`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
+        if (response) setData(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
   const [pageState, setPageState] = useState(0);
   const [service, createService] = useState(false);
-  const [serviceEmpty, setServiceEmpty] = useState(true);
+  const [serviceEmpty, setServiceEmpty] = useState(false);
 
   function buttonSubmit(number) {
     setPageState(number);
@@ -41,7 +63,7 @@ export const Services = ({ sidebarVisible }) => {
   } else if (pageState === 0 && service === true) {
     content = <CreateService />;
   } else if (pageState === 0 && service === false && serviceEmpty === false) {
-    content = <ServiceFull />;
+    content = <ServiceList list={data} />;
   } else {
     content = <CreateMessageService />;
   }
