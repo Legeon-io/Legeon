@@ -31,10 +31,9 @@ export const AccountPage = (props) => {
     // .required("Password is required"),
   });
 
-  const handleSubmit = (values) => {
-    console.log(values);
-    axios
-      .put(
+  const handleSubmit = async (values) => {
+    try {
+      const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/api/profiles/updateaccount`,
         { values },
         {
@@ -42,15 +41,12 @@ export const AccountPage = (props) => {
             Authorization: `Bearer ${Cookie.get("token")}`,
           },
         }
-      )
-      .then((res) => {
-        console.log(res.data);
-        toast.success("Account Update Successful");
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Something Went Wrong");
-      });
+      );
+      if (response) toast.success("Account Update Successful");
+    } catch (err) {
+      console.log(err);
+      toast.error("Something Went Wrong");
+    }
   };
 
   return (
@@ -76,20 +72,24 @@ const FormikForm = (props) => {
     setIsEditing(!isEditing);
   };
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/profiles/getaccount`, {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setaccData(res.data);
-        props.setFieldValue("mobile", res.data[0].data.mobile);
-      })
-      .catch((err) => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/profiles/getaccount`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookie.get("token")}`,
+            },
+          }
+        );
+        if (response) {
+          setaccData(response.data);
+          props.setFieldValue("mobile", response.data[0].data.mobile);
+        }
+      } catch (err) {
         console.log(err);
-      });
+      }
+    })();
   }, []);
 
   return (

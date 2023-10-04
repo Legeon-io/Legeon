@@ -26,10 +26,10 @@ export const CreateService = (props) => {
     serviceType: Yup.string().required("Service type is required"),
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log(values);
-    axios
-      .post(
+    try {
+      const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/services/onetoonecall`,
         values,
         {
@@ -37,13 +37,11 @@ export const CreateService = (props) => {
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
         }
-      )
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      );
+      if (response) console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

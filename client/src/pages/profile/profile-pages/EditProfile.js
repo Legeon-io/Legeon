@@ -27,23 +27,22 @@ export const EditProfile = (props) => {
     intro: Yup.string().required("Legion intro is required"),
     bio: Yup.string(),
   });
-  const handleSubmit = (values) => {
-    console.log(values);
-
-    axios
-      .put(`${process.env.REACT_APP_API_URL}/api/profiles/putprofile`, values, {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        toast.success("Profile Updated Successfully");
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Username Taken");
-      });
+  const handleSubmit = async (values) => {
+    try {
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/profiles/putprofile`,
+        values,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookie.get("token")}`,
+          },
+        }
+      );
+      if (response) toast.success("Profile Updated Successfully");
+    } catch (err) {
+      console.log(err);
+      toast.error("Username Taken");
+    }
   };
 
   return (
@@ -61,29 +60,36 @@ export const EditProfile = (props) => {
 
 const FormikForm = (props) => {
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/profiles/getprofile`, {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        props.setFieldValue("firstname", res.data[0].firstname);
-        props.setFieldValue("lastname", res.data[0].lastname);
-        props.setFieldValue("username", res.data[0].username);
-        if (res.data[0].data[0]) {
-          props.setFieldValue(
-            "intro",
-            res.data[0].data[0].introduction || null
-          );
-          props.setFieldValue("profession", res.data[0].data[0].profession);
-          props.setFieldValue("bio", res.data[0].data[0].bio);
+    (async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/profiles/getprofile`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookie.get("token")}`,
+            },
+          }
+        );
+        if (response) {
+          props.setFieldValue("firstname", response.data[0].firstname);
+          props.setFieldValue("lastname", response.data[0].lastname);
+          props.setFieldValue("username", response.data[0].username);
+          if (response.data[0].data[0]) {
+            props.setFieldValue(
+              "intro",
+              response.data[0].data[0].introduction || null
+            );
+            props.setFieldValue(
+              "profession",
+              response.data[0].data[0].profession
+            );
+            props.setFieldValue("bio", response.data[0].data[0].bio);
+          }
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log(err);
-      });
+      }
+    })();
   }, []);
 
   return (

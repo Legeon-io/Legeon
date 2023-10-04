@@ -17,19 +17,21 @@ export const CreateMessageService = () => {
     slashPrice: Yup.number(),
   });
 
-  const handleSubmit = (values) => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/api/services/message`, values, {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleSubmit = async (values) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/services/message`,
+        values,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
+      if (response) console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="flex flex-col row-span-5 items-center justify-center">

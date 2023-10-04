@@ -5,16 +5,19 @@ import React, { useEffect } from "react";
 function ServiceHub() {
   const navigate = useNavigate();
   useEffect(() => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/api/profiles/getUserDetails`, {
-        username: window.location.pathname.split("/")[1],
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
+    (async () => {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/profiles/getUserDetails`,
+          {
+            username: window.location.pathname.split("/")[1],
+          }
+        );
+        if (response) console.log(response.data);
+      } catch (err) {
         navigate("/404");
-      });
+      }
+    })();
   });
   return (
     <div>
