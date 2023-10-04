@@ -21,6 +21,7 @@ const authSlice = createSlice({
 
 export const userSignInAction = (userData, navigate) => async (dispatch) => {
   try {
+    console.log(userData);
     const response = await axios.post(
       "http://localhost:8080/api/users/login",
       userData,

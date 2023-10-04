@@ -26,9 +26,7 @@ export const getUserDetails = (token) => async (dispatch) => {
         },
       }
     );
-
     if (response.status === 200) {
-      console.log(response.data);
       dispatch(setProfile(response.data));
     }
   } catch (error) {

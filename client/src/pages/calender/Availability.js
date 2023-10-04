@@ -20,7 +20,7 @@ const Availability = () => {
                 className={`${
                   !toggle
                     ? "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white"
-                    : "border-2 border-black"
+                    : "border-2 border-indigo-500 text-indigo-500"
                 } w-[10rem] p-2 text-center rounded-3xl`}
               >
                 Schedule
@@ -30,7 +30,7 @@ const Availability = () => {
                 className={`${
                   toggle
                     ? "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white"
-                    : "border-2 border-black"
+                    : "border-2 border-indigo-500 text-indigo-500"
                 } w-[10rem] p-2 text-center rounded-3xl`}
               >
                 Calendar
