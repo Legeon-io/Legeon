@@ -240,16 +240,16 @@ const LandingPage = ({ sidebarVisible }) => {
                   {showingDiv && (
                     <Zoom left cascade>
                       <div className="space-y-3">
-                        <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
                           "Mock Interviews"
                         </li>
-                        <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                        <li className=" p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
                           "Resume Review"
                         </li>
-                        <li className="bg-white p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                        <li className=" p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
                           "Career Guidance"
                         </li>
-                        <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
                           "Raise funding for your startup"
                         </li>
                       </div>
@@ -258,16 +258,16 @@ const LandingPage = ({ sidebarVisible }) => {
                   {!showingDiv && (
                     <Zoom right cascade>
                       <div className="space-y-3">
-                        <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                        <li className=" p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
                           "Ask me anything"
                         </li>
-                        <li className="bg-white p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                        <li className=" p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
                           "GATE Preparation Strategy"
                         </li>
-                        <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
                           "Placement Training"
                         </li>
-                        <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                        <li className=" p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
                           "Personal Branding Coach"
                         </li>
                       </div>
@@ -277,7 +277,7 @@ const LandingPage = ({ sidebarVisible }) => {
               </div>
             </div>
             <div className="scroll">
-              <VerticalTimeline className="">
+              <VerticalTimeline className="" lineColor="rgb(229,231,235)">
                 {stackData.map((item, i) => (
                   <VerticalTimelineElement
                     position="right"
@@ -312,16 +312,16 @@ const LandingPage = ({ sidebarVisible }) => {
                 {showingDiv && (
                   <Zoom left cascade>
                     <div className="space-y-3">
-                      <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                      <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
                         "Mock Interviews"
                       </li>
-                      <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                      <li className=" p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
                         "Resume Review"
                       </li>
-                      <li className="bg-white p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                      <li className=" p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
                         "Career Guidance"
                       </li>
-                      <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                      <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
                         "Raise funding for your startup"
                       </li>
                     </div>
@@ -330,16 +330,16 @@ const LandingPage = ({ sidebarVisible }) => {
                 {!showingDiv && (
                   <Zoom right cascade>
                     <div className="space-y-3">
-                      <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                      <li className=" p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
                         "Ask me anything"
                       </li>
-                      <li className="bg-white p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
+                      <li className=" p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
                         "GATE Preparation Strategy"
                       </li>
-                      <li className="bg-white p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                      <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
                         "Placement Training"
                       </li>
-                      <li className="bg-white p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
+                      <li className=" p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
                         "Personal Branding Coach"
                       </li>
                     </div>

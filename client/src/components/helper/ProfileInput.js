@@ -1,15 +1,14 @@
 import React from "react";
 import "./helper.css";
 import { ErrorMessage, Field } from "formik";
-const Input = ({ id, type, disabled, name, label, as }) => {
+const ProfileInput = ({ id, type, value, name, label }) => {
   return (
     <div className="relative">
       <Field
         id={id}
-        as={as}
-        disabled={disabled}
         type={type}
         name={name}
+        value={value}
         className="inputfield_css peer"
         required="required"
         autoComplete="off"
@@ -24,4 +23,4 @@ const Input = ({ id, type, disabled, name, label, as }) => {
   );
 };
 
-export default Input;
+export default ProfileInput;

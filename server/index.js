@@ -14,7 +14,7 @@ import profilesRouter from "./routes/profiles.routes.js";
 import callServicesRouter from "./routes/callservices.routes.js";
 import calendarRouter from "./routes/calendar.routes.js";
 import paymentsRouter from "./routes/payments.routes.js";
-import { scheduleEvent } from "./controllers/calendar.controller.js";
+
 import keysRouter from "./routes/keys.routes.js";
 import scheduleRouter from "./routes/schedule.routes.js";
 import serviceRouter from "./routes/services.routes.js";
@@ -65,9 +65,8 @@ app.use("/api/userprofiles", userProfileRouter);
 app.use("/api/profiles", profilesRouter);
 app.use("/api/callservices", callServicesRouter);
 
-app.get("/google", calendarRouter);
+app.get("/api/calender", calendarRouter);
 app.get("/google/redirect", calendarRouter);
-// app.use("/api/events", scheduleEvent);
 
 app.use("/api/payments/razorpay", paymentsRouter);
 app.use("/api/accounts", paymentsRouter);

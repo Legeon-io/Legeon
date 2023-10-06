@@ -41,6 +41,8 @@ import Navbar from "./components/layout/navbar/Navbar.js";
 import EditProfile from "./pages/profile/profile-pages/EditProfile.js";
 import ServiceHub from "./pages/servicehub/ServiceHub";
 import NotFound from "./pages/NotFound";
+import ProfileDetails from "./pages/profile/profile-pages/ProfileDetails";
+import Edit_Profile from "./pages/profile/profile-pages/Edit_Profile";
 
 const App = () => {
   const [clickMenu, setClickMenu] = useState(false);
@@ -72,11 +74,13 @@ const App = () => {
             <Route path="/availability" element={<Availability />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/account" element={<ProfileDetails />} />
+            <Route path="/profile" element={<Edit_Profile />} />
             {/* <Route path="/bookings" element={<Bookings />} /> */}
             {/* <Route path="/payments" element={<Payments />} /> */}
             {/* <Route path="/earnings" element={<Earnings />} /> */}
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/account" element={<AccountPage />} />
+            {/* <Route path="/profile" element={<Profile />} /> */}
+            {/* <Route path="/account" element={<AccountPage />} /> */}
             {/* <Route path="/community" element={<Community />} /> */}
             <Route path="/about" element={<About />} />
             <Route path="/support" element={<Support />} />
