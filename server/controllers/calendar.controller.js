@@ -1,39 +1,76 @@
 import { google } from "googleapis";
 import { OAuth2Client } from "google-auth-library";
+import calenderTokenModel from "../models/calender/calendertoken.js";
 
 const CLIENT_ID =
   "762015424404-a8lg6tnfh8dma5vps7dkaj63d4j0t7b3.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
 
-const REDIRECT_URI = "http://localhost:3000/auth/google/callback";
+const REDIRECT_URI = "http://localhost:8080/api/calender/auth/google/callback";
 
 const oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 const calendar = google.calendar({ version: "v3" });
 
 export const calenderLogin = (req, res) => {
   try {
+    const authUrl = oauth2Client.generateAuthUrl({
+      access_type: "offline",
+      scope: ["https://www.googleapis.com/auth/calendar"],
+    });
+
+    const data = req.headers.cookie.split(";");
+    let token;
+    // console.log(data);
+    data.map((item) => {
+      if (item.split("=")[0] == "token") {
+        // console.log(item.split("=")[1]);
+        token = item.split("=")[1];
+      }
+    });
+
+    res.header("Authorization", `Bearer ${token}`);
+    res.redirect(authUrl);
   } catch (err) {
     console.log(err);
   }
-  const authUrl = oauth2Client.generateAuthUrl({
-    access_type: "offline",
-    scope: ["https://www.googleapis.com/auth/calendar"],
-  });
-  res.redirect(authUrl);
 };
 
 export const saveCalenderToken = async (req, res) => {
-  const { code } = req.query;
   try {
-    console.log(oauth2Client);
+    const id = req.user.id;
+    const { code } = req.query;
     const { tokens } = await oauth2Client.getToken(code);
-    console.log(tokens);
-    oauth2Client.setCredentials(tokens);
-    // res.redirect("/set");
+    const data = new calenderTokenModel({
+      userid: id,
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+      scope: tokens.scope,
+      token_type: tokens.token_type,
+      expiry_date: tokens.expiry_date,
+    });
 
-    res.send("Authentication successful! You can now use the app.");
+    await data.save();
+
+    res.redirect("http://localhost:3000/availability");
   } catch (error) {
-    res.status(500).send("Authentication failed. Please try again.");
+    res.redirect("http://localhost:3000/availability?error=true");
+    res.status(500).json({ error: "Authentication Failed" });
+  }
+};
+
+export const getCalenderToken = async (req, res) => {
+  try {
+    const id = req.user.id;
+    const response = await calenderTokenModel.findOne(
+      {
+        userid: id,
+      },
+      { _id: 0, userid: 0 }
+    );
+
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error", err });
   }
 };
 
@@ -91,6 +128,7 @@ export const createCalenderEvent = async (req, res) => {
   }
 };
 
+// Later
 export const updateCalenderEvent = async (req, res) => {
   try {
     const data = req.body;

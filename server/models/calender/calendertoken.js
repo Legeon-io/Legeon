@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const calendarTokenSchema = new mongoose.Schema({
+  userid: { type: String, required: true },
   access_token: { type: String, required: true },
   refresh_token: { type: String, required: true },
   scope: { type: String, required: true },

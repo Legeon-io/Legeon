@@ -61,12 +61,12 @@ app.use("/api/events", scheduleRouter);
 // Services OneToOneCall Message
 app.use("/api/services", serviceRouter);
 
+// Calender
+app.use("/api/calender", calendarRouter);
+
 app.use("/api/userprofiles", userProfileRouter);
 app.use("/api/profiles", profilesRouter);
 app.use("/api/callservices", callServicesRouter);
-
-app.get("/api/calender", calendarRouter);
-app.get("/google/redirect", calendarRouter);
 
 app.use("/api/payments/razorpay", paymentsRouter);
 app.use("/api/accounts", paymentsRouter);
