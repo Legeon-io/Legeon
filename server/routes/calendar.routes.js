@@ -4,6 +4,7 @@ import {
   calenderLogin,
   createCalenderEvent,
   deleteCalenderEvent,
+  deleteCalenderToken,
   getCalenderToken,
   saveCalenderToken,
   updateCalenderEvent,
@@ -18,7 +19,10 @@ router.get("/", calenderLogin);
 
 router.get("/auth/google/callback", verifyCalendarToken, saveCalenderToken);
 
-router.get("/calender-token", verifyToken, getCalenderToken);
+router
+  .route("/calender-token")
+  .get(verifyToken, getCalenderToken)
+  .delete(verifyToken, deleteCalenderToken);
 
 router
   .route("/event")

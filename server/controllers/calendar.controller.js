@@ -58,6 +58,18 @@ export const saveCalenderToken = async (req, res) => {
   }
 };
 
+export const deleteCalenderToken = async (req, res) => {
+  try {
+    const id = req.user.id;
+    await calenderTokenModel.deleteOne({
+      userid: id,
+    });
+
+    res.status(200).json({ message: "Removed Token Successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error", err });
+  }
+};
 export const getCalenderToken = async (req, res) => {
   try {
     const id = req.user.id;

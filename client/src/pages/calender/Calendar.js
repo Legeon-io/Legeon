@@ -44,6 +44,24 @@ const CalendarAvailability = () => {
     }));
   };
 
+  const handleRemoveCalender = async () => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/calender/calender-token`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
+      if (response) {
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="w-full flex flex-col sm:gap-10 gap-5">
       <div className=" text-2xl p-2">Calendar Configuration</div>
@@ -120,9 +138,7 @@ const CalendarAvailability = () => {
                 <BsThreeDotsVertical />
               </button>
               <button
-                onClick={() => {
-                  console.log("disconnect");
-                }}
+                onClick={() => handleRemoveCalender()}
                 className={`${
                   showOption ? "opacity-100 visible" : "opacity-0 invisible"
                 } absolute bg-white hover:bg-gray-100 duration-300 translate-y-12 translate-x-8  shadow-lg px-2 py-2 rounded-lg`}
