@@ -34,15 +34,11 @@ import BookingService from "./pages/services/user_services/BookingService.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 import Dashboard from "./pages/dashboard/Dashboard.js";
 
-import AccountPage from "./pages/profile/profile-pages/AccountPage.js";
-
 import Availability from "./pages/calender/Availability.js";
 import Navbar from "./components/layout/navbar/Navbar.js";
-import EditProfile from "./pages/profile/profile-pages/EditProfile.js";
 import ServiceHub from "./pages/servicehub/ServiceHub";
 import NotFound from "./pages/NotFound";
-import ProfileDetails from "./pages/profile/profile-pages/ProfileDetails";
-import Edit_Profile from "./pages/profile/profile-pages/Edit_Profile";
+import Landing from "./pages/landing/Landing";
 
 const App = () => {
   const [clickMenu, setClickMenu] = useState(false);
@@ -56,7 +52,12 @@ const App = () => {
 
   useEffect(() => {
     const { pathname } = location;
-    if (pathname === "/" || pathname === "/404" || pathname === "/:username") {
+    if (
+      pathname === "/" ||
+      pathname === "/404" ||
+      pathname === "/landing" ||
+      pathname === "/:username"
+    ) {
       setSidebar(false);
     } else {
       setSidebar(true);
@@ -70,12 +71,12 @@ const App = () => {
       <div className={`${showSidebar ? "sm:pl-64" : ""}`}>
         <Routes>
           <Route exact path="/" element={<LandingPage />} />
+          <Route path="/landing" element={<Landing />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/availability" element={<Availability />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/services" element={<Services />} />
-            <Route path="/account" element={<ProfileDetails />} />
-            <Route path="/editprofile" element={<Edit_Profile />} />
+            <Route path="/profile" element={<Profile />} />
             {/* <Route path="/bookings" element={<Bookings />} /> */}
             {/* <Route path="/payments" element={<Payments />} /> */}
             {/* <Route path="/earnings" element={<Earnings />} /> */}
