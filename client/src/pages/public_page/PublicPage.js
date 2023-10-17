@@ -100,7 +100,7 @@ const PublicPage = () => {
         <div className="absolute sm:bottom-[-5rem] bottom-[-10rem] sm:right-[-5rem] right-[-10rem] rounded-full h-[20rem] w-[20rem] bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 circle" />
       </div>
       <div className="flex flex-col gap-10 justify-center items-center min-h-screen w-full">
-        <div className="relative w-[90%] flex flex-col gap-3 min-h-[35rem] lg:rounded-[10rem] rounded-[3rem] sm:p-0 p-5 text-white border-2 border-white inset-0 bg-gray-100 bg-opacity-20 transition-opacity">
+        <div className="relative w-[90%] flex flex-col gap-3 min-h-[35rem] lg:rounded-3xl rounded-[3rem] sm:p-0 p-5 text-white border-2 border-white inset-0 bg-gray-100 bg-opacity-20 transition-opacity">
           <img
             src={USER_LOGO}
             alt="Img Not Found"

@@ -14,9 +14,15 @@ const AboutMe = ({ backendData }) => {
     <div className="flex flex-col gap-5 text-lg py-5">
       <div className="flex justify-end">
         {wantEditAbout ? (
-          <RxCross1 className=" cursor-pointer" onClick={() => setWantEditAbout(false)} />
+          <RxCross1
+            className=" cursor-pointer"
+            onClick={() => setWantEditAbout(false)}
+          />
         ) : (
-          <HiOutlinePencil className=" cursor-pointer" onClick={() => setWantEditAbout(true)} />
+          <HiOutlinePencil
+            className=" cursor-pointer"
+            onClick={() => setWantEditAbout(true)}
+          />
         )}
       </div>
       <div>
@@ -42,7 +48,7 @@ const AboutMe = ({ backendData }) => {
                     }
                   )
                   .then((res) => {
-                    toast.success("Profile Updated Successfully");
+                    window.location.reload();
                   })
                   .catch((err) => {
                     console.log(err);

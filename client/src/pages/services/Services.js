@@ -31,6 +31,7 @@ export const Services = ({ sidebarVisible }) => {
     })();
   }, []);
 
+  const loading = false;
   const [pageState, setPageState] = useState(0);
   const [service, createService] = useState(false);
   const [serviceEmpty, setServiceEmpty] = useState(false);
@@ -128,25 +129,7 @@ export const Services = ({ sidebarVisible }) => {
                   </div>
                 </div>
               </div>
-              {pageState === 0 ? (
-                <PlaceHolderServices
-                  img={sample}
-                  title={"Create a 1:1 service "}
-                  discription={
-                    "Use legeon's simple and easy way to create a 1:1 communication with your mentor"
-                  }
-                />
-              ) : pageState === 1 ? (
-                <PlaceHolderServices
-                  img={sample}
-                  title={"Create a dm service"}
-                  discription={
-                    "Create personal dm's using legeon's dm service and interact with your people"
-                  }
-                />
-              ) : (
-                <CreateService />
-              )}
+              {content}
             </div>
           </div>
         </div>
