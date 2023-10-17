@@ -160,24 +160,12 @@ export const updateAccount = async (req, res) => {
       {
         $set: {
           mobile: data.mobile,
-          password: data.password,
         },
       },
       { upsert: true }
     );
 
-    if (update.nModified === 0) {
-      console.error("No documents were modified.");
-    } else if (update.nModified === 1) {
-      console.log("Password updated successfully.");
-    } else {
-      console.error(
-        "Multiple documents were modified. This should not happen."
-      );
-      console.log(update); // Log the update object for more information
-    }
-
-    if (req.user.isGoogle) {
+    if (!req.user.isGoogle) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(data.password, salt);
       await user.updateOne(

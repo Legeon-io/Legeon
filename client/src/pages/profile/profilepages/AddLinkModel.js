@@ -11,7 +11,7 @@ import {
 } from "react-icons/fi";
 import { RxCross1 } from "react-icons/rx";
 import { toast } from "react-toastify";
-import * as Yup from "yup"
+import * as Yup from "yup";
 import Input from "../../../components/helper/Input";
 
 const AddLinkModel = ({ setAddLink, backendData }) => {
@@ -82,15 +82,14 @@ const AddLinkModel = ({ setAddLink, backendData }) => {
             id: selectSocial.id,
           };
           backendData.link.push(linkItem);
+
           axios
             .put("http://localhost:8080/api/profiles/putprofile", backendData, {
               headers: {
                 Authorization: `Bearer ${Cookies.get("token")}`,
               },
             })
-            .then((res) => {
-              toast.success("Profile Updated Successfully");
-            })
+            .then(() => {})
             .catch((err) => {
               console.log(err);
               toast.error("Username Taken");

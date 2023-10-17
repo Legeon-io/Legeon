@@ -1,15 +1,41 @@
-import {AiOutlineCalendar, AiOutlinePlusCircle} from "react-icons/ai"
-import {FiMapPin} from "react-icons/fi"
+import { AiOutlineCalendar, AiOutlinePlusCircle } from "react-icons/ai";
+import { FiMapPin } from "react-icons/fi";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import axios from "axios";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TimezoneSelect from "react-timezone-select";
+import Cookies from "js-cookie";
 
 const CalendarAvailability = () => {
-    const [formData, setFormData] = useState({
+  const [data, setData] = useState([]);
+  const [showOption, setShowOption] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/calender/calender-token`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
+        if (response) {
+          console.log(response.data);
+          setData([...data, response.data]);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
+  const [formData, setFormData] = useState({
     selectedTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     bookingPeriod: "",
   });
-  console.log(formData);
 
   const handleFormChange = (fieldName, value) => {
     setFormData((prevData) => ({
@@ -18,7 +44,25 @@ const CalendarAvailability = () => {
     }));
   };
 
-    return (
+  const handleRemoveCalender = async () => {
+    try {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/calender/calender-token`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
+      if (response) {
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return (
     <div className="w-full flex flex-col sm:gap-10 gap-5">
       <div className=" text-2xl p-2">Calendar Configuration</div>
       <div className="flex flex-col gap-5 sm:px-10 px-2">
@@ -57,12 +101,53 @@ const CalendarAvailability = () => {
           </div>
         </div>
       </div>
-      <div className=" text-2xl p-2">Calendar</div>
-      <div className="sm:px-10 px-3">
-        <button className="w-[15rem] p-2 flex gap-2 border-2 rounded-3xl items-center justify-center bg-gray-200">
-          <AiOutlinePlusCircle />
-          <span>Add Calendar Account</span>
-        </button>
+      <div>
+        <div className=" text-2xl p-2">Calendar</div>
+        {!data[0] ? (
+          <div className="sm:px-10 px-3">
+            <button
+              onClick={() => {
+                window.open(
+                  `${process.env.REACT_APP_API_URL}/api/calender`,
+                  "_self"
+                );
+              }}
+              className="w-[15rem] p-2 flex gap-2 border-2 rounded-3xl items-center justify-center bg-gray-200"
+            >
+              <AiOutlinePlusCircle />
+              <span>Connect Calendar Account</span>
+            </button>
+          </div>
+        ) : (
+          <div className="flex gap-2 items-center justify-between w-1/2">
+            <div className="flex gap-2 items-center">
+              <img src="icons/googleCalendarIcon.svg" width={50} />
+              <div>
+                <h1 className="font-bold">Google Calendar</h1>
+                <h1>{data[0].scope}</h1>
+              </div>
+            </div>
+
+            <div className="relative flex flex-col items-center">
+              <button
+                onClick={() => {
+                  setShowOption(!showOption);
+                }}
+                className="bg-gray-200 px-1 py-3 rounded-full hover:bg-gray-300  duration-300"
+              >
+                <BsThreeDotsVertical />
+              </button>
+              <button
+                onClick={() => handleRemoveCalender()}
+                className={`${
+                  showOption ? "opacity-100 visible" : "opacity-0 invisible"
+                } absolute bg-white hover:bg-gray-100 duration-300 translate-y-12 translate-x-8  shadow-lg px-2 py-2 rounded-lg`}
+              >
+                Disconnect
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ const verifyToken = async (req, res, next) => {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(" ")[1];
       const verify = await jwt.verify(token, process.env.JWT_KEY);
+      console.log(verify);
       req.user = verify;
 
       next();

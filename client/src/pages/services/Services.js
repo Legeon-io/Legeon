@@ -1,16 +1,74 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Services.css";
 import "../index.css";
 import { useState } from "react";
 import sample from "../../assets/img-empty-state-video.svg";
 import PlaceHolderServices from "./PlaceHolderServices";
 import CreateService from "./createService/CreateService";
+import CreateMessageService from "./createService/CreateMessageService";
+import { ServiceList } from "./ServiceList";
+import ServiceCards from "../../components/common/ServiceCards";
+import Cookies from "js-cookie";
+import axios from "axios";
 export const Services = ({ sidebarVisible }) => {
-  const loading = true;
+  const [data, setData] = useState([]);
+  //To get all routes
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/services/onetoonecall`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
+        if (response) setData(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
+  const loading = false;
   const [pageState, setPageState] = useState(0);
+  const [service, createService] = useState(false);
+  const [serviceEmpty, setServiceEmpty] = useState(false);
+
   function buttonSubmit(number) {
     setPageState(number);
   }
+
+  let content;
+  if (pageState === 0 && service === false && serviceEmpty === true) {
+    content = (
+      <PlaceHolderServices
+        img={sample}
+        title={"Create a 1:1 service "}
+        discription={
+          "Use legeon's simple and easy way to create a 1:1 communication with your mentor"
+        }
+      />
+    );
+  } else if (pageState === 1 && service === false && serviceEmpty === true) {
+    content = (
+      <PlaceHolderServices
+        img={sample}
+        title={"Create a dm service"}
+        discription={
+          "Create personal dm's using legeon's dm service and interact with your people"
+        }
+      />
+    );
+  } else if (pageState === 0 && service === true) {
+    content = <CreateService />;
+  } else if (pageState === 0 && service === false && serviceEmpty === false) {
+    content = <ServiceList list={data} />;
+  } else {
+    content = <CreateMessageService />;
+  }
+
   return (
     <>
       {loading ? (
@@ -71,25 +129,7 @@ export const Services = ({ sidebarVisible }) => {
                   </div>
                 </div>
               </div>
-              {pageState === 0 ? (
-                <PlaceHolderServices
-                  img={sample}
-                  title={"Create a 1:1 service "}
-                  discription={
-                    "Use legeon's simple and easy way to create a 1:1 communication with your mentor"
-                  }
-                />
-              ) : pageState === 1 ? (
-                <PlaceHolderServices
-                  img={sample}
-                  title={"Create a dm service"}
-                  discription={
-                    "Create personal dm's using legeon's dm service and interact with your people"
-                  }
-                />
-              ) : (
-                <CreateService />
-              )}
+              {content}
             </div>
           </div>
         </div>

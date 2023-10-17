@@ -6,13 +6,18 @@ import Input from "../../../components/helper/Input";
 import axios from "axios";
 import Cookie from "js-cookie";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const Account = () => {
+  const showPasswordField = useSelector(
+    (state) => state.profile.userData.isGoogle
+  );
+
   const [wantEditAccount, setWantEditAccount] = useState(false);
-  const [backendAccouont, setBackendAccount] = useState({
-    email: "shailendra",
-    mobile: "987395",
-    passowrd: "Abc@123",
+  const [backendAccount, setBackendAccount] = useState({
+    email: "",
+    mobile: "",
+    passowrd: "",
   });
 
   useEffect(() => {
@@ -23,12 +28,11 @@ const Account = () => {
         },
       })
       .then((res) => {
-        const { email, data } = res.data[0];
-        const { mobile } = data;
+        console.log(res.data);
         setBackendAccount({
-          email: email,
-          mobile: mobile,
-          passowrd: "Abc@123",
+          ...backendAccount,
+          email: res.data[0].email,
+          mobile: res.data[0].data.mobile,
         });
       })
       .catch((err) => {
@@ -40,15 +44,21 @@ const Account = () => {
     <div className="flex flex-col gap-5 text-lg py-5">
       <div className="flex justify-end">
         {wantEditAccount ? (
-          <RxCross1 className=" cursor-pointer" onClick={() => setWantEditAccount(false)} />
+          <RxCross1
+            className=" cursor-pointer"
+            onClick={() => setWantEditAccount(false)}
+          />
         ) : (
-          <HiOutlinePencil className=" cursor-pointer" onClick={() => setWantEditAccount(true)} />
+          <HiOutlinePencil
+            className=" cursor-pointer"
+            onClick={() => setWantEditAccount(true)}
+          />
         )}
       </div>
       <div className="">
         {wantEditAccount ? (
           <Formik
-            initialValues={backendAccouont}
+            initialValues={backendAccount}
             onSubmit={(values) => {
               axios
                 .put(
@@ -72,9 +82,14 @@ const Account = () => {
             {() => (
               <Form className="flex flex-col gap-5 items-center">
                 <div className="col-span-3 flex flex-col gap-3 w-full">
-                  <Input type="text" name="email" label="Email" />
+                  <div className="">
+                    <label htmlFor="">Email</label>
+                    <p>{backendAccount.email}</p>
+                  </div>
                   <Input type="text" name="mobile" label="Mobile" />
-                  <Input type="password" name="passowrd" label="Passowrd" />
+                  {!showPasswordField && (
+                    <Input type="password" name="password" label="Password" />
+                  )}
                 </div>
                 <button
                   type="submit"
@@ -89,16 +104,18 @@ const Account = () => {
           <div className="flex flex-col gap-5">
             <div className="">
               <label htmlFor="">Email</label>
-              <p>{backendAccouont.email}</p>
+              <p>{backendAccount.email}</p>
             </div>
             <div className="">
               <label htmlFor="">Mobile Number</label>
-              <p>{backendAccouont.mobile}</p>
+              <p>{backendAccount.mobile}</p>
             </div>
-            <div className="">
-              <label htmlFor="">Password</label>
-              <p>{backendAccouont.passowrd}</p>
-            </div>
+            {!showPasswordField && (
+              <div className="">
+                <label htmlFor="">Password</label>
+                <p>********</p>
+              </div>
+            )}
           </div>
         )}
       </div>

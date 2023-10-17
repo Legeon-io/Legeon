@@ -83,7 +83,7 @@ const SignIn = () => {
                     <button
                       onClick={() => {
                         window.open(
-                          "http://localhost:8080/auth/google",
+                          `${process.env.REACT_APP_API_URL}/auth/google`,
                           "_self"
                         );
                       }}

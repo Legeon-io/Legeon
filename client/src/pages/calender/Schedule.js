@@ -9,19 +9,21 @@ import { toast } from "react-toastify";
 
 const Schedule = () => {
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/events/getevents", {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setSheduleData(res.data.events);
-      })
-      .catch((err) => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/events/getevents`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
+        if (response) setSheduleData(response.data.events);
+      } catch (err) {
         console.log(err);
-      });
+      }
+    })();
   }, []);
 
   const days = [
@@ -64,25 +66,21 @@ const Schedule = () => {
     }))
   );
 
-  const handleSave = () => {
-    axios
-      .put(
-        "http://localhost:8080/api/events/updateevents",
+  const handleSave = async () => {
+    try {
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/events/updateevents`,
         { data: sheduleData },
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
         }
-      )
-      .then((res) => {
-        console.log(res.data);
-        toast.success("Updated Slots");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    console.log(sheduleData);
+      );
+      if (response) toast.success("Updated Slots");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
