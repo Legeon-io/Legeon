@@ -3,12 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Sidebar.css";
 import { LuAlbum, LuLayoutDashboard } from "react-icons/lu";
 import {
-  AiOutlineBell,
   AiOutlineBook,
   AiOutlineCalendar,
   AiOutlineCreditCard,
-  AiOutlineGift,
-  AiOutlineMail,
   AiOutlineMessage,
 } from "react-icons/ai";
 import { BsArrowUpRight } from "react-icons/bs";
@@ -56,7 +53,7 @@ export const Sidebar = ({ clickMenu }) => {
     setServicesOpen(false);
     setProfileOpen(!profileOpen);
   };
-  
+
   return (
     <>
       <div
@@ -65,12 +62,12 @@ export const Sidebar = ({ clickMenu }) => {
       >
         <div className="flex flex-col justify-between pt-20 gap-10 text-base p-5 w-64 cursor-pointer">
           <div className="flex flex-col gap-5">
-            <div className="flex justify-center">
+            <Link to="/public" className="flex justify-center">
               <button className=" flex gap-3 items-center  justify-center border-2 border-indigo-500 p-2 w-full rounded-2xl shadow-lg shadow-gray-300 text-lg">
                 <BsArrowUpRight />
                 My Service Hub
               </button>
-            </div>
+            </Link>
             <ul className="flex flex-col">
               <ul className="flex flex-col">
                 {/* Dashboard */}
@@ -141,39 +138,15 @@ export const Sidebar = ({ clickMenu }) => {
                   <div>Availability</div>
                 </Link>
                 {/* Profile */}
-                <li
-                  className={`${
-                    profileOpen ? "bg-gray-400" : "hover:bg-gray-200"
-                  } flex justify-between items-center p-2 rounded`}
-                  onClick={toggleProfile}
+                <Link
+                  to="/profile"
+                  className="flex justify-between items-center p-2 rounded hover:bg-gray-200"
                 >
                   <div className="flex items-center gap-2">
                     <CgProfile className=" " />
                     <div className="bg-gradient-to-r ">Profile</div>
                   </div>
-                  <IoIosArrowUp
-                    className={`${profileOpen ? "rotate-180" : ""}`}
-                  />
-                </li>
-                <Zoom>
-                  {profileOpen && (
-                    <ul className="flex flex-col">
-                      {/* Account */}
-                      <Link
-                        to="/account"
-                        className="flex items-center gap-2 p-2 hover:bg-gray-200 rounded ps-10"
-                      >
-                        <AiOutlineBook className=" " />
-                        <div className="bg-gradient-to-r ">Account</div>
-                      </Link>
-                      {/* Edit Profile */}
-                      <Link to="/editprofile" className="flex items-center gap-2 p-2 hover:bg-gray-200 rounded ps-10">
-                        <AiOutlineCalendar className=" " />
-                        <div className="bg-gradient-to-r ">Edit Profile</div>
-                      </Link>
-                    </ul>
-                  )}
-                </Zoom>
+                </Link>
               </ul>
             </ul>
           </div>
@@ -207,12 +180,12 @@ export const Sidebar = ({ clickMenu }) => {
           {clickMenu && (
             <div className="flex flex-col justify-between pt-20 gap-10 text-sm p-5 w-64 cursor-pointer">
               <div className="flex flex-col gap-5">
-                <div className="flex justify-center">
+                <Link to="/landing" className="flex justify-center">
                   <button className=" flex gap-3 items-center  justify-center border-2 border-indigo-500 p-2 w-full rounded-2xl shadow-lg shadow-gray-300 text-base">
                     <BsArrowUpRight />
                     My Service Hub
                   </button>
-                </div>
+                </Link>
                 <ul className="flex flex-col">
                   <ul className="flex flex-col">
                     {/* Dashboard */}
@@ -276,7 +249,8 @@ export const Sidebar = ({ clickMenu }) => {
                       <div>Availability</div>
                     </li>
                     {/* Profile */}
-                    <li
+                    <Link
+                      to="/profile"
                       className={`${
                         profileOpen ? "bg-gray-400" : "hover:bg-gray-200"
                       } flex justify-between items-center p-2 rounded`}
@@ -286,10 +260,7 @@ export const Sidebar = ({ clickMenu }) => {
                         <AiOutlineBook className=" " />
                         <div className="bg-gradient-to-r ">Profile</div>
                       </div>
-                      <IoIosArrowUp
-                        className={`${profileOpen ? "rotate-180" : ""}`}
-                      />
-                    </li>
+                    </Link>
                     <Zoom>
                       {profileOpen && (
                         <ul className="flex flex-col">

@@ -22,12 +22,14 @@ const authSlice = createSlice({
 export const userSignInAction = (userData, navigate) => async (dispatch) => {
   try {
     console.log(userData);
+    
     const response = await axios.post(
       `${process.env.REACT_APP_API_URL}/api/users/login`,
       userData,
       { withCredentials: true }
     );
 
+    console.log(response);
     if (response.status === 200) {
       dispatch(setProfile(response.data.user));
       toast.success("Login Successfully !!!");

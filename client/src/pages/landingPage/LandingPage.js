@@ -79,7 +79,8 @@ const LandingPage = ({ sidebarVisible }) => {
 
   return (
     <>
-      {/* Popup containers for login, register, and forget password */}
+      <div>
+        {/* Popup containers for login, register, and forget password */}
       <div>
         {showLogin && (
           <div className="popup-container">
@@ -102,6 +103,7 @@ const LandingPage = ({ sidebarVisible }) => {
       </div>
 
       {/*  Landing page code -------------------------- */}
+      
       <div className="flex flex-col gap-20 select-none">
         {/* First Component */}
         <div>
@@ -493,6 +495,7 @@ const LandingPage = ({ sidebarVisible }) => {
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       {/* Fifty Compontent */}

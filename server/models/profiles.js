@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
 
+const linkDetails = new mongoose.Schema(
+  {
+    href: String,
+    id: String,
+  },
+  {
+    _id: false,
+  }
+);
 const profileSchema = new mongoose.Schema({
   profession: { type: String },
   introduction: { type: String },
@@ -10,6 +19,7 @@ const profileSchema = new mongoose.Schema({
     type: Number,
     default: null,
   },
+  link: [linkDetails],
 });
 
 const profileModel = mongoose.model("profile", profileSchema);
