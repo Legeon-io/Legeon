@@ -88,7 +88,7 @@ const Schedule = () => {
   return (
     <div className="grid 2xl:grid-cols-3 grid-cols-1 p-5 h-full gap-5 text-lg">
       {/* Left Side */}
-      <div className="flex flex-col gap-5 border-2 py-5 col-span-2">
+      <div className="flex flex-col gap-5 border-2 py-5 col-span-2 bg-gray-50">
         <div className="flex justify-end px-16">
           <button
             onClick={handleSave}
@@ -121,7 +121,7 @@ const Schedule = () => {
                     return updatedScheduleData;
                   })
                 }
-                className="h-4 w-4 border-2 border-black"
+                className="h-5 w-5 border-2 border-black"
               />
               {dayData.day}
             </div>
@@ -134,6 +134,7 @@ const Schedule = () => {
               }}
               validationSchema={sheduleSchema}
               onSubmit={(values, { resetForm }) => {
+                if (!dayData.selected) return false;
                 setSheduleData((prevScheduleData) => {
                   const updatedData = prevScheduleData.map((item) => {
                     if (item.day === dayData.day) {
@@ -155,6 +156,7 @@ const Schedule = () => {
                     <Field
                       as="select"
                       name="fromTime"
+                      disabled={!dayData.selected}
                       className="w-[6rem] border-2 border-black rounded"
                     >
                       <option value="">From</option>
@@ -167,6 +169,7 @@ const Schedule = () => {
                     <Field
                       as="select"
                       name="fromPeriod"
+                      disabled={!dayData.selected}
                       className="w-[6rem] border-2 border-black rounded"
                     >
                       <option value="">Period</option>
@@ -179,6 +182,7 @@ const Schedule = () => {
                     <Field
                       as="select"
                       name="toTime"
+                      disabled={!dayData.selected}
                       className="w-[6rem] border-2 border-black rounded"
                     >
                       <option value="">From</option>
@@ -191,6 +195,7 @@ const Schedule = () => {
                     <Field
                       as="select"
                       name="toPeriod"
+                      disabled={!dayData.selected}
                       className="w-[6rem] border-2 border-black rounded"
                     >
                       <option value="">Period</option>
@@ -208,67 +213,69 @@ const Schedule = () => {
         ))}
       </div>
       {/* Right Side */}
-      <div className="flex flex-col border-2">
+      <div className="flex flex-col justify-between border-2 py-5  bg-gray-50">
         <div className="text-center font-bold text-2xl">Available Slot</div>
-        {sheduleData.map((dayData, item) => (
-          <div
-            key={item}
-            className="flex xs:flex-row flex-col justify-between xs:px-4 px-1  py-2"
-          >
-            <div className="font-bold">{dayData.day}</div>
-            {dayData.selected ? (
-              <>
-                {dayData.timeSlots.length > 0 ? (
-                  <>
-                    <div className="flex flex-col gap-2">
-                      {dayData.timeSlots.map((slot, i) => (
-                        <div key={i} className="flex  items-center gap-2">
-                          <span className="flex sm:gap-1">
-                            <div>
-                              {slot.fromTime}
-                              {slot.fromPeriod}
-                            </div>
-                            <div className="sm:flex ">:</div>
-                            <div>
-                              {slot.toTime}
-                              {slot.toPeriod}
-                            </div>
-                          </span>
-                          <button
-                            onClick={() =>
-                              setSheduleData((prevScheduleData) => {
-                                const updatedScheduleData =
-                                  prevScheduleData.map((item) => {
-                                    if (item.day === dayData.day) {
-                                      return {
-                                        ...item,
-                                        timeSlots: [
-                                          ...item.timeSlots.slice(0, i),
-                                          ...item.timeSlots.slice(i + 1),
-                                        ],
-                                      };
-                                    }
-                                    return item;
-                                  });
-                                return updatedScheduleData;
-                              })
-                            }
-                          >
-                            <BsTrash size={18} />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <div>Select Slots</div>
-                )}
-              </>
-            ) : (
-              <div>Unavailable</div>
-            )}
-          </div>
-        ))}
+        <div className="flex flex-col">
+          {sheduleData.map((dayData, item) => (
+            <div
+              key={item}
+              className="flex xs:flex-row flex-col justify-between xs:px-4 px-1  py-2"
+            >
+              <div className="font-bold">{dayData.day}</div>
+              {dayData.selected ? (
+                <>
+                  {dayData.timeSlots.length > 0 ? (
+                    <>
+                      <div className="flex flex-col gap-2">
+                        {dayData.timeSlots.map((slot, i) => (
+                          <div key={i} className="flex  items-center gap-2">
+                            <span className="flex sm:gap-1">
+                              <div>
+                                {slot.fromTime}
+                                {slot.fromPeriod}
+                              </div>
+                              <div className="sm:flex ">:</div>
+                              <div>
+                                {slot.toTime}
+                                {slot.toPeriod}
+                              </div>
+                            </span>
+                            <button
+                              onClick={() =>
+                                setSheduleData((prevScheduleData) => {
+                                  const updatedScheduleData =
+                                    prevScheduleData.map((item) => {
+                                      if (item.day === dayData.day) {
+                                        return {
+                                          ...item,
+                                          timeSlots: [
+                                            ...item.timeSlots.slice(0, i),
+                                            ...item.timeSlots.slice(i + 1),
+                                          ],
+                                        };
+                                      }
+                                      return item;
+                                    });
+                                  return updatedScheduleData;
+                                })
+                              }
+                            >
+                              <BsTrash size={18} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <div>Select Slots</div>
+                  )}
+                </>
+              ) : (
+                <div>Unavailable</div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

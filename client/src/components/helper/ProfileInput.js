@@ -1,20 +1,19 @@
 import React from "react";
 import "./helper.css";
 import { ErrorMessage, Field } from "formik";
-const Input = ({ type, disabled, name, label, className, ...others }) => {
+const ProfileInput = ({ id, type, value, name, label }) => {
   return (
     <div className="relative">
       <Field
-        id={name}
-        disabled={disabled}
+        id={id}
         type={type}
         name={name}
-        className={`${className} inputfield_css peer`}
+        value={value}
+        className="inputfield_css peer"
         required="required"
         autoComplete="off"
-        {...others}
       />
-      <label htmlFor={name} className="labelfeild_css">
+      <label htmlFor={id} className="labelfeild_css">
         {label}
       </label>
       <div className="text-red-700 text-[12px]">
@@ -24,4 +23,4 @@ const Input = ({ type, disabled, name, label, className, ...others }) => {
   );
 };
 
-export default Input;
+export default ProfileInput;

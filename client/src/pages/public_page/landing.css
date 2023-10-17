@@ -1,0 +1,48 @@
+* {
+  font-family: "Lexend", sans-serif;
+}
+.circle {
+  animation: circleAnimcation 3s infinite alternate;
+}
+
+@keyframes circleAnimcation {
+  0% {
+    scale: 80%;
+    rotate: 0deg;
+  }
+  100% {
+    scale: 100%;
+    rotate: 360deg;
+  }
+}
+
+.glow-border {
+  border: 2px double white;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow 0.3s;
+}
+
+.glow-border:hover {
+  box-shadow: 0 0 30px white;
+}
+
+.like-glowing{
+  border: 2px double white;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow 0.3s;
+}
+
+.like-glowing:hover{
+  box-shadow: 0 0 30px red
+}
+
+.follow-glowing{
+  border: 2px double white;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow 0.3s;
+}
+
+.follow-glowing:hover{
+  box-shadow: 0 0 30px blue
+}
+

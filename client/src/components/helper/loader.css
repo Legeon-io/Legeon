@@ -1,0 +1,58 @@
+  /* Styling for the entire section of the webpage */
+  section {
+    animation: animateBg 10s linear infinite; /* Applying animation to change background color */
+  }
+  
+  /* Keyframes animation for background color */
+  @keyframes animateBg {
+    0% {
+      filter: rotate(0deg); /* Initial hue rotation */
+    }
+    100% {
+      filter: rotate(360deg); /* Hue rotation at 100% */
+    }
+  }
+  
+  /* Styling for the loader element */
+  section .loader {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+  
+  /* Styling for each span element inside the loader */
+  section .loader span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(calc(18deg * var(--i))); /* Rotating each span */
+  }
+  
+  /* Styling for the circular elements inside the loader */
+  section .loader span::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background:  rgb(226,74,166);
+    box-shadow: 0 0 10px rgb(226,74,166), 0 0 20px rgb(226,74,166), 0 0 30px rgb(226,74,166),
+      0 0 40px rgb(226,74,166), 0 0 50px rgb(226,74,166);
+    animation: animate 2s linear infinite; /* Applying animation */
+    animation-delay: calc(0.1s * var(--i)); /* Delaying each animation */
+  }
+  
+  /* Keyframes animation for scaling the circular elements */
+  @keyframes animate {
+    0% {
+      transform: scale(1); /* Starting scale */
+    }
+    100% {
+      transform: scale(0); /* Ending scale */
+    }
+  }
+  
