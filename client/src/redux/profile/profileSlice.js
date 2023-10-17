@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   userData: {},
+  loading : false,
 };
 
 const profileSlice = createSlice({
@@ -18,7 +19,7 @@ const profileSlice = createSlice({
 export const getUserDetails = (token) => async (dispatch) => {
   try {
     const response = await axios.get(
-      "http://localhost:8080/api/users/getuser",
+      `${process.env.REACT_APP_API_URL}/api/users/getuser`,
 
       {
         headers: {
@@ -26,9 +27,7 @@ export const getUserDetails = (token) => async (dispatch) => {
         },
       }
     );
-
     if (response.status === 200) {
-      console.log(response.data);
       dispatch(setProfile(response.data));
     }
   } catch (error) {

@@ -87,6 +87,7 @@ export const updateUserProfile = async (req, res) => {
   try {
     const userData = req.user;
     const data = req.body;
+    console.log(data);
 
     const response = await profile.updateOne(
       { _id: mongoose.Types.ObjectId(userData.id) },
@@ -95,6 +96,7 @@ export const updateUserProfile = async (req, res) => {
           profession: data.profession,
           introduction: data.intro,
           bio: data.bio,
+          link: data.link,
         },
       },
       { upsert: true }

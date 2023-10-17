@@ -5,7 +5,7 @@ import { Form, Formik } from "formik";
 import logo from "../../../assets/logo.png";
 import { signinSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
-import {RxCross1} from "react-icons/rx"
+import { RxCross1 } from "react-icons/rx";
 
 import { useNavigate } from "react-router-dom";
 import {
@@ -83,7 +83,7 @@ const SignIn = () => {
                     <button
                       onClick={() => {
                         window.open(
-                          "http://localhost:8080/auth/google",
+                          `${process.env.REACT_APP_API_URL}/auth/google`,
                           "_self"
                         );
                       }}

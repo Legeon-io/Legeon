@@ -31,30 +31,26 @@ export const AccountPage = (props) => {
     // .required("Password is required"),
   });
 
-  const handleSubmit = (values) => {
-    console.log(values);
-    axios
-      .put(
-        "http://localhost:8080/api/profiles/updateaccount",
+  const handleSubmit = async (values) => {
+    try {
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/profiles/updateaccount`,
         { values },
         {
           headers: {
             Authorization: `Bearer ${Cookie.get("token")}`,
           },
         }
-      )
-      .then((res) => {
-        console.log(res.data);
-        toast.success("Account Update Successful");
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Something Went Wrong");
-      });
+      );
+      if (response) toast.success("Account Update Successful");
+    } catch (err) {
+      console.log(err);
+      toast.error("Something Went Wrong");
+    }
   };
 
   return (
-    <div className="flex flex-col row-span-5 items-center translate-x-10 md:translate-x-0">
+    <div>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -76,95 +72,96 @@ const FormikForm = (props) => {
     setIsEditing(!isEditing);
   };
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/profiles/getaccount", {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setaccData(res.data);
-        props.setFieldValue("mobile", res.data[0].data.mobile);
-      })
-      .catch((err) => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/profiles/getaccount`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookie.get("token")}`,
+            },
+          }
+        );
+        if (response) {
+          setaccData(response.data);
+          props.setFieldValue("mobile", response.data[0].data.mobile);
+        }
+      } catch (err) {
         console.log(err);
-      });
+      }
+    })();
   }, []);
 
   return (
-    <Form className="w-full md:w-8/12 md:mx-auto mt-0 space-y-6 p-5 md:p-20 justify-center ">
-      <div className="flex w-full justify-between">
-        <h1 className="text-3xl md:text-5xl font-bold">Account</h1>
-        <button type="button" onClick={handleEdit} className="ml-2 px-4 py-2">
-          {isEditing ? <AiOutlineSave size={40} /> : <BiSolidEdit size={40} />}
-        </button>
-      </div>
+    <div className="bg-gray-50 text-black rounded-lg drop-shadow-xl">
+      <Form className="flex flex-col gap-10 p-10">
+        <div className="flex items-center text-4xl">
+          <h1>Account</h1>
+          <button type="button" onClick={handleEdit} className="ml-2 px-4 py-2">
+            {isEditing ? <AiOutlineSave /> : <BiSolidEdit />}
+          </button>
+        </div>
 
-      <div className="flex items-center   space-x-2 ">
-        <label className="md:w-1/3 md:text-2xl">Email</label>
-
-        <div className="w-2/3 md:text-xl">{accData[0]?.email}</div>
-      </div>
-
-      <div className="flex items-center space-x-2">
-        <label className="md:w-1/3 md:text-2xl">Mobile</label>
-        {isEditing ? (
-          <div className="md:w-2/3 w-full">
-            <Field
-              type="number"
-              name="mobile"
-              className="border border-gray-300 px-2 py-2 w-full rounded"
-            />
-            <ErrorMessage
-              name="mobile"
-              component="div"
-              className="text-red-600 text-sm"
-            />
+        <div className="flex flex-col gap-5">
+          <div className="flex md:flex-row flex-col justify-between">
+            <label>Email:</label>
+            <div className="xs:text-base text-sm">{accData[0]?.email}</div>
           </div>
-        ) : (
-          <div className="w-2/3 md:text-lg">{accData[0]?.data.mobile}</div>
-        )}
-      </div>
 
-      {!profile.isGoogle && (
-        <div className="flex items-center space-x-2">
-          <label
-            className={` md:w-1/3  md:text-2xl ${
-              isEditing ? "text-xs font-bold" : "text-sm"
-            }  md:font-thin`}
-          >
-            Password
-          </label>
-          {isEditing ? (
-            <div className="md:w-2/3 w-full">
-              <Field
-                type="password"
-                name="password"
-                required
-                className="border border-gray-300 px-2 py-2 w-full rounded"
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-600 text-sm"
-              />
+          <div className="flex md:flex-row flex-col justify-between">
+            <label>Mobile:</label>
+            {isEditing ? (
+              <div className="md:w-[60%] w-full">
+                <Field
+                  type="text"
+                  name="mobile"
+                  className="border border-gray-300 px-2 py-2 w-full rounded"
+                />
+                <ErrorMessage
+                  name="mobile"
+                  component="div"
+                  className="text-red-600 text-sm"
+                />
+              </div>
+            ) : (
+              <div>{accData[0]?.data.mobile || "Not Added"}</div>
+            )}
+          </div>
+
+          {!profile.isGoogle && (
+            <div className="flex md:flex-row flex-col justify-between">
+              <label>Password:</label>
+              {isEditing ? (
+                <div className="md:w-[60%] w-full">
+                  <Field
+                    type="password"
+                    name="password"
+                    required
+                    className="border border-gray-300 px-2 py-2 w-full rounded"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="text-red-600 text-sm"
+                  />
+                </div>
+              ) : (
+                <div>{accData[0]?.data.password || "******"}</div>
+              )}
             </div>
-          ) : (
-            <div className="w-2/3 md:text-lg"></div>
+          )}
+
+          {isEditing && (
+            <button
+              type="submit"
+              className="border border-black p-2 rounded-md w-1/4 hover:bg-gray-200"
+            >
+              Submit
+            </button>
           )}
         </div>
-      )}
-
-      {isEditing && (
-        <button
-          type="submit"
-          className="border border-black p-2 rounded-md w-1/4 hover:bg-gray-200"
-        >
-          Submit
-        </button>
-      )}
-    </Form>
+      </Form>
+    </div>
   );
 };
 

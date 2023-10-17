@@ -21,12 +21,15 @@ const authSlice = createSlice({
 
 export const userSignInAction = (userData, navigate) => async (dispatch) => {
   try {
+    console.log(userData);
+    
     const response = await axios.post(
-      "http://localhost:8080/api/users/login",
+      `${process.env.REACT_APP_API_URL}/api/users/login`,
       userData,
       { withCredentials: true }
     );
 
+    console.log(response);
     if (response.status === 200) {
       dispatch(setProfile(response.data.user));
       toast.success("Login Successfully !!!");
@@ -53,7 +56,7 @@ export const userSignUpAction = (userData) => async (dispatch) => {
   try {
     console.log(userData);
     const response = await axios.post(
-      "http://localhost:8080/api/users/signup",
+      `${process.env.REACT_APP_API_URL}/api/users/signup`,
       userData
     );
     console.log(response);
@@ -75,7 +78,7 @@ export const userSignUpAction = (userData) => async (dispatch) => {
 export const userValidEmail = (userData) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/users/validEmail",
+      `${process.env.REACT_APP_API_URL}/api/users/validEmail`,
       userData
     );
     if (response.status == 200) {
@@ -94,7 +97,7 @@ export const userValidEmail = (userData) => async (dispatch) => {
 export const userValidOTP = (userData) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/users/verifyOTP",
+      `${process.env.REACT_APP_API_URL}/api/users/verifyOTP`,
       userData
     );
     if (response.status === 200) {
@@ -115,7 +118,7 @@ export const userValidOTP = (userData) => async (dispatch) => {
 export const userUpdatePassword = (userData) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/users/updatePassword",
+      `${process.env.REACT_APP_API_URL}/api/users/updatePassword`,
       userData
     );
     if (response.status === 200) {
