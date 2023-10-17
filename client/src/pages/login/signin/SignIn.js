@@ -5,7 +5,7 @@ import { Form, Formik } from "formik";
 import logo from "../../../assets/logo.png";
 import { signinSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
-import {RxCross1} from "react-icons/rx"
+import { RxCross1 } from "react-icons/rx";
 
 import { useNavigate } from "react-router-dom";
 import {

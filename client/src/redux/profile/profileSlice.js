@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   userData: {},
+  loading : false,
 };
 
 const profileSlice = createSlice({

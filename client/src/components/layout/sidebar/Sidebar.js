@@ -3,12 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Sidebar.css";
 import { LuAlbum, LuLayoutDashboard } from "react-icons/lu";
 import {
-  AiOutlineBell,
   AiOutlineBook,
   AiOutlineCalendar,
   AiOutlineCreditCard,
-  AiOutlineGift,
-  AiOutlineMail,
   AiOutlineMessage,
 } from "react-icons/ai";
 import { BsArrowUpRight } from "react-icons/bs";
@@ -65,7 +62,7 @@ export const Sidebar = ({ clickMenu }) => {
       >
         <div className="flex flex-col justify-between pt-20 gap-10 text-base p-5 w-64 cursor-pointer">
           <div className="flex flex-col gap-5">
-            <Link to="/landing" className="flex justify-center">
+            <Link to="/public" className="flex justify-center">
               <button className=" flex gap-3 items-center  justify-center border-2 border-indigo-500 p-2 w-full rounded-2xl shadow-lg shadow-gray-300 text-lg">
                 <BsArrowUpRight />
                 My Service Hub
