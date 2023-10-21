@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import {
@@ -61,13 +61,35 @@ const AddLinkModel = ({ setAddLink, backendData }) => {
   const [selectSocial, setSelectSocial] = useState(allSocials[0]);
 
   const handleSocialClick = (data) => {
-    const selectedItem = backendData.link.find((item) => item.id === data.id);
+    setSelectSocial(data);
+  };
 
-    if (!selectedItem) {
-      setSelectSocial(data);
+  const getSocialsItem = (id) => {
+    switch (id) {
+      case "linkedin":
+        return {
+          label: "LinkedIn",
+        };
+      case "twitter":
+        return {
+          label: "Twitter",
+        };
+      case "youtube":
+        return {
+          label: "Youtube",
+        };
+      case "instagram":
+        return {
+          label: "Instagram",
+        };
+      case "facebook":
+        return {
+          label: "Facebook",
+        };
+      default:
+        return null;
     }
   };
-  console.log(selectSocial);
 
   return (
     <>
@@ -77,24 +99,43 @@ const AddLinkModel = ({ setAddLink, backendData }) => {
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          const linkItem = {
-            href: values.href,
-            id: selectSocial.id,
-          };
-          backendData.link.push(linkItem);
+          const selectedItem = backendData.link.find(
+            (item) => item.id === selectSocial.id
+          );
 
-          axios
-            .put("http://localhost:8080/api/profiles/putprofile", backendData, {
-              headers: {
-                Authorization: `Bearer ${Cookies.get("token")}`,
-              },
-            })
-            .then(() => {})
-            .catch((err) => {
-              console.log(err);
-              toast.error("Username Taken");
-            });
-          setAddLink(false);
+          if (!selectedItem) {
+            const linkItem = {
+              href: values.href,
+              id: selectSocial.id,
+            };
+
+            // Create a new array with the existing items and the new linkItem
+            const updatedLink = [...backendData.link, linkItem];
+
+            // Update the backendData with the new link array
+            backendData.link = updatedLink;
+
+            axios
+              .put(
+                "http://localhost:8080/api/profiles/putprofile",
+                backendData,
+                {
+                  headers: {
+                    Authorization: `Bearer ${Cookies.get("token")}`,
+                  },
+                }
+              )
+              .then(() => {})
+              .catch((err) => {
+                console.log(err);
+                toast.error("Username Taken");
+              });
+
+            setAddLink(false);
+          } else {
+            const label = getSocialsItem(selectSocial.id);
+            toast.error(`${label.label} is already added`);
+          }
         }}
       >
         {() => (

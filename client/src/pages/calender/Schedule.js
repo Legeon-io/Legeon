@@ -1,11 +1,11 @@
-import { AiOutlineMinus, AiOutlinePlusCircle } from "react-icons/ai";
-import { BsTrash } from "react-icons/bs";
 import React, { useEffect, useMemo, useState } from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { AiOutlineMinus, AiOutlinePlusCircle } from "react-icons/ai";
+import { BsTrash } from "react-icons/bs";
 
 const Schedule = () => {
   useEffect(() => {
@@ -19,7 +19,7 @@ const Schedule = () => {
             },
           }
         );
-        if (response) setSheduleData(response.data.events);
+        if (response) setScheduleData(response.data.events);
       } catch (err) {
         console.log(err);
       }
@@ -51,14 +51,42 @@ const Schedule = () => {
 
   const timeArray = useMemo(() => generateTimeArray(), []);
 
-  const sheduleSchema = Yup.object({
-    fromTime: Yup.string().required(),
-    fromPeriod: Yup.string().required(),
-    toTime: Yup.string().required(),
-    toPeriod: Yup.string().required(),
+  const scheduleSchema = Yup.object().shape({
+    fromTime: Yup.string()
+      .required("From Time is required")
+      .test(
+        "fromToComparison",
+        "*From Time cannot be greater than To Time",
+        function (fromTime) {
+          const toTime = this.parent.toTime;
+          const fromPeriod = this.parent.fromPeriod;
+          const toPeriod = this.parent.toPeriod;
+
+          if (!fromTime || !toTime) return true; // Skip validation if fields are empty
+
+          const from = convertTo24Hours(fromTime, fromPeriod);
+          const to = convertTo24Hours(toTime, toPeriod);
+
+          return from <= to;
+        }
+      ),
+    fromPeriod: Yup.string().required("From Period is required"),
+    toTime: Yup.string().required("To Time is required"),
+    toPeriod: Yup.string().required("To Period is required"),
   });
 
-  const [sheduleData, setSheduleData] = useState(
+  const convertTo24Hours = (time, period) => {
+    const [hours, minutes] = time.split(":");
+    let hours24 = parseInt(hours);
+    if (period === "PM" && hours24 !== 12) {
+      hours24 += 12;
+    } else if (period === "AM" && hours24 === 12) {
+      hours24 = 0;
+    }
+    return hours24;
+  };
+
+  const [scheduleData, setScheduleData] = useState(
     days.map((day) => ({
       selected: false,
       day: day,
@@ -70,7 +98,7 @@ const Schedule = () => {
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/api/events/updateevents`,
-        { data: sheduleData },
+        { data: scheduleData },
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
@@ -95,7 +123,7 @@ const Schedule = () => {
             Save
           </button>
         </div>
-        {sheduleData.map((dayData, item) => (
+        {scheduleData.map((dayData, item) => (
           <div
             key={item}
             className="flex md:flex-row flex-col justify-between px-10"
@@ -106,7 +134,7 @@ const Schedule = () => {
                 type="checkbox"
                 checked={dayData.selected}
                 onChange={() =>
-                  setSheduleData((prevScheduleData) => {
+                  setScheduleData((prevScheduleData) => {
                     const updatedScheduleData = prevScheduleData.map((item) => {
                       if (item.day === dayData.day) {
                         return {
@@ -130,10 +158,10 @@ const Schedule = () => {
                 toTime: "",
                 toPeriod: "",
               }}
-              validationSchema={sheduleSchema}
+              validationSchema={scheduleSchema}
               onSubmit={(values, { resetForm }) => {
                 if (!dayData.selected) return false;
-                setSheduleData((prevScheduleData) => {
+                setScheduleData((prevScheduleData) => {
                   const updatedData = prevScheduleData.map((item) => {
                     if (item.day === dayData.day) {
                       return {
@@ -183,7 +211,7 @@ const Schedule = () => {
                       disabled={!dayData.selected}
                       className="w-[6rem] border-2 border-black rounded"
                     >
-                      <option value="">From</option>
+                      <option value="">To</option>
                       {timeArray.map((time, i) => (
                         <option key={i} value={time}>
                           {time}
@@ -205,6 +233,11 @@ const Schedule = () => {
                     <AiOutlinePlusCircle size={30} />
                   </button>
                 </div>
+                <ErrorMessage
+                  name="fromTime"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </Form>
             </Formik>
           </div>
@@ -214,7 +247,7 @@ const Schedule = () => {
       <div className="flex flex-col justify-between border-2 py-5  bg-gray-50">
         <div className="text-center font-bold text-2xl">Available Slot</div>
         <div className="flex flex-col">
-          {sheduleData.map((dayData, item) => (
+          {scheduleData.map((dayData, item) => (
             <div
               key={item}
               className="flex xs:flex-row flex-col justify-between xs:px-4 px-1  py-2"
@@ -240,7 +273,7 @@ const Schedule = () => {
                             </span>
                             <button
                               onClick={() =>
-                                setSheduleData((prevScheduleData) => {
+                                setScheduleData((prevScheduleData) => {
                                   const updatedScheduleData =
                                     prevScheduleData.map((item) => {
                                       if (item.day === dayData.day) {

@@ -1,20 +1,19 @@
 import React from "react";
-import {RxCross1} from "react-icons/rx"
+import { RxCross1 } from "react-icons/rx";
 
 import "../LoginForm.css";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import { forgetSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
-import { userValidEmail } from "../../../redux/auth/authSlice";
 
 import { closeForgetPassword } from "../../../redux/landingpage/landingPageSlice";
 import Input from "../../../components/helper/Input";
+import { userValidEmail } from "../../../redux/auth/authAction";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
 
   return (
     <>

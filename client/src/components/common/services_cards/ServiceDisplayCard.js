@@ -33,9 +33,7 @@ const ServiceDisplayCard = ({ username }) => {
         console.log("Internal Server Error, data not received", response.error);
       }
     }
-    const delay = setTimeout(() => {
       fetchData();
-    }, 200);
 
     return () => clearTimeout(delay);
   }, [username]);

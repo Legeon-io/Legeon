@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
-  BrowserRouter,
+  // BrowserRouter,
   Route,
   Routes,
-  Navigate,
+  // Navigate,
   useLocation,
 } from "react-router-dom";
 
@@ -11,26 +11,26 @@ import Sidebar from "./components/layout/sidebar/Sidebar";
 import {
   LandingPage,
   Services,
-  Bookings,
-  Earnings,
+  // Bookings,
+  // Earnings,
   Profile,
-  Community,
+  // Community,
   About,
   Support,
   Feedback,
-  Payments,
+  // Payments,
 } from "./pages/index.js";
 
 import "./App.css";
 
 import {
   CreateService,
-  EngageCall,
-  TextQuery,
+  // EngageCall,
+  // TextQuery,
 } from "../src/pages/services/createService/index.js";
-import EditCallServiceForm from "./components/common/services_cards/EditCallServiceForm.js";
-import UserServices from "./pages/services/user_services/UserServices.js";
-import BookingService from "./pages/services/user_services/BookingService.js";
+// import EditCallServiceForm from "./components/common/services_cards/EditCallServiceForm.js";
+// import UserServices from "./pages/services/user_services/UserServices.js";
+// import BookingService from "./pages/services/user_services/BookingService.js";
 import ProtectedRoute from "./ProtectedRoute.js";
 import Dashboard from "./pages/dashboard/Dashboard.js";
 
@@ -40,8 +40,10 @@ import ServiceHub from "./pages/servicehub/ServiceHub";
 import NotFound from "./pages/NotFound";
 import PublicPage from "./pages/public_page/PublicPage";
 import Loader from "./components/helper/Loader";
+import CalenderBooking from "./pages/calenderBooking/CalenderBooking";
 
 const App = () => {
+  console.log(process.env.REACT_APP_API_URL);
   const [clickMenu, setClickMenu] = useState(false);
   const handleClickMenu = () => {
     setClickMenu(!clickMenu);
@@ -57,7 +59,8 @@ const App = () => {
       pathname === "/" ||
       pathname === "/404" ||
       pathname === "/public" ||
-      pathname === "/:username"
+      pathname === "/:username" ||
+      pathname === "/calenderBooking"
     ) {
       setSidebar(false);
     } else {
@@ -89,6 +92,7 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<LandingPage />} />
               <Route path="/public" element={<PublicPage />} />
+              <Route path="/calenderBooking" element={<CalenderBooking />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/availability" element={<Availability />} />
                 <Route path="/dashboard" element={<Dashboard />} />

@@ -5,7 +5,7 @@ import { AiOutlineLogout, AiOutlineMenu } from "react-icons/ai";
 import Cookie from "js-cookie";
 import LOGO from "../../../assets/logo.png";
 import { openLogin } from "../../../redux/landingpage/landingPageSlice.js";
-import { getUserDetails } from "../../../redux/profile/profileSlice.js";
+import { getUserDetails } from "../../../redux/profile/profileAction";
 
 export const Navbar = ({ handleClickMenu }) => {
   const dispatch = useDispatch();
