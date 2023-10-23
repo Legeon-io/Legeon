@@ -1,5 +1,5 @@
 import User from "../models/users.js";
-import googleUser from "../models/googleuser.js";
+import googleUser from "../models/googleUser.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 

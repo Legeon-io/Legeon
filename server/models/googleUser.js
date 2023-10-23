@@ -7,6 +7,6 @@ const googleSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
 });
 
-const googleuser = mongoose.model("GoogleUser", googleSchema);
+const googleUser = mongoose.model("GoogleUser", googleSchema);
 
-export default googleuser;
+export default googleUser;

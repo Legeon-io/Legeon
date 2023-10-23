@@ -1,4 +1,4 @@
-import googleUser from "../models/googleuser.js";
+import googleUser from "../models/googleUser.js";
 import User from "../models/users.js";
 import jwt from "jsonwebtoken";
 
