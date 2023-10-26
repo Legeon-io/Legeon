@@ -30,7 +30,7 @@ export const Services = ({ sidebarVisible }) => {
     })();
   }, []);
 
-  const loading = true;
+  const loading = false;
   const [pageState, setPageState] = useState(0);
   const [service, createService] = useState(false);
   const [serviceEmpty, setServiceEmpty] = useState(false);

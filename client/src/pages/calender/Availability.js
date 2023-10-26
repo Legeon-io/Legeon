@@ -5,7 +5,7 @@ import "./calender.css";
 
 const Availability = () => {
   const [toggle, setToggle] = useState(false);
-  const loading = true
+  const loading = false
 
   return (
     <>

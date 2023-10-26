@@ -19,7 +19,10 @@ const Schedule = () => {
             },
           }
         );
-        if (response) setScheduleData(response.data.events);
+        if (response) {
+          console.log(response.data);
+          setScheduleData(response.data.events);
+        }
       } catch (err) {
         console.log(err);
       }
