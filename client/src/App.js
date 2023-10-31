@@ -22,6 +22,7 @@ import ServiceHub from "./pages/servicehub/ServiceHub";
 import NotFound from "./pages/NotFound";
 import PublicPage from "./pages/public_page/PublicPage";
 import Loader from "./components/helper/Loader";
+import CreateServices from "./pages/services/createServices";
 
 const App = () => {
   const [clickMenu, setClickMenu] = useState(false);
@@ -75,6 +76,10 @@ const App = () => {
                 <Route path="/availability" element={<Availability />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/services" element={<Services />} />
+                <Route
+                  path="/services/createServices"
+                  element={<CreateServices />}
+                />
                 <Route path="/profile" element={<Profile />} />
 
                 <Route path="/about" element={<About />} />
