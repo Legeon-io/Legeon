@@ -3,6 +3,7 @@ import googleUser from "../models/googleuser.js";
 import profile from "../models/profiles.js";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
+import userModel from "../models/users.js";
 
 export const getUserProfile = async (req, res) => {
   try {
@@ -190,35 +191,78 @@ export const updateAccount = async (req, res) => {
 // Get User Details For Service Hub
 export const getUserDetails = async (req, res) => {
   try {
-    const username = req.body.username;
+    const { isGoogle, username } = req.body;
+
+    let id;
+    if (isGoogle) {
+      const response = await googleUser.findOne({ username });
+      if (response) {
+        console.log(response.id);
+        id = response.id;
+      }
+    } else {
+      const response = await userModel.findOne({ username });
+      if (response) {
+        console.log(response.id);
+        id = response.id;
+      }
+    }
+
+    if (!id) {
+      return res.status(404).json({ message: "Account Not Found" });
+    }
     const pipeline = [
       {
         $match: {
-          username: username,
+          _id: mongoose.Types.ObjectId(id),
         },
       },
       {
         $lookup: {
           from: "profiles",
-          localField: "username",
-          foreignField: "username",
+          let: { userId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: { $eq: ["$_id", "$$userId"] },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                password: 0,
+                __v: 0,
+              },
+            },
+          ],
           as: "userData",
+        },
+      },
+      {
+        $unwind: {
+          path: "$userData",
+          preserveNullAndEmptyArrays: true,
         },
       },
       {
         $project: {
           _id: 0,
           password: 0,
+          __v: 0,
+          "userData._id": 0,
+          "userData.__v": 0,
         },
       },
     ];
 
-    const userData = await user.aggregate(pipeline);
+    if (isGoogle) {
+      const googleData = await googleUser.aggregate(pipeline);
 
-    if (userData.length > 0) return res.status(200).json(userData);
-    const googleData = await googleUser.aggregate(pipeline);
-
-    if (googleData.length > 0) return res.status(200).json(googleData);
+      if (googleData.length > 0) return res.status(200).json(googleData);
+    } else {
+      const userData = await user.aggregate(pipeline);
+      if (userData.length > 0) return res.status(200).json(userData);
+    }
     return res.status(404).json({ message: "Account Not Found" });
   } catch (error) {
     console.log(error);

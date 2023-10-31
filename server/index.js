@@ -13,6 +13,7 @@ import userProfileRouter from "./routes/userprofiles.routes.js";
 import profilesRouter from "./routes/profiles.routes.js";
 import callServicesRouter from "./routes/callservices.routes.js";
 import calendarRouter from "./routes/calendar.routes.js";
+import orderRouter from "./routes/order.routes.js";
 import paymentsRouter from "./routes/payments.routes.js";
 
 import keysRouter from "./routes/keys.routes.js";
@@ -36,7 +37,7 @@ app.use(express.static(path.join(__dirname, "../client/build")));
 
 // app.use(cors());
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: process.env.CORS_ORIGIN,
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
@@ -63,6 +64,9 @@ app.use("/api/services", serviceRouter);
 
 // Calender
 app.use("/api/calender", calendarRouter);
+
+// Orders
+app.use("/api/order", orderRouter);
 
 app.use("/api/userprofiles", userProfileRouter);
 app.use("/api/profiles", profilesRouter);
