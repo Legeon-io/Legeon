@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function ServiceHub() {
+  const isGoogle = useSelector((state) => state.profile.userData.isGoogle);
   const navigate = useNavigate();
   useEffect(() => {
     (async () => {
@@ -11,6 +13,7 @@ function ServiceHub() {
           `${process.env.REACT_APP_API_URL}/api/profiles/getUserDetails`,
           {
             username: window.location.pathname.split("/")[1],
+            isGoogle: isGoogle,
           }
         );
         if (response) console.log(response.data);

@@ -53,8 +53,9 @@ export const saveCalenderToken = async (req, res) => {
 
     res.redirect("http://localhost:3000/availability");
   } catch (error) {
+    console.log(error);
     res.redirect("http://localhost:3000/availability?error=true");
-    res.status(500).json({ error: "Authentication Failed" });
+    // res.status(500).json({ error: "Authentication Failed" });
   }
 };
 
