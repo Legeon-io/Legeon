@@ -7,7 +7,9 @@ const eventSchema = new mongoose.Schema(
     timeSlots: [
       {
         fromTime: { type: String },
+        fromPeriod: { type: String },
         toTime: { type: String },
+        toPeriod: { type: String },
       },
     ],
   },
@@ -15,9 +17,7 @@ const eventSchema = new mongoose.Schema(
 );
 
 const scheduleSchema = new mongoose.Schema({
-  no_of_week: { type: Number },
   events: [eventSchema],
-  active: { type: Boolean },
 });
 
 const scheduleModel = mongoose.model("schedule", scheduleSchema);

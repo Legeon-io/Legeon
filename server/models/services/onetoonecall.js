@@ -1,23 +1,19 @@
 import mongoose from "mongoose";
 
-const oneToOneSchema = new mongoose.Schema(
-  {
-    userid: { type: String, required: true },
-    serviceTitle: { type: String, required: true },
-    serviceType: { type: String, required: true },
-    serviceDescription: {
-      type: String,
-    },
-    timeSlot: { type: String, required: true }, // early morning, morning, noon, evevening, night, late night
-    duration: {
-      type: Number,
-      required: true,
-    },
-    price: { type: Number, required: true },
-    slashPrice: { type: Number },
+const oneToOneSchema = new mongoose.Schema({
+  userid: { type: String, required: true },
+  serviceTitle: { type: String, required: true },
+  serviceType: { type: String, required: true },
+  serviceDescription: {
+    type: String,
   },
-  { timestamps: true }
-);
+  duration: {
+    type: Number,
+    required: true,
+  },
+  price: { type: Number, required: true },
+  slashPrice: { type: Number },
+});
 
 const oneToOneModel = mongoose.model("service_onetoonecall", oneToOneSchema);
 
