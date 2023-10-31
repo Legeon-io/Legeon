@@ -206,8 +206,7 @@ export const Sidebar = ({ clickMenu }) => {
                   </ul>
                   <ul className="flex flex-col">
                     {/* Services */}
-                    <Link
-                      to="/services"
+                    <li
                       className={`${
                         servicesOpen ? "bg-gray-400" : "hover:bg-gray-200"
                       } flex justify-between items-center p-2 rounded`}
@@ -220,7 +219,7 @@ export const Sidebar = ({ clickMenu }) => {
                       <IoIosArrowUp
                         className={`${servicesOpen ? "rotate-180" : ""}`}
                       />
-                    </Link>
+                    </li>
                     {servicesOpen && (
                       <ul className="flex flex-col">
                         {/* 1:1 Call */}

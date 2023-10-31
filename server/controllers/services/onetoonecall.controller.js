@@ -22,12 +22,11 @@ export const updateCall = async (req, res) => {
     let {
       serviceTitle,
       serviceDescription,
-      serviceMode,
+      serviceType,
       duration,
       price,
       slashPrice,
       serviceId,
-      timeSlot,
     } = req.body;
     const response = await oneToOneModel.updateOne(
       { _id: serviceId },
@@ -35,9 +34,8 @@ export const updateCall = async (req, res) => {
         $set: {
           serviceTitle: serviceTitle,
           serviceDescription: serviceDescription,
-          serviceMode: serviceMode,
+          serviceType: serviceType,
           duration: duration,
-          timeSlot: timeSlot,
           price: price,
           slashPrice: slashPrice,
         },
