@@ -22,8 +22,11 @@ import ServiceHub from "./pages/servicehub/ServiceHub";
 import NotFound from "./pages/NotFound";
 import PublicPage from "./pages/public_page/PublicPage";
 import Loader from "./components/helper/Loader";
+import CalenderBooking from "./pages/calenderBooking/CalenderBooking";
+import CreateServices from "./pages/services/createServices";
 
 const App = () => {
+  console.log(process.env.REACT_APP_API_URL);
   const [clickMenu, setClickMenu] = useState(false);
   const handleClickMenu = () => {
     setClickMenu(!clickMenu);
@@ -39,7 +42,8 @@ const App = () => {
       pathname === "/" ||
       pathname === "/404" ||
       pathname === "/public" ||
-      pathname === "/:username"
+      pathname === "/:username" ||
+      pathname === "/calenderBooking"
     ) {
       setSidebar(false);
     } else {
@@ -71,10 +75,15 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<LandingPage />} />
               <Route path="/public" element={<PublicPage />} />
+              <Route path="/calenderBooking" element={<CalenderBooking />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/availability" element={<Availability />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/services" element={<Services />} />
+                <Route
+                  path="/services/createServices"
+                  element={<CreateServices />}
+                />
                 <Route path="/profile" element={<Profile />} />
 
                 <Route path="/about" element={<About />} />

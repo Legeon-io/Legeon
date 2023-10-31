@@ -162,7 +162,7 @@ button.logout {
 }
 
 .inputfield_css:valid ~ label {
-  @apply text-xs border-l-2 border-r-2 bg-white text-purple-800 border-purple-800 px-2 -top-2;
+  @apply text-xs  bg-white text-purple-800 border-purple-800 px-2 -top-2;
 }
 
 /* button.logout:hover {

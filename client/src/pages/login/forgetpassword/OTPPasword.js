@@ -6,8 +6,8 @@ import { Form, Formik } from "formik";
 import { otpSchema } from "../../../schema";
 import { useDispatch } from "react-redux";
 import { closeForgetPassword } from "../../../redux/landingpage/landingPageSlice";
-import { userValidOTP } from "../../../redux/auth/authSlice";
 import Input from "../../../components/helper/Input";
+import { userValidOTP } from "../../../redux/auth/authAction";
 
 const OTPPassword = () => {
   const dispatch = useDispatch();

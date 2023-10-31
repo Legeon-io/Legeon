@@ -24,10 +24,13 @@ import AboutMe from "./profilepages/AboutMe";
 import Account from "./profilepages/Account";
 import AddLinkModel from "./profilepages/AddLinkModel";
 import Cookies from "js-cookie";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { handleGetProfileAction } from "../../redux/profilePage/profilePageAction";
 
 const Profile = () => {
-  const loading = useSelector((state)=>state.loading)
+  const loading = useSelector((state) => state.profilePageStore.loading);
+  const dispatch = useDispatch();
+  const dataStore = useSelector((state) => state.profilePageStore.data);
 
   const [backendData, setBackendData] = useState({
     firstname: "",
@@ -41,31 +44,24 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/profiles/getprofile", {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data[0]);
-        const { firstname, lastname, username, data, link } = res.data[0];
-        const userProfileData = data[0] || {};
-        setBackendData({
-          firstname: firstname,
-          lastname: lastname,
-          username: username,
-          profession: userProfileData.profession || "",
-          intro: userProfileData.introduction || "",
-          bio: userProfileData.bio || "",
-          link: userProfileData.link || [],
-          language: userProfileData.language || "English",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Failed to fetch profile data");
+    if (dataStore) {
+      const { firstname, lastname, username, data } = dataStore;
+      const userProfileData = data[0] || {};
+      setBackendData({
+        firstname: firstname,
+        lastname: lastname,
+        username: username,
+        profession: userProfileData.profession || "",
+        intro: userProfileData.introduction || "",
+        bio: userProfileData.bio || "",
+        link: userProfileData.link || [],
+        language: userProfileData.language || "English",
       });
+    }
+  }, [dataStore]);
+
+  useEffect(() => {
+    dispatch(handleGetProfileAction());
   }, []);
 
   const [toggleButton, setToggleButton] = useState(true);
@@ -119,7 +115,32 @@ const Profile = () => {
       {addLink && (
         <AddLinkModel setAddLink={setAddLink} backendData={backendData} />
       )}
-      {!loading ? (
+      {loading ? (
+        <>
+          <div
+            role="status"
+            className="flex justify-center items-center pt-[10rem]"
+          >
+            <svg
+              aria-hidden="true"
+              className="inline w-20 h-20 mr-2 text-gray-200 animate-spin  fill-blue-600"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="currentColor"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentFill"
+              />
+            </svg>
+            <span className="">Loading...</span>
+          </div>
+        </>
+      ) : (
         <>
           <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500  w-full overflow-hidden">
             <div className="relative xl:grid xl:grid-cols-3 min-h-screen border-2 rounded-tl-[50rem] bg-white sm:p-10 p-2">
@@ -156,13 +177,6 @@ const Profile = () => {
                                     },
                                   }
                                 )
-                                .then((res) => {
-                                  toast.success("Profile Updated Successfully");
-                                })
-                                .catch((err) => {
-                                  console.log(err);
-                                  toast.error("Username Taken");
-                                });
                             }}
                             className="absolute top-3 -right-6 bg-gray-200 rounded-full cursor-pointer"
                           />
@@ -314,27 +328,6 @@ const Profile = () => {
                   <Account />
                 )}
               </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div class="grid grid-cols-3 p-10 select-none">
-            <div class="flex items-center justify-center w-[20rem] h-[20rem] bg-gray-400 rounded animate-pulse"/>
-            <div class="flex flex-col items-center gap-5 col-span-2 w-full py-5">
-              <div className="h-4 w-full bg-gray-400 rounded-3xl animate-pulse" />
-              <div className="h-4 w-3/4 bg-gray-400 rounded-3xl animate-pulse" />
-              <div className="h-4 w-full bg-gray-400 rounded-3xl animate-pulse" />
-              <div className="h-4 w-3/4 bg-gray-400 rounded-3xl animate-pulse" />
-              <div className="h-4 w-full bg-gray-400 rounded-3xl animate-pulse" />
-              <div className="h-4 w-3/4 bg-gray-400 rounded-3xl animate-pulse" />
-              <div className="h-4 w-full bg-gray-400 rounded-3xl animate-pulse" />
-              <span class="flex items-center col-span-3 text-5xl text-gray-400 animate-pulse">
-                Loading
-                <p className="animate-bounce">.</p>
-                <p className="animate-bounce">.</p>
-                <p className="animate-bounce">.</p>
-              </span>
             </div>
           </div>
         </>

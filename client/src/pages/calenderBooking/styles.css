@@ -1,0 +1,16 @@
+/* styles.css */
+/* styles.css */
+.react-calendar__tile--active {
+  background-color: rgb(15, 195, 81) !important;
+  color: white !important;
+}
+
+.react-calendar {
+  border: 2px solid black;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.available {
+  background-color: rgb(17, 124, 224) !important;
+  color: white !important;
+}
