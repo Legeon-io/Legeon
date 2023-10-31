@@ -17,6 +17,7 @@ const generateShortUUID = () => {
 
 export const googleRedirect = async (req, res) => {
   try {
+    console.log(req.user);
     if (req.user) {
       const { given_name: firstname, family_name: lastname, email } = req.user;
 
@@ -24,9 +25,6 @@ export const googleRedirect = async (req, res) => {
       const existingCustomUser = await User.findOne({ email });
       if (existingCustomUser) {
         return res.redirect(`${CLIENT_FAIL_URL}/?accountRegistered=true`);
-        // return res
-        //   .status(409)
-        //   .json({ message: "Already Registered in Custom Login" });
       }
 
       let username = email.split("@")[0];
@@ -55,11 +53,10 @@ export const googleRedirect = async (req, res) => {
           email,
         });
 
-        await user.save();
-
+        const googleResponse = await googleUser.create(user);
         const token = jwt.sign(
           {
-            id: existingUser._id,
+            id: googleResponse._id,
             isGoogle: true,
           },
           process.env.JWT_KEY,
@@ -73,6 +70,7 @@ export const googleRedirect = async (req, res) => {
       res.redirect(SERVER_URL);
     }
   } catch (err) {
+    console.log(err);
     // res.status(500).json({ error: "Internal server error", err });
     res.redirect(SERVER_URL);
   }

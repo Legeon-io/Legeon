@@ -75,7 +75,11 @@ export const showSlots = async (req, res) => {
 
           totalStartTime = totalStartTime + duration;
 
-          if (totalStartTime + duration >= totalEndTime) break;
+          if (totalStartTime > totalEndTime) break;
+
+          // Appending Zero before value for single digit mins
+          if (currentMins < 10) slots.push(`${currentHour}:0${currentMins}`);
+          else slots.push(`${currentHour}:${currentMins}`);
 
           slots.push(`${currentHour}:${currentMins}`);
         }

@@ -37,7 +37,7 @@ const LandingPage = ({ sidebarVisible }) => {
   useEffect(() => {
     const val = new URLSearchParams(window.location.search);
     if (val.get("accountRegistered") == "true") {
-      toast.error("Account Already Registered!");
+      toast.error("Email Already Registered!");
       setTimeout(() => {
         window.location = "/";
       }, 3000);
@@ -153,7 +153,10 @@ const LandingPage = ({ sidebarVisible }) => {
                 <Zoom>
                   <div className="relative group hover:text-white text-indigo-500 flex flex-col justify-around items-center min-h-[25rem] md:w-[23rem] lg:p-10 xs:p-5 p-3 shadow-lg border-2 rounded-2xl overflow-hidden">
                     <div className="absolute z-0 bottom-0 left-0 h-[8px] group-hover:h-full w-full bg-indigo-500 transition-all duration-500" />
-                    <FaHome size={100} className="z-10 border-2 hover-group border-indigo-500 group-hover:bg-white group-hover:text-indigo-500 rounded-full p-5" />
+                    <FaHome
+                      size={100}
+                      className="z-10 border-2 hover-group border-indigo-500 group-hover:bg-white group-hover:text-indigo-500 rounded-full p-5"
+                    />
                     <h1 className="sm:text-3xl text-2xl font-bold text-center  z-10">
                       Host and Earn
                     </h1>

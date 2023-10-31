@@ -2,14 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import Sidebar from "./components/layout/sidebar/Sidebar";
-import {
-  LandingPage,
-  Services,
-  Profile,
-  About,
-  Support,
-  Feedback,
-} from "./pages/index.js";
+import { LandingPage, Services, Profile } from "./pages/index.js";
 
 import "./App.css";
 
@@ -85,10 +78,6 @@ const App = () => {
                   element={<CreateServices />}
                 />
                 <Route path="/profile" element={<Profile />} />
-
-                <Route path="/about" element={<About />} />
-                <Route path="/support" element={<Support />} />
-                <Route path="/feedback" element={<Feedback />} />
               </Route>
               <Route path="/:username" element={<ServiceHub />} />
               <Route path="/404" element={<NotFound />} />

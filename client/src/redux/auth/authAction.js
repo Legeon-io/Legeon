@@ -34,16 +34,16 @@ export const userSignInAction = (userData, navigate) => async (dispatch) => {
     );
 
     console.log(response);
-      if (response.status === 200) {
-        dispatch(signInSuccess());
-        dispatch(setProfile(response.data.user));
-        toast.success("Login Successfully !!!");
-        setTimeout(() => {
-          // window.location = "/dashboard";
-          // navigate("/dashboard");
-          window.location.href = "/dashboard";
-        }, 2000);
-      }
+    if (response.status === 200) {
+      dispatch(signInSuccess());
+      dispatch(setProfile(response.data.user));
+      toast.success("Login Successfully !!!");
+      setTimeout(() => {
+        // window.location = "/dashboard";
+        // navigate("/dashboard");
+        window.location.href = "/dashboard";
+      }, 2000);
+    }
   } catch (error) {
     dispatch(signInFailure());
     if (error.response && error.response.status === 400) {
@@ -70,9 +70,10 @@ export const userSignUpAction = (userData) => async (dispatch) => {
       dispatch(openLogin());
     }
   } catch (error) {
+    console.log(error.response.data);
     dispatch(signUpFailure());
     if (error.response && error.response.status === 409) {
-      toast.error("Account Already Registered !");
+      toast.error(error.response.data.error);
     } else if (error.response && error.response.status === 404) {
       toast.error("Missing Credentials !");
     } else {

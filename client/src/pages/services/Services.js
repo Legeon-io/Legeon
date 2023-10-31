@@ -1,14 +1,6 @@
 import React, { useEffect } from "react";
 import "./Services.css";
 import "../index.css";
-import { useState } from "react";
-import sample from "../../assets/img-empty-state-video.svg";
-import PlaceHolderServices from "./PlaceHolderServices";
-import CreateService from "./createService/CreateService";
-import CreateMessageService from "./createService/CreateMessageService";
-import { ServiceList } from "./ServiceList";
-import Cookies from "js-cookie";
-import axios from "axios";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiMessageSquare, FiPhoneCall } from "react-icons/fi";
 import {

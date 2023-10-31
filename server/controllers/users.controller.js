@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
     if (existingCustomUser) {
       return res
         .status(409)
-        .json({ message: "Already Registered in Google Login" });
+        .json({ error: "Email Already Registered Through Google Login" });
     }
 
     if (!firstname || !email || !password) {
@@ -33,7 +33,7 @@ export const signup = async (req, res) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ err: "Email Taken" });
+      return res.status(409).json({ error: "Email Already Registered" });
     }
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
