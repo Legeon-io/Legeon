@@ -20,7 +20,6 @@ const profileSchema = new mongoose.Schema({
     default: null,
   },
   link: [linkDetails],
-  language: [String],
 });
 
 const profileModel = mongoose.model("profile", profileSchema);
