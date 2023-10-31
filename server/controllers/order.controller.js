@@ -3,13 +3,13 @@ import messageModel from "../models/services/message.js";
 import oneToOneModel from "../models/services/onetoonecall.js";
 import scheduleModel from "../models/schedule.js";
 
-import { parse, format } from "date-fns";
+// import { parse, format } from "date-fns";
 // import { enIN } from "date-fns/locale";
 
-function getDayOfWeek(dateString) {
-  const parsedDate = parse(dateString, "dd-MM-yyyy", new Date());
-  return format(parsedDate, "EEEE");
-}
+// function getDayOfWeek(dateString) {
+//   const parsedDate = parse(dateString, "dd-MM-yyyy", new Date());
+//   return format(parsedDate, "EEEE");
+// }
 
 export const placeServiceOrder = async (req, res) => {
   try {
