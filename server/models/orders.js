@@ -24,6 +24,7 @@ const orderSchema = new mongoose.Schema(
     serviceType: { type: String, required: true },
     datetime: { type: Date, required: true },
     serviceId: { type: String, required: true },
+    timeSlot: { type: Array, required: true },
     // timeZone: { type: String, required: true },
     customer: { type: userSchema, required: true },
     isCanceled: { type: Boolean, default: false },

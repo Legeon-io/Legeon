@@ -3,13 +3,13 @@ import messageModel from "../models/services/message.js";
 import oneToOneModel from "../models/services/onetoonecall.js";
 import scheduleModel from "../models/schedule.js";
 
-import { parse, format } from "date-fns";
+// import { parse, format } from "date-fns";
 // import { enIN } from "date-fns/locale";
 
-function getDayOfWeek(dateString) {
-  const parsedDate = parse(dateString, "dd-MM-yyyy", new Date());
-  return format(parsedDate, "EEEE");
-}
+// function getDayOfWeek(dateString) {
+//   const parsedDate = parse(dateString, "dd-MM-yyyy", new Date());
+//   return format(parsedDate, "EEEE");
+// }
 
 export const placeServiceOrder = async (req, res) => {
   try {
@@ -50,6 +50,7 @@ async function checkServiceType(id, type) {
 // res.json(getDayOfWeek("27-10-2023"));
 export const showSlots = async (req, res) => {
   try {
+    // 0-6
     const { serviceId, serviceType, dayValue } = req.body;
     const { userid, duration } = await checkServiceType(serviceId, serviceType);
     const scheduleData = await scheduleModel.findOne(
@@ -57,17 +58,14 @@ export const showSlots = async (req, res) => {
       { __v: 0 }
     );
     const orderData = await orderModel.findOne({ userid: userid }, { __v: 0 });
-    // console.log(response);
 
     let slots = [];
     if (scheduleData.events[dayValue].selected) {
       scheduleData.events[dayValue].timeSlots.map((item) => {
         let startTime = item.fromTime.split(":");
         let endTime = item.toTime.split(":");
-        console.log(startTime, endTime, duration);
         let totalStartTime = Number(startTime[0]) * 60 + Number(startTime[1]);
         let totalEndTime = Number(endTime[0]) * 60 + Number(endTime[1]);
-        console.log(totalStartTime, totalEndTime);
 
         while (totalStartTime < totalEndTime) {
           let currentHour = Math.floor(totalStartTime / 60);
@@ -75,12 +73,15 @@ export const showSlots = async (req, res) => {
 
           totalStartTime = totalStartTime + duration;
 
-          if (totalStartTime + duration >= totalEndTime) break;
+          if (totalStartTime > totalEndTime) break;
 
-          slots.push(`${currentHour}:${currentMins}`);
+          // Appending Zero before value for single digit mins
+          if (currentMins < 10) slots.push(`${currentHour}:0${currentMins}`);
+          else slots.push(`${currentHour}:${currentMins}`);
         }
       });
     }
+
     let orderSlots = [];
     if (orderData != null) {
       orderData.map((item) => {

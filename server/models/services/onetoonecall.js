@@ -5,7 +5,6 @@ const oneToOneSchema = new mongoose.Schema(
     userid: { type: String, required: true },
     serviceTitle: { type: String, required: true },
     serviceType: { type: String, required: true },
-    serviceMode: { type: String, required: true },
     serviceDescription: {
       type: String,
     },
