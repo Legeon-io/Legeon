@@ -41,6 +41,7 @@ import NotFound from "./pages/NotFound";
 import PublicPage from "./pages/public_page/PublicPage";
 import Loader from "./components/helper/Loader";
 import CalenderBooking from "./pages/calenderBooking/CalenderBooking";
+import CreateServices from "./pages/services/createServices";
 
 const App = () => {
   console.log(process.env.REACT_APP_API_URL);
@@ -97,6 +98,10 @@ const App = () => {
                 <Route path="/availability" element={<Availability />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/services" element={<Services />} />
+                <Route
+                  path="/services/createServices"
+                  element={<CreateServices />}
+                />
                 <Route path="/profile" element={<Profile />} />
                 {/* <Route path="/bookings" element={<Bookings />} /> */}
                 {/* <Route path="/payments" element={<Payments />} /> */}
@@ -108,7 +113,7 @@ const App = () => {
                 <Route path="/support" element={<Support />} />
                 <Route path="/feedback" element={<Feedback />} />
                 <Route
-                  path="/services/create-service"
+                  path="/services/create_service"
                   element={<CreateService />}
                 />
                 {/* <Route path="/services/create-service/engage-call" element={<EngageCall />} /> */}

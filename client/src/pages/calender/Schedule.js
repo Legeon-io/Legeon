@@ -20,7 +20,6 @@ const Schedule = () => {
           }
         );
         if (response) {
-          console.log(response.data);
           setScheduleData(response.data.events);
         }
       } catch (err) {
@@ -53,24 +52,23 @@ const Schedule = () => {
   };
 
   const timeArray = useMemo(() => generateTimeArray(), []);
-
   const scheduleSchema = Yup.object().shape({
     fromTime: Yup.string()
       .required("From Time is required")
       .test(
         "fromToComparison",
-        "*From Time cannot be greater than To Time",
+        `"From" time cannot be greater than "To" time (24 hours only allowed)`,
         function (fromTime) {
           const toTime = this.parent.toTime;
           const fromPeriod = this.parent.fromPeriod;
           const toPeriod = this.parent.toPeriod;
+          if (!fromTime || !toTime || !fromPeriod) return true;
 
-          if (!fromTime || !toTime) return true; // Skip validation if fields are empty
-
-          const from = convertTo24Hours(fromTime, fromPeriod);
-          const to = convertTo24Hours(toTime, toPeriod);
-
-          return from <= to;
+          const [from, fromMin] = convertTo24Hours(fromTime, fromPeriod).split(
+            ":"
+          );
+          const [to, toMin] = convertTo24Hours(toTime, toPeriod).split(":");
+          return `${from}.${fromMin}` < `${to}.${toMin}`;
         }
       ),
     fromPeriod: Yup.string().required("From Period is required"),
@@ -81,12 +79,35 @@ const Schedule = () => {
   const convertTo24Hours = (time, period) => {
     const [hours, minutes] = time.split(":");
     let hours24 = parseInt(hours);
+
     if (period === "PM" && hours24 !== 12) {
       hours24 += 12;
     } else if (period === "AM" && hours24 === 12) {
       hours24 = 0;
     }
-    return hours24;
+
+    return `${hours24}:${minutes}`;
+  };
+
+  const reverseTo12Hours = (time) => {
+    let [hr, min] = time.split(":");
+    hr = parseInt(hr);
+
+    if (hr >= 12) {
+      if (hr > 12) {
+        hr = (hr - 12).toString().padStart(2, "0");
+        return `${hr}:${min} PM`;
+      } else {
+        return `12:${min} PM`;
+      }
+    }
+
+    if (hr === 0) {
+      hr = 12;
+    }
+
+    hr = hr.toString().padStart(2, "0");
+    return `${hr}:${min} AM`;
   };
 
   const [scheduleData, setScheduleData] = useState(
@@ -164,18 +185,26 @@ const Schedule = () => {
               validationSchema={scheduleSchema}
               onSubmit={(values, { resetForm }) => {
                 if (!dayData.selected) return false;
+                const newValues = {
+                  fromTime: convertTo24Hours(
+                    values.fromTime,
+                    values.fromPeriod
+                  ),
+                  toTime: convertTo24Hours(values.toTime, values.toPeriod),
+                };
                 setScheduleData((prevScheduleData) => {
                   const updatedData = prevScheduleData.map((item) => {
                     if (item.day === dayData.day) {
                       return {
                         ...item,
-                        timeSlots: [...item.timeSlots, values],
+                        timeSlots: [...item.timeSlots, newValues],
                       };
                     }
                     return item;
                   });
                   return updatedData;
                 });
+
                 resetForm();
               }}
             >
@@ -264,15 +293,9 @@ const Schedule = () => {
                         {dayData.timeSlots.map((slot, i) => (
                           <div key={i} className="flex  items-center gap-2">
                             <span className="flex sm:gap-1">
-                              <div>
-                                {slot.fromTime}
-                                {slot.fromPeriod}
-                              </div>
+                              <div>{reverseTo12Hours(slot.fromTime)}</div>
                               <div className="sm:flex ">:</div>
-                              <div>
-                                {slot.toTime}
-                                {slot.toPeriod}
-                              </div>
+                              <div>{reverseTo12Hours(slot.toTime)}</div>
                             </span>
                             <button
                               onClick={() =>
