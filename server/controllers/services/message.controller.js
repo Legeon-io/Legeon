@@ -40,20 +40,6 @@ export const updateMessage = async (req, res) => {
   }
 };
 
-export const getMessage = async (req, res) => {
-  try {
-    const id = req.user.id;
-    const response = await messageModel.find({ userid: id });
-    if (response) {
-      return res.status(200).json(response);
-    } else {
-      return res.status(404).json({ message: "No Messages Found" });
-    }
-  } catch (error) {
-    res.status(500).json({ errorMessage: "Internal server error" });
-  }
-};
-
 export const deleteMessage = async (req, res) => {
   try {
     const id = req.body.id;

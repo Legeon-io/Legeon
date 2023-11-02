@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const stripe = new Stripe(process.env.STRIPE_KEY, {});
+const stripe = new Stripe(process.env.STRIPE_KEY);
 
 export const redirectToStripeGateway = async (req, res) => {
   try {
@@ -21,9 +21,11 @@ export const redirectToStripeGateway = async (req, res) => {
           quantity: 1,
         },
       ],
+
       success_url: "http://localhost:8080/success",
       cancel_url: "http://localhost:8080/error",
     });
+
     res.redirect(session.url);
   } catch (err) {
     console.log("here");
