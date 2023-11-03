@@ -17,16 +17,39 @@ import {
 const router = express.Router();
 
 // Service OneToOneCall
+// /api/services
 router
   .route("/onetoonecall")
+  // drop it 
   .get(verifyToken, getCall)
+
+  // testing
   .put(verifyToken, updateCall)
+
+  // okay
   .post(verifyToken, insertCall);
 
 // Delete Function
+// /api/services
 router.post("/onetoonecall/delete", verifyToken, deleteCall);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Service Message
+// /api/services
 router
   .route("/message")
   .get(verifyToken, getMessage)
@@ -34,6 +57,9 @@ router
   .post(verifyToken, insertMessage);
 
 // Delete Function
+
+//okay 
+// /api/services
 router.post("/message/delete", verifyToken, deleteMessage);
 
 export default router;

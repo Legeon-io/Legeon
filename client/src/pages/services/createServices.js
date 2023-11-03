@@ -3,6 +3,8 @@ import React from "react";
 import Input from "../../components/helper/Input";
 import { FiMessageSquare, FiPhoneCall } from "react-icons/fi";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import CallAction from "../../redux/service/call/CallAction";
 
 const CreateServices = () => {
   const initialValues = {
@@ -23,16 +25,29 @@ const CreateServices = () => {
     serviceDescription: Yup.string().required(
       "Service description is required"
     ),
-    serviceDuration: Yup.number()
-      .required("Service duration is required")
-      .positive("Duration must be a positive number"),
     servicePrice: Yup.number()
       .required("Service price is required")
       .positive("Price must be a positive number"),
     serviceSlashPrice: Yup.number().positive(
       "Slash price must be a positive number"
     ),
+    serviceDuration: Yup.number().test(
+      "conditional-validation",
+      "Service duration is required",
+      function (value) {
+        const serviceType = this.parent.serviceType;
+        if (serviceType !== "personalDM") {
+          return Yup.number()
+            .required("Service duration is required")
+            .positive("Duration must be a positive number")
+            .validateSync(value, { abortEarly: false });
+        }
+        return true;
+      }
+    ),
   });
+
+  const dispatch = useDispatch();
 
   return (
     <div className="md:p-10 p-2 space-y-10">
@@ -44,8 +59,12 @@ const CreateServices = () => {
         initialValues={initialValues}
         validationSchema={createServiceSchema}
         onSubmit={(values, { resetForm }) => {
-          console.log(values);
-          resetForm();
+          if (values.serviceType === "personalDM") {
+            delete values.serviceDuration;
+          }
+          // console.log(values);
+          dispatch(CallAction(values));
+          // resetForm();
         }}
       >
         {({ values }) => (
@@ -57,11 +76,13 @@ const CreateServices = () => {
                 type="text"
                 label="Description"
               />
-              <Input
-                name="serviceDuration"
-                type="text"
-                label="Duration (minutes)"
-              />
+              {values.serviceType !== "personalDM" && (
+                <Input
+                  name="serviceDuration"
+                  type="text"
+                  label="Duration (minutes)"
+                />
+              )}
               <Input name="servicePrice" type="text" label="Price  (₹)" />
               <Input
                 name="serviceSlashPrice"
