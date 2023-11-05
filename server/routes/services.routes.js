@@ -21,10 +21,10 @@ router.get("/get-services", verifyToken, async (req, res) => {
   try {
     const userid = req.user.id;
     const oneToOneServices = await oneToOneModel
-      .find({ userid })
+      .find({ userid }, { __v: 0 })
       .sort({ createdAt: 1 });
     const messageServices = await messageModel
-      .find({ userid })
+      .find({ userid }, { __v: 0 })
       .sort({ createdAt: 1 });
 
     const allServices = [...oneToOneServices, ...messageServices];
@@ -34,7 +34,8 @@ router.get("/get-services", verifyToken, async (req, res) => {
 
     res.status(200).json(sortedServices);
   } catch (err) {
-    res.status(500).json({ errorMessage: "Internal server error" });
+    console.log(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

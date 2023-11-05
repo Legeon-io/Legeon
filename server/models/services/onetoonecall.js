@@ -8,7 +8,7 @@ const oneToOneSchema = new mongoose.Schema(
     serviceDescription: {
       type: String,
     },
-    timeSlot: { type: String, required: true }, // early morning, morning, noon, evevening, night, late night
+    // timeSlot: { type: String, required: true }, // early morning, morning, noon, evevening, night, late night
     duration: {
       type: Number,
       required: true,
