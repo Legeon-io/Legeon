@@ -216,7 +216,10 @@ export const getUserDetails = async (req, res) => {
       response = customUserResponse;
     } else return res.status(404).json({ message: "User Not Found" });
 
-    const profileResponse = await profileModel.findOne({ _id: id }, { __v: 0 });
+    const profileResponse = await profileModel.findOne(
+      { _id: id },
+      { __v: 0, _id: 0 }
+    );
     response.profile = profileResponse;
 
     // Getting Provider Services
