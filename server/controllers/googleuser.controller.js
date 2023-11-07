@@ -17,7 +17,7 @@ const generateShortUUID = () => {
 
 export const googleRedirect = async (req, res) => {
   try {
-    console.log(req.user);
+    // console.log(req.user);
     if (req.user) {
       const { given_name: firstname, family_name: lastname, email } = req.user;
 
@@ -70,7 +70,7 @@ export const googleRedirect = async (req, res) => {
       res.redirect(SERVER_URL);
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     // res.status(500).json({ error: "Internal server error", err });
     res.redirect(SERVER_URL);
   }

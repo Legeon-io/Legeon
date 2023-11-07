@@ -3,14 +3,18 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { RiCloseLine } from "react-icons/ri";
 import Input from "../../components/helper/Input";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateCallAction } from "../../redux/service/CallAction";
+import { updateMessageAction } from "../../redux/service/personalAction";
 
 const EditServices = ({ setEditModel, value }) => {
   const initialValues = {
-    serviceTitle: value.title || "",
-    serviceDescription: value.description || "",
-    serviceDuration: value.duration || "",
-    servicePrice: value.price || "",
-    serviceSlashPrice: value.slashPrice || "",
+    serviceTitle: value.serviceTitle || "",
+    serviceDescription: value.serviceDescription || "",
+    duration: value.duration || "",
+    price: value.price || "",
+    slashPrice: value.slashPrice || "",
   };
 
   let createServiceSchema = Yup.object().shape({
@@ -18,30 +22,29 @@ const EditServices = ({ setEditModel, value }) => {
     serviceDescription: Yup.string().required(
       "Service description is required"
     ),
-    servicePrice: Yup.number()
+    price: Yup.number()
       .required("Service price is required")
       .positive("Price must be a positive number"),
-    serviceSlashPrice: Yup.number().positive(
-      "Slash price must be a positive number"
-    ),
+    slashPrice: Yup.number().positive("Slash price must be a positive number"),
   });
 
-  if (value.id !== "personalDM") {
-    // If it's not "personalDM", include the service duration field and its validation
+  if (value.serviceType !== "message") {
     createServiceSchema = createServiceSchema.concat(
       Yup.object().shape({
-        serviceDuration: Yup.number()
+        duration: Yup.number()
           .required("Service duration is required")
           .positive("Duration must be a positive number"),
       })
     );
   }
 
+  const dispatch = useDispatch();
+
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-80 transition-opacity">
       <div className="flex justify-center items-center w-full h-full">
         <div
-          className={`relative w-[40rem]  border-2 ${value.border} bg-white rounded-xl p-5 space-y-5`}
+          className={`relative w-[40rem] m-2 border-2 ${value.border} bg-white rounded-xl p-5 space-y-5`}
         >
           <div
             onClick={() => setEditModel(false)}
@@ -49,14 +52,37 @@ const EditServices = ({ setEditModel, value }) => {
           >
             <RiCloseLine size={20} />
           </div>
+          <div className="flex items-center gap-5 px-5">
+            <span
+              className={`${value.bgColor} p-5 text-5xl rounded-full text-white `}
+            >
+              {value.icon}
+            </span>
+            <div className="text-3xl">{value.serviceTitle}</div>
+          </div>
           <Formik
             initialValues={initialValues}
             validationSchema={createServiceSchema}
-            onSubmit={(values, { resetForm }) => {
+            onSubmit={async (values, { resetForm }) => {
               if (value.id === "personalDM") {
-                delete values.serviceDuration;
+                delete values.duration;
               }
-              console.log(values);
+
+              const updatedValues = {
+                ...values,
+                serviceId: value._id,
+                serviceType: value.serviceType,
+              };
+
+              if (updatedValues.serviceType !== "message") {
+                await dispatch(updateCallAction(updatedValues));
+              }
+
+              if (updatedValues.serviceType === "message") {
+                await dispatch(updateMessageAction(updatedValues));
+              }
+
+              setEditModel(false);
               resetForm();
             }}
           >
@@ -73,16 +99,16 @@ const EditServices = ({ setEditModel, value }) => {
                     type="text"
                     label="Description"
                   />
-                  {value.id !== "personalDM" && (
+                  {value.serviceType !== "message" && (
                     <Input
-                      name="serviceDuration"
+                      name="duration"
                       type="text"
                       label="Duration (minutes)"
                     />
                   )}
-                  <Input name="servicePrice" type="text" label="Price (₹)" />
+                  <Input name="price" type="text" label="Price (₹)" />
                   <Input
-                    name="serviceSlashPrice"
+                    name="slashPrice"
                     type="text"
                     label="Slash Price (₹)"
                   />
@@ -92,7 +118,7 @@ const EditServices = ({ setEditModel, value }) => {
                     type="submit"
                     className={`${value.bgColor} text-white rounded-full p-2 w-[15rem]  `}
                   >
-                    Create
+                    Update
                   </button>
                 </div>
               </Form>

@@ -4,16 +4,17 @@ import Input from "../../components/helper/Input";
 import { FiMessageSquare, FiPhoneCall } from "react-icons/fi";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import CallAction from "../../redux/service/call/CallAction";
+import { insertCallAction } from "../../redux/service/CallAction";
+import { insertMessageAction } from "../../redux/service/personalAction";
 
 const CreateServices = () => {
   const initialValues = {
     serviceTitle: "",
     serviceType: "select",
     serviceDescription: "",
-    serviceDuration: "",
-    servicePrice: "",
-    serviceSlashPrice: "",
+    duration: "",
+    price: "",
+    slashPrice: "",
   };
 
   const createServiceSchema = Yup.object().shape({
@@ -25,18 +26,18 @@ const CreateServices = () => {
     serviceDescription: Yup.string().required(
       "Service description is required"
     ),
-    servicePrice: Yup.number()
+    price: Yup.number()
       .required("Service price is required")
       .positive("Price must be a positive number"),
     serviceSlashPrice: Yup.number().positive(
       "Slash price must be a positive number"
     ),
-    serviceDuration: Yup.number().test(
+    duration: Yup.number().test(
       "conditional-validation",
       "Service duration is required",
       function (value) {
         const serviceType = this.parent.serviceType;
-        if (serviceType !== "personalDM") {
+        if (serviceType !== "message") {
           return Yup.number()
             .required("Service duration is required")
             .positive("Duration must be a positive number")
@@ -59,12 +60,15 @@ const CreateServices = () => {
         initialValues={initialValues}
         validationSchema={createServiceSchema}
         onSubmit={(values, { resetForm }) => {
-          if (values.serviceType === "personalDM") {
-            delete values.serviceDuration;
+          if (values.serviceType === "message") {
+            delete values.duration;
           }
-          // console.log(values);
-          dispatch(CallAction(values));
-          // resetForm();
+          if (values.serviceType === "onetoone")
+            dispatch(insertCallAction(values));
+          else if (values.serviceType === "message") {
+            dispatch(insertMessageAction(values));
+          }
+          resetForm();
         }}
       >
         {({ values }) => (
@@ -76,37 +80,29 @@ const CreateServices = () => {
                 type="text"
                 label="Description"
               />
-              {values.serviceType !== "personalDM" && (
-                <Input
-                  name="serviceDuration"
-                  type="text"
-                  label="Duration (minutes)"
-                />
+              {values.serviceType !== "message" && (
+                <Input name="duration" type="text" label="Duration (minutes)" />
               )}
-              <Input name="servicePrice" type="text" label="Price  (₹)" />
-              <Input
-                name="serviceSlashPrice"
-                type="text"
-                label="Slash Price (₹)"
-              />
+              <Input name="price" type="text" label="Price  (₹)" />
+              <Input name="slashPrice" type="text" label="Slash Price (₹)" />
             </div>
             <div className="space-y-2">
               <div className="text-xl font-bold">Service Type</div>
               <div className="space-y-5">
                 <div className="flex gap-5">
                   <label
-                    htmlFor="1to1"
+                    htmlFor="onetoone"
                     className={`sm:w-[12rem] h-[10rem] border-2 ${
-                      values.serviceType === "1to1"
+                      values.serviceType === "onetoone"
                         ? "border-indigo-500 text-indigo-500"
                         : "border-gray-300 text-gray-500"
                     } rounded-xl flex flex-col justify-around items-start`}
                   >
                     <Field
-                      id="1to1"
+                      id="onetoone"
                       type="radio"
                       name="serviceType"
-                      value="1to1"
+                      value="onetoone"
                       className="hidden"
                     />
                     <div className="p-2 space-y-2">
@@ -116,18 +112,18 @@ const CreateServices = () => {
                     </div>
                   </label>
                   <label
-                    htmlFor="personalDM"
+                    htmlFor="message"
                     className={`sm:w-[12rem] h-[10rem] border-2 ${
-                      values.serviceType === "personalDM"
+                      values.serviceType === "message"
                         ? "border-pink-500 text-pink-500"
                         : "border-gray-300 text-gray-500"
                     } rounded-xl flex flex-col justify-around items-start`}
                   >
                     <Field
-                      id="personalDM"
+                      id="message"
                       type="radio"
                       name="serviceType"
-                      value="personalDM"
+                      value="message"
                       className="hidden"
                     />
                     <div className="p-2 space-y-2">

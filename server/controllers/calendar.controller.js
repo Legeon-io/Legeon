@@ -20,10 +20,8 @@ export const calenderLogin = (req, res) => {
 
     const data = req.headers.cookie.split(";");
     let token;
-    // console.log(data);
     data.map((item) => {
       if (item.split("=")[0] == "token") {
-        // console.log(item.split("=")[1]);
         token = item.split("=")[1];
       }
     });
@@ -131,7 +129,7 @@ export const createCalenderEvent = async (req, res) => {
           return;
         }
         // console.log("Event created:", res.data.htmlLink);
-        console.log(res.data);
+        // console.log(res.data);
       }
     );
     res.status(200).json({ message: "Event Created in Google Calender" });
@@ -177,7 +175,7 @@ export const updateCalenderEvent = async (req, res) => {
       resource: updateEvent,
       auth: oauth2Client,
     });
-    console.log("Event updated successfully:", response.data);
+    // console.log("Event updated successfully:", response.data);
     res.status(200).json({ message: "Event Updated in Google Calender" });
   } catch (error) {
     res.status(500).json({ error: "Internal server error", err });
@@ -206,7 +204,7 @@ export const deleteCalenderEvent = async (req, res) => {
       eventId: eventId,
       auth: oauth2Client,
     });
-    console.log("Event deleted successfully!");
+    // console.log("Event deleted successfully!");
     res.status(200).json({ message: "Event Deleted from Google Calender" });
   } catch (error) {
     res.status(500).json({ error: "Internal server error", err });

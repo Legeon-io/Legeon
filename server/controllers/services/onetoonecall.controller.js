@@ -4,7 +4,6 @@ import oneToOneModel from "../../models/services/onetoonecall.js";
 // POST : /api/services/onetoonecall
 export const insertCall = async (req, res) => {
   try {
-    console.log(req.body);
     const id = req.user.id;
 
     let data = req.body;
@@ -22,6 +21,7 @@ export const insertCall = async (req, res) => {
 
 
 // Test it out
+// PUT : /api/services/onetoonecall
 export const updateCall = async (req, res) => {
   try {
     let {
@@ -56,24 +56,6 @@ export const updateCall = async (req, res) => {
   }
 };
 
-
-// Drop it 
-// GET : http://localhost:8080/api/services/onetoonecall
-export const getCall = async (req, res) => {
-  try {
-    const id = req.user.id;
-    const response = await oneToOneModel.find({ userid: id });
-    if (response) {
-      return res.status(200).json(response);
-    } else {
-      return res.status(404).json({ message: "No Calls Found" });
-    }
-  } catch (error) {
-    res.status(500).json({ errorMessage: "Internal server error" });
-  }
-};
-
-// DELETE : https://localhost:8080/onetoonecall/delete
 export const deleteCall = async (req, res) => {
   try {
     const id = req.body.id;

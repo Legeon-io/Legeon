@@ -11,59 +11,30 @@ import {
 } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import EditServices from "./EditServices";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCallAction, getVerify } from "../../redux/service/CallAction";
+import { deleteMessageAction } from "../../redux/service/personalAction";
 export const Services = ({ sidebarVisible }) => {
-  // const [data, setData] = useState([]);
-  // * Important API call
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${process.env.REACT_APP_API_URL}/api/services/onetoonecall`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${Cookies.get("token")}`,
-  //           },
-  //         }
-  //       );
-  //       if (response) setData(response.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   })();
-  // }, []);
-
   const loading = false;
 
-  // Dummy data for cards
-  const dummyData = [
-    {
-      id: "1to1Call",
-      title: "1:1 Call Session",
-      duration: "20",
-      price: "100",
-      slashPrice: "200",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos voluptatem culpa aperiam eveniet nisi nobis illum aliquam adipisci eum, fugit alias aut accusantium natus praesentium perspiciatis beatae? Architecto ipsum doloribus pariatur eveniet praesentium, officiis rerum unde hic, molestias aliquid consequuntur velit laboriosam numquam provident eius quo! Neque, quae recusandae. Esse.",
-    },
-    {
-      id: "personalDM",
-      title: "Personal DM",
-      price: "100",
-      slashPrice: "200",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos voluptatem culpa aperiam eveniet nisi nobis illum aliquam adipisci eum, fugit alias aut accusantium natus praesentium perspiciatis beatae? Architecto ipsum doloribus pariatur eveniet praesentium, officiis rerum unde hic, molestias aliquid consequuntur velit laboriosam numquam provident eius quo! Neque, quae recusandae. Esse.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos voluptatem culpa aperiam eveniet nisi nobis illum aliquam adipisci eum, fugit alias aut accusantium natus praesentium perspiciatis beatae? Architecto ipsum doloribus pariatur eveniet praesentium, officiis rerum unde hic, molestias aliquid consequuntur velit laboriosam numquam provident eius quo! Neque, quae recusandae. Esse.",
-    },
-  ];
+  const callStore = useSelector((state) => state.serviceStore);
+  console.log(callStore);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getVerify());
+  }, []);
 
   const checkTheme = (id) => {
     switch (id) {
-      case "1to1Call":
+      case "onetoone":
         return {
           icon: <FiPhoneCall />,
           bgColor: "bg-indigo-500",
           border: "border-indigo-500",
         };
-      case "personalDM":
+      case "message":
         return {
           icon: <FiMessageSquare />,
           bgColor: "bg-pink-500",
@@ -134,66 +105,85 @@ export const Services = ({ sidebarVisible }) => {
             </Link>
             {/* Cards */}
             <div className="space-y-10">
-              {dummyData.map((item, i) => {
-                const getTheme = checkTheme(item.id);
-                return (
-                  <div
-                    className={`grid md:grid-cols-3 gap-2 border-2 ${getTheme.border} xl:w-[40rem] rounded-3xl p-5 shadow-xl`}
-                  >
-                    {/* Left Box */}
-                    <div className="flex md:flex-col gap-5 justify-center items-center">
+              {callStore.data &&
+                callStore.data.map((item, i) => {
+                  const getTheme = checkTheme(item.serviceType);
+                  return (
+                    <>
                       <div
-                        className={`text-5xl ${getTheme.bgColor} text-white rounded-full p-5`}
+                        key={i}
+                        className={`grid md:grid-cols-3 gap-2 border-2 ${getTheme.border} xl:w-[40rem] rounded-3xl p-5 shadow-xl`}
                       >
-                        {getTheme.icon}
-                      </div>
-                      <div className="flex flex-col gap-2 text-lg">
-                        <button
-                          onClick={() => handleEditModel(item, getTheme)}
-                          className="flex gap-2 justify-center items-center bg-gray-300 p-1 rounded-3xl w-[8rem]"
-                        >
-                          <BsPencilSquare /> Edit
-                        </button>
-                        <button className="flex gap-2 justify-center items-center bg-gray-300 p-1 rounded-3xl w-[8rem]">
-                          <BsTrash />
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                    {/* Right Box */}
-                    <div className="md:col-span-2 flex flex-col gap-2">
-                      <div className="text-3xl py-2 font-bold md:text-left text-center">
-                        {item.title}
-                      </div>
-                      <div className="flex gap-2">
-                        <span className="font-bold">Price : </span>
-                        <p className="flex items-center ">
-                          <BsCurrencyRupee />
-                          {item.price}
-                        </p>
-                        <p className="flex items-center line-through">
-                          <BsCurrencyRupee />
-                          {item.slashPrice}
-                        </p>
-                      </div>
-                      {/* <div className="flex gap-2">
-                      <span className="font-bold">Slash Price : </span>
-                      <p className="flex items-center line-through">
-                        <BsCurrencyRupee />
-                        {item.slashPrice}
-                      </p>
-                    </div> */}
-                      <div className="flexv flex-col gap-2">
-                        <span className="font-bold">Description : </span>
-                        <div className="">
-                          {item.description.substring(0, 100)}
-                          <p className="font-black"> ...more</p>
+                        {/* Left Box */}
+                        <div className="flex md:flex-col gap-5 justify-center items-center">
+                          <div
+                            className={`text-5xl ${getTheme.bgColor} text-white rounded-full p-5`}
+                          >
+                            {getTheme.icon}
+                          </div>
+                          <div className="flex flex-col gap-2 text-lg">
+                            <button
+                              onClick={() => handleEditModel(item, getTheme)}
+                              className="flex gap-2 justify-center items-center bg-gray-300 p-1 rounded-3xl w-[8rem]"
+                            >
+                              <BsPencilSquare /> Edit
+                            </button>
+                            <button
+                              onClick={() => {
+                                item.serviceType === "onetoone"
+                                  ? dispatch(deleteCallAction({ id: item._id }))
+                                  : dispatch(
+                                      deleteMessageAction({ id: item._id })
+                                    );
+                              }}
+                              className="flex gap-2 justify-center items-center bg-gray-300 p-1 rounded-3xl w-[8rem]"
+                            >
+                              <BsTrash />
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                        {/* Right Box */}
+                        <div className="md:col-span-2 flex flex-col gap-2">
+                          <div className="text-3xl py-2 font-bold md:text-left text-center">
+                            {item.serviceTitle}
+                          </div>
+                          <div className="flex gap-2">
+                            <span className="font-bold">Price : </span>
+                            <p className="flex items-center ">
+                              <BsCurrencyRupee />
+                              {item.price}
+                            </p>
+                            <p className="flex items-center line-through">
+                              <BsCurrencyRupee />
+                              {item.slashPrice}
+                            </p>
+                          </div>
+                          {item.duration && (
+                            <div className="flex gap-2">
+                              <span className="font-bold">Duration : </span>
+                              {item.duration} min
+                            </div>
+                          )}
+                          <div className="flexv flex-col gap-2">
+                            <span className="font-bold">Description : </span>
+                            <div className="">
+                              {item.serviceDescription &&
+                              item.serviceDescription.length > 100 ? (
+                                <>
+                                  {item.serviceDescription.substring(0, 100)}
+                                  <p className="font-black"> ...more</p>
+                                </>
+                              ) : (
+                                item.serviceDescription
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                );
-              })}
+                    </>
+                  );
+                })}
             </div>
           </div>
         </div>
