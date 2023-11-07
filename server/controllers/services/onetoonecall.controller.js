@@ -1,5 +1,7 @@
 import oneToOneModel from "../../models/services/onetoonecall.js";
 
+
+// POST : /api/services/onetoonecall
 export const insertCall = async (req, res) => {
   try {
     const id = req.user.id;
@@ -17,6 +19,9 @@ export const insertCall = async (req, res) => {
   }
 };
 
+
+// Test it out
+// PUT : /api/services/onetoonecall
 export const updateCall = async (req, res) => {
   try {
     let {

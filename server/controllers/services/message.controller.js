@@ -1,5 +1,6 @@
 import messageModel from "../../models/services/message.js";
 
+/**POST : /api/services/message */
 export const insertMessage = async (req, res) => {
   try {
     const id = req.user.id;
@@ -15,6 +16,7 @@ export const insertMessage = async (req, res) => {
   }
 };
 
+/** PUT: /api/services/message */
 export const updateMessage = async (req, res) => {
   try {
     let { serviceTitle, serviceDescription, price, slashPrice, serviceId } =
@@ -40,6 +42,7 @@ export const updateMessage = async (req, res) => {
   }
 };
 
+/** POST :  /api/services/message/delete */
 export const deleteMessage = async (req, res) => {
   try {
     const { serviceId } = req.body;

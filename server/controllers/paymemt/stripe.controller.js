@@ -28,7 +28,6 @@ export const redirectToStripeGateway = async (req, res) => {
 
     res.redirect(session.url);
   } catch (err) {
-    console.log("here");
     console.log(err);
   }
 };

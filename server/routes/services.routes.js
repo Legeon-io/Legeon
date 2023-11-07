@@ -40,21 +40,44 @@ router.get("/get-services", verifyToken, async (req, res) => {
 });
 
 // Service OneToOneCall
+// /api/services
 router
   .route("/onetoonecall")
   .put(verifyToken, updateCall)
+
+  // okay
   .post(verifyToken, insertCall);
 
 // Delete Function
+// /api/services
 router.post("/onetoonecall/delete", verifyToken, deleteCall);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Service Message
+// /api/services/message
 router
   .route("/message")
   .put(verifyToken, updateMessage)
   .post(verifyToken, insertMessage);
 
 // Delete Function
+
+//okay 
+// /api/services
 router.post("/message/delete", verifyToken, deleteMessage);
 
 export default router;

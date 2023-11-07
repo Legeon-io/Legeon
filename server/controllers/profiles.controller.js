@@ -91,7 +91,6 @@ export const updateUserProfile = async (req, res) => {
   try {
     const userData = req.user;
     const data = req.body;
-    console.log(data);
 
     const response = await profile.updateOne(
       { _id: mongoose.Types.ObjectId(userData.id) },
@@ -152,12 +151,11 @@ export const updateUserProfile = async (req, res) => {
 // Testing Needed
 export const updateAccount = async (req, res) => {
   try {
-    console.log(req.user);
     const id = req.user.id;
 
     const data = req.body.values;
-    console.log(id);
-    console.log(data);
+    // console.log(id);
+    // console.log(data);
 
     const update = await profile.updateOne(
       { _id: mongoose.Types.ObjectId(id) },
