@@ -11,31 +11,27 @@ import Dashboard from "./pages/dashboard/Dashboard.js";
 
 import Availability from "./pages/calender/Availability.js";
 import Navbar from "./components/layout/navbar/Navbar.js";
-import ServiceHub from "./pages/servicehub/ServiceHub";
+import ServiceHub from "./pages/service_hub/ServiceHub.js";
 import NotFound from "./pages/NotFound";
-import PublicPage from "./pages/public_page/PublicPage";
 import Loader from "./components/helper/Loader";
 import CalenderBooking from "./pages/calenderBooking/CalenderBooking";
 import CreateServices from "./pages/services/createServices";
 
 const App = () => {
-  console.log(process.env.REACT_APP_API_URL);
   const [clickMenu, setClickMenu] = useState(false);
   const handleClickMenu = () => {
     setClickMenu(!clickMenu);
   };
 
   const [showSidebar, setSidebar] = useState(true);
-
   const location = useLocation();
-
   useEffect(() => {
     const { pathname } = location;
     if (
       pathname === "/" ||
       pathname === "/404" ||
       pathname === "/public" ||
-      pathname === "/:username" ||
+      // username ||
       pathname === "/calenderBooking"
     ) {
       setSidebar(false);
@@ -67,7 +63,6 @@ const App = () => {
           <div className={`${showSidebar ? "sm:pl-64" : ""}`}>
             <Routes>
               <Route exact path="/" element={<LandingPage />} />
-              <Route path="/public" element={<PublicPage />} />
               <Route path="/calenderBooking" element={<CalenderBooking />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/availability" element={<Availability />} />

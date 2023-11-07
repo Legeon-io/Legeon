@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 import {
   FiFacebook,
   FiHeart,
@@ -8,16 +12,11 @@ import {
   FiYoutube,
 } from "react-icons/fi";
 import { FaLinkedin } from "react-icons/fa";
-import { BiUserPlus, BiUserCheck } from "react-icons/bi";
-import { AiOutlineLike, AiFillLike } from "react-icons/ai";
-
-// static data
-import { servicesCard, socails } from "./data";
 
 import USER_LOGO from "../../assets/user.jpg";
 import "./landing.css";
 import { Zoom } from "react-reveal";
-import { useSelector } from "react-redux";
+
 const getSocialsItem = (id) => {
   switch (id) {
     case "linkedin":
@@ -59,7 +58,8 @@ const getSocialsItem = (id) => {
       return null;
   }
 };
-const PublicPage = () => {
+
+function ServiceHub() {
   const publicProfileStore = useSelector((state) => state.publicProfileStore);
   const backendData = publicProfileStore.data;
   console.log(backendData);
@@ -80,6 +80,23 @@ const PublicPage = () => {
     itemLikedServices: [],
   });
 
+  const isGoogle = useSelector((state) => state.profile.userData.isGoogle);
+  const navigate = useNavigate();
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/profiles/getUserDetails`,
+          {
+            username: window.location.pathname.split("/")[1],
+          }
+        );
+        if (response) console.log(response.data);
+      } catch (err) {
+        navigate("/404");
+      }
+    })();
+  });
   return (
     <div className="relative sm:pt-52 pt-36 pb-20 select-none">
       <div className="fixed top-0 left-0 h-screen w-screen bg-black -z-10">
@@ -99,7 +116,9 @@ const PublicPage = () => {
               <Zoom>
                 <div className="flex items-center justify-center gap-5 sm:text-base text-sm sm:p-5 p-0">
                   <div>
-                    <div className="text-2xl text-center">{backedData.top}%</div>
+                    <div className="text-2xl text-center">
+                      {backedData.top}%
+                    </div>
                     <p>Top</p>
                   </div>
                   <div>
@@ -109,7 +128,9 @@ const PublicPage = () => {
                     <p>Services</p>
                   </div>
                   <div>
-                    <div className="text-2xl text-center">{backedData.booking}</div>
+                    <div className="text-2xl text-center">
+                      {backedData.booking}
+                    </div>
                     <p>Bookings</p>
                   </div>
                   <div>
@@ -223,6 +244,6 @@ const PublicPage = () => {
       </div>
     </div>
   );
-};
+}
 
-export default PublicPage;
+export default ServiceHub;
