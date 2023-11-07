@@ -76,14 +76,17 @@ export const generateSlots = async (req, res) => {
           { datetime: { $gte: startOfDay, $lte: endOfDay } },
         ],
       },
-      { __v: 0, timeSlot: 1 }
+      // { __v: 0, timeSlot: 1 }
+      { __v: 0 }
     );
     // End of Data Collection
 
     // orderData must be refined like [[300,360],[600,660],..]
     // assuming
-    for (let item of orderData) {
-      availability = generateAvailability(item[0], item[1], availability);
+    if (orderData) {
+      for (let item of orderData) {
+        availability = generateAvailability(item[0], item[1], availability);
+      }
     }
 
     let final_slots = generateAvailableSlots(duration, availability);
@@ -116,9 +119,12 @@ function generateAvailableSlots(duration, availability) {
   for (let slot of availability) {
     let startTime = slot[0];
     let endTime = slot[1];
-    while (startTime + duration < endTime) {
-      convertedTime = convertToHours(startTime + duration);
-      final_slots.push(`${Math.floor(startTime / 60)}:${startTime % 60}`);
+    while (startTime + duration <= endTime) {
+      final_slots.push(
+        `${String(Math.floor(startTime / 60)).padStart(2, "0")}:${String(
+          startTime % 60
+        ).padStart(2, "0")}`
+      );
       startTime = startTime + duration;
     }
   }
