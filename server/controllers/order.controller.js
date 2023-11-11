@@ -11,13 +11,13 @@ import scheduleModel from "../models/schedule.js";
 //   return format(parsedDate, "EEEE");
 // }
 
+// POST -> /api/order
 export const placeServiceOrder = async (req, res) => {
   try {
     const data = req.body;
     const response = await orderModel.create(data);
-    if (response) {
+    if (response)
       return res.status(200).json({ message: "Order Placed Successfully" });
-    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });
@@ -146,16 +146,14 @@ function convertToMinutes(arr) {
 
 // End of Slot Generation
 
+// API for order list for service provider
+// GET -> /api/order
 export const getOrders = async (req, res) => {
   try {
-    const id = req.user.id;
-
-    const response = await orderModel.find({ userid: id });
-    if (response.length > 0) {
-      return res.status(200).json({ data: response });
-    } else {
-      return res.status(404).json({ message: "No Orders Found" });
-    }
+    const { id } = req.user;
+    const response = await orderModel.find({ userid: id }, { __v: 0 });
+    if (response.length > 0) return res.status(200).json(response);
+    else return res.status(404).json({ message: "No Orders Found" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });
