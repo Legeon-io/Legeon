@@ -26,6 +26,7 @@ export const setWeek = async (req, res) => {
     const id = req.user.id;
     // change req.body according to frontend
     const data = req.body.data;
+    console.log(data);
     await schedule.updateOne(
       { _id: mongoose.Types.ObjectId(id) },
       {

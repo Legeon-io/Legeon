@@ -1,13 +1,14 @@
 import { AiOutlineCalendar, AiOutlinePlusCircle } from "react-icons/ai";
-import { FiMapPin } from "react-icons/fi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import axios from "axios";
 
 import React, { useEffect, useState } from "react";
-import TimezoneSelect from "react-timezone-select";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { CalendarAction } from "../../redux/availablity/avalablityAction";
 
 const CalendarAvailability = () => {
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [showOption, setShowOption] = useState(false);
 
@@ -23,7 +24,6 @@ const CalendarAvailability = () => {
           }
         );
         if (response) {
-          console.log(response.data);
           setData([...data, response.data]);
         }
       } catch (err) {
@@ -31,18 +31,6 @@ const CalendarAvailability = () => {
       }
     })();
   }, []);
-
-  const [formData, setFormData] = useState({
-    selectedTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    bookingPeriod: "",
-  });
-
-  const handleFormChange = (fieldName, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [fieldName]: value,
-    }));
-  };
 
   const handleRemoveCalender = async () => {
     try {
@@ -62,20 +50,21 @@ const CalendarAvailability = () => {
     }
   };
 
+  const [bookingPeriod, setBookingPeriod] = useState("");
+  useEffect(() => {
+    if (bookingPeriod) {
+      dispatch(
+        CalendarAction({
+          no_of_week: bookingPeriod,
+        })
+      );
+    }
+  }, [dispatch, bookingPeriod]);
+
   return (
     <div className="w-full flex flex-col sm:gap-10 gap-5">
       <div className=" text-2xl p-2">Calendar Configuration</div>
       <div className="flex flex-col gap-5 sm:px-10 px-2">
-        <div className="flex lg:flex-row flex-col justify-between lg:gap-10 gap-2">
-          <div className="flex gap-0 items-center ">
-            <FiMapPin />
-            <span>TimeZone</span>
-          </div>
-          <TimezoneSelect
-            value={formData.selectedTimezone}
-            onChange={(value) => handleFormChange("selectedTimezone", value)}
-          />
-        </div>
         <div className="flex lg:flex-row flex-col gap-2 justify-between w-full">
           <div className="flex gap-0 items-center">
             <AiOutlineCalendar />
@@ -84,19 +73,12 @@ const CalendarAvailability = () => {
           <div className="">
             <select
               className="border-2 border-gray-500 p-2 focus:outline-none lg:w-[27rem] w-full rounded "
-              value={formData.bookingPeriod}
-              onChange={(e) =>
-                handleFormChange("bookingPeriod", e.target.value)
-              }
+              value={bookingPeriod}
+              onChange={(e) => setBookingPeriod(e.target.value)}
             >
               <option value="">Select Option</option>
-              <option value="oneweek">1 Week</option>
-              <option value="twoweek">2 Weeks</option>
-              <option value="threeweek">3 Weeks</option>
-              <option value="fourweek">4 Weeks</option>
-              <option value="twomonth">2 Months</option>
-              <option value="threemoth">3 Months</option>
-              <option value="fourmonth">4 Months</option>
+              <option value="1">1 Week</option>
+              <option value="2">2 Weeks</option>
             </select>
           </div>
         </div>
@@ -121,7 +103,7 @@ const CalendarAvailability = () => {
         ) : (
           <div className="flex gap-2 items-center justify-between w-1/2">
             <div className="flex gap-2 items-center">
-              <img src="icons/googleCalendarIcon.svg" width={50} />
+              <img alt="Not Found" src="icons/googleCalendarIcon.svg" width={50} />
               <div>
                 <h1 className="font-bold">Google Calendar</h1>
                 <h1>{data[0].scope}</h1>
