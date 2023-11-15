@@ -1,5 +1,5 @@
 import user from "../models/users.js";
-import googleUser from "../models/googleuser.js";
+import googleUser from "../models/googleUser.js";
 import profile from "../models/profiles.js";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
