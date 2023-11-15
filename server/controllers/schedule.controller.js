@@ -41,6 +41,7 @@ export const setWeek = async (req, res) => {
     res.status(500).json({ errorMessage: "Internal server error" });
   }
 };
+
 export const getEvents = async (req, res) => {
   try {
     const id = req.user.id;

@@ -14,6 +14,9 @@ import calendarRouter from "./routes/calendar.routes.js";
 
 import scheduleRouter from "./routes/schedule.routes.js";
 import serviceRouter from "./routes/services.routes.js";
+import paymentRouter from "./routes/payment.routes.js";
+import orderRouter from "./routes/order.routes.js";
+
 import path from "path";
 
 import { fileURLToPath } from "url";
@@ -49,25 +52,42 @@ app.get("/", (req, res) => {
 
 // Use the user routes
 app.use("/api/users", userRouter);
+
 // Google OAuth
 app.use(googleRouter);
+
 app.use("/api/events", scheduleRouter);
+
 // Services OneToOneCall Message
 app.use("/api/services", serviceRouter);
+
 // Calender
 app.use("/api/calender", calendarRouter);
 
 app.use("/api/profiles", profilesRouter);
+
+// Order
+app.use("/api/order", orderRouter);
+
+app.use("/api/payment", paymentRouter);
+
+app.get("/success", (req, res) => {
+  res.send("Stripe Success");
+});
+
+app.get("/error", (req, res) => {
+  res.send("Stripe Error");
+});
 
 const startServer = async () => {
   try {
     connectDB(process.env.MONGODB_URL);
 
     app.listen(8080, () => {
-      console.log(
-        "Database server started on",
-        process.env.DATABASE_SERVER_URL
-      );
+      // console.log(
+      //   "Database server started on",
+      //   process.env.DATABASE_SERVER_URL
+      // );
       console.log("Google services started on http://localhost:8080");
     });
   } catch (error) {

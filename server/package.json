@@ -36,6 +36,7 @@
     "password-generator": "^2.3.2",
     "razorpay": "^2.8.6",
     "speakeasy": "^2.0.0",
+    "stripe": "^14.2.0",
     "uuid": "^9.0.0"
   }
 }
