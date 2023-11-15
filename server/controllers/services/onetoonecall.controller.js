@@ -58,8 +58,8 @@ export const updateCall = async (req, res) => {
 
 export const deleteCall = async (req, res) => {
   try {
-    const id = req.body.id;
-    await oneToOneModel.deleteOne({ _id: id });
+    const { serviceId } = req.body;
+    await oneToOneModel.deleteOne({ _id: serviceId });
 
     return res.status(200).json({ message: "Call Deleted Successfully" });
   } catch (error) {

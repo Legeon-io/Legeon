@@ -11,13 +11,13 @@ import scheduleModel from "../models/schedule.js";
 //   return format(parsedDate, "EEEE");
 // }
 
+// POST -> /api/order
 export const placeServiceOrder = async (req, res) => {
   try {
     const data = req.body;
     const response = await orderModel.create(data);
-    if (response) {
+    if (response)
       return res.status(200).json({ message: "Order Placed Successfully" });
-    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });
@@ -76,14 +76,17 @@ export const generateSlots = async (req, res) => {
           { datetime: { $gte: startOfDay, $lte: endOfDay } },
         ],
       },
-      { __v: 0, timeSlot: 1 }
+      // { __v: 0, timeSlot: 1 }
+      { __v: 0 }
     );
     // End of Data Collection
 
     // orderData must be refined like [[300,360],[600,660],..]
     // assuming
-    for (let item of orderData) {
-      availability = generateAvailability(item[0], item[1], availability);
+    if (orderData) {
+      for (let item of orderData) {
+        availability = generateAvailability(item[0], item[1], availability);
+      }
     }
 
     let final_slots = generateAvailableSlots(duration, availability);
@@ -116,9 +119,12 @@ function generateAvailableSlots(duration, availability) {
   for (let slot of availability) {
     let startTime = slot[0];
     let endTime = slot[1];
-    while (startTime + duration < endTime) {
-      convertedTime = convertToHours(startTime + duration);
-      final_slots.push(`${Math.floor(startTime / 60)}:${startTime % 60}`);
+    while (startTime + duration <= endTime) {
+      final_slots.push(
+        `${String(Math.floor(startTime / 60)).padStart(2, "0")}:${String(
+          startTime % 60
+        ).padStart(2, "0")}`
+      );
       startTime = startTime + duration;
     }
   }
@@ -140,16 +146,14 @@ function convertToMinutes(arr) {
 
 // End of Slot Generation
 
+// API for order list for service provider
+// GET -> /api/order
 export const getOrders = async (req, res) => {
   try {
-    const id = req.user.id;
-
-    const response = await orderModel.find({ userid: id });
-    if (response.length > 0) {
-      return res.status(200).json({ data: response });
-    } else {
-      return res.status(404).json({ message: "No Orders Found" });
-    }
+    const { id } = req.user;
+    const response = await orderModel.find({ userid: id }, { __v: 0 });
+    if (response.length > 0) return res.status(200).json(response);
+    else return res.status(404).json({ message: "No Orders Found" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });

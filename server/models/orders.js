@@ -5,27 +5,29 @@ const userSchema = new mongoose.Schema(
     name: { type: String, required: true },
     phoneNumber: { type: Number, required: true },
     mailId: { type: String, required: true },
-    description: { type: String, required: true },
-    receiveMail: { type: Boolean, default: false },
+    description: { type: String },
+    // receiveMail: { type: Boolean, default: false },
   },
   { _id: false }
 );
 
-const rescheduleSchema = new mongoose.Schema({
-  date: { type: Date, required: true },
-  fromTime: { type: Date, required: true },
-  toTime: { type: Date, required: true },
-  reason: { type: String, required: true },
-});
+const rescheduleSchema = new mongoose.Schema(
+  {
+    date: { type: Date },
+    fromTime: { type: Date },
+    toTime: { type: Date },
+    reason: { type: String },
+  },
+  { _id: false }
+);
 
 const orderSchema = new mongoose.Schema(
   {
     userid: { type: String, required: true },
     serviceType: { type: String, required: true },
-    datetime: { type: Date, required: true },
+    dateOfBooking: { type: String, required: true }, // Date selected for service
     serviceId: { type: String, required: true },
     timeSlot: { type: Array, required: true },
-    // timeZone: { type: String, required: true },
     customer: { type: userSchema, required: true },
     isCanceled: { type: Boolean, default: false },
     isCompleted: { type: Boolean, default: false },
