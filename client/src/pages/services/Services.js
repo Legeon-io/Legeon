@@ -14,6 +14,7 @@ import EditServices from "./EditServices";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCallAction, getVerify } from "../../redux/service/CallAction";
 import { deleteMessageAction } from "../../redux/service/personalAction";
+import DeletePopUp from "./DeletePopUp";
 export const Services = ({ sidebarVisible }) => {
   const loading = false;
 
@@ -55,6 +56,15 @@ export const Services = ({ sidebarVisible }) => {
     setEditServicesValue({ ...service, ...getTheme });
   };
 
+  const [deleteToggle, setDeleteToggle] = useState(false);
+  const [deleteType, setDeleteType] = useState("");
+  const [deleteId, setDeleteId] = useState("");
+  const handleDeleteService = (type, id) => {
+    setDeleteType(type);
+    setDeleteId(id);
+    setDeleteToggle(true);
+  };
+
   return (
     <>
       {loading ? (
@@ -88,6 +98,13 @@ export const Services = ({ sidebarVisible }) => {
             <EditServices
               setEditModel={setEditModel}
               value={editServicesValue}
+            />
+          )}
+          {deleteToggle && (
+            <DeletePopUp
+              setDeleteToggle={setDeleteToggle}
+              deleteType={deleteType}
+              deleteId={deleteId}
             />
           )}
           <div className="space-y-5 xs:p-10 p-2">
@@ -129,13 +146,9 @@ export const Services = ({ sidebarVisible }) => {
                               <BsPencilSquare /> Edit
                             </button>
                             <button
-                              onClick={() => {
-                                item.serviceType === "onetoone"
-                                  ? dispatch(deleteCallAction({ id: item._id }))
-                                  : dispatch(
-                                      deleteMessageAction({ id: item._id })
-                                    );
-                              }}
+                              onClick={() =>
+                                handleDeleteService(item.serviceType, item._id)
+                              }
                               className="flex gap-2 justify-center items-center bg-gray-300 p-1 rounded-3xl w-[8rem]"
                             >
                               <BsTrash />
