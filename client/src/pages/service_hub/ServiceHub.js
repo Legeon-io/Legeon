@@ -156,12 +156,12 @@ function ServiceHub() {
                     const social = getSocialsItem(item.id);
                     return (
                       <Zoom>
-                        <Link to={item.href}>
-                        <div
-                          className={`${social.color} text-white p-2 rounded-full sm:text-3xl text-xl cursor-pointer shadow-lg shadow-gray-700`}
-                        >
-                          {social.icon}
-                        </div>
+                        <Link to={item.href} target="_blank">
+                          <div
+                            className={`${social.color} text-white p-2 rounded-full sm:text-3xl text-xl cursor-pointer shadow-lg shadow-gray-700`}
+                          >
+                            {social.icon}
+                          </div>
                         </Link>
                       </Zoom>
                     );
