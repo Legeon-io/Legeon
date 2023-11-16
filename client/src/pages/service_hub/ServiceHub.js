@@ -16,7 +16,7 @@ import { FaLinkedin } from "react-icons/fa";
 import USER_LOGO from "../../assets/user.jpg";
 import "./landing.css";
 import { Zoom } from "react-reveal";
-import { pppAction } from "../../redux/publicProfilePage/pppAction";
+import { pppAction } from "../../redux/service_hub/ServiceHubAction";
 
 const getSocialsItem = (id) => {
   switch (id) {
@@ -105,7 +105,7 @@ function ServiceHub() {
   return (
     <>
       {backendData && backendData.profile && (
-        <div className="relative sm:pt-52 pt-36 pb-20 select-none">
+        <div className="relative sm:pt-32 pt-36 pb-20 select-none">
           <div className="fixed top-0 left-0 h-screen w-screen bg-black -z-10">
             <div className="absolute sm:top-[-25rem] sm:right-[-10rem] top-[-8rem] right-[-8rem] rounded-full md:h-[50rem] md:w-[50rem] sm:h-[30rem] sm:w-[30rem] h-[20rem] w-[20rem] bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 circle" />
             <div className="absolute sm:bottom-[-5rem] sm:left-[-15rem] bottom-[-5rem] left-[-10rem] rounded-full sm:h-[30rem] sm:w-[30rem] h-[20rem] w-[20rem] bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 circle" />
@@ -170,29 +170,33 @@ function ServiceHub() {
                   <Zoom>
                     <div className="sm:text-6xl text-3xl flex gap-10">
                       <p>{backendData.firstname}</p>
-                      <p>{backendData.lastName}</p>
+                      <p>{backendData.lastname}</p>
                     </div>
                     <div>{backendData.username}</div>
                     <div className="sm:text-3xl text-xl">
                       {backendData.profile.profession}
                     </div>
                   </Zoom>
-                  <Zoom>
-                    <div className="w-[80%]">
-                      <label htmlFor="" className="font-bold">
-                        About Us
-                      </label>
-                      <p>{backendData.profile.introduction}</p>
-                    </div>
-                  </Zoom>
-                  <div className="w-[80%]">
+                  {backendData.profile.introduction && (
                     <Zoom>
-                      <label htmlFor="" className="font-bold">
-                        Bio
-                      </label>
-                      <p>{backendData.profile.bio}</p>
+                      <div className="w-[80%]">
+                        <label htmlFor="" className="font-bold">
+                          About Us
+                        </label>
+                        <p>{backendData.profile.introduction}</p>
+                      </div>
                     </Zoom>
-                  </div>
+                  )}
+                  {backendData.profile.bio && (
+                    <div className="w-[80%]">
+                      <Zoom>
+                        <label htmlFor="" className="font-bold">
+                          Bio
+                        </label>
+                        <p>{backendData.profile.bio}</p>
+                      </Zoom>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

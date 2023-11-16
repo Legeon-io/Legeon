@@ -8,10 +8,10 @@ const DeletePopUp = (props) => {
   const handleDelete = () => {
     switch(deleteType){
         case "onetoone":
-            dispatch(deleteCallAction({ id: deleteId }))
+            dispatch(deleteCallAction({ serviceId: deleteId }))
           break;
         case "message":
-            dispatch(deleteMessageAction({ id: deleteId }))
+            dispatch(deleteMessageAction({ serviceId: deleteId }))
           break;
         default:
           break;

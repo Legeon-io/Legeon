@@ -6,7 +6,7 @@ const pppSlice = createSlice({
     data: {},
     loading: false,
   },
-  reducers: {
+  reducers: { 
     pppRequest: (state) => {
       state.loading = true;
     },

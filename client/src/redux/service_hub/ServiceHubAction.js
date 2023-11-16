@@ -1,5 +1,5 @@
 import axios from "axios";
-import { pppRequest, pppSuccess, pppFailure } from "./pppReducer";
+import { pppRequest, pppSuccess, pppFailure } from "./ServiceHubReducer"
 export const pppAction = (values) => {
   return async (dispatch) => {
     dispatch(pppRequest());
@@ -8,7 +8,7 @@ export const pppAction = (values) => {
       const apiURL = `${process.env.REACT_APP_API_URL}/api/profiles/getUserDetails`;
       const response = await axios.post(apiURL, values);
       if (response.status === 200) {
-        dispatch(pppSuccess(response.data));
+        dispatch(pppSuccess(response.data)); 
       }
     } catch (error) {
       dispatch(pppFailure(error));

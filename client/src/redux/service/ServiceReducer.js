@@ -22,7 +22,7 @@ const CallSlice = createSlice({
     },
     deleteCallSuccess: (state, action) => {
       state.loading = false;
-      const idToDelete = action.payload.id;
+      const idToDelete = action.payload.serviceId;
       state.data = state.data.filter((item) => item._id !== idToDelete);
     },
     deleteCallFailure: (state) => {
