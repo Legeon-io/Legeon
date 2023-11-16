@@ -3,7 +3,6 @@ import { pppRequest, pppSuccess, pppFailure } from "./ServiceHubReducer"
 export const pppAction = (values) => {
   return async (dispatch) => {
     dispatch(pppRequest());
-    console.log(values);
     try {
       const apiURL = `${process.env.REACT_APP_API_URL}/api/profiles/getUserDetails`;
       const response = await axios.post(apiURL, values);

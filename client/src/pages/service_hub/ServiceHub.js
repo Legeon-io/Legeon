@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -69,6 +69,7 @@ function ServiceHub() {
   }, [dispatch, username]);
   const publicProfileStore = useSelector((state) => state.publicProfileStore);
   const backendData = publicProfileStore.data;
+  console.log(backendData);
   // const username =
   // To calculate the discount
   // const discount = (price, strikePrice) => {
@@ -155,11 +156,13 @@ function ServiceHub() {
                     const social = getSocialsItem(item.id);
                     return (
                       <Zoom>
+                        <Link to={item.href}>
                         <div
                           className={`${social.color} text-white p-2 rounded-full sm:text-3xl text-xl cursor-pointer shadow-lg shadow-gray-700`}
                         >
                           {social.icon}
                         </div>
+                        </Link>
                       </Zoom>
                     );
                   })}
