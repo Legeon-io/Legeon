@@ -15,9 +15,9 @@ const eventSchema = new mongoose.Schema(
 );
 
 const scheduleSchema = new mongoose.Schema({
-  no_of_week: { type: Number },
+  no_of_week: { type: Number, default: 1 },
   events: [eventSchema],
-  active: { type: Boolean },
+  isActive: { type: Boolean, default: true },
 });
 
 const scheduleModel = mongoose.model("schedule", scheduleSchema);

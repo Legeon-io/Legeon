@@ -6,8 +6,11 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { AiOutlineMinus, AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { ScheduleAction } from "../../redux/availablity/avalablityAction";
 
 const Schedule = () => {
+  const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
       try {
@@ -27,6 +30,10 @@ const Schedule = () => {
       }
     })();
   }, []);
+
+  // useEffect(() => {
+  //   dispatch(ScheduleAction());
+  // }, [dispatch]);
 
   const days = [
     "Monday",
@@ -68,7 +75,7 @@ const Schedule = () => {
             ":"
           );
           const [to, toMin] = convertTo24Hours(toTime, toPeriod).split(":");
-          return `${from}.${fromMin}` < `${to}.${toMin}`;
+          return parseInt(`${from}.${fromMin}`) < parseInt(`${to}.${toMin}`);
         }
       ),
     fromPeriod: Yup.string().required("From Period is required"),

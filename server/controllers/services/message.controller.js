@@ -1,5 +1,6 @@
 import messageModel from "../../models/services/message.js";
 
+/**POST : /api/services/message */
 export const insertMessage = async (req, res) => {
   try {
     const id = req.user.id;
@@ -15,6 +16,7 @@ export const insertMessage = async (req, res) => {
   }
 };
 
+/** PUT: /api/services/message */
 export const updateMessage = async (req, res) => {
   try {
     let { serviceTitle, serviceDescription, price, slashPrice, serviceId } =
@@ -40,24 +42,11 @@ export const updateMessage = async (req, res) => {
   }
 };
 
-export const getMessage = async (req, res) => {
-  try {
-    const id = req.user.id;
-    const response = await messageModel.find({ userid: id });
-    if (response) {
-      return res.status(200).json(response);
-    } else {
-      return res.status(404).json({ message: "No Messages Found" });
-    }
-  } catch (error) {
-    res.status(500).json({ errorMessage: "Internal server error" });
-  }
-};
-
+/** POST :  /api/services/message/delete */
 export const deleteMessage = async (req, res) => {
   try {
-    const id = req.body.id;
-    await messageModel.deleteOne({ _id: id });
+    const { serviceId } = req.body;
+    await messageModel.deleteOne({ _id: serviceId });
 
     return res.status(200).json({ message: "Message Deleted Successfully" });
   } catch (error) {

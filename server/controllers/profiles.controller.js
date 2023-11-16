@@ -4,6 +4,9 @@ import profile from "../models/profiles.js";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import userModel from "../models/users.js";
+import profileModel from "../models/profiles.js";
+import oneToOneModel from "../models/services/onetoonecall.js";
+import messageModel from "../models/services/message.js";
 
 export const getUserProfile = async (req, res) => {
   try {
@@ -88,7 +91,6 @@ export const updateUserProfile = async (req, res) => {
   try {
     const userData = req.user;
     const data = req.body;
-    console.log(data);
 
     const response = await profile.updateOne(
       { _id: mongoose.Types.ObjectId(userData.id) },
@@ -149,12 +151,11 @@ export const updateUserProfile = async (req, res) => {
 // Testing Needed
 export const updateAccount = async (req, res) => {
   try {
-    console.log(req.user);
     const id = req.user.id;
 
     const data = req.body.values;
-    console.log(id);
-    console.log(data);
+    // console.log(id);
+    // console.log(data);
 
     const update = await profile.updateOne(
       { _id: mongoose.Types.ObjectId(id) },
@@ -191,79 +192,55 @@ export const updateAccount = async (req, res) => {
 // Get User Details For Service Hub
 export const getUserDetails = async (req, res) => {
   try {
-    const { isGoogle, username } = req.body;
+    const { username } = req.body;
+    const googleUserResponse = await googleUser
+      .findOne({ username }, { __v: 0 })
+      .select("-createdAt -updatedAt")
+      .lean();
+
+    const customUserResponse = await user
+      .findOne({ username }, { __v: 0 })
+      .select("-createdAt -updatedAt")
+      .lean();
 
     let id;
-    if (isGoogle) {
-      const response = await googleUser.findOne({ username });
-      if (response) {
-        console.log(response.id);
-        id = response.id;
-      }
-    } else {
-      const response = await userModel.findOne({ username });
-      if (response) {
-        console.log(response.id);
-        id = response.id;
-      }
-    }
+    let response;
 
-    if (!id) {
-      return res.status(404).json({ message: "Account Not Found" });
-    }
-    const pipeline = [
-      {
-        $match: {
-          _id: mongoose.Types.ObjectId(id),
-        },
-      },
-      {
-        $lookup: {
-          from: "profiles",
-          let: { userId: "$_id" },
-          pipeline: [
-            {
-              $match: {
-                $expr: { $eq: ["$_id", "$$userId"] },
-              },
-            },
-            {
-              $project: {
-                _id: 0,
-                password: 0,
-                __v: 0,
-              },
-            },
-          ],
-          as: "userData",
-        },
-      },
-      {
-        $unwind: {
-          path: "$userData",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          password: 0,
-          __v: 0,
-          "userData._id": 0,
-          "userData.__v": 0,
-        },
-      },
-    ];
+    if (googleUserResponse) {
+      id = googleUserResponse._id;
+      response = googleUserResponse;
+    } else if (customUserResponse) {
+      id = customUserResponse._id;
+      response = customUserResponse;
+    } else return res.status(404).json({ message: "User Not Found" });
 
-    if (isGoogle) {
-      const googleData = await googleUser.aggregate(pipeline);
+    const profileResponse = await profileModel.findOne(
+      { _id: id },
+      { __v: 0, _id: 0 }
+    );
+    response.profile = profileResponse;
 
-      if (googleData.length > 0) return res.status(200).json(googleData);
-    } else {
-      const userData = await user.aggregate(pipeline);
-      if (userData.length > 0) return res.status(200).json(userData);
-    }
-    return res.status(404).json({ message: "Account Not Found" });
+    // Getting Provider Services
+    const oneToOneServices = await oneToOneModel.find(
+      { userid: id },
+      { __v: 0, userid: 0 }
+    );
+
+    const messageServices = await messageModel.find(
+      { userid: id },
+      { __v: 0, userid: 0 }
+    );
+
+    const allServices = [...oneToOneServices, ...messageServices];
+    const sortedServices = allServices.sort(
+      (a, b) => a.createdAt - b.createdAt
+    );
+
+    if (sortedServices) response.services = sortedServices;
+
+    response.servicesCount = sortedServices.length;
+
+    res.status(200).json(response);
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });
