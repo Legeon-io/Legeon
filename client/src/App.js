@@ -25,18 +25,24 @@ const App = () => {
 
   const [showSidebar, setSidebar] = useState(true);
   const location = useLocation();
+  const [showNavbar, setShowNavbar] = useState(true);
   useEffect(() => {
     const { pathname } = location;
+    const isPPP = pathname.includes("/serviceHub/");
     if (
       pathname === "/" ||
       pathname === "/404" ||
-      pathname === "/public" ||
-      // username ||
-      pathname === "/calenderBooking"
+      pathname === "/calenderBooking" ||
+      isPPP
     ) {
       setSidebar(false);
     } else {
       setSidebar(true);
+    }
+    if (isPPP) {
+      setShowNavbar(false);
+    } else {
+      setShowNavbar(true);
     }
   }, [location.pathname]);
 
@@ -58,12 +64,15 @@ const App = () => {
         </div>
       ) : (
         <>
-          <Navbar handleClickMenu={handleClickMenu} />
+          {showNavbar && <Navbar handleClickMenu={handleClickMenu} />}
           {showSidebar && <Sidebar clickMenu={clickMenu} />}
           <div className={`${showSidebar ? "sm:pl-64" : ""}`}>
             <Routes>
               <Route exact path="/" element={<LandingPage />} />
-              <Route path="/calenderBooking" element={<CalenderBooking />} />
+              <Route
+                path="/calenderBooking/:serviceId"
+                element={<CalenderBooking />}
+              />
               <Route element={<ProtectedRoute />}>
                 <Route path="/availability" element={<Availability />} />
                 <Route path="/dashboard" element={<Dashboard />} />
@@ -74,7 +83,7 @@ const App = () => {
                 />
                 <Route path="/profile" element={<Profile />} />
               </Route>
-              <Route path="/:username" element={<ServiceHub />} />
+              <Route path="/serviceHub/:username" element={<ServiceHub />} />
               <Route path="/404" element={<NotFound />} />
             </Routes>
           </div>

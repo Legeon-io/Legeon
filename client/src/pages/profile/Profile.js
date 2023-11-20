@@ -4,13 +4,14 @@ import Cookie from "js-cookie";
 import "./Profile.css";
 
 // React Icons
-import { BsPencilSquare, BsQuestionCircle } from "react-icons/bs";
+import { BsPencilSquare, BsQuestionCircle, BsTicket } from "react-icons/bs";
 import {
   FiLinkedin,
   FiTwitter,
   FiYoutube,
   FiInstagram,
   FiFacebook,
+  FiCopy,
 } from "react-icons/fi";
 import { IoImageOutline } from "react-icons/io5";
 import axios from "axios";
@@ -26,11 +27,21 @@ import AddLinkModel from "./profilepages/AddLinkModel";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { handleGetProfileAction } from "../../redux/profilePage/profilePageAction";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { Link } from "react-router-dom";
+import { TiTick } from "react-icons/ti";
 
 const Profile = () => {
   const loading = useSelector((state) => state.profilePageStore.loading);
   const dispatch = useDispatch();
   const dataStore = useSelector((state) => state.profilePageStore.data);
+  const [copy, setCopy] = useState(false);
+  const handleCopy = () => {
+    setCopy(true);
+    setInterval(() => {
+      setCopy(false);
+    }, 5000);
+  };
 
   const [backendData, setBackendData] = useState({
     firstname: "",
@@ -165,18 +176,17 @@ const Profile = () => {
                                 link: updatedLinks,
                               };
                               setBackendData(result);
-                              axios
-                                .put(
-                                  "http://localhost:8080/api/profiles/putprofile",
-                                  result,
-                                  {
-                                    headers: {
-                                      Authorization: `Bearer ${Cookies.get(
-                                        "token"
-                                      )}`,
-                                    },
-                                  }
-                                )
+                              axios.put(
+                                "http://localhost:8080/api/profiles/putprofile",
+                                result,
+                                {
+                                  headers: {
+                                    Authorization: `Bearer ${Cookies.get(
+                                      "token"
+                                    )}`,
+                                  },
+                                }
+                              );
                             }}
                             className="absolute top-3 -right-6 bg-gray-200 rounded-full cursor-pointer"
                           />
@@ -211,13 +221,21 @@ const Profile = () => {
                           {backendData.firstname} {backendData.lastname}
                         </div>
                         <div className="flex gap-2 items-center sm:text-xl">
-                          {backendData.username}
-                          <div className="relative group ">
-                            <BsQuestionCircle className="cursor-pointer" />
-                            <div className="absolute top-5 right-0 rounded-2xl hidden group-hover:block p-2 border-2 border-gray-300 w-[10rem] h-[5rem] bg-gray-100 text-sm">
-                              This is username which is going to be host
-                            </div>
-                          </div>
+                          <Link to={`/serviceHub/${backendData.username}`}>
+                            {backendData.username}
+                          </Link>
+                          <CopyToClipboard
+                            text={`http://localhost:3000/serviceHub/${backendData.username}`}
+                          >
+                            {copy ? (
+                              <TiTick size={20} className="cursor-pointer" />
+                            ) : (
+                              <FiCopy
+                                className="cursor-pointer"
+                                onClick={handleCopy}
+                              />
+                            )}
+                          </CopyToClipboard>
                         </div>
                       </div>
                       <HiOutlinePencil

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./Services.css";
 import "../index.css";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -17,9 +17,18 @@ import { deleteMessageAction } from "../../redux/service/personalAction";
 import DeletePopUp from "./DeletePopUp";
 export const Services = ({ sidebarVisible }) => {
   const loading = false;
+  const [filterSelect, setFilterSelect] = useState("");
 
   const callStore = useSelector((state) => state.serviceStore);
-  console.log(callStore);
+  const getFilterSelect = useMemo(() => {
+    if (filterSelect) {
+      return callStore.data.filter((item) => item.serviceType === filterSelect);
+    } else {
+      return callStore.data;
+    }
+  }, [filterSelect, callStore.data]);
+
+  console.log(getFilterSelect);
 
   const dispatch = useDispatch();
 
@@ -107,23 +116,22 @@ export const Services = ({ sidebarVisible }) => {
               deleteId={deleteId}
             />
           )}
-          <div className="space-y-5 xs:p-10 p-2">
+          <div className="space-y-10 xs:p-10 p-2">
             {/* Heading */}
             <div className="text-4xl">Services</div>
             {/* Button to create services */}
-            <Link
-              to="/services/createServices"
-              className="flex md:justify-end justify-center w-full"
-            >
-              <button className="flex gap-2 items-center justify-center border-2 border-black p-2 w-[15rem] rounded-3xl">
-                <AiOutlinePlus />
-                Create Services
-              </button>
-            </Link>
+            <div>
+              <Link to="/services/createServices" className="w-full">
+                <button className="flex gap-2 items-center justify-center border-2 border-black p-2 w-[15rem] rounded-3xl">
+                  <AiOutlinePlus />
+                  Create Services
+                </button>
+              </Link>
+            </div>
             {/* Cards */}
-            <div className="space-y-10">
-              {callStore.data &&
-                callStore.data.map((item, i) => {
+            <div className="grid 2xl:grid-cols-2 w-[85%] gap-10">
+              {getFilterSelect &&
+                getFilterSelect.map((item, i) => {
                   const getTheme = checkTheme(item.serviceType);
                   return (
                     <>

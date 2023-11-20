@@ -4,6 +4,7 @@ export const pppAction = (values) => {
   return async (dispatch) => {
     dispatch(pppRequest());
     try {
+      console.log(values);
       const apiURL = `${process.env.REACT_APP_API_URL}/api/profiles/getUserDetails`;
       const response = await axios.post(apiURL, values);
       if (response.status === 200) {

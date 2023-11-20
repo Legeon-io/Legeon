@@ -61,12 +61,12 @@ const getSocialsItem = (id) => {
 };
 
 function ServiceHub() {
-  const param = useParams();
-  const username = param.username;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(pppAction({ username }));
-  }, [dispatch, username]);
+    const arr = window.location.pathname.split("/");
+    console.log({ username: arr[arr.length - 1] });
+    dispatch(pppAction({ username: arr[arr.length - 1] }));
+  }, [dispatch]);
   const publicProfileStore = useSelector((state) => state.publicProfileStore);
   const backendData = publicProfileStore.data;
   console.log(backendData);
@@ -98,15 +98,13 @@ function ServiceHub() {
             username: window.location.pathname.split("/")[1],
           }
         );
-      } catch (err) {
-        navigate("/404");
-      }
+      } catch (err) {}
     })();
   });
   return (
     <>
       {backendData && backendData.profile && (
-        <div className="relative sm:pt-32 pt-36 pb-20 select-none">
+        <div className="relative sm:pt-52 pt-36 pb-20 select-none">
           <div className="fixed top-0 left-0 h-screen w-screen bg-black -z-10">
             <div className="absolute sm:top-[-25rem] sm:right-[-10rem] top-[-8rem] right-[-8rem] rounded-full md:h-[50rem] md:w-[50rem] sm:h-[30rem] sm:w-[30rem] h-[20rem] w-[20rem] bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 circle" />
             <div className="absolute sm:bottom-[-5rem] sm:left-[-15rem] bottom-[-5rem] left-[-10rem] rounded-full sm:h-[30rem] sm:w-[30rem] h-[20rem] w-[20rem] bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 circle" />
@@ -229,9 +227,11 @@ function ServiceHub() {
                         </div>
                       )}
                       <div className="flex xs:flex-row flex-col justify-between w-full items-center">
-                        <button className="text-center bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-white p-2 rounded-3xl w-[8rem]">
-                          Book
-                        </button>
+                        <Link to={`/calenderBooking/${item._id}`}>
+                          <button className="text-center bg-gradient-to-r to-pink-500 from-indigo-500 via-purple-500 text-white p-2 rounded-3xl w-[8rem]">
+                            Book
+                          </button>
+                        </Link>
                         <div>
                           {item.slashPrice ? (
                             <div className="xs:flex justify-end hidden">

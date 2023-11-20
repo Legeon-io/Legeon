@@ -167,59 +167,75 @@ const LandingPage = ({ sidebarVisible }) => {
                     </p>
                   </div>
                 </Zoom>
-                <div className="flex flex-col items-center lg:p-10 xs:p-5 p-3 gap-4 border-4 min-h-[20rem] md:w-[25rem] rounded-2xl hover:-translate-y-10 hover:scale-110 transition-all duration-500 hover:shadow-2xl text-violet-500 border-violet-500 hover:bg-violet-500 hover:text-white">
-                  <Zoom>
-                    <BiTime className="text-6xl" />
-                    <h1 className="sm:text-3xl text-2xl font-bold text-center">
+                <Zoom>
+                  <div className="relative group hover:text-white text-violet-500 flex flex-col justify-around items-center min-h-[25rem] md:w-[23rem] lg:p-10 xs:p-5 p-3 shadow-lg border-2 rounded-2xl overflow-hidden">
+                    <div className="absolute z-0 bottom-0 left-0 h-[8px] group-hover:h-full w-full bg-violet-500 transition-all duration-500" />
+                    <BiTime
+                      size={100}
+                      className="z-10 border-2 hover-group border-violet-500 group-hover:bg-white group-hover:text-violet-500 rounded-full p-5"
+                    />
+                    <h1 className="sm:text-3xl text-2xl font-bold text-center  z-10">
                       Flexible Scheduling
                     </h1>
-                    <p className="text-center text-lg">
+                    <p className="text-center text-lg  z-10">
                       Our platform offers flexible booking options, allowing you
                       to find and book services that align with your
                       availability and time zones.
                     </p>
-                  </Zoom>
-                </div>{" "}
-                <div className="flex flex-col items-center lg:p-10 xs:p-5 p-3 gap-4 border-4 min-h-[20rem] md:w-[25rem] rounded-2xl hover:-translate-y-10 hover:scale-110 transition-all duration-500 hover:shadow-2xl text-pink-500 border-pink-500 hover:bg-pink-500 hover:text-white">
-                  <Zoom>
-                    <FaClipboardCheck className="text-6xl" />
-                    <h1 className="sm:text-3xl text-2xl font-bold text-center">
+                  </div>
+                </Zoom>
+                <Zoom>
+                  <div className="relative group hover:text-white text-pink-500 flex flex-col justify-around items-center min-h-[25rem] md:w-[23rem] lg:p-10 xs:p-5 p-3 shadow-lg border-2 rounded-2xl overflow-hidden">
+                    <div className="absolute z-0 bottom-0 left-0 h-[8px] group-hover:h-full w-full bg-pink-500 transition-all duration-500" />
+                    <FaClipboardCheck
+                      size={100}
+                      className="z-10 border-2 hover-group border-pink-500 group-hover:bg-white group-hover:text-pink-500 group-hover rounded-full p-5"
+                    />
+                    <h1 className="sm:text-3xl text-2xl font-bold text-center  z-10">
                       Book Expert Services
                     </h1>
-                    <p className="text-center text-lg">
+                    <p className="text-center text-lg  z-10">
                       Browse through a diverse range of services offered by
                       influencers and experts. Book the ones that match your
                       needs and schedule.
                     </p>
-                  </Zoom>
-                </div>
+                  </div>
+                </Zoom>
               </div>
-              <div className="flex md:flex-row flex-col justify-center items-center lg:gap-20 sm:gap-2 gap-20 sm:p-0 xs:p-10 p-3">
-                <div className="flex flex-col items-center lg:p-10 xs:p-5 p-3 gap-4 border-4 min-h-[20rem] md:w-[25rem] rounded-2xl hover:-translate-y-10 hover:scale-110 transition-all duration-500 hover:shadow-2xl text-indigo-500 border-indigo-500 hover:bg-indigo-500 hover:text-white">
-                  <Zoom>
-                    <BiBookBookmark className="text-6xl" />
-                    <h1 className="sm:text-3xl text-2xl font-bold text-center">
-                      Personalized Learning
+              <div className="flex md:flex-row flex-col justify-around items-center lg:gap-20 sm:gap-2 gap-20 sm:p-0 xs:p-10 p-3">
+              <Zoom>
+                  <div className="relative group hover:text-white text-pink-500 flex flex-col justify-around items-center min-h-[25rem] md:w-[23rem] lg:p-10 xs:p-5 p-3 shadow-lg border-2 rounded-2xl overflow-hidden">
+                    <div className="absolute z-0 bottom-0 left-0 h-[8px] group-hover:h-full w-full bg-pink-500 transition-all duration-500" />
+                    <BiBookBookmark
+                      size={100}
+                      className="z-10 border-2 hover-group border-pink-500 group-hover:bg-white group-hover:text-pink-500 group-hover rounded-full p-5"
+                    />
+                    <h1 className="sm:text-3xl text-2xl font-bold text-center  z-10">
+                    Personalized Learning
                     </h1>
-                    <p className="text-center text-lg">
-                      Get individual attention and guidance from experienced
+                    <p className="text-center text-lg  z-10">
+                    Get individual attention and guidance from experienced
                       professionals to boost your career or personal growth.
                     </p>
-                  </Zoom>
-                </div>{" "}
-                <div className="flex flex-col items-center lg:p-10 xs:p-5 p-3 gap-4 border-4 min-h-[20rem] md:w-[25rem] rounded-2xl hover:-translate-y-10 hover:scale-110 transition-all duration-500 hover:shadow-2xl text-pink-500 border-pink-500 hover:bg-pink-500 hover:text-white">
-                  <Zoom>
-                    <BsShieldCheck className="text-6xl" />
-                    <h1 className="sm:text-3xl text-2xl font-bold text-center">
-                      Safe and Secure
+                  </div>
+                </Zoom>
+                <Zoom>
+                  <div className="relative group hover:text-white text-indigo-500 flex flex-col justify-around items-center min-h-[25rem] md:w-[23rem] lg:p-10 xs:p-5 p-3 shadow-lg border-2 rounded-2xl overflow-hidden">
+                    <div className="absolute z-0 bottom-0 left-0 h-[8px] group-hover:h-full w-full bg-indigo-500 transition-all duration-500" />
+                    <BsShieldCheck
+                      size={100}
+                      className="z-10 border-2 hover-group border-indigo-500 group-hover:bg-white group-hover:text-indigo-500 rounded-full p-5"
+                    />
+                    <h1 className="sm:text-3xl text-2xl font-bold text-center  z-10">
+                    Safe and Secure
                     </h1>
-                    <p className="text-center text-lg">
-                      Trust and safety are our top priorities. Our platform
+                    <p className="text-center text-lg  z-10">
+                    Trust and safety are our top priorities. Our platform
                       ensures secure transactions and authentic
                       service providers.
                     </p>
-                  </Zoom>
-                </div>
+                  </div>
+                </Zoom>
               </div>
             </div>
           </div>
@@ -237,8 +253,8 @@ const LandingPage = ({ sidebarVisible }) => {
                 </div>
               </div>
             </div>
-            <div className="relative grid h-[40rem] w-full">
-              <div className="absolute top-0 left-0 h-full sm:w-1/2">
+            <div className="relative flex justify-around h-[40rem] w-full">
+              <div className="absolute top-0 left-[10rem] h-full sm:w-1/2">
                 <div className="lg:flex hidden flex-col justify-center items-center h-full p-10">
                   <div className="bg-gradient-to-r  block to-pink-500 from-indigo-500  via-purple-500 text-transparent bg-clip-text text-4xl">
                     Services that you can provide:
@@ -247,17 +263,17 @@ const LandingPage = ({ sidebarVisible }) => {
                     {showingDiv && (
                       <Zoom left cascade>
                         <div className="space-y-3">
-                          <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
-                            "Mock Interviews"
+                          <li className="uppercase font-extrabold p-2 border-2 bg-pink-500 text-white rounded-xl text-center">
+                            Mock Interviews
                           </li>
-                          <li className=" p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
-                            "Resume Review"
+                          <li className="uppercase font-extrabold p-2 border-2 bg-indigo-500 text-white rounded-xl text-center">
+                            Resume Review
                           </li>
-                          <li className=" p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
-                            "Career Guidance"
+                          <li className="uppercase font-extrabold p-2 border-2 bg-violet-500 text-white  rounded-xl text-center">
+                            Career Guidance
                           </li>
-                          <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
-                            "Raise funding for your startup"
+                          <li className="uppercase font-extrabold p-2 border-2 bg-pink-500 text-white rounded-xl text-center">
+                            Raise funding for your startup
                           </li>
                         </div>
                       </Zoom>
@@ -265,17 +281,17 @@ const LandingPage = ({ sidebarVisible }) => {
                     {!showingDiv && (
                       <Zoom right cascade>
                         <div className="space-y-3">
-                          <li className=" p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
-                            "Ask me anything"
+                          <li className="uppercase font-extrabold p-2 border-2 bg-indigo-500 text-white rounded-xl text-center">
+                            Ask me anything
                           </li>
-                          <li className=" p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
-                            "GATE Preparation Strategy"
+                          <li className="uppercase font-extrabold p-2 border-2 bg-violet-500 text-white rounded-xl text-center">
+                          GATE Preparation Strategy
                           </li>
-                          <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
-                            "Placement Training"
+                          <li className="uppercase font-extrabold p-2 border-2 bg-pink-500 text-white rounded-xl text-center">
+                            Placement Training
                           </li>
-                          <li className=" p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
-                            "Personal Branding Coach"
+                          <li className="uppercase font-extrabold p-2 border-2 bg-indigo-500 text-white rounded-xl text-center">
+                            Personal Branding Coach
                           </li>
                         </div>
                       </Zoom>
@@ -283,6 +299,7 @@ const LandingPage = ({ sidebarVisible }) => {
                   </ul>
                 </div>
               </div>
+              <div/>
               <div className="scroll">
                 <VerticalTimeline className="" lineColor="rgb(229,231,235)">
                   {stackData.map((item, i) => (
@@ -319,7 +336,7 @@ const LandingPage = ({ sidebarVisible }) => {
                   {showingDiv && (
                     <Zoom left cascade>
                       <div className="space-y-3">
-                        <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        <li className=" p-2 border-2 border-pink-500 rounded-xl text-center">
                           "Mock Interviews"
                         </li>
                         <li className=" p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
@@ -328,7 +345,7 @@ const LandingPage = ({ sidebarVisible }) => {
                         <li className=" p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
                           "Career Guidance"
                         </li>
-                        <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        <li className=" p-2 border-2 border-pink-500 rounded-xl text-center">
                           "Raise funding for your startup"
                         </li>
                       </div>
@@ -343,7 +360,7 @@ const LandingPage = ({ sidebarVisible }) => {
                         <li className=" p-2 border-2 border-violet-500 text-violet-500 rounded-xl text-center">
                           "GATE Preparation Strategy"
                         </li>
-                        <li className=" p-2 border-2 border-pink-500 text-pink-500 rounded-xl text-center">
+                        <li className=" p-2 border-2 border-pink-500 rounded-xl text-center">
                           "Placement Training"
                         </li>
                         <li className=" p-2 border-2 border-indigo-500 text-indigo-500 rounded-xl text-center">
@@ -375,7 +392,7 @@ const LandingPage = ({ sidebarVisible }) => {
                 <div className="grid grid-cols-3 gap-5">
                   <div />
                   <div className="flex flex-col justify-center items-center">
-                    <h1 className="text-2xl font-bold text-pink-500">
+                    <h1 className="text-2xl font-bold">
                       Empowering Your Journey
                     </h1>
                     <p>
@@ -421,7 +438,7 @@ const LandingPage = ({ sidebarVisible }) => {
                     </p>
                   </div>
                   <div className="flex flex-col justify-center items-center">
-                    <h1 className="text-2xl font-bold text-pink-500">
+                    <h1 className="text-2xl font-bold">
                       Your Achievement, Our Commitment
                     </h1>
                     <p>
@@ -451,7 +468,7 @@ const LandingPage = ({ sidebarVisible }) => {
                     className="h-[20rem] w-[20rem] object-contain "
                   />
                   <div className="">
-                    <h1 className="text-2xl font-bold text-pink-500">
+                    <h1 className="text-2xl font-bold">
                       Empowering Your Journey
                     </h1>
                     <p>
@@ -489,7 +506,7 @@ const LandingPage = ({ sidebarVisible }) => {
                     </p>
                   </div>
                   <div className="">
-                    <h1 className="text-2xl font-bold text-pink-500">
+                    <h1 className="text-2xl font-bold">
                       Your Achievement, Our Commitment
                     </h1>
                     <p>

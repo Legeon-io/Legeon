@@ -16,10 +16,12 @@ import { CgProfile } from "react-icons/cg";
 import { BiHelpCircle } from "react-icons/bi";
 import { MdOutlineFeedback } from "react-icons/md";
 import { FiPhoneCall } from "react-icons/fi";
+import { useSelector } from "react-redux";
 
 export const Sidebar = ({ clickMenu }) => {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const userData = useSelector((state) => state.profilePageStore.data);
 
   const closeNestedLists = () => {
     setServicesOpen(false);
@@ -62,7 +64,12 @@ export const Sidebar = ({ clickMenu }) => {
       >
         <div className="flex flex-col justify-between pt-20 gap-10 text-base p-5 w-64 cursor-pointer">
           <div className="flex flex-col gap-5">
-            <Link to="/:username" className="flex justify-center">
+            <Link
+              to={`http://localhost:3000/serviceHub/${
+                userData && userData.username
+              }`}
+              className="flex justify-center"
+            >
               <button className=" flex gap-3 items-center  justify-center border-2 border-indigo-500 p-2 w-full rounded-2xl shadow-lg shadow-gray-300 text-lg">
                 <BsArrowUpRight />
                 My Service Hub
@@ -70,7 +77,6 @@ export const Sidebar = ({ clickMenu }) => {
             </Link>
             <ul className="flex flex-col">
               <ul className="flex flex-col">
-                {/* Dashboard */}
                 <Link
                   to="/dashboard"
                   className="flex items-center gap-2 p-2 hover:bg-gray-200 rounded"
@@ -78,58 +84,29 @@ export const Sidebar = ({ clickMenu }) => {
                   <LuLayoutDashboard className=" " />
                   <div>Dashboard</div>
                 </Link>
-                {/* Chat */}
                 <li className="flex items-center gap-2 p-2 hover:bg-gray-200 rounded">
                   <AiOutlineMessage className=" " />
                   <div>Chat</div>
                 </li>
-                {/* Bookings */}
                 <li className="flex items-center gap-2 p-2 hover:bg-gray-200 rounded">
                   <LuAlbum className=" " />
                   <div>Bookings</div>
                 </li>
               </ul>
               <ul className="flex flex-col">
-                {/* Services */}
                 <Link
                   to="/services"
-                  className={`${
-                    servicesOpen ? "bg-gray-400" : "hover:bg-gray-200"
-                  } flex justify-between items-center p-2 rounded`}
-                  onClick={toggleServices}
+                  className="hover:bg-gray-200 flex justify-between items-center p-2 rounded"
                 >
                   <div className="flex items-center gap-2">
                     <AiOutlineBook className=" " />
                     <div className="bg-gradient-to-r ">Services</div>
                   </div>
-                  <IoIosArrowUp
-                    className={`${servicesOpen ? "rotate-180" : ""}`}
-                  />
                 </Link>
-                {servicesOpen && (
-                  <ul className="flex flex-col">
-                    {/* 1:1 Call */}
-                    <Zoom>
-                      <li className="flex items-center gap-2 p-2 hover:bg-gray-200 rounded ps-10">
-                        <FiPhoneCall className=" " />
-                        <div className="bg-gradient-to-r">1:1 Call</div>
-                      </li>
-                    </Zoom>
-                    {/* Message */}
-                    <Zoom>
-                      <li className="flex items-center gap-2 p-2 hover:bg-gray-200 rounded ps-10">
-                        <AiOutlineBook className=" " />
-                        <div className="bg-gradient-to-r ">Message</div>
-                      </li>
-                    </Zoom>
-                  </ul>
-                )}
-                {/* Payments */}
                 <li className="flex items-center gap-2 p-2 hover:bg-gray-200 rounded">
                   <AiOutlineCreditCard className=" " />
                   <div>Payments</div>
                 </li>
-                {/* Availability */}
                 <Link
                   to="/availability"
                   className="flex items-center gap-2 p-2 hover:bg-gray-200 rounded"
@@ -180,7 +157,12 @@ export const Sidebar = ({ clickMenu }) => {
           {clickMenu && (
             <div className="flex flex-col justify-between pt-20 gap-10 text-sm p-5 w-64 cursor-pointer">
               <div className="flex flex-col gap-5">
-                <Link to="/landing" className="flex justify-center">
+                <Link
+                  to={`http://localhost:3000/serviceHub/${
+                    userData && userData.username
+                  }`}
+                  className="flex justify-center"
+                >
                   <button className=" flex gap-3 items-center  justify-center border-2 border-indigo-500 p-2 w-full rounded-2xl shadow-lg shadow-gray-300 text-base">
                     <BsArrowUpRight />
                     My Service Hub

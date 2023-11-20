@@ -55,8 +55,13 @@ const AddLinkModel = ({ setAddLink, backendData }) => {
   const validationSchema = Yup.object({
     href: Yup.string()
       .required("Please enter a URL.")
-      .url("Please enter a valid URL."),
+      .url(`Please enter a valid URL. \n Eg. http://example.com`)
+      .matches(
+        /^(?![^:@]*:[^:@]*@)(http[s]?:\/\/)?(www\.)?[^.]+[.].+/,
+        "Invalid URL format"
+      ),
   });
+  
 
   const [selectSocial, setSelectSocial] = useState(allSocials[0]);
 
