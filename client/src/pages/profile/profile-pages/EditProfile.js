@@ -310,34 +310,45 @@ const EditProfile = (props) => {
               });
           }}
         >
-          {() => (
+          {({ values }) => (
             <Form className="w-[30rem] flex flex-col gap-5">
               <Input
+                inputValue={values}
                 id="firstname"
                 type="text"
                 name="firstname"
                 label="First Name"
               />
               <Input
+                inputValue={values}
                 id="lastname"
                 type="text"
                 name="lastname"
                 label="Last Name"
               />
               <Input
+                inputValue={values}
                 id="username"
                 type="text"
                 name="username"
                 label="Username"
               />
               <Input
+                inputValue={values}
                 id="profession"
                 type="text"
                 name="profession"
                 label="Profession"
               />
-              <Input id="intro" type="text" name="intro" label="Introduction" />
               <Input
+                inputValue={values}
+                id="intro"
+                type="text"
+                name="intro"
+                label="Introduction"
+              />
+              <Input
+                inputValue={values}
                 as="textarea"
                 id="bio"
                 type="text"

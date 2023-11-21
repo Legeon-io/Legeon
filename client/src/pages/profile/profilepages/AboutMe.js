@@ -57,19 +57,20 @@ const AboutMe = ({ backendData }) => {
                 setWantEditAbout(false);
               }}
             >
-              {() => (
+              {({values}) => (
                 <Form className="flex flex-col gap-5 items-center">
                   <div className="col-span-3 flex flex-col gap-3 w-full">
-                    <Input type="text" name="intro" label="Introduction" />
+                    <Input inputValue={values} type="text" name="intro" label="Introduction" />
                     <Input
+                    inputValue={values}
                       as="textarea"
                       type="text"
                       name="bio"
                       label="Bio"
                       className="w-full scroll h-[15rem]"
                     />
-                    <Input type="text" name="profession" label="Profession" />
-                    <Input type="text" name="language" label="Language" />
+                    <Input inputValue={values} type="text" name="profession" label="Profession" />
+                    <Input inputValue={values} type="text" name="language" label="Language" />
                   </div>
                   <button
                     type="submit"

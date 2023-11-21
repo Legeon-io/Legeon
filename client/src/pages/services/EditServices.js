@@ -86,28 +86,37 @@ const EditServices = ({ setEditModel, value }) => {
               resetForm();
             }}
           >
-            {() => (
+            {({ values }) => (
               <Form className="gap-10">
                 <div className="space-y-4">
                   <Input
+                    inputValue={values}
                     name="serviceTitle"
                     type="text"
                     label="Service Title"
                   />
                   <Input
+                    inputValue={values}
                     name="serviceDescription"
                     type="text"
                     label="Description"
                   />
                   {value.serviceType !== "message" && (
                     <Input
+                      inputValue={values}
                       name="duration"
                       type="text"
                       label="Duration (minutes)"
                     />
                   )}
-                  <Input name="price" type="text" label="Price (₹)" />
                   <Input
+                    inputValue={values}
+                    name="price"
+                    type="text"
+                    label="Price (₹)"
+                  />
+                  <Input
+                    inputValue={values}
                     name="slashPrice"
                     type="text"
                     label="Slash Price (₹)"

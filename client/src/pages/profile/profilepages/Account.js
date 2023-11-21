@@ -79,16 +79,16 @@ const Account = () => {
                 });
             }}
           >
-            {() => (
+            {({values}) => (
               <Form className="flex flex-col gap-5 items-center">
                 <div className="col-span-3 flex flex-col gap-3 w-full">
                   <div className="">
                     <label htmlFor="">Email</label>
                     <p>{backendAccount.email}</p>
                   </div>
-                  <Input type="text" name="mobile" label="Mobile" />
+                  <Input inputValue={values} type="text" name="mobile" label="Mobile" />
                   {!showPasswordField && (
-                    <Input type="password" name="password" label="Password" />
+                    <Input inputValue={values} type="password" name="password" label="Password" />
                   )}
                 </div>
                 <button

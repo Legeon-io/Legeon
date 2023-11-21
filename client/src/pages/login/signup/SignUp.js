@@ -77,43 +77,38 @@ const SignUp = () => {
                     dispatch(userSignUpAction(values, navigate));
                   }}
                 >
-                  {() => (
+                  {({ values }) => (
                     <Form className="flex flex-col gap-5">
                       <Input
+                        inputValue={values}
                         id="firstname"
                         type="text"
                         name="firstname"
                         label="First Name"
                       />
-                      <div className="relative">
-                        <Field
-                          id="lastname"
-                          type="text"
-                          name="lastname"
-                          className="inputfield_css peer"
-                          required="required"
-                          autoComplete="off"
-                        />
-                        <label htmlFor="lastname" className="labelfeild_css">
-                          Last Name (optional)
-                        </label>
-                        <div className="text-red-700 text-[12px]">
-                          <ErrorMessage name="lastname" />
-                        </div>
-                      </div>
                       <Input
+                        inputValue={values}
+                        id="lastname"
+                        type="text"
+                        name="lastname"
+                        label="Last Name"
+                      />
+                      <Input
+                        inputValue={values}
                         id="email"
                         type="text"
                         name="email"
                         label="Email"
                       />
                       <Input
+                        inputValue={values}
                         id="password"
                         type="password"
                         name="password"
                         label="Password"
                       />
                       <Input
+                        inputValue={values}
                         id="confirmPassword"
                         type="password"
                         name="confirmPassword"

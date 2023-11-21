@@ -48,9 +48,9 @@ const ForgetPassword = () => {
                   dispatch(userValidEmail(values, navigate));
                 }}
               >
-                {() => (
+                {({values}) => (
                   <Form className="flex flex-col gap-10">
-                    <Input id="email" type="text" name="email" label="Email" />
+                    <Input inputValue={values} id="email" type="text" name="email" label="Email" />
                     <button
                       type="submit"
                       className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2  text-white rounded hover:opacity-80  duration-300"

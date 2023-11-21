@@ -1,22 +1,28 @@
 import React from "react";
 import "./helper.css";
 import { ErrorMessage, Field } from "formik";
-const Input = ({ type, disabled, name, label, className, ...others }) => {
+
+const Input = (props) => {
+  const { label, name, disabled, inputValue, type, ...others } = props;
   return (
-    <div className="relative">
+    <div className="box2">
+      <label
+        htmlFor={name}
+        className={`labelInput ${
+          inputValue[name] && inputValue[name] !== "" && "labelAbove"
+        }`}
+      >
+        {label}
+      </label>
       <Field
-        id={name}
-        disabled={disabled}
-        type={type}
         name={name}
-        className={`${className} inputfield_css peer`}
-        required="required"
+        type={type}
+        disabled={disabled}
+        className="inputField"
+        id="inputField"
         autoComplete="off"
         {...others}
       />
-      <label htmlFor={name} className="labelfeild_css">
-        {label}
-      </label>
       <div className="text-red-700 text-[12px]">
         <ErrorMessage name={name} />
       </div>

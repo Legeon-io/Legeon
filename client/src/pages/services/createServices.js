@@ -74,17 +74,38 @@ const CreateServices = () => {
         {({ values }) => (
           <Form className="grid md:grid-cols-2 gap-10">
             <div className=" space-y-4">
-              <Input name="serviceTitle" type="text" label="Service Title" />
               <Input
+                name="serviceTitle"
+                inputValue={values}
+                type="text"
+                label="Service Title"
+              />
+              <Input
+                inputValue={values}
                 name="serviceDescription"
                 type="text"
                 label="Description"
               />
               {values.serviceType !== "message" && (
-                <Input name="duration" type="text" label="Duration (minutes)" />
+                <Input
+                  inputValue={values}
+                  name="duration"
+                  type="text"
+                  label="Duration (minutes)"
+                />
               )}
-              <Input name="price" type="text" label="Price  (₹)" />
-              <Input name="slashPrice" type="text" label="Slash Price (₹)" />
+              <Input
+                inputValue={values}
+                name="price"
+                type="text"
+                label="Price  (₹)"
+              />
+              <Input
+                inputValue={values}
+                name="slashPrice"
+                type="text"
+                label="Slash Price (₹)"
+              />
             </div>
             <div className="space-y-2">
               <div className="text-xl font-bold">Service Type</div>

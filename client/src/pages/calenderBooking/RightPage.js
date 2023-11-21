@@ -59,12 +59,23 @@ const RightPage = ({ pickDate, pickTime }) => {
                 console.log(values);
               }}
             >
-              {() => (
+              {({ values }) => (
                 <>
                   <div className="flex flex-col gap-5">
-                    <Input name="name" type="text" label="Name" />
-                    <Input name="email" type="text" label="Email" />
                     <Input
+                      inputValue={values}
+                      name="name"
+                      type="text"
+                      label="Name"
+                    />
+                    <Input
+                      inputValue={values}
+                      name="email"
+                      type="text"
+                      label="Email"
+                    />
+                    <Input
+                      inputValue={values}
                       as="textarea"
                       name="description"
                       type="text"
@@ -72,6 +83,7 @@ const RightPage = ({ pickDate, pickTime }) => {
                       className="h-[10rem]"
                     />
                     <Input
+                      inputValue={values}
                       name="phoneNumber"
                       type="text"
                       label="Phone Number"

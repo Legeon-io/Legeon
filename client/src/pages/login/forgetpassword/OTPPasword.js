@@ -43,9 +43,9 @@ const OTPPassword = () => {
                   dispatch(userValidOTP(values));
                 }}
               >
-                {() => (
+                {({values}) => (
                   <Form className="flex flex-col gap-5">
-                    <Input id="otp" type="text" name="otp" label="OTP" />
+                    <Input inputValue={values} id="otp" type="text" name="otp" label="OTP" />
                     <button
                       type="submit"
                       className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-2  text-white rounded hover:opacity-80  duration-300"

@@ -1,6 +1,5 @@
 import React from "react";
-import {RxCross1} from "react-icons/rx"
-
+import { RxCross1 } from "react-icons/rx";
 
 import "../LoginForm.css";
 import { Form, Formik } from "formik";
@@ -46,15 +45,17 @@ const RecoverPassword = () => {
                   dispatch(userUpdatePassword(values));
                 }}
               >
-                {() => (
+                {({ values }) => (
                   <Form className="flex flex-col gap-5">
                     <Input
+                      inputValue={values}
                       id="password"
                       type="password"
                       name="password"
                       label="Password"
                     />
                     <Input
+                      inputValue={values}
                       id="confirmPassword"
                       type="password"
                       name="confirmPassword"

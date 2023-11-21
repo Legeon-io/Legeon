@@ -276,17 +276,19 @@ const Profile = () => {
                           setWantEditHeading(false);
                         }}
                       >
-                        {() => (
+                        {({values}) => (
                           <Form className="grid grid-cols-2">
                             <div className="flex flex-col gap-3">
                               <div className="flex gap-5">
                                 <Input
+                                inputValue={values}
                                   id="firstname"
                                   type="text"
                                   name="firstname"
                                   label="First Name"
                                 />
                                 <Input
+                                inputValue={values}
                                   id="lastname"
                                   type="text"
                                   name="lastname"
@@ -294,6 +296,7 @@ const Profile = () => {
                                 />
                               </div>
                               <Input
+                              inputValue={values}
                                 id="username"
                                 type="text"
                                 name="username"

@@ -143,7 +143,7 @@ const AddLinkModel = ({ setAddLink, backendData }) => {
           }
         }}
       >
-        {() => (
+        {({values}) => (
           <Form>
             <div className="fixed inset-0 flex items-center justify-center z-10 bg-white bg-opacity-80 transition-opacity select-none">
               <div className="relative w-[25rem] h-[20rem] mx-2 flex flex-col justify-between bg-white border-2 border-black rounded-2xl">
@@ -175,6 +175,7 @@ const AddLinkModel = ({ setAddLink, backendData }) => {
                 </div>
                 <div className="flex items-center gap-2 p-2 px-4">
                   <Input
+                  inputValue={values}
                     name="href"
                     type="text"
                     className="w-full p-1 border-2 focus:outline-none"

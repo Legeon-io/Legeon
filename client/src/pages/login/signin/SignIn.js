@@ -82,15 +82,17 @@ const SignIn = () => {
                     dispatch(userSignInAction(values, navigate));
                   }}
                 >
-                  {() => (
+                  {({ values }) => (
                     <Form className="flex flex-col gap-5">
                       <Input
+                        inputValue={values}
                         id="email"
                         type="text"
                         name="email"
                         label="Email"
                       />
                       <Input
+                        inputValue={values}
                         id="password"
                         type="password"
                         name="password"
