@@ -120,13 +120,20 @@ export const Services = ({ sidebarVisible }) => {
             {/* Heading */}
             <div className="text-4xl">Services</div>
             {/* Button to create services */}
-            <div>
+            <div className="flex justify-between">
+              <div className="w-[15rem]">
               <Link to="/services/createServices" className="w-full">
-                <button className="flex gap-2 items-center justify-center border-2 border-black p-2 w-[15rem] rounded-3xl">
+                <button className="flex gap-2 items-center justify-center border-2 w-full h-full p-2 border-black rounded-3xl">
                   <AiOutlinePlus />
                   Create Services
                 </button>
               </Link>
+              </div>
+              <select className="w-[10rem] border-2 border-black rounded-xl" onChange={(e) => setFilterSelect(e.target.value)}>
+                <option value="">All</option>
+                <option value="onetoone">1:1 Call</option>
+                <option value="message">Message</option>
+              </select>
             </div>
             {/* Cards */}
             <div className="grid 2xl:grid-cols-2 w-[85%] gap-10">
@@ -186,7 +193,7 @@ export const Services = ({ sidebarVisible }) => {
                               {item.duration} min
                             </div>
                           )}
-                          <div className="flexv flex-col gap-2">
+                          <div className="flex flex-col gap-2">
                             <span className="font-bold">Description : </span>
                             <div className="">
                               {item.serviceDescription &&
