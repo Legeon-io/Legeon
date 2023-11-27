@@ -128,8 +128,6 @@ export const createCalenderEvent = async (req, res) => {
           console.error("Error creating event:", err);
           return;
         }
-        // console.log("Event created:", res.data.htmlLink);
-        // console.log(res.data);
       }
     );
     res.status(200).json({ message: "Event Created in Google Calender" });

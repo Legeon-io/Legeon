@@ -3,6 +3,21 @@ import messageModel from "../models/services/message.js";
 import oneToOneModel from "../models/services/onetoonecall.js";
 import scheduleModel from "../models/schedule.js";
 
+// Google Calender Dependencies
+import { google } from "googleapis";
+import { OAuth2Client } from "google-auth-library";
+import calenderTokenModel from "../models/calender/calendertoken.js";
+
+const CLIENT_ID =
+  "762015424404-a8lg6tnfh8dma5vps7dkaj63d4j0t7b3.apps.googleusercontent.com";
+const CLIENT_SECRET = "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";
+
+const REDIRECT_URI = "http://localhost:8080/api/calender/auth/google/callback";
+
+const oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+
+const calendar = google.calendar({ version: "v3" });
+
 // import { parse, format } from "date-fns";
 // import { enIN } from "date-fns/locale";
 
@@ -11,11 +26,64 @@ import scheduleModel from "../models/schedule.js";
 //   return format(parsedDate, "EEEE");
 // }
 
+async function getServiceInfo(serviceId, serviceType) {
+  switch (serviceType) {
+    case "onetoone":
+      return oneToOneModel.findOne(
+        { _id: serviceId },
+        { _id: 0, serviceTitle: 1 }
+      );
+    case "message":
+      return messageModel.findOne(
+        { _id: serviceId },
+        { _id: 0, serviceTitle: 1 }
+      );
+  }
+}
+
 // POST -> /api/order
 export const placeServiceOrder = async (req, res) => {
   try {
     const data = req.body;
     const response = await orderModel.create(data);
+
+    const serviceInfo = await getServiceInfo(data.serviceId, data.serviceType);
+    const getCalenderToken = await calenderTokenModel.findOne(
+      { userid: data.userid },
+      { _id: 0, userid: 0, __v: 0 }
+    );
+
+    if (getCalenderToken) {
+      oauth2Client.setCredentials(getCalenderToken);
+
+      const event = {
+        summary: serviceInfo.serviceTitle,
+        description: data.customer.description,
+        start: {
+          dateTime: `${data.dateOfBooking}T${data.timeSlot[0]}:00`, // "2023-11-05T10:00:00"
+          timeZone: "Asia/Kolkata",
+        },
+        end: {
+          dateTime: `${data.dateOfBooking}T${data.timeSlot[1]}:00`, // "2023-11-05T10:00:00"
+          timeZone: "Asia/Kolkata",
+        },
+      };
+
+      calendar.events.insert(
+        {
+          calendarId: "primary",
+          resource: event,
+          auth: oauth2Client,
+        },
+        (err, res) => {
+          if (err) {
+            console.error("Error creating event:", err);
+            return;
+          }
+        }
+      );
+    }
+
     if (response)
       return res.status(200).json({ message: "Order Placed Successfully" });
   } catch (error) {
