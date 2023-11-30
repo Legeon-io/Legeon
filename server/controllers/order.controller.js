@@ -42,50 +42,54 @@ async function getServiceInfo(serviceId, serviceType) {
 }
 
 // POST -> /api/order
-export const placeServiceOrder = async (req, res) => {
+export const placeServiceOrder = async (req, res, next) => {
   try {
-    const data = req.body;
-    const response = await orderModel.create(data);
+    const { data } = req.session;
+    console.log(req.session);
+    console.log(req.session.data);
+    // const response = await orderModel.create(data);
+    // req.session.data.orderId = response._id;
 
-    const serviceInfo = await getServiceInfo(data.serviceId, data.serviceType);
-    const getCalenderToken = await calenderTokenModel.findOne(
-      { userid: data.userid },
-      { _id: 0, userid: 0, __v: 0 }
-    );
+    // const serviceInfo = await getServiceInfo(data.serviceId, data.serviceType);
+    // const getCalenderToken = await calenderTokenModel.findOne(
+    //   { userid: data.userid },
+    //   { _id: 0, userid: 0, __v: 0 }
+    // );
 
-    if (getCalenderToken) {
-      oauth2Client.setCredentials(getCalenderToken);
+    // if (getCalenderToken) {
+    //   oauth2Client.setCredentials(getCalenderToken);
 
-      const event = {
-        summary: serviceInfo.serviceTitle,
-        description: data.customer.description,
-        start: {
-          dateTime: `${data.dateOfBooking}T${data.timeSlot[0]}:00`, // "2023-11-05T10:00:00"
-          timeZone: "Asia/Kolkata",
-        },
-        end: {
-          dateTime: `${data.dateOfBooking}T${data.timeSlot[1]}:00`, // "2023-11-05T10:00:00"
-          timeZone: "Asia/Kolkata",
-        },
-      };
+    //   const event = {
+    //     summary: serviceInfo.serviceTitle,
+    //     description: data.customer.description,
+    //     start: {
+    //       dateTime: `${data.dateOfBooking}T${data.timeSlot[0]}:00`, // "2023-11-05T10:00:00"
+    //       timeZone: "Asia/Kolkata",
+    //     },
+    //     end: {
+    //       dateTime: `${data.dateOfBooking}T${data.timeSlot[1]}:00`, // "2023-11-05T10:00:00"
+    //       timeZone: "Asia/Kolkata",
+    //     },
+    //   };
 
-      calendar.events.insert(
-        {
-          calendarId: "primary",
-          resource: event,
-          auth: oauth2Client,
-        },
-        (err, res) => {
-          if (err) {
-            console.error("Error creating event:", err);
-            return;
-          }
-        }
-      );
-    }
+    //   calendar.events.insert(
+    //     {
+    //       calendarId: "primary",
+    //       resource: event,
+    //       auth: oauth2Client,
+    //     },
+    //     (err, res) => {
+    //       if (err) {
+    //         console.error("Error creating event:", err);
+    //         return;
+    //       }
+    //     }
+    //   );
+    // }
 
-    if (response)
-      return res.status(200).json({ message: "Order Placed Successfully" });
+    // if (response)
+    //   return res.status(200).json({ message: "Order Placed Successfully" });
+    // next();
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });

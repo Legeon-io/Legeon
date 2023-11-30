@@ -31,6 +31,7 @@ const app = express();
 app.use(express.json({ limit: "30mb" }));
 
 app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static("public"));
 
 // app.use(cors());
 const corsOptions = {
@@ -71,8 +72,13 @@ app.use("/api/order", orderRouter);
 
 app.use("/api/payment", paymentRouter);
 
-app.get("/success", (req, res) => {
-  res.send("Stripe Success");
+app.get("/check", (req, res) => {
+  req.session.data = { name: "Tarun" };
+  res.send("ok");
+});
+
+app.get("/check2", (req, res) => {
+  res.send(req.session.data);
 });
 
 app.get("/error", (req, res) => {
