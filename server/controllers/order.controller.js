@@ -7,6 +7,7 @@ import scheduleModel from "../models/schedule.js";
 import { google } from "googleapis";
 import { OAuth2Client } from "google-auth-library";
 import calenderTokenModel from "../models/calender/calendertoken.js";
+import { transporter } from "../common.js";
 
 const CLIENT_ID =
   "762015424404-a8lg6tnfh8dma5vps7dkaj63d4j0t7b3.apps.googleusercontent.com";
@@ -44,52 +45,142 @@ async function getServiceInfo(serviceId, serviceType) {
 // POST -> /api/order
 export const placeServiceOrder = async (req, res, next) => {
   try {
-    const { data } = req.session;
-    console.log(req.session);
-    console.log(req.session.data);
-    // const response = await orderModel.create(data);
-    // req.session.data.orderId = response._id;
+    const { data } = req.app;
+    let message = { from: "legeon.connect@gmail.com" };
 
-    // const serviceInfo = await getServiceInfo(data.serviceId, data.serviceType);
-    // const getCalenderToken = await calenderTokenModel.findOne(
-    //   { userid: data.userid },
-    //   { _id: 0, userid: 0, __v: 0 }
-    // );
+    const response = await orderModel.create(data);
 
-    // if (getCalenderToken) {
-    //   oauth2Client.setCredentials(getCalenderToken);
+    req.app.orderId = response._id;
 
-    //   const event = {
-    //     summary: serviceInfo.serviceTitle,
-    //     description: data.customer.description,
-    //     start: {
-    //       dateTime: `${data.dateOfBooking}T${data.timeSlot[0]}:00`, // "2023-11-05T10:00:00"
-    //       timeZone: "Asia/Kolkata",
-    //     },
-    //     end: {
-    //       dateTime: `${data.dateOfBooking}T${data.timeSlot[1]}:00`, // "2023-11-05T10:00:00"
-    //       timeZone: "Asia/Kolkata",
-    //     },
-    //   };
+    const serviceInfo = await getServiceInfo(data.serviceId, data.serviceType);
+    const getCalenderToken = await calenderTokenModel.findOne(
+      { userid: data.userid },
+      { _id: 0, userid: 0, __v: 0 }
+    );
 
-    //   calendar.events.insert(
-    //     {
-    //       calendarId: "primary",
-    //       resource: event,
-    //       auth: oauth2Client,
-    //     },
-    //     (err, res) => {
-    //       if (err) {
-    //         console.error("Error creating event:", err);
-    //         return;
-    //       }
-    //     }
-    //   );
-    // }
+    if (getCalenderToken && data.serviceType == "onetoone") {
+      oauth2Client.setCredentials(getCalenderToken);
 
-    // if (response)
-    //   return res.status(200).json({ message: "Order Placed Successfully" });
-    // next();
+      const [day, month, year] = data.dateOfBooking.split("-");
+      const formattedDate = `${year}-${month}-${day}`;
+
+      const attendeesEmails = [{ email: data.customer.mailId }];
+
+      const event = {
+        summary: serviceInfo.serviceTitle,
+        description: data.customer.description,
+        start: {
+          dateTime: `${formattedDate}T${data.timeSlot[0]}:00`, // "2023-11-05T10:00:00"
+          timeZone: "Asia/Kolkata",
+        },
+        end: {
+          dateTime: `${formattedDate}T${data.timeSlot[1]}:00`, // "2023-11-05T10:00:00"
+          timeZone: "Asia/Kolkata",
+        },
+
+        attendees: attendeesEmails,
+        reminders: {
+          useDefault: false,
+          overrides: [
+            { method: "email", minutes: 24 * 60 },
+            { method: "popup", minutes: 10 },
+          ],
+        },
+        conferenceData: {
+          createRequest: {
+            conferenceSolutionKey: {
+              type: "hangoutsMeet",
+            },
+            requestId: req.app.orderId,
+          },
+        },
+      };
+
+      calendar.events.insert(
+        {
+          calendarId: "primary",
+          resource: event,
+          auth: oauth2Client,
+          conferenceDataVersion: 1,
+        },
+        async (err, res) => {
+          if (err) {
+            console.error("Error creating event:", err);
+            return;
+          } else {
+            await orderModel.findOneAndUpdate(
+              { _id: req.app.orderId },
+              {
+                $set: {
+                  "moreInfo.isInfoPresent": true,
+                  "moreInfo.start": res.data.start,
+                  "moreInfo.end": res.data.end,
+                  "moreInfo.openCalendarLink": res.data.htmlLink,
+                  "moreInfo.gMeetLink": res.data.hangoutLink,
+                  "moreInfo.gMeetCode": res.data.conferenceData.conferenceId,
+                },
+              }
+            );
+
+            // Message for Client
+            message = {
+              ...message,
+              to: data.customer.mailId,
+              subject: "LEGEON - Order Successfully Placed",
+              text: `Order Summary:\n\nOrder ID: ${
+                req.app.orderId
+              }\nService Title: ${
+                serviceInfo.serviceTitle
+              }\nScheduled From: ${new Date(
+                res.data.start.dateTime
+              ).toLocaleString("en-IN", {
+                timeZone: "Asia/Kolkata",
+              })}\nScheduled Till: ${new Date(
+                res.data.end.dateTime
+              ).toLocaleString("en-IN", {
+                timeZone: "Asia/Kolkata",
+              })}\nGoogle Meet Link: ${
+                res.data.hangoutLink
+              }\nGoogle Meet Code: ${res.data.conferenceData.conferenceId}
+              \nOrder Placed On: ${new Date(response.createdAt).toLocaleString(
+                "en-IN",
+                {
+                  timeZone: "Asia/Kolkata",
+                }
+              )}`,
+            };
+            transporter.sendMail(message, (err, info) => {
+              if (err) {
+                console.log(err);
+              }
+            });
+          }
+        }
+      );
+
+      // For Service Type Message
+    } else {
+      message = {
+        ...message,
+        to: data.customer.mailId,
+        subject: "LEGEON - Order Successfully Placed",
+        text: `Order Summary:\n\nOrder ID: ${req.app.orderId}\nService Title: ${
+          serviceInfo.serviceTitle
+        }\nOrder Placed On: ${new Date(response.createdAt).toLocaleString(
+          "en-IN",
+          {
+            timeZone: "Asia/Kolkata",
+          }
+        )}\n\nYou will receive response from Servcie Provider within 3 to 4 working days!`,
+      };
+      transporter.sendMail(message, (err, info) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    }
+
+    next();
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });

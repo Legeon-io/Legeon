@@ -48,6 +48,8 @@ export const signup = async (req, res) => {
       password,
     });
 
+    // Add Account Balance Model here
+
     await newUser.save();
     return res.status(201).json(newUser);
   } catch (error) {

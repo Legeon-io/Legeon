@@ -25,14 +25,20 @@ const orderSchema = new mongoose.Schema(
   {
     userid: { type: String, required: true },
     serviceType: { type: String, required: true },
-    dateOfBooking: { type: String, required: true }, // Date selected for service
+    dateOfBooking: { type: String }, // Date selected for service
     serviceId: { type: String, required: true },
-    timeSlot: { type: Array, required: true },
+    timeSlot: { type: Array },
     customer: { type: userSchema, required: true },
     isCanceled: { type: Boolean, default: false },
     isCompleted: { type: Boolean, default: false },
     isRescheduled: { type: Boolean, default: false },
     rescheduled: { type: rescheduleSchema, default: null },
+    moreInfo: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {
+        isInfoPresent: false,
+      },
+    },
   },
   { timestamps: true }
 );

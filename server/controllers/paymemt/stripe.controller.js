@@ -10,8 +10,8 @@ const stripe = new Stripe(process.env.STRIPE_KEY);
 export const redirectToStripeGateway = async (req, res) => {
   try {
     const { serviceId, serviceType } = req.body;
+    req.app.data = req.body;
     const response = await getServiceInfo(serviceId, serviceType);
-    req.session.data = req.body;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -26,9 +26,10 @@ export const redirectToStripeGateway = async (req, res) => {
             currency: "inr",
             product_data: {
               name: response.serviceTitle,
-              // will work after server getting deployed
+              // it will work after server getting deployed
               images: ["http://localhost:8080/logo.png"],
-              description: "- Powered by Legeon",
+
+              description: response.serviceDescription,
             },
 
             unit_amount: response.price * 100,
@@ -43,6 +44,7 @@ export const redirectToStripeGateway = async (req, res) => {
     });
 
     res.status(200).json(session.url);
+
     // res.redirect(session.url);
   } catch (error) {
     console.log(error);
@@ -53,20 +55,21 @@ export const redirectToStripeGateway = async (req, res) => {
 // GET -> api/payment/success
 export const getStripeInfo = async (req, res) => {
   try {
-    const { data } = req.session;
+    const { data } = req.app;
+    const { orderId } = req.app;
     const session = await stripe.checkout.sessions.retrieve(
       req.query.session_id
     );
     if (session) {
       const response = await paymentModel.create({
-        orderId: data.orderId,
+        userid: data.userid,
+        orderId: orderId,
         paymentIntent: session.payment_intent,
       });
       if (response)
         res.status(200).json({ message: "Order Placed Successfully" });
       else res.status(400).json({ error: "Something Went Wrong in Order" });
     }
-    res.send(session.payment_intent);
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });

@@ -72,15 +72,6 @@ app.use("/api/order", orderRouter);
 
 app.use("/api/payment", paymentRouter);
 
-app.get("/check", (req, res) => {
-  req.session.data = { name: "Tarun" };
-  res.send("ok");
-});
-
-app.get("/check2", (req, res) => {
-  res.send(req.session.data);
-});
-
 app.get("/error", (req, res) => {
   res.send("Stripe Error");
 });
