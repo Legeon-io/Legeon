@@ -7,7 +7,7 @@ import scheduleModel from "../models/schedule.js";
 import { google } from "googleapis";
 import { OAuth2Client } from "google-auth-library";
 import calenderTokenModel from "../models/calender/calendertoken.js";
-import { transporter } from "../common.js";
+import { getServiceInfo, getUserInfo, transporter } from "../common.js";
 
 const CLIENT_ID =
   "762015424404-a8lg6tnfh8dma5vps7dkaj63d4j0t7b3.apps.googleusercontent.com";
@@ -27,32 +27,21 @@ const calendar = google.calendar({ version: "v3" });
 //   return format(parsedDate, "EEEE");
 // }
 
-async function getServiceInfo(serviceId, serviceType) {
-  switch (serviceType) {
-    case "onetoone":
-      return oneToOneModel.findOne(
-        { _id: serviceId },
-        { _id: 0, serviceTitle: 1 }
-      );
-    case "message":
-      return messageModel.findOne(
-        { _id: serviceId },
-        { _id: 0, serviceTitle: 1 }
-      );
-  }
-}
-
 // POST -> /api/order
 export const placeServiceOrder = async (req, res, next) => {
   try {
     const { data } = req.app;
-    let message = { from: "legeon.connect@gmail.com" };
+    const userData = await getUserInfo(data.userid);
+    // Message for Client
+    let message;
+    // Message for Service Provider
+    let userMessage;
 
     const response = await orderModel.create(data);
-
     req.app.orderId = response._id;
 
     const serviceInfo = await getServiceInfo(data.serviceId, data.serviceType);
+
     const getCalenderToken = await calenderTokenModel.findOne(
       { userid: data.userid },
       { _id: 0, userid: 0, __v: 0 }
@@ -118,13 +107,13 @@ export const placeServiceOrder = async (req, res, next) => {
                   "moreInfo.openCalendarLink": res.data.htmlLink,
                   "moreInfo.gMeetLink": res.data.hangoutLink,
                   "moreInfo.gMeetCode": res.data.conferenceData.conferenceId,
+                  "moreInfo.calendarId": res.data.id,
                 },
               }
             );
 
             // Message for Client
             message = {
-              ...message,
               to: data.customer.mailId,
               subject: "LEGEON - Order Successfully Placed",
               text: `Order Summary:\n\nOrder ID: ${
@@ -147,9 +136,47 @@ export const placeServiceOrder = async (req, res, next) => {
                 {
                   timeZone: "Asia/Kolkata",
                 }
-              )}`,
+              )}
+              \nVisit Legeon for More Services: http://localhost:3000`,
             };
+
+            // Message for Service Provider
+            userMessage = {
+              to: userData.email,
+              subject: "LEGEON - You Have Got an Order",
+              text: `Order Summary:\n\nOrder ID: ${
+                req.app.orderId
+              }\nService Title: ${
+                serviceInfo.serviceTitle
+              }\nScheduled From: ${new Date(
+                res.data.start.dateTime
+              ).toLocaleString("en-IN", {
+                timeZone: "Asia/Kolkata",
+              })}\nScheduled Till: ${new Date(
+                res.data.end.dateTime
+              ).toLocaleString("en-IN", {
+                timeZone: "Asia/Kolkata",
+              })}\nGoogle Meet Link: ${
+                res.data.hangoutLink
+              }\nGoogle Meet Code: ${res.data.conferenceData.conferenceId}
+              \nOrder Placed On: ${new Date(response.createdAt).toLocaleString(
+                "en-IN",
+                {
+                  timeZone: "Asia/Kolkata",
+                }
+              )}
+              \nGo to Legeon for More Details: http://localhost:3000`,
+            };
+
+            // For Client
             transporter.sendMail(message, (err, info) => {
+              if (err) {
+                console.log(err);
+              }
+            });
+
+            // For Service Provider
+            transporter.sendMail(userMessage, (err, info) => {
               if (err) {
                 console.log(err);
               }
@@ -160,8 +187,21 @@ export const placeServiceOrder = async (req, res, next) => {
 
       // For Service Type Message
     } else {
+      // Message for Service Provider
+      userMessage = {
+        to: userData.email,
+        subject: "LEGEON - You Have Got an Order",
+        text: `Order Summary:\n\nOrder ID: ${req.app.orderId}\nService Title: ${
+          serviceInfo.serviceTitle
+        }
+    \nOrder Placed On: ${new Date(response.createdAt).toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+    })}
+    \nGo to Legeon for More Details: http://localhost:3000`,
+      };
+
+      //Mesage For Client
       message = {
-        ...message,
         to: data.customer.mailId,
         subject: "LEGEON - Order Successfully Placed",
         text: `Order Summary:\n\nOrder ID: ${req.app.orderId}\nService Title: ${
@@ -171,9 +211,18 @@ export const placeServiceOrder = async (req, res, next) => {
           {
             timeZone: "Asia/Kolkata",
           }
-        )}\n\nYou will receive response from Servcie Provider within 3 to 4 working days!`,
+        )}\n\nYou will receive response from Servcie Provider within 3 to 4 working days!
+        \nVisit Legeon for More Services: http://localhost:3000`,
       };
+
+      // For Service Provider
       transporter.sendMail(message, (err, info) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+      // For Client
+      transporter.sendMail(userMessage, (err, info) => {
         if (err) {
           console.log(err);
         }
@@ -187,34 +236,10 @@ export const placeServiceOrder = async (req, res, next) => {
   }
 };
 
-// Booking API
-async function checkServiceType(id, type) {
-  if (type === "onetoone") {
-    return await oneToOneModel.findOne(
-      {
-        _id: id,
-      },
-      {
-        userid: 1,
-        duration: 1,
-      }
-    );
-  } else
-    return await messageModel.findOne(
-      {
-        _id: id,
-      },
-      {
-        userid: 1,
-      }
-    );
-}
-
-// res.json(getDayOfWeek("27-10-2023"));
 export const generateSlots = async (req, res) => {
   try {
     const { serviceId, serviceType, date, dayValue } = req.body;
-    const { userid, duration } = await checkServiceType(serviceId, serviceType);
+    const { userid, duration } = await getServiceInfo(serviceId, serviceType);
     const scheduleData = await scheduleModel.findOne(
       { _id: "6541171b3ede7f542cd783da" },
       { __v: 0, _id: 0 }
