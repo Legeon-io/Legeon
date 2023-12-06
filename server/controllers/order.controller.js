@@ -1,13 +1,12 @@
 import orderModel from "../models/orders.js";
-import messageModel from "../models/services/message.js";
-import oneToOneModel from "../models/services/onetoonecall.js";
 import scheduleModel from "../models/schedule.js";
 
 // Google Calender Dependencies
 import { google } from "googleapis";
 import { OAuth2Client } from "google-auth-library";
 import calenderTokenModel from "../models/calender/calendertoken.js";
-import { getServiceInfo, getUserInfo, transporter } from "../common.js";
+import { getServiceInfo, getUserInfo } from "../common.js";
+import { sendMail } from "../utils/mailer.js";
 
 const CLIENT_ID =
   "762015424404-a8lg6tnfh8dma5vps7dkaj63d4j0t7b3.apps.googleusercontent.com";
@@ -32,10 +31,8 @@ export const placeServiceOrder = async (req, res, next) => {
   try {
     const { data } = req.app;
     const userData = await getUserInfo(data.userid);
-    // Message for Client
-    let message;
-    // Message for Service Provider
-    let userMessage;
+    // Google Calendar Response
+    let googleResponse;
 
     const response = await orderModel.create(data);
     req.app.orderId = response._id;
@@ -50,20 +47,17 @@ export const placeServiceOrder = async (req, res, next) => {
     if (getCalenderToken && data.serviceType == "onetoone") {
       oauth2Client.setCredentials(getCalenderToken);
 
-      const [day, month, year] = data.dateOfBooking.split("-");
-      const formattedDate = `${year}-${month}-${day}`;
-
       const attendeesEmails = [{ email: data.customer.mailId }];
 
       const event = {
         summary: serviceInfo.serviceTitle,
-        description: data.customer.description,
+        description: serviceInfo.serviceDescription,
         start: {
-          dateTime: `${formattedDate}T${data.timeSlot[0]}:00`, // "2023-11-05T10:00:00"
+          dateTime: `${data.dateOfBooking}T${data.timeSlot.fromTime}:00`, // "2023-11-05T10:00:00"
           timeZone: "Asia/Kolkata",
         },
         end: {
-          dateTime: `${formattedDate}T${data.timeSlot[1]}:00`, // "2023-11-05T10:00:00"
+          dateTime: `${data.dateOfBooking}T${data.timeSlot.toTime}:00`, // "2023-11-05T10:00:00"
           timeZone: "Asia/Kolkata",
         },
 
@@ -85,7 +79,7 @@ export const placeServiceOrder = async (req, res, next) => {
         },
       };
 
-      calendar.events.insert(
+      await calendar.events.insert(
         {
           calendarId: "primary",
           resource: event,
@@ -111,123 +105,28 @@ export const placeServiceOrder = async (req, res, next) => {
                 },
               }
             );
-
-            // Message for Client
-            message = {
-              to: data.customer.mailId,
-              subject: "LEGEON - Order Successfully Placed",
-              text: `Order Summary:\n\nOrder ID: ${
-                req.app.orderId
-              }\nService Title: ${
-                serviceInfo.serviceTitle
-              }\nScheduled From: ${new Date(
-                res.data.start.dateTime
-              ).toLocaleString("en-IN", {
-                timeZone: "Asia/Kolkata",
-              })}\nScheduled Till: ${new Date(
-                res.data.end.dateTime
-              ).toLocaleString("en-IN", {
-                timeZone: "Asia/Kolkata",
-              })}\nGoogle Meet Link: ${
-                res.data.hangoutLink
-              }\nGoogle Meet Code: ${res.data.conferenceData.conferenceId}
-              \nOrder Placed On: ${new Date(response.createdAt).toLocaleString(
-                "en-IN",
-                {
-                  timeZone: "Asia/Kolkata",
-                }
-              )}
-              \nVisit Legeon for More Services: http://localhost:3000`,
-            };
-
-            // Message for Service Provider
-            userMessage = {
-              to: userData.email,
-              subject: "LEGEON - You Have Got an Order",
-              text: `Order Summary:\n\nOrder ID: ${
-                req.app.orderId
-              }\nService Title: ${
-                serviceInfo.serviceTitle
-              }\nScheduled From: ${new Date(
-                res.data.start.dateTime
-              ).toLocaleString("en-IN", {
-                timeZone: "Asia/Kolkata",
-              })}\nScheduled Till: ${new Date(
-                res.data.end.dateTime
-              ).toLocaleString("en-IN", {
-                timeZone: "Asia/Kolkata",
-              })}\nGoogle Meet Link: ${
-                res.data.hangoutLink
-              }\nGoogle Meet Code: ${res.data.conferenceData.conferenceId}
-              \nOrder Placed On: ${new Date(response.createdAt).toLocaleString(
-                "en-IN",
-                {
-                  timeZone: "Asia/Kolkata",
-                }
-              )}
-              \nGo to Legeon for More Details: http://localhost:3000`,
-            };
-
-            // For Client
-            transporter.sendMail(message, (err, info) => {
-              if (err) {
-                console.log(err);
-              }
-            });
-
-            // For Service Provider
-            transporter.sendMail(userMessage, (err, info) => {
-              if (err) {
-                console.log(err);
-              }
-            });
           }
+          sendMail(
+            data.serviceType,
+            serviceInfo,
+            data,
+            req,
+            res,
+            response,
+            userData
+          );
         }
       );
-
-      // For Service Type Message
-    } else {
-      // Message for Service Provider
-      userMessage = {
-        to: userData.email,
-        subject: "LEGEON - You Have Got an Order",
-        text: `Order Summary:\n\nOrder ID: ${req.app.orderId}\nService Title: ${
-          serviceInfo.serviceTitle
-        }
-    \nOrder Placed On: ${new Date(response.createdAt).toLocaleString("en-IN", {
-      timeZone: "Asia/Kolkata",
-    })}
-    \nGo to Legeon for More Details: http://localhost:3000`,
-      };
-
-      //Mesage For Client
-      message = {
-        to: data.customer.mailId,
-        subject: "LEGEON - Order Successfully Placed",
-        text: `Order Summary:\n\nOrder ID: ${req.app.orderId}\nService Title: ${
-          serviceInfo.serviceTitle
-        }\nOrder Placed On: ${new Date(response.createdAt).toLocaleString(
-          "en-IN",
-          {
-            timeZone: "Asia/Kolkata",
-          }
-        )}\n\nYou will receive response from Servcie Provider within 3 to 4 working days!
-        \nVisit Legeon for More Services: http://localhost:3000`,
-      };
-
-      // For Service Provider
-      transporter.sendMail(message, (err, info) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-      // For Client
-      transporter.sendMail(userMessage, (err, info) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-    }
+    } else if (data.serviceType == "message")
+      sendMail(
+        data.serviceType,
+        serviceInfo,
+        data,
+        req,
+        googleResponse,
+        response,
+        userData
+      );
 
     next();
   } catch (error) {
@@ -241,13 +140,15 @@ export const generateSlots = async (req, res) => {
     const { serviceId, serviceType, date, dayValue } = req.body;
     const { userid, duration } = await getServiceInfo(serviceId, serviceType);
     const scheduleData = await scheduleModel.findOne(
-      { _id: "6541171b3ede7f542cd783da" },
+      { _id: userid },
       { __v: 0, _id: 0 }
     );
 
-    const value = scheduleData.events[0].selected
-      ? scheduleData.events[0].timeSlots
+    const value = scheduleData.events[dayValue].selected
+      ? scheduleData.events[dayValue].timeSlots
       : null;
+
+    if (!value) return res.status(400).json({ error: "Slots Not Available" });
 
     let availability = [];
     if (value != null) availability = convertToMinutes(value);
@@ -257,28 +158,34 @@ export const generateSlots = async (req, res) => {
     const endOfDay = new Date(inputDate.setHours(23, 59, 59, 999)); // Set time to the end of the day (23:59:59)
 
     // check orderData Output
-    const orderData = await orderModel.findOne(
+    const orderData = await orderModel.find(
       {
         $and: [
           { userid: userid },
-          { datetime: { $gte: startOfDay, $lte: endOfDay } },
+          { dateOfBooking: { $gte: startOfDay, $lte: endOfDay } },
         ],
       },
-      // { __v: 0, timeSlot: 1 }
-      { __v: 0 }
+      { timeSlot: 1 }
     );
     // End of Data Collection
 
     // orderData must be refined like [[300,360],[600,660],..]
     // assuming
+    // console.log(orderData);
+
     if (orderData) {
-      for (let item of orderData) {
+      let slots = [];
+      orderData.map((item) => {
+        slots.push(item.timeSlot);
+      });
+      slots = convertToMinutes(slots);
+      for (let item of slots) {
         availability = generateAvailability(item[0], item[1], availability);
       }
     }
 
     let final_slots = generateAvailableSlots(duration, availability);
-    res.status(200).json(final_slots);
+    res.status(200).json({ slots: final_slots });
   } catch (error) {
     console.log(error);
     res.status(500).json({ errorMessage: "Internal server error" });
@@ -288,17 +195,19 @@ export const generateSlots = async (req, res) => {
 function generateAvailability(startTime, endTime, availability) {
   let new_availability = [];
   for (let slot of availability) {
+    console.log("itr", availability);
     if (slot[1] < startTime || slot[0] > endTime) {
-      new_availability.push(slot[0], slot[1]);
+      new_availability.push([slot[0], slot[1]]);
     } else if (slot[0] < startTime && slot[1] > endTime) {
-      new_availability.push(slot[0], startTime);
-      new_availability.push(endTime, slot[1]);
+      new_availability.push([slot[0], startTime]);
+      new_availability.push([endTime, slot[1]]);
     } else if (slot[1] > endTime) {
-      new_availability.push(endTime, slot[1]);
+      new_availability.push([endTime, slot[1]]);
     } else if (slot[0] < startTime) {
-      new_availability.push(slot[0], startTime);
+      new_availability.push([slot[0], startTime]);
     }
   }
+
   return new_availability;
 }
 

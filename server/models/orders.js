@@ -21,13 +21,21 @@ const rescheduleSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const timeSlotSchema = new mongoose.Schema(
+  {
+    fromTime: { type: String },
+    toTime: { type: String },
+  },
+  { _id: false }
+);
+
 const orderSchema = new mongoose.Schema(
   {
     userid: { type: String, required: true },
     serviceType: { type: String, required: true },
-    dateOfBooking: { type: String }, // Date selected for service
+    dateOfBooking: { type: Date }, // Date selected for service
     serviceId: { type: String, required: true },
-    timeSlot: { type: Array },
+    timeSlot: { type: timeSlotSchema },
     customer: { type: userSchema, required: true },
     isCanceled: { type: Boolean, default: false },
     isCompleted: { type: Boolean, default: false },
